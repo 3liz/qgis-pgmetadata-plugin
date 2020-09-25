@@ -1,0 +1,20 @@
+[general]
+name=PgMetadata
+qgisMinimumVersion=3.4
+description=Gestion des metadata via postgreSQL et QGIS
+author=3Liz
+email=info@3liz.com
+about=Gestion des metadata via postgreSQL
+
+version=master
+
+tracker=https://github.com/3liz/qgis-pgmetadata-plugin
+repository=https://github.com/3liz/qgis-pgmetadata-plugin
+hasProcessingProvider=yes
+tags=metadata,france,french,postgreSQL,qgis
+homepage=https://github.com/3liz/qgis-pgmetadata-plugin
+category=Analysis
+icon=resources/icons/icon.png
+experimental=False
+deprecated=False
+changelog=changelog
