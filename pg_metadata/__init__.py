@@ -12,6 +12,6 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
     #
-    from .pg_metadata import PgMetadataPlugin
+    from pg_metadata.pg_metadata import PgMetadata
 
-    return PgMetadataPlugin(iface)
+    return PgMetadata(iface)

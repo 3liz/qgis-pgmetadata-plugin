@@ -5,10 +5,11 @@ __revision__ = "$Format:%H$"
 
 
 from qgis.core import QgsApplication
-from .processing.provider import PgMetadataProvider
+
+from pg_metadata.processing.provider import PgMetadataProvider
 
 
-class PgMetadataPlugin:
+class PgMetadata:
     def __init__(self, iface):
         self.iface = iface
         self.provider = None

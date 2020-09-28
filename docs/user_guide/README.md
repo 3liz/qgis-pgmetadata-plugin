@@ -1,9 +1,10 @@
 ---
-Title: Plugin metadata
+Title: PgMetadata
 Favicon: ../icon.png
+Up: True
 ...
 
 [TOC]
 
 
-# Guide d'utilisateur pour le plugin metadata
+# User guide

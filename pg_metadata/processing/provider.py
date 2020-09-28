@@ -6,21 +6,21 @@ __revision__ = "$Format:%H$"
 from qgis.core import QgsProcessingProvider
 from qgis.PyQt.QtGui import QIcon
 
-from ..qgis_plugin_tools.tools.resources import resources_path
+from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
 
 
 class PgMetadataProvider(QgsProcessingProvider):
     def loadAlgorithms(self):
-        return None
+        pass
 
     def id(self):
-        return "pd_metadata"
+        return "pg_metadata"
 
     def icon(self):
         return QIcon(resources_path("icons", "icon.png"))
 
     def name(self):
-        return "Gestion des Metadata"
+        return "PgMetadata"
 
     def longName(self):
         return self.name()
