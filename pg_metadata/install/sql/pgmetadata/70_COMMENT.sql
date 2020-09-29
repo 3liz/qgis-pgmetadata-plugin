@@ -33,11 +33,11 @@ COMMENT ON COLUMN pgmetadata.contact.name IS 'Full name of the contact';
 
 
 -- contact.organisation_name
-COMMENT ON COLUMN pgmetadata.contact.organisation_name IS 'Organisation name. Ex: ACME';
+COMMENT ON COLUMN pgmetadata.contact.organisation_name IS 'Organisation name. E.g. ACME';
 
 
 -- contact.organisation_unit
-COMMENT ON COLUMN pgmetadata.contact.organisation_unit IS 'Organisation unit name. Ex: GIS unit';
+COMMENT ON COLUMN pgmetadata.contact.organisation_unit IS 'Organisation unit name. E.g. GIS unit';
 
 
 -- contact.email
@@ -53,7 +53,7 @@ COMMENT ON COLUMN pgmetadata.dataset.id IS 'Internal automatic integer ID';
 
 
 -- dataset.uid
-COMMENT ON COLUMN pgmetadata.dataset.uid IS 'Unique identifier of the data. Ex: 89e3dde9-3850-c211-5045-b5b09aa1da9a';
+COMMENT ON COLUMN pgmetadata.dataset.uid IS 'Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a';
 
 
 -- dataset.table_name
@@ -81,15 +81,15 @@ COMMENT ON COLUMN pgmetadata.dataset.keywords IS 'List of keywords';
 
 
 -- dataset.spatial_level
-COMMENT ON COLUMN pgmetadata.dataset.spatial_level IS 'Spatial Level of the data. Ex: city, country, street';
+COMMENT ON COLUMN pgmetadata.dataset.spatial_level IS 'Spatial level of the data. E.g. city, country, street';
 
 
 -- dataset.minimum_optimal_scale
-COMMENT ON COLUMN pgmetadata.dataset.minimum_optimal_scale IS 'Minimum optimal scale denominator to view the data. Ex: 100000 for 1/100000. Most "zoomed out".';
+COMMENT ON COLUMN pgmetadata.dataset.minimum_optimal_scale IS 'Minimum optimal scale denominator to view the data. E.g. 100000 for 1/100000. Most "zoomed out".';
 
 
 -- dataset.maximum_optimal_scale
-COMMENT ON COLUMN pgmetadata.dataset.maximum_optimal_scale IS 'Maximum optimal scale denominator to view the data. Ex: 2000 for 1/2000. Most "zoomed in".';
+COMMENT ON COLUMN pgmetadata.dataset.maximum_optimal_scale IS 'Maximum optimal scale denominator to view the data. E.g. 2000 for 1/2000. Most "zoomed in".';
 
 
 -- dataset.publication_date
@@ -101,11 +101,11 @@ COMMENT ON COLUMN pgmetadata.dataset.publication_frequency IS 'Frequency of publ
 
 
 -- dataset.license
-COMMENT ON COLUMN pgmetadata.dataset.license IS 'License. Ex: Public domain';
+COMMENT ON COLUMN pgmetadata.dataset.license IS 'License. E.g. Public domain';
 
 
 -- dataset.confidentiality
-COMMENT ON COLUMN pgmetadata.dataset.confidentiality IS 'Confidentiality of the data. ';
+COMMENT ON COLUMN pgmetadata.dataset.confidentiality IS 'Confidentiality of the data.';
 
 
 -- dataset.feature_count
@@ -113,15 +113,15 @@ COMMENT ON COLUMN pgmetadata.dataset.feature_count IS 'Number of features of the
 
 
 -- dataset.geometry_type
-COMMENT ON COLUMN pgmetadata.dataset.geometry_type IS 'Geometry type. Ex: Polygon';
+COMMENT ON COLUMN pgmetadata.dataset.geometry_type IS 'Geometry type. E.g. Polygon';
 
 
 -- dataset.projection_name
-COMMENT ON COLUMN pgmetadata.dataset.projection_name IS 'Projection name of the dataset. Ex: WGS 84 - Geographic';
+COMMENT ON COLUMN pgmetadata.dataset.projection_name IS 'Projection name of the dataset. E.g. WGS 84 - Geographic';
 
 
 -- dataset.projection_authid
-COMMENT ON COLUMN pgmetadata.dataset.projection_authid IS 'Projection auth id. Ex: EPSG:4326';
+COMMENT ON COLUMN pgmetadata.dataset.projection_authid IS 'Projection auth id. E.g. EPSG:4326';
 
 
 -- dataset.spatial_extent
@@ -157,7 +157,7 @@ COMMENT ON COLUMN pgmetadata.dataset_contact.fk_id_dataset IS 'Id of the dataset
 
 
 -- dataset_contact.contact_role
-COMMENT ON COLUMN pgmetadata.dataset_contact.contact_role IS 'Role of the contact for the specified dataset item. Ex: owner, distributor';
+COMMENT ON COLUMN pgmetadata.dataset_contact.contact_role IS 'Role of the contact for the specified dataset item. E.g. owner, distributor';
 
 
 -- glossary
@@ -201,7 +201,7 @@ COMMENT ON COLUMN pgmetadata.link.name IS 'Name of the link';
 
 
 -- link.type
-COMMENT ON COLUMN pgmetadata.link.type IS 'Type of the link. Ex: https, git, OGC:WFS';
+COMMENT ON COLUMN pgmetadata.link.type IS 'Type of the link. E.g. https, git, OGC:WFS';
 
 
 -- link.url
