@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="gis" schema="pgmetadata" type="PostgreSQL - 10.14 (Debian 10.14-1.pgdg100+1)">
+   <sequences>
+      <sequence increment="1" name="contact_id_seq" startValue="1"/>
+      <sequence increment="1" name="dataset_contact_id_seq" startValue="1"/>
+      <sequence increment="1" name="dataset_id_seq" startValue="1"/>
+      <sequence increment="1" name="link_id_seq" startValue="1"/>
+   </sequences>
+   <tables>
+      <table name="contact" numRows="0" remarks="List of contacts related to the published datasets." schema="pgmetadata" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('pgmetadata.contact_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="Internal automatic integer ID" size="10" type="serial" typeCode="4">
+            <child column="fk_id_contact" foreignKey="dataset_contact_fk_id_contact_fkey" implied="false" onDeleteCascade="false" schema="pgmetadata" table="dataset_contact"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="Full name of the contact" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="organisation_name" nullable="false" remarks="Organisation name. Ex: ACME" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="organisation_unit" nullable="true" remarks="Organisation unit name. Ex: GIS unit" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="email" nullable="true" remarks="Email address" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="contact_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="dataset" numRows="0" remarks="Main table for storing dataset about PostgreSQL vector layers." schema="pgmetadata" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('pgmetadata.dataset_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="Internal automatic integer ID" size="10" type="serial" typeCode="4">
+            <child column="fk_id_dataset" foreignKey="dataset_contact_fk_id_dataset_fkey" implied="false" onDeleteCascade="true" schema="pgmetadata" table="dataset_contact"/>
+            <child column="fk_id_dataset" foreignKey="link_fk_id_dataset_fkey" implied="false" onDeleteCascade="true" schema="pgmetadata" table="link"/>
+         </column>
+         <column autoUpdated="false" defaultValue="uuid_generate_v4()" digits="0" id="1" name="uid" nullable="false" remarks="Unique identifier of the data. Ex: 89e3dde9-3850-c211-5045-b5b09aa1da9a" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="table_name" nullable="false" remarks="Name of the related table in the database" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="schema_name" nullable="false" remarks="Name of the related schema in the database" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="title" nullable="false" remarks="Title of the data" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="abstract" nullable="false" remarks="Full description of the data" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="categories" nullable="true" remarks="List of categories" size="2147483647" type="_text" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="keywords" nullable="true" remarks="List of keywords" size="2147483647" type="_text" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="spatial_level" nullable="true" remarks="Spatial Level of the data. Ex: city, country, street" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="minimum_optimal_scale" nullable="true" remarks="Minimum optimal scale denominator to view the data. Ex: 100000 for 1/100000. Most &quot;zoomed out&quot;." size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="maximum_optimal_scale" nullable="true" remarks="Maximum optimal scale denominator to view the data. Ex: 2000 for 1/2000. Most &quot;zoomed in&quot;." size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="11" name="publication_date" nullable="true" remarks="Date of publication of the data" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="publication_frequency" nullable="true" remarks="Frequency of publication: how often the data is published." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="license" nullable="true" remarks="License. Ex: Public domain" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="confidentiality" nullable="true" remarks="Confidentiality of the data." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="feature_count" nullable="true" remarks="Number of features of the data" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="16" name="geometry_type" nullable="true" remarks="Geometry type. Ex: Polygon" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="17" name="projection_name" nullable="true" remarks="Projection name of the dataset. Ex: WGS 84 - Geographic" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="18" name="projection_authid" nullable="true" remarks="Projection auth id. Ex: EPSG:4326" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="spatial_extent" nullable="true" remarks="Spatial extent of the data. xmin,ymin,xmax,ymax." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="20" name="creation_date" nullable="false" remarks="Date of creation of the dataset item" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="21" name="update_date" nullable="true" remarks="Date of update of the dataset item" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="22" name="geom" nullable="true" remarks="Geometry defining the extent of the data. Can be any polygon." size="2147483647" type="geometry" typeCode="1111"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="dataset_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="dataset_uid_key" unique="true">
+            <column ascending="true" name="uid"/>
+         </index>
+      </table>
+      <table name="dataset_contact" numRows="0" remarks="Pivot table between dataset and contacts." schema="pgmetadata" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('pgmetadata.dataset_contact_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="Internal automatic integer ID" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="fk_id_contact" nullable="false" remarks="Id of the contact item" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="dataset_contact_fk_id_contact_fkey" implied="false" onDeleteCascade="false" schema="pgmetadata" table="contact"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="fk_id_dataset" nullable="false" remarks="Id of the dataset item" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="dataset_contact_fk_id_dataset_fkey" implied="false" onDeleteCascade="true" schema="pgmetadata" table="dataset"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="contact_role" nullable="false" remarks="Role of the contact for the specified dataset item. Ex: owner, distributor" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="dataset_contact_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="dataset_contact_fk_id_contact_fk_id_dataset_contact_role_key" unique="true">
+            <column ascending="true" name="fk_id_contact"/>
+            <column ascending="true" name="fk_id_dataset"/>
+            <column ascending="true" name="contact_role"/>
+         </index>
+      </table>
+      <table name="glossary" numRows="0" remarks="List of labels and words used as labels for stored data" schema="pgmetadata" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Internal automatic integer ID" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="field" nullable="false" remarks="Field name" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="code" nullable="false" remarks="Item code" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="label" nullable="false" remarks="Item label" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description" nullable="true" remarks="Description" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="item_order" nullable="true" remarks="Display order" size="5" type="int2" typeCode="5"/>
+      </table>
+      <table name="link" numRows="0" remarks="List of links related to the published datasets." schema="pgmetadata" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('pgmetadata.link_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="Internal automatic integer ID" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="Name of the link" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="type" nullable="false" remarks="Type of the link. Ex: https, git, OGC:WFS" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="url" nullable="false" remarks="Full URL" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description" nullable="true" remarks="Description" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="format" nullable="true" remarks="Format." size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="mime" nullable="true" remarks="Mime type" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="size" nullable="true" remarks="Size of the target" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="fk_id_dataset" nullable="false" remarks="Id of the dataset item" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="link_fk_id_dataset_fkey" implied="false" onDeleteCascade="true" schema="pgmetadata" table="dataset"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="link_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="qgis_plugin" numRows="0" remarks="Version and date of the database structure. Usefull for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata" schema="pgmetadata" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="me_version" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="me_version_date" nullable="false" remarks="" size="13" type="date" typeCode="91"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="me_status" nullable="false" remarks="" size="5" type="int2" typeCode="5"/>
+      </table>
+   </tables>
+</database>

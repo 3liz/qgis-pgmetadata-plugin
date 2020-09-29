@@ -21,8 +21,8 @@ test_migration:
 schemaspy:
 	@echo 'Generating schemaspy documentation'
 	@cd .docker && ./start.sh
-	rm -rf docs/
-	mkdir docs/
+	rm -rf docs/database
+	mkdir docs/database
 	@cd .docker && ./install_db.sh
 	@cd .docker && ./schemaspy.sh
 	@cd .docker && ./stop.sh
