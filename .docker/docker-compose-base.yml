@@ -19,8 +19,8 @@ services:
     volumes:
       - ../${PLUGIN_NAME}:/tests_directory/${PLUGIN_NAME}
     # Uncomment to use the postgis database from outside the docker network
-    # ports:
-    #  - "35432:5432"
+    ports:
+      - "35432:5432"
     # Only supported in version 3
     # But we need version 2 for extends
     #healthcheck:
