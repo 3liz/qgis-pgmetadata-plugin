@@ -16,6 +16,20 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+SET default_tablespace = '';
+
+-- dataset_id_idx
+CREATE INDEX dataset_id_idx ON pgmetadata.dataset USING btree (id);
+
+
+-- glossary_id_idx
+CREATE INDEX glossary_id_idx ON pgmetadata.glossary USING btree (id);
+
+
+-- qgis_plugin_id_idx
+CREATE INDEX qgis_plugin_id_idx ON pgmetadata.qgis_plugin USING btree (id);
+
+
 --
 -- PostgreSQL database dump complete
 --
