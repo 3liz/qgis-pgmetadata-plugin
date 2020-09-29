@@ -28,8 +28,8 @@ schemaspy:
 	@cd .docker && ./stop.sh
 
 generate_sql:
-	cd pg_metadata/install/sql &&	./export_database_structure_to_SQL.sh pgmetadata pgmetadata
-	@cd ../../..
+	@echo 'Generate SQL into install files'
+	cd pg_metadata/install/sql && ./export_database_structure_to_SQL.sh pgmetadata pgmetadata
 
 reformat_sql:
 	@echo 'Reformat SQL'
