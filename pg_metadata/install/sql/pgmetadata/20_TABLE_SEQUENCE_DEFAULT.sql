@@ -167,14 +167,14 @@ ALTER SEQUENCE pgmetadata.link_id_seq OWNED BY pgmetadata.link.id;
 -- qgis_plugin
 CREATE TABLE pgmetadata.qgis_plugin (
     id integer NOT NULL,
-    me_version text NOT NULL,
-    me_version_date date NOT NULL,
-    me_status smallint NOT NULL
+    version text NOT NULL,
+    version_date date NOT NULL,
+    status smallint NOT NULL
 );
 
 
 -- qgis_plugin
-COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Usefull for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
+COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
 
 
 -- contact id
