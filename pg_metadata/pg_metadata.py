@@ -23,3 +23,16 @@ class PgMetadata:
 
     def unload(self):
         QgsApplication.processingRegistry().removeProvider(self.provider)
+
+    @staticmethod
+    def run_tests(pattern='test_*.py', package=None):
+        """Run the test inside QGIS."""
+        try:
+            from pg_metadata.qgis_plugin_tools.infrastructure.test_runner import test_package
+            from pathlib import Path
+            if package is None:
+                package = '{}.__init__'.format(Path(__file__).parent.name)
+            test_package(package, pattern)
+        except (AttributeError, ModuleNotFoundError):
+            message = 'Could not load tests. Are you using a production package?'
+            print(message)
