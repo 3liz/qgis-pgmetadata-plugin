@@ -2,15 +2,15 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.14 (Debian 10.14-1.pgdg100+1)
--- Dumped by pg_dump version 10.14 (Debian 10.14-1.pgdg100+1)
+-- Dumped from database version 13.0 (Ubuntu 13.0-1.pgdg20.04+1)
+-- Dumped by pg_dump version 13.0 (Ubuntu 13.0-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
+
 SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
@@ -229,7 +229,7 @@ COMMENT ON COLUMN pgmetadata.link.fk_id_dataset IS 'Id of the dataset item';
 
 
 -- qgis_plugin
-COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Usefull for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
+COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
 
 
 --
