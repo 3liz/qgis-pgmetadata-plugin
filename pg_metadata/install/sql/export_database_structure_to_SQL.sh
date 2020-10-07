@@ -38,7 +38,7 @@ for ITEM in FUNCTION "TABLE|SEQUENCE|DEFAULT" VIEW INDEX TRIGGER CONSTRAINT COMM
     # Extract list of objects for current item
     pg_restore --no-acl --no-owner -l $OUTDIR/dump | grep -E "$ITEM" > "$OUTDIR/$ITEM";
     # Extract SQL for these objects
-    pg_restore --no-acl --no-owner -L "$OUTDIR/$ITEM" "$OUTDIR/dump" > "$OUTDIR"/"$I"_"$ITEM".sql;
+    pg_restore -f "$OUTDIR"/"$I"_"$ITEM".sql --no-acl --no-owner -L "$OUTDIR/$ITEM" "$OUTDIR/dump";
     # Remove file containing list of objects
     rm "$OUTDIR/$ITEM";
     # Simplify comments inside SQL files
@@ -50,6 +50,8 @@ for ITEM in FUNCTION "TABLE|SEQUENCE|DEFAULT" VIEW INDEX TRIGGER CONSTRAINT COMM
     fi
     # Remove SET function to remove some compatibility issues between PostgreSQL versions
     sed -i "s#SET idle_in_transaction_session_timeout = 0;##g" "$OUTDIR"/"$I"_"$ITEM".sql;
+    # Remove SET search_path
+    sed -i "s#SELECT pg_catalog.set_config('search_path', '', false);##g" "$OUTDIR"/"$I"_"$ITEM".sql;
     # Rename
     rename -f 's#\|#_#g' "$OUTDIR"/"$I"_"$ITEM".sql;
     # Increment I
