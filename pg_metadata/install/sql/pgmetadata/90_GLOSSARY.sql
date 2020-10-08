@@ -121,13 +121,32 @@ INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (99, 'dataset.license', 'ODC-BY', 'Open Data Commons Attribution License', NULL, 40);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (100, 'dataset.license', 'ODBL', 'Open Data Commons Open Database License', NULL, 50);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (101, 'dataset.license', 'PDDL', 'Open Data Commons Public Domain Dedication and Licence', NULL, 60);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (102, 'dataset.categories', 'FAR', 'Farming', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (103, 'dataset.categories', 'CLI', 'Climatology Meteorology Atmosphere', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (104, 'dataset.categories', 'LOC', 'Location', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (105, 'dataset.categories', 'INT', 'Intelligence Military', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (106, 'dataset.categories', 'TRA', 'Transportation', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (107, 'dataset.categories', 'STR', 'Structure', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (108, 'dataset.categories', 'BOU', 'Boundaries', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (109, 'dataset.categories', 'INL', 'Inland Waters', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (110, 'dataset.categories', 'PLA', 'Planning Cadastre', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (111, 'dataset.categories', 'GEO', 'Geoscientific Information', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (112, 'dataset.categories', 'ELE', 'Elevation', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (113, 'dataset.categories', 'HEA', 'Health', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (114, 'dataset.categories', 'BIO', 'Biota', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (115, 'dataset.categories', 'OCE', 'Oceans', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (116, 'dataset.categories', 'ENV', 'Environment', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (117, 'dataset.categories', 'UTI', 'Utilities Communication', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (118, 'dataset.categories', 'ECO', 'Economy', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (119, 'dataset.categories', 'SOC', 'Society', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (120, 'dataset.categories', 'IMA', 'Imagery Base Maps Earth Cover', NULL, NULL);
 
 
 --
 -- Name: glossary_id_seq; Type: SEQUENCE SET; Schema: pgmetadata; Owner: -
 --
 
-SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 101, true);
+SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 120, true);
 
 
 --
