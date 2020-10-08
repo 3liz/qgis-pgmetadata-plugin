@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.0 (Ubuntu 13.0-1.pgdg20.04+1)
--- Dumped by pg_dump version 13.0 (Ubuntu 13.0-1.pgdg20.04+1)
+-- Dumped from database version 10.14 (Debian 10.14-1.pgdg100+1)
+-- Dumped by pg_dump version 10.14 (Debian 10.14-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,7 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+SET default_with_oids = false;
 
 -- contact
 CREATE TABLE pgmetadata.contact (
