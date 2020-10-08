@@ -20,7 +20,7 @@ __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
-SCHEMA = ProcessingProvider.schema()
+SCHEMA = "pgmetadata"
 
 
 class TestProcessing(unittest.TestCase):

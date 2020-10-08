@@ -27,7 +27,3 @@ class PgMetadataProvider(QgsProcessingProvider):
 
     def name(self):
         return "PgMetadata"
-
-    @staticmethod
-    def schema():
-        return 'pgmetadata'
