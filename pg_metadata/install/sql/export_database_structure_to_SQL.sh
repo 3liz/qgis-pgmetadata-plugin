@@ -66,4 +66,6 @@ echo "GLOSSARY"
 if [ $SCHEMA = 'pgmetadata' ]
 then
     pg_dump service=$SERVICE --data-only --inserts --column-inserts -n $SCHEMA --no-acl --no-owner --table "pgmetadata.glossary" -f "$OUTDIR"/90_GLOSSARY.sql
+    sed -i "s#SET idle_in_transaction_session_timeout = 0;##g" "$OUTDIR"/"90_GLOSSARY.sql"
+    sed -i "s#SELECT pg_catalog.set_config('search_path', '', false);##g" "$OUTDIR"/"90_GLOSSARY.sql"
 fi
