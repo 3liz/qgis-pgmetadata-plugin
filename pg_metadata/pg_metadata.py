@@ -1,11 +1,11 @@
 __copyright__ = "Copyright 2020, 3Liz"
 __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
-__revision__ = "$Format:%H$"
 
 
 from qgis.core import QgsApplication
 
+from pg_metadata.locator import LocatorFilter
 from pg_metadata.processing.provider import PgMetadataProvider
 
 
@@ -13,16 +13,25 @@ class PgMetadata:
     def __init__(self, iface):
         self.iface = iface
         self.provider = None
+        self.locator_filter = None
 
     def initProcessing(self):
-        self.provider = PgMetadataProvider()
-        QgsApplication.processingRegistry().addProvider(self.provider)
+        if not self.provider:
+            self.provider = PgMetadataProvider()
+            QgsApplication.processingRegistry().addProvider(self.provider)
 
     def initGui(self):
         self.initProcessing()
 
+        if not self.locator_filter:
+            self.locator_filter = LocatorFilter(self.iface)
+            self.iface.registerLocatorFilter(self.locator_filter)
+
     def unload(self):
-        QgsApplication.processingRegistry().removeProvider(self.provider)
+        if self.provider:
+            QgsApplication.processingRegistry().removeProvider(self.provider)
+        if self.locator_filter:
+            self.iface.deregisterLocatorFilter(self.locator_filter)
 
     @staticmethod
     def run_tests(pattern='test_*.py', package=None):
