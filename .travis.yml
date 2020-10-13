@@ -14,13 +14,13 @@ branches:
 
 jobs:
   include:
-    - stage: Run tests
-      name: QGIS and PostGIS
-      install:
-        - cd .docker
-        - ./start.sh with-qgis
-      script:
-        - ./exec.sh
+#    - stage: Run tests
+#      name: QGIS and PostGIS
+#      install:
+#        - cd .docker
+#        - ./start.sh with-qgis
+#      script:
+#        - ./exec.sh
 
 #    - stage: Run tests
 #      name: Database installation versus running migrations
@@ -30,12 +30,12 @@ jobs:
 #      script:
 #        - ./install_migrate_generate.sh
 
-#    - stage: Translations
-#      name: Push translations
-#      if: branch = master AND type != pull_request
-#      install:
-#        - pip3 install qgis-plugin-ci==1.8.4
-#      script: qgis-plugin-ci push-translation ${TX_TOKEN}
+    - stage: Translations
+      name: Push translations
+      if: branch = master AND type != pull_request
+      install:
+        - pip3 install qgis-plugin-ci==1.8.4
+      script: qgis-plugin-ci push-translation ${TX_TOKEN}
 
     - stage: Deploy
       if: tag IS present
