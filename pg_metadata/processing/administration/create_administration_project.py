@@ -4,18 +4,21 @@ __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
 from qgis.core import (
+    Qgis,
+    QgsExpressionContextUtils,
     QgsProcessingParameterString,
     QgsProcessingParameterFileDestination,
-    QgsProcessingOutputString,
-    QgsProcessingOutputNumber,
+    QgsProviderRegistry,
 )
+if Qgis.QGIS_VERSION_INT >= 31400:
+    from qgis.core import QgsProcessingParameterProviderConnection
 
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 from pg_metadata.qgis_plugin_tools.tools.algorithm_processing import BaseProcessingAlgorithm
+from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
 
-from pg_metadata.processing.tools import (
-    createAdministrationProjectFromTemplate,
-)
+
+SCHEMA = 'pgmetadata'
 
 
 class CreateAdministrationProject(BaseProcessingAlgorithm):
@@ -44,7 +47,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             '\n'
             '\n'
             'The generated QGIS project must then be opened by the administrator '
-            'to create the needed metadata by using QGIS editing capabilities'
+            'to create the needed metadata by using QGIS editing capabilities.'
             '\n'
             '\n'
             '* PostgreSQL connection to the database: name of the connection to use for the new QGIS project.'
@@ -54,21 +57,38 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         return short_help
 
     def initAlgorithm(self, config):
-        # INPUTS
-
-        # connection name
-        db_param = QgsProcessingParameterString(
-            self.CONNECTION_NAME,
-            tr('PostgreSQL connection to G-Obs database'),
-            defaultValue='',
-            optional=False
+        connection_name = QgsExpressionContextUtils.globalScope().variable(
+            "{}_connection_name".format(SCHEMA)
         )
-        db_param.setMetadata({
-            'widget_wrapper': {
-                'class': 'processing.gui.wrappers_postgis.ConnectionWidgetWrapper'
-            }
-        })
-        self.addParameter(db_param)
+        label = tr("Connexion to the PostgreSQL database")
+        tooltip = label
+        if Qgis.QGIS_VERSION_INT >= 31400:
+            param = QgsProcessingParameterProviderConnection(
+                self.CONNECTION_NAME,
+                label,
+                "postgres",
+                defaultValue=connection_name,
+                optional=False,
+            )
+        else:
+            param = QgsProcessingParameterString(
+                self.CONNECTION_NAME,
+                label,
+                defaultValue=connection_name,
+                optional=False,
+            )
+            param.setMetadata(
+                {
+                    "widget_wrapper": {
+                        "class": "processing.gui.wrappers_postgis.ConnectionWidgetWrapper"
+                    }
+                }
+            )
+        if Qgis.QGIS_VERSION_INT >= 31600:
+            param.setHelp(tooltip)
+        else:
+            param.tooltip_3liz = tooltip
+        self.addParameter(param)
 
         # target project file
         self.addParameter(
@@ -81,22 +101,6 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             )
         )
 
-        # OUTPUTS
-        # Add output for status (integer)
-        self.addOutput(
-            QgsProcessingOutputNumber(
-                self.OUTPUT_STATUS,
-                tr('Output status')
-            )
-        )
-        # Add output for message
-        self.addOutput(
-            QgsProcessingOutputString(
-                self.OUTPUT_STRING,
-                tr('Output message')
-            )
-        )
-
     def checkParameterValues(self, parameters, context):
 
         # Check if the target project file ends with qgs
@@ -104,26 +108,39 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         if not project_file.endswith('.qgs'):
             return False, tr('The QGIS project file name must end with extension ".qgs"')
 
-        return super(CreateAdministrationProject, self).checkParameterValues(parameters, context)
+        return super().checkParameterValues(parameters, context)
 
     def processAlgorithm(self, parameters, context, feedback):
 
-        # Database connection parameters
-        connection_name = parameters[self.CONNECTION_NAME]
+        if Qgis.QGIS_VERSION_INT >= 31400:
+            connection_name = self.parameterAsConnectionName(
+                parameters, self.CONNECTION_NAME, context)
+        else:
+            connection_name = self.parameterAsString(
+                parameters, self.CONNECTION_NAME, context)
 
         # Write the file out again
         project_file = self.parameterAsString(parameters, self.PROJECT_FILE, context)
-        createAdministrationProjectFromTemplate(
-            connection_name,
-            project_file
+
+        metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
+        connection = metadata.findConnection(connection_name)
+
+        # Read in the template file
+        template_file = resources_path('projects', 'pg_metadata_administration.qgs')
+        with open(template_file, 'r') as fin:
+            file_data = fin.read()
+
+        # Replace the database connection information
+        file_data = file_data.replace(
+            "service='pgmetadata'",
+            connection.uri()
         )
+
+        with open(project_file, 'w') as fout:
+            fout.write(file_data)
 
         msg = tr('QGIS Administration project has been successfully created from database connection')
         msg += ': {}'.format(connection_name)
         feedback.pushInfo(msg)
-        status = 1
 
-        return {
-            self.OUTPUT_STATUS: status,
-            self.OUTPUT_STRING: msg
-        }
+        return {}
