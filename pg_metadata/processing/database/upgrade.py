@@ -97,7 +97,7 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
         # Check if run migrations is checked
         run_migrations = self.parameterAsBool(parameters, self.RUN_MIGRATIONS, context)
         if not run_migrations:
-            msg = tr("Vous devez cocher cette case pour réaliser la mise à jour !")
+            msg = tr("You must use the checkbox to do the upgrade !")
             return False, msg
 
         if Qgis.QGIS_VERSION_INT >= 31400:
@@ -159,7 +159,7 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
         for a in data:
             db_version = a[0]
         if not db_version:
-            error_message = tr("Aucune version trouvée dans la base de données !")
+            error_message = tr("No version has been found in the database !")
             raise QgsProcessingException(error_message)
 
         feedback.pushInfo("Current database version '{}'.".format(db_version))
