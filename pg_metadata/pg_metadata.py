@@ -4,9 +4,12 @@ __email__ = "info@3liz.org"
 
 
 from qgis.core import QgsApplication
+from qgis.PyQt.QtCore import QCoreApplication, QTranslator
 
 from pg_metadata.locator import LocatorFilter
 from pg_metadata.processing.provider import PgMetadataProvider
+from pg_metadata.qgis_plugin_tools.tools.i18n import setup_translation
+from pg_metadata.qgis_plugin_tools.tools.resources import plugin_path
 
 
 class PgMetadata:
@@ -14,6 +17,14 @@ class PgMetadata:
         self.iface = iface
         self.provider = None
         self.locator_filter = None
+
+        locale, file_path = setup_translation(
+            folder=plugin_path("i18n"), file_pattern="pgmetadata_{}.qm")
+        if file_path:
+            self.translator = QTranslator()
+            self.translator.load(file_path)
+            # noinspection PyCallByClass,PyArgumentList
+            QCoreApplication.installTranslator(self.translator)
 
     def initProcessing(self):
         if not self.provider:
