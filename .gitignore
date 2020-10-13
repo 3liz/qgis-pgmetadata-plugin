@@ -4,5 +4,7 @@ __pycache__/
 .idea/
 pg_metadata.*.zip
 plugins.xml
+pg_metadata/i18n/*.ts
+pg_metadata/i18n/*.qm
 *~
 *.bak
