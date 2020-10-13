@@ -155,7 +155,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Unique identifier of the data. Ex: 89e3dde9-3850-c211-5045-b5b09aa1da9a</p></td>
+                                    <td><p>Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="table_name">table_name</span></td>
@@ -274,7 +274,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Spatial Level of the data. Ex: city, country, street</p></td>
+                                    <td><p>Spatial level of the data. E.g. city, country, street</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="minimum_optimal_scale">minimum_optimal_scale</span></td>
@@ -291,7 +291,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Minimum optimal scale denominator to view the data. Ex: 100000 for 1/100000. Most &ldquo;zoomed out&rdquo;.</p></td>
+                                    <td><p>Minimum optimal scale denominator to view the data. E.g. 100000 for 1/100000. Most &ldquo;zoomed out&rdquo;.</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="maximum_optimal_scale">maximum_optimal_scale</span></td>
@@ -308,7 +308,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Maximum optimal scale denominator to view the data. Ex: 2000 for 1/2000. Most &ldquo;zoomed in&rdquo;.</p></td>
+                                    <td><p>Maximum optimal scale denominator to view the data. E.g. 2000 for 1/2000. Most &ldquo;zoomed in&rdquo;.</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="publication_date">publication_date</span></td>
@@ -359,7 +359,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>License. Ex: Public domain</p></td>
+                                    <td><p>License. E.g. Public domain</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="confidentiality">confidentiality</span></td>
@@ -410,7 +410,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Geometry type. Ex: Polygon</p></td>
+                                    <td><p>Geometry type. E.g. Polygon</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="projection_name">projection_name</span></td>
@@ -427,7 +427,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Projection name of the dataset. Ex: WGS 84 - Geographic</p></td>
+                                    <td><p>Projection name of the dataset. E.g. WGS 84 - Geographic</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="projection_authid">projection_authid</span></td>
@@ -444,7 +444,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Projection auth id. Ex: EPSG:4326</p></td>
+                                    <td><p>Projection auth id. E.g. EPSG:4326</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="spatial_extent">spatial_extent</span></td>
@@ -541,6 +541,12 @@
                                 <tr>
                                     <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> dataset_pkey</td>
                                     <td>Primary key</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>id</td>
+                                </tr>
+                                <tr>
+                                    <td title='Indexed'>dataset_id_idx</td>
+                                    <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>id</td>
                                 </tr>
