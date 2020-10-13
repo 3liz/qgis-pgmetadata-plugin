@@ -53,7 +53,7 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
         connection_name = QgsExpressionContextUtils.globalScope().variable(
             "{}_connection_name".format(SCHEMA)
         )
-        label = tr("Connexion to the PostgreSQL database")
+        label = tr("Connection to the PostgreSQL database")
         tooltip = label
         if Qgis.QGIS_VERSION_INT >= 31400:
             param = QgsProcessingParameterProviderConnection(
