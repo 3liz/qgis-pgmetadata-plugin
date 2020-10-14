@@ -49,6 +49,8 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
             "database schema.")
         msg += '\n\n'
         msg += "It will erase and/or create the schema '{}'.".format(SCHEMA)
+        msg += '\n\n'
+        msg += self.parameters_help_string()
         return msg
 
     def initAlgorithm(self, config):

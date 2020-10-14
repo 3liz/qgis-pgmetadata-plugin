@@ -43,10 +43,12 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
         return tr("Upgrade the database structure")
 
     def shortHelpString(self):
-        return tr(
+        msg = tr(
             "When the plugin is upgraded, a database upgrade may be available as well. The database "
-            "migration must be applied as well on the existing database."
-        )
+            "migration must be applied as well on the existing database.")
+        msg += '\n\n'
+        msg += self.parameters_help_string()
+        return msg
 
     def initAlgorithm(self, config):
         connection_name = QgsExpressionContextUtils.globalScope().variable(

@@ -43,17 +43,13 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
 
     def shortHelpString(self):
         short_help = tr(
-            'This algorithm will create a new QGIS project file for PgMetadata administration purpose.'
-            '\n'
-            '\n'
+            'This algorithm will create a new QGIS project file for PgMetadata administration purpose.')
+        short_help += '\n\n'
+        short_help += tr(
             'The generated QGIS project must then be opened by the administrator '
-            'to create the needed metadata by using QGIS editing capabilities.'
-            '\n'
-            '\n'
-            '* PostgreSQL connection to the database: name of the connection to use for the new QGIS project.'
-            '\n'
-            '* QGIS project file to create: choose the output file destination.'
-        )
+            'to create the needed metadata by using QGIS editing capabilities.')
+        short_help += '\n\n'
+        short_help += self.parameters_help_string()
         return short_help
 
     def initAlgorithm(self, config):
