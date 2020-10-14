@@ -1,7 +1,8 @@
 ## CHANGELOG
 
-### 0.1.0 - 25/09/2020
+### 0.0.1 - 14/10/2020
 
-* Basic metadata storage in PostgreSQL
+* Install the database schema
+* Provide a QGIS project to edit the metadata
 
 ###
