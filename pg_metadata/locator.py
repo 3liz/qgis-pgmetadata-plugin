@@ -62,12 +62,13 @@ class LocatorFilter(QgsLocatorFilter):
             "{}_connection_name".format(SCHEMA)
         )
         if not connection_name:
-            self.iface.pushCritical(
-                "PgMetadata",
+            self.logMessage(
                 tr(
                     "One algorithm from PgMetadata must be used before. The plugin will be aware about the "
                     "database to use."
-                ))
+                ),
+                Qgis.Critical
+            )
 
         if len(search) < 3:
             # Let's limit the number of request sent to the server
