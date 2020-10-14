@@ -44,7 +44,8 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
 
     def shortHelpString(self):
         return tr(
-            "Upgrade of the database structure to the latest version."
+            "When the plugin is upgraded, a database upgrade may be available as well. The database "
+            "migration must be applied as well on the existing database."
         )
 
     def initAlgorithm(self, config):
@@ -52,7 +53,7 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
             "{}_connection_name".format(SCHEMA)
         )
         label = tr("Connection to the PostgreSQL database")
-        tooltip = label
+        tooltip = tr("The database where the schema '{}' is installed.").format(SCHEMA)
         if Qgis.QGIS_VERSION_INT >= 31400:
             param = QgsProcessingParameterProviderConnection(
                 self.CONNECTION_NAME,
@@ -81,13 +82,17 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
             param.tooltip_3liz = tooltip
         self.addParameter(param)
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.RUN_MIGRATIONS,
-                tr("Use this checkbox to upgrade."),
-                defaultValue=False,
-            )
+        param = QgsProcessingParameterBoolean(
+            self.RUN_MIGRATIONS,
+            tr("Use this checkbox to upgrade."),
+            defaultValue=False,
         )
+        tooltip = tr("For security reason, we ask that you explicitly use this checkbox.")
+        if Qgis.QGIS_VERSION_INT >= 31600:
+            param.setHelp(tooltip)
+        else:
+            param.tooltip_3liz = tooltip
+        self.addParameter(param)
 
         self.addOutput(
             QgsProcessingOutputString(self.DATABASE_VERSION, tr("Database version"))

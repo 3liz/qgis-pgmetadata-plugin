@@ -61,7 +61,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             "{}_connection_name".format(SCHEMA)
         )
         label = tr("Connection to the PostgreSQL database")
-        tooltip = label
+        tooltip = tr("The database where the schema '{}' is installed.").format(SCHEMA)
         if Qgis.QGIS_VERSION_INT >= 31400:
             param = QgsProcessingParameterProviderConnection(
                 self.CONNECTION_NAME,
@@ -91,15 +91,19 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         self.addParameter(param)
 
         # target project file
-        self.addParameter(
-            QgsProcessingParameterFileDestination(
-                self.PROJECT_FILE,
-                tr('QGIS project file to create'),
-                defaultValue='',
-                optional=False,
-                fileFilter='qgs'
-            )
+        param = QgsProcessingParameterFileDestination(
+            self.PROJECT_FILE,
+            tr('QGIS project file to create'),
+            defaultValue='',
+            optional=False,
+            fileFilter='qgs',
         )
+        tooltip = tr("The destination file where to create the QGIS project.").format(SCHEMA)
+        if Qgis.QGIS_VERSION_INT >= 31600:
+            param.setHelp(tooltip)
+        else:
+            param.tooltip_3liz = tooltip
+        self.addParameter(param)
 
     def checkParameterValues(self, parameters, context):
 
@@ -131,15 +135,12 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             file_data = fin.read()
 
         # Replace the database connection information
-        file_data = file_data.replace(
-            "service='pgmetadata'",
-            connection.uri()
-        )
+        file_data = file_data.replace("service='pgmetadata'", connection.uri())
 
         with open(project_file, 'w') as fout:
             fout.write(file_data)
 
-        msg = tr('QGIS Administration project has been successfully created from database connection')
+        msg = tr('QGIS Administration project has been successfully created from the database connection')
         msg += ': {}'.format(connection_name)
         feedback.pushInfo(msg)
 

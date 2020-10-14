@@ -44,17 +44,19 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
         return tr("Installation of the database structure")
 
     def shortHelpString(self):
-        return tr(
-            "Installation of the database structure on a new database.\n"
-            "It will erase/create the schema called {}.".format(SCHEMA)
-        )
+        msg = tr(
+            "When you are running the plugin for the first time on a new database, you need to install the "
+            "database schema.")
+        msg += '\n\n'
+        msg += "It will erase and/or create the schema '{}'.".format(SCHEMA)
+        return msg
 
     def initAlgorithm(self, config):
         connection_name = QgsExpressionContextUtils.globalScope().variable(
             "{}_connection_name".format(SCHEMA)
         )
         label = tr("Connection to the PostgreSQL database")
-        tooltip = label
+        tooltip = tr("The database where the schema '{}' will be installed.").format(SCHEMA)
         if Qgis.QGIS_VERSION_INT >= 31400:
             param = QgsProcessingParameterProviderConnection(
                 self.CONNECTION_NAME,
