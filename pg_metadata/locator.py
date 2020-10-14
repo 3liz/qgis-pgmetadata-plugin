@@ -3,11 +3,22 @@ __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 
 from qgis.core import (
+    Qgis,
+    QgsDataSourceUri,
+    QgsExpressionContextUtils,
     QgsLocatorFilter,
     QgsLocatorResult,
+    QgsProject,
     QgsProviderRegistry,
     QgsProviderConnectionException,
+    QgsVectorLayer,
 )
+from qgis.PyQt.QtGui import QIcon
+
+from pg_metadata.qgis_plugin_tools.tools.i18n import tr
+from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
+
+SCHEMA = 'pgmetadata'
 
 
 class LocatorFilter(QgsLocatorFilter):
@@ -28,8 +39,7 @@ class LocatorFilter(QgsLocatorFilter):
     def prefix(self):
         return 'meta'
 
-    @staticmethod
-    def query(connection_name, sql):
+    def query(self, connection_name, sql) -> list:
         """
         Runs a query on PostgreSQL connection and returns data
         """
@@ -39,15 +49,25 @@ class LocatorFilter(QgsLocatorFilter):
             return
 
         try:
-            data = connection.executeSql(sql)
+            data = self.query(connection_name, sql)
         except QgsProviderConnectionException as e:
-            msg = str(e)
-            print(msg)
+            self.logMessage(str(e), Qgis.Critical)
             return
-        else:
-            return data
+
+        return data
 
     def fetchResults(self, search, context, feedback):
+
+        connection_name = QgsExpressionContextUtils.globalScope().variable(
+            "{}_connection_name".format(SCHEMA)
+        )
+        if not connection_name:
+            self.iface.pushCritical(
+                "PgMetadata",
+                tr(
+                    "One algorithm from PgMetadata must be used before. The plugin will be aware about the "
+                    "database to use."
+                ))
 
         if len(search) < 3:
             # Let's limit the number of request sent to the server
@@ -55,7 +75,7 @@ class LocatorFilter(QgsLocatorFilter):
 
         # Search items from pgmetadata.dataset
         sql = " SELECT concat(title, ' (', table_name, '.', schema_name, ')') AS displayString,"
-        sql += " table_name, schema_name"
+        sql += " schema_name, table_name"
         sql += " FROM pgmetadata.dataset"
         sql += " WHERE concat(title, ' ', abstract, ' ', table_name) ILIKE '%{}%'".format(search)
         sql += " LIMIT 100"
@@ -68,14 +88,29 @@ class LocatorFilter(QgsLocatorFilter):
             result = QgsLocatorResult()
             result.filter = self
             result.displayString = '{}'.format(item[0])
+            result.icon = QIcon(resources_path('icons', 'icon.png'))
             result.userData = {
+                'name': item[0],
+                'connection': connection_name,
                 'schema': item[1],
                 'table': item[2],
             }
             self.resultFetched.emit(result)
 
     def triggerResult(self, result):
+
+        metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
+        connection = metadata.findConnection(result.userData['connection'])
+
+        uri = QgsDataSourceUri(connection.uri())
+        uri.setSchema(result.userData['schema'])
+        uri.setTable(result.userData['table'])
+        uri.setGeometryColumn('geom')  # Fixme change this
+
+        layer = QgsVectorLayer(uri.uri(), result.userData['name'], 'postgres')
+        QgsProject.instance().addMapLayer(layer)
+
         self.iface.messageBar().pushSuccess(
             "PgMetadata",
-            "And the winner is: {}".format(result.displayString),
+            "Layer {} has been loaded.".format(result.displayString),
         )
