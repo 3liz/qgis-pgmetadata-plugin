@@ -43,6 +43,16 @@ ALTER TABLE ONLY pgmetadata.dataset
     ADD CONSTRAINT dataset_uid_key UNIQUE (uid);
 
 
+-- html_template html_template_pkey
+ALTER TABLE ONLY pgmetadata.html_template
+    ADD CONSTRAINT html_template_pkey PRIMARY KEY (id);
+
+
+-- html_template html_template_section_key
+ALTER TABLE ONLY pgmetadata.html_template
+    ADD CONSTRAINT html_template_section_key UNIQUE (section);
+
+
 -- link link_pkey
 ALTER TABLE ONLY pgmetadata.link
     ADD CONSTRAINT link_pkey PRIMARY KEY (id);

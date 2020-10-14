@@ -54,6 +54,8 @@ for ITEM in FUNCTION "TABLE|SEQUENCE|DEFAULT" VIEW INDEX TRIGGER CONSTRAINT COMM
     sed -i "s#SELECT pg_catalog.set_config('search_path', '', false);##g" "$OUTDIR"/"$I"_"$ITEM".sql;
     # Remove default_table_access_method
     sed -i "s#SET default_table_access_method = heap##g" "$OUTDIR"/"$I"_"$ITEM".sql;
+    # Replace FOR EACH ROW EXECUTE FUNCTION (pg13) by FOR EACH ROW EXECUTE PROCEDURE (still ok for Pg13)
+    sed -i "s#FOR EACH ROW EXECUTE FUNCTION#FOR EACH ROW EXECUTE PROCEDURE#g" "$OUTDIR"/"$I"_"$ITEM".sql;
     # Rename
     rename -f 's#\|#_#g' "$OUTDIR"/"$I"_"$ITEM".sql;
     # Increment I

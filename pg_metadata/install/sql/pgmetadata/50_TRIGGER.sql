@@ -16,6 +16,10 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+-- dataset trg_update_table_comment_from_dataset
+CREATE TRIGGER trg_update_table_comment_from_dataset AFTER INSERT OR UPDATE ON pgmetadata.dataset FOR EACH ROW EXECUTE PROCEDURE pgmetadata.update_table_comment_from_dataset();
+
+
 --
 -- PostgreSQL database dump complete
 --

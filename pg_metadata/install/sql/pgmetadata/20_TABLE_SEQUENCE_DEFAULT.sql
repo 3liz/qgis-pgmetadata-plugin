@@ -146,6 +146,33 @@ CREATE SEQUENCE pgmetadata.glossary_id_seq
 ALTER SEQUENCE pgmetadata.glossary_id_seq OWNED BY pgmetadata.glossary.id;
 
 
+-- html_template
+CREATE TABLE pgmetadata.html_template (
+    id integer NOT NULL,
+    section text NOT NULL,
+    content text,
+    CONSTRAINT html_template_section_check CHECK ((section = ANY (ARRAY['main'::text, 'contacts'::text, 'links'::text])))
+);
+
+
+-- html_template
+COMMENT ON TABLE pgmetadata.html_template IS 'This table contains the HTML templates for the main metadata sheet, and one for the contacts and links. Contacts and links templates are used to compute a unique contact or link HTML representation.';
+
+
+-- html_template_id_seq
+CREATE SEQUENCE pgmetadata.html_template_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+-- html_template_id_seq
+ALTER SEQUENCE pgmetadata.html_template_id_seq OWNED BY pgmetadata.html_template.id;
+
+
 -- link
 CREATE TABLE pgmetadata.link (
     id integer NOT NULL,
@@ -204,6 +231,10 @@ ALTER TABLE ONLY pgmetadata.dataset_contact ALTER COLUMN id SET DEFAULT nextval(
 
 -- glossary id
 ALTER TABLE ONLY pgmetadata.glossary ALTER COLUMN id SET DEFAULT nextval('pgmetadata.glossary_id_seq'::regclass);
+
+
+-- html_template id
+ALTER TABLE ONLY pgmetadata.html_template ALTER COLUMN id SET DEFAULT nextval('pgmetadata.html_template_id_seq'::regclass);
 
 
 -- link id

@@ -20,6 +20,31 @@ SET row_security = off;
 COMMENT ON SCHEMA pgmetadata IS 'PgMetadata - contains tables for the QGIS plugin pg_metadata';
 
 
+-- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text)
+COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text) IS 'Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.';
+
+
+-- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text)
+COMMENT ON FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text) IS 'Update the PostgreSQL comment of a table by giving table schema, name and comment
+Example: if you need to update the comments for all the items listed by pgmetadata.v_table_comment_from_metadata:
+
+    SELECT
+    v.table_schema,
+    v.table_name,
+    pgmetadata.update_postgresql_table_comment(
+        v.table_schema,
+        v.table_name,
+        v.table_comment
+    ) AS comment_updated
+    FROM pgmetadata.v_table_comment_from_metadata AS v
+
+    ';
+
+
+-- FUNCTION update_table_comment_from_dataset()
+COMMENT ON FUNCTION pgmetadata.update_table_comment_from_dataset() IS 'Update the PostgreSQL table comment when updating or inserting a line in pgmetadata.dataset table. Comment is taken from the view pgmetadata.v_table_comment_from_metadata.';
+
+
 -- contact
 COMMENT ON TABLE pgmetadata.contact IS 'List of contacts related to the published datasets.';
 
@@ -188,6 +213,10 @@ COMMENT ON COLUMN pgmetadata.glossary.description IS 'Description';
 COMMENT ON COLUMN pgmetadata.glossary.item_order IS 'Display order';
 
 
+-- html_template
+COMMENT ON TABLE pgmetadata.html_template IS 'This table contains the HTML templates for the main metadata sheet, and one for the contacts and links. Contacts and links templates are used to compute a unique contact or link HTML representation.';
+
+
 -- link
 COMMENT ON TABLE pgmetadata.link IS 'List of links related to the published datasets.';
 
@@ -230,6 +259,10 @@ COMMENT ON COLUMN pgmetadata.link.fk_id_dataset IS 'Id of the dataset item';
 
 -- qgis_plugin
 COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
+
+
+-- VIEW v_table_comment_from_metadata
+COMMENT ON VIEW pgmetadata.v_table_comment_from_metadata IS 'View containing the desired formated comment for the tables listed in the pgmetadata.dataset table. This view is used by the trigger to update the table comment when the dataset item is added or modified';
 
 
 --

@@ -21,6 +21,16 @@ __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
 SCHEMA = "pgmetadata"
+TABLES = [
+    'contact',
+    'dataset',
+    'dataset_contact',
+    'glossary',
+    'html_template',
+    'link',
+    'qgis_plugin',
+    'v_table_comment_from_metadata',
+]
 
 
 class TestProcessing(unittest.TestCase):
@@ -71,17 +81,9 @@ class TestProcessing(unittest.TestCase):
         results = processing.run(alg, params, feedback=self.feedback)
         self.assertEqual('0.0.1', results['DATABASE_VERSION'])
 
-        expected = [
-            'dataset',
-            'link',
-            'glossary',
-            'qgis_plugin',
-            'contact',
-            'dataset_contact',
-        ]
         tables = self.connection.tables(SCHEMA)
         tables = [t.tableName() for t in tables]
-        self.assertCountEqual(expected, tables)
+        self.assertCountEqual(TABLES, tables)
 
         params = {
             "CONNECTION_NAME": "test_database",
