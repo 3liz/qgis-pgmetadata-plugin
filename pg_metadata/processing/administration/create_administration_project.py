@@ -136,6 +136,8 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         with open(project_file, 'w') as fout:
             fout.write(file_data)
 
+        QgsExpressionContextUtils.setGlobalVariable("{}_connection_name".format(SCHEMA), connection_name)
+
         msg = tr('QGIS Administration project has been successfully created from the database connection')
         msg += ': {}'.format(connection_name)
         feedback.pushInfo(msg)

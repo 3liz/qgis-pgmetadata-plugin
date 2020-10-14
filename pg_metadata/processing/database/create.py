@@ -197,8 +197,7 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
                     connection.executeSql(sql)
                 except QgsProviderConnectionException as e:
                     raise QgsProcessingException(str(e))
-                else:
-                    feedback.pushInfo("  Success !")
+                feedback.pushInfo("  Success !")
 
         # Add version
         if run_migration or not dev_version:
@@ -220,8 +219,9 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
             connection.executeSql(sql)
         except QgsProviderConnectionException as e:
             raise QgsProcessingException(str(e))
-        else:
-            feedback.pushInfo("Database version '{}'.".format(metadata_version))
+        feedback.pushInfo("Database version '{}'.".format(metadata_version))
+
+        QgsExpressionContextUtils.setGlobalVariable("{}_connection_name".format(SCHEMA), connection_name)
 
         results = {
             self.DATABASE_VERSION: metadata_version,

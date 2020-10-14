@@ -221,8 +221,7 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
                     connection.executeSql(sql)
                 except QgsProviderConnectionException as e:
                     raise QgsProcessingException(str(e))
-                else:
-                    feedback.pushInfo("Database version {} -- OK !".format(new_db_version))
+                feedback.pushInfo("Database version {} -- OK !".format(new_db_version))
 
         # Everything is fine, we now update to the plugin version
         sql = (
@@ -233,7 +232,8 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
             connection.executeSql(sql)
         except QgsProviderConnectionException as e:
             raise QgsProcessingException(str(e))
-        else:
-            feedback.pushInfo("Database upgraded to the current plugin version {}!".format(plugin_version))
+        feedback.pushInfo("Database upgraded to the current plugin version {}!".format(plugin_version))
+
+        QgsExpressionContextUtils.setGlobalVariable("{}_connection_name".format(SCHEMA), connection_name)
 
         return results
