@@ -38,6 +38,11 @@ ALTER TABLE ONLY pgmetadata.dataset
     ADD CONSTRAINT dataset_pkey PRIMARY KEY (id);
 
 
+-- dataset dataset_table_name_schema_name_key
+ALTER TABLE ONLY pgmetadata.dataset
+    ADD CONSTRAINT dataset_table_name_schema_name_key UNIQUE (table_name, schema_name);
+
+
 -- dataset dataset_uid_key
 ALTER TABLE ONLY pgmetadata.dataset
     ADD CONSTRAINT dataset_uid_key UNIQUE (uid);

@@ -85,15 +85,16 @@ DECLARE
 BEGIN
 
     BEGIN
-        RAISE NOTICE 'Table %s', quote_ident(table_schema) || '.' || quote_ident(table_name) ;
         sql_text = 'COMMENT ON TABLE ' || quote_ident(table_schema) || '.' || quote_ident(table_name) || ' IS ' || quote_literal(table_comment) ;
         EXECUTE sql_text;
+        RAISE NOTICE 'Comment updated for %s', quote_ident(table_schema) || '.' || quote_ident(table_name) ;
         RETURN True;
     EXCEPTION WHEN OTHERS THEN
-        RAISE NOTICE 'ERROR - Failed %s', quote_ident(table_schema) || '.' || quote_ident(table_name);
-        RAISE NOTICE '%', sql_text;
+        RAISE NOTICE 'ERROR - Failed updated comment for table %s', quote_ident(table_schema) || '.' || quote_ident(table_name);
         RETURN False;
     END;
+
+    RETURN True;
 END;
 $$;
 
@@ -119,6 +120,8 @@ Example: if you need to update the comments for all the items listed by pgmetada
 CREATE FUNCTION pgmetadata.update_table_comment_from_dataset() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
+DECLARE
+    is_updated bool;
 BEGIN
     SELECT pgmetadata.update_postgresql_table_comment(
         v.table_schema,
@@ -129,7 +132,10 @@ BEGIN
     WHERE True
     AND v.table_schema = NEW.schema_name
     AND v.table_name = NEW.table_name
+    INTO is_updated
     ;
+
+    RETURN NEW;
 END;
 $$;
 
