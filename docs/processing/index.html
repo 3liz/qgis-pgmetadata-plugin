@@ -4,9 +4,9 @@
  <head>
   <meta charset="utf-8"/>
   <title>PgMetadata</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
-  <link href="https://docs.3liz.org/remarkable.css" rel="stylesheet"/>
-  <link href="../icon.png" rel="icon" type="image/png" >
+  <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <link type="text/css" href="https://docs.3liz.org/remarkable.css" rel="stylesheet"/>
+  <link type="image/png" href="../icon.png" rel="icon" >
  </head>
  <body>
  <header class="header-container" style="">
@@ -14,10 +14,214 @@
  </header>
  <article>
 <p><a href="./../">Up</a></p><div class="toc"><span class="toctitle">Table of content</span><ul>
-<li><a href="#plugin-metadata">Plugin metadata</a></li>
+<li><a href="#pgmetadata">PgMetadata</a><ul>
+<li><a href="#administration">Administration</a><ul>
+<li><a href="#create-metadata-administration-project">Create metadata administration project</a><ul>
+<li><a href="#parameters">Parameters</a></li>
+<li><a href="#outputs">Outputs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#database">Database</a><ul>
+<li><a href="#installation-of-the-database-structure">Installation of the database structure</a><ul>
+<li><a href="#parameters_1">Parameters</a></li>
+<li><a href="#outputs_1">Outputs</a></li>
+</ul>
+</li>
+<li><a href="#upgrade-the-database-structure">Upgrade the database structure</a><ul>
+<li><a href="#parameters_2">Parameters</a></li>
+<li><a href="#outputs_2">Outputs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
-<h1 id="plugin-metadata">Plugin metadata</h1>
+<h1 id="pgmetadata">PgMetadata</h1>
+<h2 id="administration">Administration</h2>
+<h3 id="create-metadata-administration-project">Create metadata administration project</h3>
+<p>This algorithm will create a new QGIS project file for PgMetadata administration purpose.</p>
+<p>The generated QGIS project must then be opened by the administrator to create the needed metadata by using QGIS editing capabilities.</p>
+<p>CONNECTION_NAME : The database where the schema 'pgmetadata' is installed.</p>
+<p>PROJECT_FILE : The destination file where to create the QGIS project.</p>
+<p><img alt="algo_id" src="./pg_metadata-create_administration_project.png"></p>
+<h4 id="parameters">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">Description</th>
+<th align="center">Type</th>
+<th align="center">Info</th>
+<th align="center">Required</th>
+<th align="center">Advanced</th>
+<th align="center">Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">CONNECTION_NAME</td>
+<td align="center">Connection to the PostgreSQL database</td>
+<td align="center">String</td>
+<td align="center">The database where the schema 'pgmetadata' is installed.</td>
+<td align="center">✓</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">PROJECT_FILE</td>
+<td align="center">QGIS project file to create</td>
+<td align="center">FileDestination</td>
+<td align="center">The destination file where to create the QGIS project.</td>
+<td align="center">✓</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="outputs">Outputs</h4>
+<table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">Description</th>
+<th align="center">Type</th>
+<th align="center">Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">PROJECT_FILE</td>
+<td align="center">QGIS project file to create</td>
+<td align="center">File</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="database">Database</h2>
+<h3 id="installation-of-the-database-structure">Installation of the database structure</h3>
+<p>When you are running the plugin for the first time on a new database, you need to install the database schema.</p>
+<p>It will erase and/or create the schema 'pgmetadata'.</p>
+<p>CONNECTION_NAME : The database where the schema 'pgmetadata' will be installed.</p>
+<p>OVERRIDE : <strong> Be careful </strong> This will remove data in the schema !</p>
+<p><img alt="algo_id" src="./pg_metadata-create_database_structure.png"></p>
+<h4 id="parameters_1">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">Description</th>
+<th align="center">Type</th>
+<th align="center">Info</th>
+<th align="center">Required</th>
+<th align="center">Advanced</th>
+<th align="center">Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">CONNECTION_NAME</td>
+<td align="center">Connection to the PostgreSQL database</td>
+<td align="center">String</td>
+<td align="center">The database where the schema 'pgmetadata' will be installed.</td>
+<td align="center">✓</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">OVERRIDE</td>
+<td align="center">Erase the schema pgmetadata ?</td>
+<td align="center">Boolean</td>
+<td align="center"><strong> Be careful </strong> This will remove data in the schema !</td>
+<td align="center">✓</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="outputs_1">Outputs</h4>
+<table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">Description</th>
+<th align="center">Type</th>
+<th align="center">Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">DATABASE_VERSION</td>
+<td align="center">Database version</td>
+<td align="center">String</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="upgrade-the-database-structure">Upgrade the database structure</h3>
+<p>When the plugin is upgraded, a database upgrade may be available as well. The database migration must be applied as well on the existing database.</p>
+<p>CONNECTION_NAME : The database where the schema 'pgmetadata' is installed.</p>
+<p>RUN_MIGRATIONS : For security reason, we ask that you explicitly use this checkbox.</p>
+<p><img alt="algo_id" src="./pg_metadata-upgrade_database_structure.png"></p>
+<h4 id="parameters_2">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">Description</th>
+<th align="center">Type</th>
+<th align="center">Info</th>
+<th align="center">Required</th>
+<th align="center">Advanced</th>
+<th align="center">Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">CONNECTION_NAME</td>
+<td align="center">Connection to the PostgreSQL database</td>
+<td align="center">String</td>
+<td align="center">The database where the schema 'pgmetadata' is installed.</td>
+<td align="center">✓</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">RUN_MIGRATIONS</td>
+<td align="center">Use this checkbox to upgrade.</td>
+<td align="center">Boolean</td>
+<td align="center">For security reason, we ask that you explicitly use this checkbox.</td>
+<td align="center">✓</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="outputs_2">Outputs</h4>
+<table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">Description</th>
+<th align="center">Type</th>
+<th align="center">Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">DATABASE_VERSION</td>
+<td align="center">Database version</td>
+<td align="center">String</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<hr>
   </article>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
   </script>
