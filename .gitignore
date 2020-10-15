@@ -1,10 +1,19 @@
+# Python
 __pycache__/
 *.pyc
+
+# OS
 .DS_Store
+
+# IDE
 .idea/
+
+# Plugins, QGIS-plugin-CI
 pg_metadata.*.zip
 plugins.xml
 pg_metadata/i18n/*.ts
 pg_metadata/i18n/*.qm
+
+# Temp files
 *~
 *.bak

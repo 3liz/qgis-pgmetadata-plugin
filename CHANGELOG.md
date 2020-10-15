@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 0.0.2 - 15/10/2020
+
+* Add French language
+
 ### 0.0.1 - 14/10/2020
 
 * Provide a basic locator for adding layers

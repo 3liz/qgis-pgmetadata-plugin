@@ -12,6 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install Qt lrelease
+      run: sudo apt-get install qt5-default qttools5-dev-tools
+
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
@@ -38,4 +41,5 @@ jobs:
         qgis-plugin-ci
         release ${GITHUB_REF/refs\/tags\//}
         --github-token ${{ secrets.BOT_HUB_TOKEN }}
+        --transifex-token ${{ secrets.TRANSIFEX_TOKEN }}
         --create-plugin-repo
