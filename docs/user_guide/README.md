@@ -19,13 +19,16 @@ use the [install database structure](../processing/index.html#installation-of-th
 1. The GIS administrator can generate a QGIS project using 
 [create metadata project](../processing/index.html#create-metadata-administration-project). You need to open
 the generated project and use the normal QGIS editing tools.
-On the `dataset` table, you need to fill a row with these minimum information : 
+1. On the `dataset` table, open the attribute table, switch on **Edition** mode and add a new row.
+    You need to fill a row with these minimum information : 
     * Table name,
     * Schema name,
     * Title,
     * Abstract
 
-You need to save your `dataset` layer.
+![Attribute table](../attribute_table_new_row.png)
+
+You need to save your `dataset` layer by switching off editable mode.
 
 # Usage
 
