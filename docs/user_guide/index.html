@@ -4,9 +4,9 @@
  <head>
   <meta charset="utf-8"/>
   <title>PgMetadata</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
-  <link href="https://docs.3liz.org/remarkable.css" rel="stylesheet"/>
-  <link href="../icon.png" rel="icon" type="image/png" >
+  <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <link type="text/css" href="https://docs.3liz.org/remarkable.css" rel="stylesheet"/>
+  <link type="image/png" href="../icon.png" rel="icon" >
  </head>
  <body>
  <header class="header-container" style="">
@@ -14,10 +14,39 @@
  </header>
  <article>
 <p><a href="./../">Up</a></p><div class="toc"><span class="toctitle">Table of content</span><ul>
-<li><a href="#user-guide">User guide</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#usage">Usage</a></li>
 </ul>
 </div>
-<h1 id="user-guide">User guide</h1>
+<h1 id="installation">Installation</h1>
+<ol>
+<li>
+<p>The plugin is using a schema in PostgreSQL.</p>
+<ul>
+<li>If you just installed the plugin in a new organization, you must
+use the <a href="../processing/index.html#installation-of-the-database-structure">install database structure</a></li>
+<li>If the <code>pgmetadata</code> schema is already existing in your database, you may need to upgrade it after a 
+plugin upgrade using the 
+<a href="../processing/index.html#upgrade-the-database-structure">upgrade database structure</a></li>
+</ul>
+</li>
+<li>
+<p>The GIS administrator can generate a QGIS project using 
+<a href="../processing/index.html#create-metadata-administration-project">create metadata project</a>. You need to open
+the generated project and use the normal QGIS editing tools.
+On the <code>dataset</code> table, you need to fill a row with these minimum information : </p>
+<ul>
+<li>Table name,</li>
+<li>Schema name,</li>
+<li>Title,</li>
+<li>Abstract</li>
+</ul>
+</li>
+</ol>
+<p>You need to save your <code>dataset</code> layer.</p>
+<h1 id="usage">Usage</h1>
+<p>Type <code>ctrl+k</code> in QGIS to open the locator widget. You can start type <code>meta</code> then you should see layers in the
+list.</p>
   </article>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
   </script>
