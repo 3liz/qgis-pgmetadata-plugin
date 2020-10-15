@@ -3,4 +3,5 @@ contact
 link
 dataset_contact
 glossary
+html_template
 qgis_plugin

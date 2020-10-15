@@ -158,7 +158,7 @@
                                     <td><p>Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a</p></td>
                                 </tr>
                                 <tr>
-                                    <td><span id="table_name">table_name</span></td>
+                                    <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="table_name">table_name</span></td>
                                     <td>text</td>
                                     <td>2147483647</td>
                                     <td title=''></td>
@@ -175,7 +175,7 @@
                                     <td><p>Name of the related table in the database</p></td>
                                 </tr>
                                 <tr>
-                                    <td><span id="schema_name">schema_name</span></td>
+                                    <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="schema_name">schema_name</span></td>
                                     <td>text</td>
                                     <td>2147483647</td>
                                     <td title=''></td>
@@ -549,6 +549,12 @@
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>id</td>
+                                </tr>
+                                <tr>
+                                    <td class='uniqueKey' title='Unique Key'><i class='icon ion-key iconkey'></i> dataset_table_name_schema_name_key</td>
+                                    <td>Must be unique</td>
+                                    <td><span title='Ascending'>Asc</span>/<span title='Ascending'>Asc</span></td>
+                                    <td>table_name + schema_name</td>
                                 </tr>
                                 <tr>
                                     <td class='uniqueKey' title='Unique Key'><i class='icon ion-key iconkey'></i> dataset_uid_key</td>
