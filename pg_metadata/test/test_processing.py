@@ -7,7 +7,7 @@ import tempfile
 import processing
 
 from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
-from pg_metadata.test.base_test_processing import BaseTestProcessing
+from pg_metadata.test.base import BaseTestProcessing
 
 
 class TestProcessing(BaseTestProcessing):
