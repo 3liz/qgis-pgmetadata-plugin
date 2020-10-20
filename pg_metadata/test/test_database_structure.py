@@ -79,7 +79,7 @@ class TestProcessing(unittest.TestCase):
         }
         alg = "{}:create_database_structure".format(provider.id())
         results = processing.run(alg, params, feedback=self.feedback)
-        self.assertEqual('0.0.2', results['DATABASE_VERSION'])
+        self.assertEqual('0.0.3', results['DATABASE_VERSION'])
 
         tables = self.connection.tables(SCHEMA)
         tables = [t.tableName() for t in tables]
