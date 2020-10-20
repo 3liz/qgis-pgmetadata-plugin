@@ -25,6 +25,7 @@ class LocatorFilter(QgsLocatorFilter):
 
     def __init__(self, iface):
         self.iface = iface
+        self.metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
         super(QgsLocatorFilter, self).__init__()
 
     def name(self):
@@ -39,24 +40,11 @@ class LocatorFilter(QgsLocatorFilter):
     def prefix(self):
         return 'meta'
 
-    def query(self, connection_name, sql) -> list:
-        """
-        Runs a query on PostgreSQL connection and returns data
-        """
-        metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
-        connection = metadata.findConnection(connection_name)
-        if not connection:
-            return
-
-        try:
-            data = self.query(connection_name, sql)
-        except QgsProviderConnectionException as e:
-            self.logMessage(str(e), Qgis.Critical)
-            return
-
-        return data
-
     def fetchResults(self, search, context, feedback):
+
+        if len(search) < 3:
+            # Let's limit the number of request sent to the server
+            return
 
         connection_name = QgsExpressionContextUtils.globalScope().variable(
             "{}_connection_name".format(SCHEMA)
@@ -70,9 +58,12 @@ class LocatorFilter(QgsLocatorFilter):
                 Qgis.Critical
             )
 
-        if len(search) < 3:
-            # Let's limit the number of request sent to the server
-            return
+        connection = self.metadata.findConnection(connection_name)
+        if not connection:
+            self.logMessage(
+                tr("The global variable {}_connection_name is not correct.").format(SCHEMA),
+                Qgis.Critical
+            )
 
         # Search items from pgmetadata.dataset
         sql = " SELECT concat(title, ' (', table_name, '.', schema_name, ')') AS displayString,"
@@ -81,7 +72,14 @@ class LocatorFilter(QgsLocatorFilter):
         sql += " WHERE concat(title, ' ', abstract, ' ', table_name) ILIKE '%{}%'".format(search)
         sql += " LIMIT 100"
 
-        data = self.query('pgmetadata', sql)
+        self.logMessage(sql, Qgis.Critical)
+
+        try:
+            data = connection.executeSql(sql)
+        except QgsProviderConnectionException as e:
+            self.logMessage(str(e), Qgis.Critical)
+            return
+
         if not data:
             return
 
@@ -106,7 +104,17 @@ class LocatorFilter(QgsLocatorFilter):
         uri = QgsDataSourceUri(connection.uri())
         uri.setSchema(result.userData['schema'])
         uri.setTable(result.userData['table'])
-        uri.setGeometryColumn('geom')  # Fixme change this
+
+        sql = (
+            "SELECT f_geometry_column "
+            "FROM public.geometry_columns "
+            "WHERE f_table_catalog = '{db}' "
+            "AND f_table_schema = '{schema}' "
+            "AND f_table_name = '{table}';"
+        ).format(db=uri.database(), schema=uri.schema(), table=uri.table())
+        data = connection.executeSql(sql)
+        if data:
+            uri.setGeometryColumn(data[0][0])
 
         layer = QgsVectorLayer(uri.uri(), result.userData['name'], 'postgres')
         QgsProject.instance().addMapLayer(layer)
