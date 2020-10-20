@@ -1,7 +1,5 @@
 from pg_metadata.test.base_database import DatabaseTestCase
 
-SCHEMA = "pgmetadata"
-
 
 class TestSql(DatabaseTestCase):
 
@@ -11,15 +9,14 @@ class TestSql(DatabaseTestCase):
         for f, v in feature_map.items():
             fields.append(f)
             values.append(v)
-        sql = 'INSERT INTO {schema}.{table} ({fields}) VALUES ({values});'.format(
-            schema=SCHEMA,
+        sql = 'INSERT INTO pgmetadata.{table} ({fields}) VALUES ({values});'.format(
             table=table,
             fields=','.join(fields),
             values=','.join(values))
         self.connection.executeSql(sql)
 
-    def test_blabla(self):
-        """ Test SQL. """
+    def test_html_template(self):
+        """ Test HTML template. """
         dataset_feature = {
             'table_name': "'lines'",
             'schema_name': "'pgmetadata'",
@@ -36,7 +33,6 @@ class TestSql(DatabaseTestCase):
 
         result = (
             self.connection.executeSql(
-                "SELECT {schema}.get_dataset_item_html_content('pgmetadata','lines','main')".format(
-                    schema=SCHEMA))
+                "SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines','main')")
         )
         self.assertEqual("<p>Test title</p><b>Test title</b>", result[0][0])
