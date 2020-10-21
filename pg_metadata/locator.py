@@ -101,20 +101,18 @@ class LocatorFilter(QgsLocatorFilter):
         metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
         connection = metadata.findConnection(result.userData['connection'])
 
-        uri = QgsDataSourceUri(connection.uri())
-        uri.setSchema(result.userData['schema'])
-        uri.setTable(result.userData['table'])
+        schema_name = result.userData['schema']
+        table_name = result.userData['table']
 
-        sql = (
-            "SELECT f_geometry_column "
-            "FROM public.geometry_columns "
-            "WHERE f_table_catalog = '{db}' "
-            "AND f_table_schema = '{schema}' "
-            "AND f_table_name = '{table}';"
-        ).format(db=uri.database(), schema=uri.schema(), table=uri.table())
-        data = connection.executeSql(sql)
-        if data:
-            uri.setGeometryColumn(data[0][0])
+        if Qgis.QGIS_VERSION_INT < 31200:
+            table = [t for t in connection.tables(schema_name) if t.tableName() == table_name][0]
+        else:
+            table = connection.table(schema_name, table_name)
+
+        uri = QgsDataSourceUri(connection.uri())
+        uri.setSchema(schema_name)
+        uri.setTable(table_name)
+        uri.setGeometryColumn(table.geometryColumn())
 
         layer = QgsVectorLayer(uri.uri(), result.userData['name'], 'postgres')
         QgsProject.instance().addMapLayer(layer)
