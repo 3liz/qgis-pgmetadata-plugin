@@ -44,10 +44,12 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
 
     def layer_changed(self, layer):
         if not isinstance(layer, QgsVectorLayer):
+            self.default_html_content()
             return
 
         uri = layer.dataProvider().uri()
         if not uri.schema() or not uri.table():
+            self.default_html_content()
             return
 
         connection_name = QgsExpressionContextUtils.globalScope().variable("pgmetadata_connection_name")
@@ -56,11 +58,13 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 "One algorithm from PgMetadata must be used before. The plugin will be aware about the "
                 "database to use."
             )
+            self.default_html_content()
             return
 
         connection = self.metadata.findConnection(connection_name)
         if not connection:
             LOGGER.critical("The global variable pgmetadata_connection_name is not correct.")
+            self.default_html_content()
             return
 
         sql = (
@@ -77,6 +81,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             data = connection.executeSql(sql)
         except QgsProviderConnectionException as e:
             LOGGER.critical('Error when querying the database : ' + str(e))
+            self.default_html_content()
             return
 
         if not data:
@@ -126,4 +131,5 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.viewer.setHtml(html, base_url)
 
     def default_html_content(self):
-        self.set_html_content('PgMetadata', 'You should click on a layer in the legend.')
+        self.set_html_content(
+            'PgMetadata', 'You should click on a layer in the legend which is stored in PostgreSQL.')
