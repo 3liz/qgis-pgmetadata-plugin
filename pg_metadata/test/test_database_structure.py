@@ -13,6 +13,7 @@ from qgis.core import (
 from qgis.testing import unittest
 
 from pg_metadata.processing.provider import PgMetadataProvider as ProcessingProvider
+from pg_metadata.qgis_plugin_tools.tools.database import available_migrations
 from pg_metadata.qgis_plugin_tools.tools.logger_processing import LoggerProcessingFeedBack
 
 __copyright__ = "Copyright 2020, 3Liz"
@@ -79,7 +80,15 @@ class TestProcessing(unittest.TestCase):
         }
         alg = "{}:create_database_structure".format(provider.id())
         results = processing.run(alg, params, feedback=self.feedback)
-        self.assertEqual('0.0.3', results['DATABASE_VERSION'])
+
+        # Take the last migration
+        migrations = available_migrations(000000)
+        last_migration = migrations[-1]
+        metadata_version = (
+            last_migration.replace("upgrade_to_", "").replace(".sql", "").strip()
+        )
+
+        self.assertEqual(metadata_version, results['DATABASE_VERSION'])
 
         tables = self.connection.tables(SCHEMA)
         tables = [t.tableName() for t in tables]
