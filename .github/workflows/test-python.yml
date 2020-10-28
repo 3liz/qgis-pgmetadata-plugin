@@ -11,7 +11,7 @@ on:
       - '**.py'
 
 jobs:
-  test-python:
+  test-qgis:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -22,4 +22,4 @@ jobs:
       - name: Launching docker-compose
         run: ./start.sh
       - name: Running tests
-        run: ./exec.sh
+        run: ./exec.sh with-qgis
