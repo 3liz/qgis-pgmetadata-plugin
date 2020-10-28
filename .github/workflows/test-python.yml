@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       - name: Launching docker-compose
         run: ./start.sh with-qgis
       - name: Running tests
