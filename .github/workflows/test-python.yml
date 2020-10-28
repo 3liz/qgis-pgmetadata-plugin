@@ -1,0 +1,25 @@
+name: Tests 🎳
+
+on:
+  push:
+    paths:
+      - '**.sql'
+      - '**.py'
+  pull_request:
+    paths:
+      - '**.sql'
+      - '**.py'
+
+jobs:
+  test-python:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .docker
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Launching docker-compose
+        run: ./start.sh
+      - name: Running tests
+        run: ./exec.sh
