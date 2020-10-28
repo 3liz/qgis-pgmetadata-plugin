@@ -14,7 +14,7 @@ echo "Wait 10 seconds"
 sleep 10
 if [ "$WITH_QGIS" = with-qgis ]; then
   echo "Installation of the plugin ${PLUGIN_NAME}"
-  docker exec -it qgis sh -c "qgis_setup.sh ${PLUGIN_NAME}"
+  docker exec -t qgis sh -c "qgis_setup.sh ${PLUGIN_NAME}"
   echo "Setup the database link from QGIS"
   docker cp postgis_connexions.ini qgis:/tmp
   docker exec qgis bash -c "cat /tmp/postgis_connexions.ini >> /root/.local/share/QGIS/QGIS3/profiles/default/QGIS/QGIS3.ini"

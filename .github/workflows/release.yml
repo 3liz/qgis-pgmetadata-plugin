@@ -1,4 +1,4 @@
-name: Release
+name: Release 🚀
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  zipping:
+  packaging:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,7 +26,7 @@ jobs:
     - name : Get current changelog
       run: qgis-plugin-ci changelog ${GITHUB_REF/refs\/tags\//} >> release.md
 
-    - name: Create Release
+    - name: Create release on GitHub
       id: create_release
       uses: actions/create-release@v1
       env:
@@ -36,7 +36,7 @@ jobs:
         release_name: ${{ github.ref }}
         body_path: release.md
 
-    - name: Deploy plugin
+    - name: Package the plugin and deploy it in the release
       run: >-
         qgis-plugin-ci
         release ${GITHUB_REF/refs\/tags\//}
