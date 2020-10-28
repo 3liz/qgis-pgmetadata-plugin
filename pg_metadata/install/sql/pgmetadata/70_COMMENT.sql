@@ -20,6 +20,10 @@ SET row_security = off;
 COMMENT ON SCHEMA pgmetadata IS 'PgMetadata - contains tables for the QGIS plugin pg_metadata';
 
 
+-- FUNCTION calculate_fields_from_data()
+COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fields content when updating or inserting a line in pgmetadata.dataset table.';
+
+
 -- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text)
 COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text) IS 'Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.';
 
