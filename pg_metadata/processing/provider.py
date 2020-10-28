@@ -6,7 +6,9 @@ __revision__ = "$Format:%H$"
 from qgis.core import QgsProcessingProvider
 from qgis.PyQt.QtGui import QIcon
 
-from pg_metadata.processing.administration.create_administration_project import CreateAdministrationProject
+from pg_metadata.processing.administration.create_administration_project import (
+    CreateAdministrationProject,
+)
 from pg_metadata.processing.database.create import CreateDatabaseStructure
 from pg_metadata.processing.database.upgrade import UpgradeDatabaseStructure
 from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
@@ -23,7 +25,7 @@ class PgMetadataProvider(QgsProcessingProvider):
         self.addAlgorithm(CreateDatabaseStructure())
         self.addAlgorithm(UpgradeDatabaseStructure())
 
-    def id(self):
+    def id(self):  # NOQA
         return "pg_metadata"
 
     def icon(self):

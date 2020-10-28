@@ -4,7 +4,7 @@ __email__ = "info@3liz.org"
 
 
 from qgis.core import QgsApplication
-from qgis.PyQt.QtCore import QCoreApplication, QTranslator, Qt
+from qgis.PyQt.QtCore import QCoreApplication, Qt, QTranslator
 
 from pg_metadata.dock import PgMetadataDock
 from pg_metadata.locator import LocatorFilter
@@ -62,8 +62,11 @@ class PgMetadata:
     def run_tests(pattern='test_*.py', package=None):
         """Run the test inside QGIS."""
         try:
-            from pg_metadata.qgis_plugin_tools.infrastructure.test_runner import test_package
             from pathlib import Path
+
+            from pg_metadata.qgis_plugin_tools.infrastructure.test_runner import (
+                test_package,
+            )
             if package is None:
                 package = '{}.__init__'.format(Path(__file__).parent.name)
             test_package(package, pattern)

@@ -12,9 +12,13 @@ from qgis.core import (
 )
 from qgis.testing import unittest
 
-from pg_metadata.processing.provider import PgMetadataProvider as ProcessingProvider
+from pg_metadata.processing.provider import (
+    PgMetadataProvider as ProcessingProvider,
+)
 from pg_metadata.qgis_plugin_tools.tools.database import available_migrations
-from pg_metadata.qgis_plugin_tools.tools.logger_processing import LoggerProcessingFeedBack
+from pg_metadata.qgis_plugin_tools.tools.logger_processing import (
+    LoggerProcessingFeedBack,
+)
 
 __copyright__ = "Copyright 2020, 3Liz"
 __license__ = "GPL version 3"

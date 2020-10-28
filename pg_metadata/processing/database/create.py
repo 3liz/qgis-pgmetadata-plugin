@@ -7,13 +7,13 @@ import os
 
 from qgis.core import (
     Qgis,
-    QgsProviderRegistry,
-    QgsProviderConnectionException,
-    QgsProcessingParameterString,
-    QgsProcessingParameterBoolean,
-    QgsProcessingOutputString,
     QgsExpressionContextUtils,
     QgsProcessingException,
+    QgsProcessingOutputString,
+    QgsProcessingParameterBoolean,
+    QgsProcessingParameterString,
+    QgsProviderConnectionException,
+    QgsProviderRegistry,
 )
 
 if Qgis.QGIS_VERSION_INT >= 31400:
@@ -22,7 +22,10 @@ if Qgis.QGIS_VERSION_INT >= 31400:
 from pg_metadata.processing.database.base import BaseDatabaseAlgorithm
 from pg_metadata.qgis_plugin_tools.tools.database import available_migrations
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
-from pg_metadata.qgis_plugin_tools.tools.resources import plugin_test_data_path, plugin_path
+from pg_metadata.qgis_plugin_tools.tools.resources import (
+    plugin_path,
+    plugin_test_data_path,
+)
 from pg_metadata.qgis_plugin_tools.tools.version import version
 
 SCHEMA = 'pgmetadata'

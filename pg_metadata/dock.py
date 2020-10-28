@@ -6,20 +6,22 @@ __email__ = 'info@3liz.org'
 
 import logging
 
-from qgis.PyQt.QtCore import QUrl
-from qgis.PyQt.QtGui import QIcon, QDesktopServices
-from qgis.PyQt.QtWidgets import QDockWidget
-
 from qgis.core import (
     QgsApplication,
-    QgsVectorLayer,
     QgsExpressionContextUtils,
     QgsProviderConnectionException,
     QgsProviderRegistry,
+    QgsVectorLayer,
 )
+from qgis.PyQt.QtCore import QUrl
+from qgis.PyQt.QtGui import QDesktopServices, QIcon
+from qgis.PyQt.QtWidgets import QDockWidget
 from qgis.utils import iface
 
-from .qgis_plugin_tools.tools.resources import load_ui, resources_path
+from pg_metadata.qgis_plugin_tools.tools.resources import (
+    load_ui,
+    resources_path,
+)
 
 DOCK_CLASS = load_ui('dock.ui')
 LOGGER = logging.getLogger('pg_metadata')

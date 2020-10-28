@@ -9,8 +9,8 @@ from qgis.core import (
     QgsLocatorFilter,
     QgsLocatorResult,
     QgsProject,
-    QgsProviderRegistry,
     QgsProviderConnectionException,
+    QgsProviderRegistry,
     QgsVectorLayer,
 )
 from qgis.PyQt.QtGui import QIcon

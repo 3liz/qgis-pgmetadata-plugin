@@ -4,18 +4,23 @@ import time
 
 from qgis import processing
 from qgis.core import (
-    edit,
-    QgsApplication,
     QgsAbstractDatabaseProviderConnection,
+    QgsApplication,
     QgsDataSourceUri,
+    QgsFeature,
     QgsProviderRegistry,
     QgsVectorLayer,
-    QgsVectorLayerExporter, QgsFeature,
+    QgsVectorLayerExporter,
+    edit,
 )
 
-from pg_metadata.qgis_plugin_tools.tools.logger_processing import LoggerProcessingFeedBack
+from pg_metadata.processing.provider import (
+    PgMetadataProvider as ProcessingProvider,
+)
+from pg_metadata.qgis_plugin_tools.tools.logger_processing import (
+    LoggerProcessingFeedBack,
+)
 from pg_metadata.qgis_plugin_tools.tools.resources import plugin_test_data_path
-from pg_metadata.processing.provider import PgMetadataProvider as ProcessingProvider
 from pg_metadata.test.base import BaseTestProcessing
 
 __copyright__ = "Copyright 2020, 3Liz"

@@ -3,15 +3,10 @@ __license__ = 'GPL version 3'
 __email__ = 'info@3liz.org'
 
 
-from qgis.core import (
-    QgsApplication,
-)
-from qgis.PyQt.QtCore import (
-    QCoreApplication,
-    QSettings,
-)
-from qgis.testing import unittest
 from processing.core.Processing import Processing
+from qgis.core import QgsApplication
+from qgis.PyQt.QtCore import QCoreApplication, QSettings
+from qgis.testing import unittest
 
 from pg_metadata.processing.provider import PgMetadataProvider as Provider
 

@@ -6,17 +6,19 @@ __revision__ = "$Format:%H$"
 from qgis.core import (
     Qgis,
     QgsExpressionContextUtils,
-    QgsProcessingParameterString,
     QgsProcessingParameterFileDestination,
+    QgsProcessingParameterString,
     QgsProviderRegistry,
 )
+
 if Qgis.QGIS_VERSION_INT >= 31400:
     from qgis.core import QgsProcessingParameterProviderConnection
 
+from pg_metadata.qgis_plugin_tools.tools.algorithm_processing import (
+    BaseProcessingAlgorithm,
+)
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
-from pg_metadata.qgis_plugin_tools.tools.algorithm_processing import BaseProcessingAlgorithm
 from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
-
 
 SCHEMA = 'pgmetadata'
 

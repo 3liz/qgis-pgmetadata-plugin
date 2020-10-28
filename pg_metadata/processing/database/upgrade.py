@@ -10,22 +10,24 @@ from qgis.core import (
     QgsAbstractDatabaseProviderConnection,
     QgsExpressionContextUtils,
     QgsProcessingException,
-    QgsProcessingParameterString,
-    QgsProcessingParameterBoolean,
     QgsProcessingOutputString,
-    QgsProviderRegistry,
+    QgsProcessingParameterBoolean,
+    QgsProcessingParameterString,
     QgsProviderConnectionException,
+    QgsProviderRegistry,
 )
+
 if Qgis.QGIS_VERSION_INT >= 31400:
     from qgis.core import QgsProcessingParameterProviderConnection
 
 from pg_metadata.processing.database.base import BaseDatabaseAlgorithm
-from pg_metadata.qgis_plugin_tools.tools.database import (
-    available_migrations,
-)
+from pg_metadata.qgis_plugin_tools.tools.database import available_migrations
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 from pg_metadata.qgis_plugin_tools.tools.resources import plugin_path
-from pg_metadata.qgis_plugin_tools.tools.version import format_version_integer, version
+from pg_metadata.qgis_plugin_tools.tools.version import (
+    format_version_integer,
+    version,
+)
 
 SCHEMA = 'pgmetadata'
 
