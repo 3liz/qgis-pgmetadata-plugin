@@ -4,12 +4,13 @@ import time
 
 from qgis import processing
 from qgis.core import (
+    edit,
     QgsApplication,
     QgsAbstractDatabaseProviderConnection,
     QgsDataSourceUri,
     QgsProviderRegistry,
     QgsVectorLayer,
-    QgsVectorLayerExporter,
+    QgsVectorLayerExporter, QgsFeature,
 )
 
 from pg_metadata.qgis_plugin_tools.tools.logger_processing import LoggerProcessingFeedBack
@@ -52,6 +53,7 @@ class DatabaseTestCase(BaseTestProcessing):
             "{}:create_database_structure".format(self.provider.id()), params, feedback=None,
         )
 
+        # Insert a layer with geometry
         layer = QgsVectorLayer(plugin_test_data_path('lines.geojson'), 'lines', 'ogr')
 
         uri = QgsDataSourceUri(self.connection.uri())
@@ -67,6 +69,33 @@ class DatabaseTestCase(BaseTestProcessing):
             False)
         if result[0] != 0:
             raise Exception('Layer exported did not work')
+
+        # Insert a layer without geometry
+        layer = QgsVectorLayer(
+            'None?field=id:integer&field=name:string(20)&index=yes', 'tabular', 'memory')
+        uri = QgsDataSourceUri(self.connection.uri())
+        uri.setSchema(SCHEMA)
+        uri.setTable(layer.name())
+
+        with edit(layer):
+            feature = QgsFeature()
+            feature.setAttributes([0, 'A feature'])
+            layer.addFeature(feature)
+
+        result = QgsVectorLayerExporter.exportLayer(
+            layer,
+            uri.uri(),
+            'postgres',
+            layer.crs(),
+            False)
+        if result[0] != 0:
+            raise Exception('Layer exported did not work')
+
+        for table_name in ['tabular', 'lines']:
+            # When QGIS >= 3.12, use table()
+            table = [t for t in self.connection.tables(SCHEMA) if t.tableName() == table_name]
+            self.assertEqual(len(table), 1)
+            self.assertIsInstance(table[0], QgsAbstractDatabaseProviderConnection.TableProperty)
 
         super().setUp()
 
