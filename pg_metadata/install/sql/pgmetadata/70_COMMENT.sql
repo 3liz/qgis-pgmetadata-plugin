@@ -261,6 +261,14 @@ COMMENT ON COLUMN pgmetadata.link.fk_id_dataset IS 'Id of the dataset item';
 COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
 
 
+-- VIEW v_orphan_dataset_items
+COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but inexisting';
+
+
+-- VIEW v_orphan_tables
+COMMENT ON VIEW pgmetadata.v_orphan_tables IS 'View containing the existing tables bur unreferenced in dataset';
+
+
 -- VIEW v_table_comment_from_metadata
 COMMENT ON VIEW pgmetadata.v_table_comment_from_metadata IS 'View containing the desired formatted comment for the tables listed in the pgmetadata.dataset table. This view is used by the trigger to update the table comment when the dataset item is added or modified';
 
