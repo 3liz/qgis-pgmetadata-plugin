@@ -34,11 +34,11 @@ BEGIN
 RAISE NOTICE 'pgmetadata - % feature_count: %', my_table, NEW.feature_count;
 
 -- Check geometry properties: get data from geometry_columns
-    EXECUTE 
+    EXECUTE
 ' SELECT *' ||
 ' FROM geometry_columns' ||
-' WHERE f_table_schema=' || quote_literal(NEW.schema_name) || 
-' AND f_table_name=' || quote_literal(NEW.table_name) || 
+' WHERE f_table_schema=' || quote_literal(NEW.schema_name) ||
+' AND f_table_name=' || quote_literal(NEW.table_name) ||
 ' LIMIT 1'
 INTO test_geom_column;
 
@@ -51,11 +51,11 @@ RAISE NOTICE 'pgmetadata - table % has a geometry column: %', my_table, geom_col
 
 -- spatial_extent
 EXECUTE 'SELECT CONCAT(min(ST_xmin(' || geom_column_name || '))::text, '', '',  max(ST_xmax(' || geom_column_name || '))::text, '', '', min(ST_ymin(' || geom_column_name || '))::text, '', '', max(ST_ymax(' || geom_column_name || '))::text) FROM '
-|| my_table 
+|| my_table
 INTO NEW.spatial_extent;
 
 -- geom: convexhull from target table
-EXECUTE 'SELECT ST_Transform(ST_ConvexHull(st_collect(' || geom_column_name || ')), 4326) FROM ' || my_table 
+EXECUTE 'SELECT ST_Transform(ST_ConvexHull(st_collect(' || geom_column_name || ')), 4326) FROM ' || my_table
 INTO NEW.geom;
 
 -- projection_authid
