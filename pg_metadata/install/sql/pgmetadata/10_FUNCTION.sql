@@ -23,30 +23,59 @@ CREATE FUNCTION pgmetadata.calculate_fields_from_data() RETURNS trigger
 DECLARE
     my_table text;
     test_geom_column record;
-	geom_column_name text;
+geom_column_name text;
 BEGIN
+-- table
     my_table = CONCAT(NEW.schema_name, '.', NEW.table_name);
+
+-- Get table feature count
     EXECUTE 'SELECT COUNT(*) FROM ' || my_table
     INTO NEW.feature_count;
-    EXECUTE 'SELECT *
-    FROM geometry_columns 
-    WHERE f_table_schema=' || quote_literal(NEW.schema_name) || ' AND f_table_name=' || quote_literal(NEW.table_name) INTO test_geom_column;
+RAISE NOTICE 'pgmetadata - % feature_count: %', my_table, NEW.feature_count;
+
+-- Check geometry properties: get data from geometry_columns
+    EXECUTE 
+' SELECT *' ||
+' FROM geometry_columns' ||
+' WHERE f_table_schema=' || quote_literal(NEW.schema_name) || 
+' AND f_table_name=' || quote_literal(NEW.table_name) || 
+' LIMIT 1'
+INTO test_geom_column;
+
+-- If the table has a geometry column, calculate field values
     IF test_geom_column IS NOT NULL THEN
-        IF TG_OP = 'INSERT' OR (TG_OP = 'UPDATE' AND (NEW.geom = OLD.geom AND NEW.projection_authid = OLD.projection_authid AND NEW.geometry_type = OLD.geometry_type AND NEW.spatial_extent = OLD.spatial_extent)) THEN
-            geom_column_name = test_geom_column.f_geometry_column;
-            EXECUTE 'SELECT CONCAT(min(ST_xmin(' || geom_column_name || '))::text, '', '',  max(ST_xmax(' || geom_column_name || '))::text, '', '', min(ST_ymin(' || geom_column_name || '))::text, '', '', max(ST_ymax(' || geom_column_name || '))::text) FROM '
-            || my_table INTO NEW.spatial_extent;
-            EXECUTE 'SELECT ST_Transform(ST_ConvexHull(st_collect(' || geom_column_name || ')), 4326) FROM ' || my_table INTO NEW.geom;
-            EXECUTE 'SELECT CONCAT(s.auth_name, '':'', ST_SRID(m.' || geom_column_name || ')::text) FROM ' || my_table || ' m, spatial_ref_sys s WHERE s.auth_srid = ST_SRID(m.' || geom_column_name || ') LIMIT 1'
-            INTO NEW.projection_authid;
-            NEW.geometry_type = test_geom_column.type;
-        END IF;
-    ELSIF TG_OP = 'UPDATE' THEN
+
+-- column name
+geom_column_name = test_geom_column.f_geometry_column;
+RAISE NOTICE 'pgmetadata - table % has a geometry column: %', my_table, geom_column_name;
+
+-- spatial_extent
+EXECUTE 'SELECT CONCAT(min(ST_xmin(' || geom_column_name || '))::text, '', '',  max(ST_xmax(' || geom_column_name || '))::text, '', '', min(ST_ymin(' || geom_column_name || '))::text, '', '', max(ST_ymax(' || geom_column_name || '))::text) FROM '
+|| my_table 
+INTO NEW.spatial_extent;
+
+-- geom: convexhull from target table
+EXECUTE 'SELECT ST_Transform(ST_ConvexHull(st_collect(' || geom_column_name || ')), 4326) FROM ' || my_table 
+INTO NEW.geom;
+
+-- projection_authid
+EXECUTE 'SELECT CONCAT(s.auth_name, '':'', ST_SRID(m.' || geom_column_name || ')::text) FROM ' || my_table || ' m, spatial_ref_sys s WHERE s.auth_srid = ST_SRID(m.' || geom_column_name || ') LIMIT 1'
+INTO NEW.projection_authid;
+
+-- projection_name
+-- TODO
+
+-- geometry_type
+NEW.geometry_type = test_geom_column.type;
+
+ELSE
+-- No geometry column found: we need to erase values
         NEW.geom = NULL;
         NEW.projection_authid = NULL;
         NEW.geometry_type = NULL;
         NEW.spatial_extent = NULL;
-    END IF;
+END IF;
+
     RETURN NEW;
 END;
 $$;
@@ -114,6 +143,16 @@ $$;
 
 -- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text)
 COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text) IS 'Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.';
+
+
+-- refresh_dataset_calculated_fields()
+CREATE FUNCTION pgmetadata.refresh_dataset_calculated_fields() RETURNS void
+    LANGUAGE plpgsql
+    AS $$ BEGIN 	UPDATE pgmetadata.dataset SET geom = NULL; END; $$;
+
+
+-- FUNCTION refresh_dataset_calculated_fields()
+COMMENT ON FUNCTION pgmetadata.refresh_dataset_calculated_fields() IS 'Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data';
 
 
 -- update_postgresql_table_comment(text, text, text)

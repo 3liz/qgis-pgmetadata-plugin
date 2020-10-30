@@ -28,6 +28,10 @@ COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fiel
 COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text) IS 'Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.';
 
 
+-- FUNCTION refresh_dataset_calculated_fields()
+COMMENT ON FUNCTION pgmetadata.refresh_dataset_calculated_fields() IS 'Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data';
+
+
 -- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text)
 COMMENT ON FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text) IS 'Update the PostgreSQL comment of a table by giving table schema, name and comment
 Example: if you need to update the comments for all the items listed by pgmetadata.v_table_comment_from_metadata:
