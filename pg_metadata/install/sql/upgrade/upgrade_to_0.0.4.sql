@@ -18,4 +18,4 @@ COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables
 
 
 -- VIEW v_orphan_tables
-COMMENT ON VIEW pgmetadata.v_orphan_tables IS 'View containing the existing tables bur unreferenced in dataset';
+COMMENT ON VIEW pgmetadata.v_orphan_tables IS 'View containing the existing tables but not referenced in dataset';
