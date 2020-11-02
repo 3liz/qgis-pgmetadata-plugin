@@ -1,4 +1,5 @@
 from qgis.PyQt.QtCore import NULL
+
 from pg_metadata.test.base_database import DatabaseTestCase
 
 
