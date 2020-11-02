@@ -16,6 +16,18 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+-- v_schema_list
+CREATE VIEW pgmetadata.v_schema_list AS
+ SELECT row_number() OVER () AS id,
+    (schemata.schema_name)::text AS schema_name
+   FROM information_schema.schemata
+  WHERE ((schemata.schema_name)::text <> ALL ((ARRAY['pg_toast'::character varying, 'pg_temp_1'::character varying, 'pg_toast_temp_1'::character varying, 'pg_catalog'::character varying, 'information_schema'::character varying])::text[]));
+
+
+-- VIEW v_schema_list
+COMMENT ON VIEW pgmetadata.v_schema_list IS 'View containing list of all schema in this database';
+
+
 -- v_table_comment_from_metadata
 CREATE VIEW pgmetadata.v_table_comment_from_metadata AS
  SELECT d.schema_name AS table_schema,
@@ -26,6 +38,19 @@ CREATE VIEW pgmetadata.v_table_comment_from_metadata AS
 
 -- VIEW v_table_comment_from_metadata
 COMMENT ON VIEW pgmetadata.v_table_comment_from_metadata IS 'View containing the desired formatted comment for the tables listed in the pgmetadata.dataset table. This view is used by the trigger to update the table comment when the dataset item is added or modified';
+
+
+-- v_table_list
+CREATE VIEW pgmetadata.v_table_list AS
+ SELECT row_number() OVER () AS id,
+    (tables.table_schema)::text AS schema_name,
+    (tables.table_name)::text AS table_name
+   FROM information_schema.tables
+  WHERE ((tables.table_schema)::text <> ALL ((ARRAY['pg_toast'::character varying, 'pg_temp_1'::character varying, 'pg_toast_temp_1'::character varying, 'pg_catalog'::character varying, 'information_schema'::character varying])::text[]));
+
+
+-- VIEW v_table_list
+COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables in this database with schema name';
 
 
 --
