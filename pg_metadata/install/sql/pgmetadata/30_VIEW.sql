@@ -16,7 +16,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-
 -- v_orphan_dataset_items
 CREATE VIEW pgmetadata.v_orphan_dataset_items AS
  SELECT row_number() OVER () AS id,
@@ -40,8 +39,10 @@ CREATE VIEW pgmetadata.v_orphan_tables AS
   WHERE ((NOT (concat(pg_tables.schemaname, '.', pg_tables.tablename) IN ( SELECT concat(dataset.schema_name, '.', dataset.table_name) AS concat
            FROM pgmetadata.dataset))) AND (pg_tables.schemaname <> ALL (ARRAY['pg_catalog'::name, 'information_schema'::name])));
 
+
 -- VIEW v_orphan_tables
 COMMENT ON VIEW pgmetadata.v_orphan_tables IS 'View containing the existing tables but not referenced in dataset';
+
 
 -- v_schema_list
 CREATE VIEW pgmetadata.v_schema_list AS
@@ -50,8 +51,10 @@ CREATE VIEW pgmetadata.v_schema_list AS
    FROM information_schema.schemata
   WHERE ((schemata.schema_name)::text <> ALL ((ARRAY['pg_toast'::character varying, 'pg_temp_1'::character varying, 'pg_toast_temp_1'::character varying, 'pg_catalog'::character varying, 'information_schema'::character varying])::text[]));
 
+
 -- VIEW v_schema_list
 COMMENT ON VIEW pgmetadata.v_schema_list IS 'View containing list of all schema in this database';
+
 
 -- v_table_comment_from_metadata
 CREATE VIEW pgmetadata.v_table_comment_from_metadata AS
