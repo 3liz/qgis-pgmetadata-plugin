@@ -82,3 +82,24 @@ CREATE FUNCTION pgmetadata.refresh_dataset_calculated_fields() RETURNS void
 
 -- FUNCTION refresh_dataset_calculated_fields()
 COMMENT ON FUNCTION pgmetadata.refresh_dataset_calculated_fields() IS 'Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data';
+
+
+-- v_schema_list
+DROP VIEW pgmetadata.v_schema_list;
+CREATE VIEW pgmetadata.v_schema_list AS
+SELECT ROW_NUMBER() OVER() as id, schema_name::text
+FROM information_schema.schemata
+WHERE schema_name NOT IN ('pg_toast', 'pg_temp_1', 'pg_toast_temp_1', 'pg_catalog', 'information_schema');
+
+-- v_table_list
+DROP VIEW pgmetadata.v_table_list;
+CREATE VIEW pgmetadata.v_table_list AS
+SELECT ROW_NUMBER() OVER() as id, table_schema::text as schema_name, table_name::text
+FROM information_schema.tables
+WHERE table_schema NOT IN ('pg_toast', 'pg_temp_1', 'pg_toast_temp_1', 'pg_catalog', 'information_schema');
+
+-- VIEW v_schema_list
+COMMENT ON VIEW pgmetadata.v_schema_list IS 'View containing list of all schema in this database';
+
+-- VIEW v_table_list
+COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables in this database with schema name';
