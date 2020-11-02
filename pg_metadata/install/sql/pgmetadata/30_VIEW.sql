@@ -16,6 +16,142 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+-- v_contact
+CREATE VIEW pgmetadata.v_contact AS
+ SELECT d.table_name,
+    d.schema_name,
+    c.name,
+    c.organisation_name,
+    c.organisation_unit,
+    g.label AS contact_role
+   FROM (((pgmetadata.dataset_contact dc
+     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))
+     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))
+     JOIN pgmetadata.glossary g ON (((g.field = 'contact.contact_role'::text) AND (g.code = dc.contact_role))))
+  WHERE true
+  ORDER BY dc.id;
+
+
+-- VIEW v_contact
+COMMENT ON VIEW pgmetadata.v_contact IS 'Formated version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+
+
+-- v_dataset
+CREATE VIEW pgmetadata.v_dataset AS
+ WITH s AS (
+         SELECT d.id,
+            d.uid,
+            d.table_name,
+            d.schema_name,
+            d.title,
+            d.abstract,
+            d.categories,
+            d.keywords,
+            d.spatial_level,
+            d.minimum_optimal_scale,
+            d.maximum_optimal_scale,
+            d.publication_date,
+            d.publication_frequency,
+            d.license,
+            d.confidentiality,
+            d.feature_count,
+            d.geometry_type,
+            d.projection_name,
+            d.projection_authid,
+            d.spatial_extent,
+            d.creation_date,
+            d.update_date,
+            d.geom,
+            cat.cat
+           FROM (pgmetadata.dataset d
+             LEFT JOIN LATERAL unnest(d.categories) cat(cat) ON (true))
+          WHERE true
+          ORDER BY d.id
+        ), ss AS (
+         SELECT s.id,
+            s.uid,
+            s.table_name,
+            s.schema_name,
+            s.title,
+            s.abstract,
+            gcat.label AS cat,
+            s.keywords,
+            s.spatial_level,
+            ('1/'::text || s.minimum_optimal_scale) AS minimum_optimal_scale,
+            ('1/'::text || s.maximum_optimal_scale) AS maximum_optimal_scale,
+            s.publication_date,
+            gfre.label AS publication_frequency,
+            concat(glic.label, ' (', s.license, ')') AS license,
+            gcon.label AS confidentiality,
+            s.feature_count,
+            s.geometry_type,
+            (regexp_split_to_array((rs.srtext)::text, '"'::text))[2] AS projection_name,
+            s.projection_authid,
+            s.spatial_extent,
+            s.creation_date,
+            s.update_date
+           FROM (((((s
+             LEFT JOIN pgmetadata.glossary gcat ON (((gcat.field = 'dataset.categories'::text) AND (gcat.code = s.cat))))
+             LEFT JOIN pgmetadata.glossary gfre ON (((gfre.field = 'dataset.publication_frequency'::text) AND (gfre.code = s.publication_frequency))))
+             LEFT JOIN pgmetadata.glossary glic ON (((glic.field = 'dataset.license'::text) AND (glic.code = s.license))))
+             LEFT JOIN pgmetadata.glossary gcon ON (((gcon.field = 'dataset.confidentiality'::text) AND (gcon.code = s.confidentiality))))
+             LEFT JOIN public.spatial_ref_sys rs ON ((concat(rs.auth_name, ':', rs.auth_srid) = s.projection_authid)))
+        )
+ SELECT ss.id,
+    ss.uid,
+    ss.table_name,
+    ss.schema_name,
+    ss.title,
+    ss.abstract,
+    string_agg(DISTINCT ss.cat, ', '::text ORDER BY ss.cat) AS categories,
+    ss.keywords,
+    ss.spatial_level,
+    ss.minimum_optimal_scale,
+    ss.maximum_optimal_scale,
+    ss.publication_date,
+    ss.publication_frequency,
+    ss.license,
+    ss.confidentiality,
+    ss.feature_count,
+    ss.geometry_type,
+    ss.projection_name,
+    ss.projection_authid,
+    ss.spatial_extent,
+    ss.creation_date,
+    ss.update_date
+   FROM ss
+  GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date;
+
+
+-- VIEW v_dataset
+COMMENT ON VIEW pgmetadata.v_dataset IS 'Formated version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+
+
+-- v_link
+CREATE VIEW pgmetadata.v_link AS
+ SELECT l.id,
+    d.table_name,
+    d.schema_name,
+    l.name,
+    l.type,
+    g1.label AS type_label,
+    l.url,
+    l.description,
+    l.format,
+    l.mime,
+    g2.label AS mime_label
+   FROM (((pgmetadata.link l
+     JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))
+     JOIN pgmetadata.glossary g1 ON (((g1.field = 'link.type'::text) AND (g1.code = l.type))))
+     JOIN pgmetadata.glossary g2 ON (((g2.field = 'link.mime'::text) AND (g2.code = l.mime))))
+  WHERE true
+  ORDER BY l.id;
+
+
+-- VIEW v_link
+COMMENT ON VIEW pgmetadata.v_link IS 'Formated version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+
+
 -- v_orphan_dataset_items
 CREATE VIEW pgmetadata.v_orphan_dataset_items AS
  SELECT row_number() OVER () AS id,

@@ -34,7 +34,6 @@ INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (12, 'link.mime', 'csv', 'text/csv', NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (13, 'link.mime', 'html', 'text/html', NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (14, 'link.mime', 'plain', 'text/plain', NULL, NULL);
-INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (15, 'link.mime', 'xml', 'text/xml', NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (16, 'link.mime', 'odt', 'application/vnd.oasis.opendocument.text', NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (17, 'link.mime', 'ods', 'application/vnd.oasis.opendocument.spreadsheet', NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (18, 'link.mime', 'odp', 'application/vnd.oasis.opendocument.presentation', NULL, NULL);
@@ -140,13 +139,21 @@ INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (118, 'dataset.categories', 'ECO', 'Economy', NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (119, 'dataset.categories', 'SOC', 'Society', NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (120, 'dataset.categories', 'IMA', 'Imagery Base Maps Earth Cover', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (15, 'link.mime', 'txml', 'text/xml', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (121, 'dataset.confidentiality', 'OPE', 'Open', 'No restriction access for this dataset', 1);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (122, 'dataset.confidentiality', 'RES', 'Restricted', 'The dataset access is restricted to some users', 2);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (123, 'dataset.publication_frequency', 'NEC', 'When necessary', 'Update data when necessary', 1);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (124, 'dataset.publication_frequency', 'YEA', 'Yearly', 'Update data yearly', 2);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (125, 'dataset.publication_frequency', 'MON', 'Monthly', 'Update data monthly', 3);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (126, 'dataset.publication_frequency', 'WEE', 'Weekly', 'Update data weekly', 4);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (127, 'dataset.publication_frequency', 'DAY', 'Daily', 'Update data dayly', 5);
 
 
 --
 -- Name: glossary_id_seq; Type: SEQUENCE SET; Schema: pgmetadata; Owner: -
 --
 
-SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 120, true);
+SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 127, true);
 
 
 --

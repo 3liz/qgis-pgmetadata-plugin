@@ -39,6 +39,9 @@ TABLES = [
     'v_orphan_tables',
     'v_schema_list',
     'v_table_list',
+    'v_contact',
+    'v_dataset',
+    'v_link',
 ]
 
 

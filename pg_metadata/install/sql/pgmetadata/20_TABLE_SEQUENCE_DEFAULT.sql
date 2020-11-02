@@ -56,7 +56,7 @@ CREATE TABLE pgmetadata.dataset (
     title text NOT NULL,
     abstract text NOT NULL,
     categories text[],
-    keywords text[],
+    keywords text,
     spatial_level text,
     minimum_optimal_scale integer,
     maximum_optimal_scale integer,
@@ -151,7 +151,7 @@ CREATE TABLE pgmetadata.html_template (
     id integer NOT NULL,
     section text NOT NULL,
     content text,
-    CONSTRAINT html_template_section_check CHECK ((section = ANY (ARRAY['main'::text, 'contacts'::text, 'links'::text])))
+    CONSTRAINT html_template_section_check CHECK ((section = ANY (ARRAY['main'::text, 'contact'::text, 'link'::text])))
 );
 
 
