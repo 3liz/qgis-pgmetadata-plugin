@@ -211,6 +211,8 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
                 raise QgsProcessingException(str(e))
             feedback.pushInfo("Database version {} -- OK !".format(new_db_version))
 
+        self.vacuum_all_tables(connection, feedback)
+
         self.update_database_version(connection, plugin_version)
         feedback.pushInfo("Database upgraded to the current plugin version {}!".format(plugin_version))
 

@@ -218,6 +218,8 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
             )
             feedback.reportError("Latest migration is {}".format(metadata_version))
 
+        self.vacuum_all_tables(connection, feedback)
+
         sql = """
             INSERT INTO {}.qgis_plugin
             (id, version, version_date, status)
