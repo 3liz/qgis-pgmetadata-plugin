@@ -8,7 +8,6 @@ import os
 from qgis.core import (
     Qgis,
     QgsAbstractDatabaseProviderConnection,
-    QgsExpressionContextUtils,
     QgsProcessingException,
     QgsProcessingOutputString,
     QgsProcessingParameterBoolean,
@@ -20,6 +19,7 @@ from qgis.core import (
 if Qgis.QGIS_VERSION_INT >= 31400:
     from qgis.core import QgsProcessingParameterProviderConnection
 
+from pg_metadata.connection_manager import add_connection, connections_list
 from pg_metadata.processing.database.base import BaseDatabaseAlgorithm
 from pg_metadata.qgis_plugin_tools.tools.database import available_migrations
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
@@ -53,9 +53,12 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
         return msg
 
     def initAlgorithm(self, config):
-        connection_name = QgsExpressionContextUtils.globalScope().variable(
-            "{}_connection_name".format(SCHEMA)
-        )
+        connections, _ = connections_list()
+        if connections:
+            connection_name = connections[0]
+        else:
+            connection_name = ''
+
         label = tr("Connection to the PostgreSQL database")
         tooltip = tr("The database where the schema '{}' is installed.").format(SCHEMA)
         if Qgis.QGIS_VERSION_INT >= 31400:
@@ -211,7 +214,7 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
         self.update_database_version(connection, plugin_version)
         feedback.pushInfo("Database upgraded to the current plugin version {}!".format(plugin_version))
 
-        QgsExpressionContextUtils.setGlobalVariable("{}_connection_name".format(SCHEMA), connection_name)
+        add_connection(connection_name)
 
         return results
 

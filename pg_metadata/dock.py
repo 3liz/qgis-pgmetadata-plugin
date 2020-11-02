@@ -8,7 +8,6 @@ import logging
 
 from qgis.core import (
     QgsApplication,
-    QgsExpressionContextUtils,
     QgsProviderConnectionException,
     QgsProviderRegistry,
     QgsVectorLayer,
@@ -18,6 +17,7 @@ from qgis.PyQt.QtGui import QDesktopServices, QIcon
 from qgis.PyQt.QtWidgets import QDockWidget
 from qgis.utils import iface
 
+from pg_metadata.connection_manager import connections_list
 from pg_metadata.qgis_plugin_tools.tools.resources import (
     load_ui,
     resources_path,
@@ -54,57 +54,64 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             self.default_html_content()
             return
 
-        connection_name = QgsExpressionContextUtils.globalScope().variable("pgmetadata_connection_name")
-        if not connection_name:
-            LOGGER.critical(
-                "One algorithm from PgMetadata must be used before. The plugin will be aware about the "
-                "database to use."
+        connections, message = connections_list()
+        if not connections:
+            LOGGER.critical(message)
+            self.set_html_content('PgMetadata', message)
+            return
+
+        # TODO, find the correct connection to query according to the datasource
+        # The metadata HTML is wrong if there are many pgmetadata in different databases
+
+        for connection_name in connections:
+            connection = self.metadata.findConnection(connection_name)
+            if not connection:
+                LOGGER.critical("The global variable pgmetadata_connection_names is not correct.")
+                self.default_html_content()
+                return
+
+            sql = (
+                "SELECT title, "
+                "abstract, "
+                "array_to_string(categories, ', '::text), "
+                "array_to_string(keywords, ', '::text) "
+                "FROM pgmetadata.dataset "
+                "WHERE table_name = '{table}' "
+                "AND schema_name = '{schema}' "
+                "LIMIT 1;".format(schema=uri.schema(), table=uri.table()))
+
+            try:
+                data = connection.executeSql(sql)
+            except QgsProviderConnectionException as e:
+                LOGGER.critical('Error when querying the database : ' + str(e))
+                self.default_html_content()
+                return
+
+            if not data:
+                # Go to the next database
+                continue
+
+            metadata = data[0]
+            html = (
+                "<p>{abstract}</p>"
+                "<p>Categories : {categories}</p>"
+                "<p>Keywords : {keywords}</p>"
+            ).format(
+                abstract=metadata[1],
+                categories=metadata[2],
+                keywords=metadata[3],
             )
-            self.default_html_content()
-            return
+            self.set_html_content(metadata[0], html)
 
-        connection = self.metadata.findConnection(connection_name)
-        if not connection:
-            LOGGER.critical("The global variable pgmetadata_connection_name is not correct.")
-            self.default_html_content()
-            return
+            break
 
-        sql = (
-            "SELECT title, "
-            "abstract, "
-            "array_to_string(categories, ', '::text), "
-            "array_to_string(keywords, ', '::text) "
-            "FROM pgmetadata.dataset "
-            "WHERE table_name = '{table}' "
-            "AND schema_name = '{schema}' "
-            "LIMIT 1;".format(schema=uri.schema(), table=uri.table()))
-
-        try:
-            data = connection.executeSql(sql)
-        except QgsProviderConnectionException as e:
-            LOGGER.critical('Error when querying the database : ' + str(e))
-            self.default_html_content()
-            return
-
-        if not data:
+        else:
+            origin = uri.database() if uri.database() else uri.service()
             self.set_html_content(
                 'Missing metadata',
-                'The layer {schema}.{table} is missing metadata.'.format(
-                    schema=uri.schema(), table=uri.table())
+                'The layer {origin} {schema}.{table} is missing metadata.'.format(
+                    origin=origin, schema=uri.schema(), table=uri.table())
             )
-            return
-
-        metadata = data[0]
-        html = (
-            "<p>{abstract}</p>"
-            "<p>Categories : {categories}</p>"
-            "<p>Keywords : {keywords}</p>"
-        ).format(
-            abstract=metadata[1],
-            categories=metadata[2],
-            keywords=metadata[3],
-        )
-        self.set_html_content(metadata[0], html)
 
     @staticmethod
     def open_external_help():

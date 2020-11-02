@@ -5,7 +5,6 @@ __email__ = "info@3liz.org"
 from qgis.core import (
     Qgis,
     QgsDataSourceUri,
-    QgsExpressionContextUtils,
     QgsLocatorFilter,
     QgsLocatorResult,
     QgsProject,
@@ -15,6 +14,7 @@ from qgis.core import (
 )
 from qgis.PyQt.QtGui import QIcon
 
+from pg_metadata.connection_manager import connections_list
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
 
@@ -46,18 +46,15 @@ class LocatorFilter(QgsLocatorFilter):
             # Let's limit the number of request sent to the server
             return
 
-        connection_name = QgsExpressionContextUtils.globalScope().variable(
-            "{}_connection_name".format(SCHEMA)
-        )
-        if not connection_name:
-            self.logMessage(
-                tr(
-                    "One algorithm from PgMetadata must be used before. The plugin will be aware about the "
-                    "database to use."
-                ),
-                Qgis.Critical
-            )
+        connections, message = connections_list()
+        if not connections:
+            self.logMessage(message, Qgis.Critical)
 
+        for connection in connections:
+            self.fetch_result_single_database(search, connection)
+
+    def fetch_result_single_database(self, search: str, connection_name: str):
+        """ Fetch tables in the given database for a search. """
         connection = self.metadata.findConnection(connection_name)
         if not connection:
             self.logMessage(
@@ -71,8 +68,6 @@ class LocatorFilter(QgsLocatorFilter):
         sql += " FROM pgmetadata.dataset"
         sql += " WHERE concat(title, ' ', abstract, ' ', table_name) ILIKE '%{}%'".format(search)
         sql += " LIMIT 100"
-
-        self.logMessage(sql, Qgis.Critical)
 
         try:
             data = connection.executeSql(sql)
