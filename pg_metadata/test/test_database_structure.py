@@ -35,6 +35,8 @@ TABLES = [
     'link',
     'qgis_plugin',
     'v_table_comment_from_metadata',
+    'v_orphan_dataset_items',
+    'v_orphan_tables',
     'v_schema_list',
     'v_table_list',
 ]
