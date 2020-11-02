@@ -12,11 +12,10 @@ from qgis.core import (
     QgsProviderRegistry,
     QgsVectorLayer,
 )
-from qgis.PyQt.QtGui import QIcon
 
 from pg_metadata.connection_manager import connections_list
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
-from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
+from pg_metadata.tools import icon_for_geometry_type
 
 SCHEMA = 'pgmetadata'
 
@@ -64,7 +63,7 @@ class LocatorFilter(QgsLocatorFilter):
 
         # Search items from pgmetadata.dataset
         sql = " SELECT concat(title, ' (', table_name, '.', schema_name, ')') AS displayString,"
-        sql += " schema_name, table_name"
+        sql += " schema_name, table_name, geometry_type"
         sql += " FROM pgmetadata.dataset"
         sql += " WHERE concat(title, ' ', abstract, ' ', table_name) ILIKE '%{}%'".format(search)
         sql += " LIMIT 100"
@@ -82,7 +81,7 @@ class LocatorFilter(QgsLocatorFilter):
             result = QgsLocatorResult()
             result.filter = self
             result.displayString = '{}'.format(item[0])
-            result.icon = QIcon(resources_path('icons', 'icon.png'))
+            result.icon = icon_for_geometry_type(item[3])
             result.userData = {
                 'name': item[0],
                 'connection': connection_name,
