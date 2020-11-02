@@ -20,8 +20,16 @@ SET row_security = off;
 COMMENT ON SCHEMA pgmetadata IS 'PgMetadata - contains tables for the QGIS plugin pg_metadata';
 
 
+-- FUNCTION calculate_fields_from_data()
+COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fields content when updating or inserting a line in pgmetadata.dataset table.';
+
+
 -- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text)
 COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text) IS 'Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.';
+
+
+-- FUNCTION refresh_dataset_calculated_fields()
+COMMENT ON FUNCTION pgmetadata.refresh_dataset_calculated_fields() IS 'Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data';
 
 
 -- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text)
@@ -269,8 +277,16 @@ COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables
 COMMENT ON VIEW pgmetadata.v_orphan_tables IS 'View containing the existing tables but not referenced in dataset';
 
 
+-- VIEW v_schema_list
+COMMENT ON VIEW pgmetadata.v_schema_list IS 'View containing list of all schema in this database';
+
+
 -- VIEW v_table_comment_from_metadata
 COMMENT ON VIEW pgmetadata.v_table_comment_from_metadata IS 'View containing the desired formatted comment for the tables listed in the pgmetadata.dataset table. This view is used by the trigger to update the table comment when the dataset item is added or modified';
+
+
+-- VIEW v_table_list
+COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables in this database with schema name';
 
 
 --

@@ -152,24 +152,7 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
                 "The table {}.{} does not exist. You must first create the database structure.").format(
                 SCHEMA, 'qgis_plugin'))
 
-        # Get database version
-        sql = (
-            "SELECT version "
-            "FROM {}.qgis_plugin "
-            "WHERE status = 1 "
-            "ORDER BY version_date DESC "
-            "LIMIT 1;").format(SCHEMA)
-        try:
-            data = connection.executeSql(sql)
-        except QgsProviderConnectionException as e:
-            raise QgsProcessingException(str(e))
-
-        db_version = None
-        for a in data:
-            db_version = a[0]
-        if not db_version:
-            error_message = tr("No version has been found in the database !")
-            raise QgsProcessingException(error_message)
+        db_version = self.database_version(connection)
 
         feedback.pushInfo("Current database version '{}'.".format(db_version))
 
@@ -209,33 +192,58 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
             sql_file = os.path.join(plugin_path(), "install/sql/upgrade/{}".format(sf))
             with open(sql_file, "r") as f:
                 sql = f.read()
-                if len(sql.strip()) == 0:
-                    feedback.pushInfo("* " + sf + " -- " + tr("SKIPPING, EMPTY FILE"))
-                    continue
+            if len(sql.strip()) == 0:
+                feedback.pushInfo("* " + sf + " -- " + tr("SKIPPING, EMPTY FILE"))
+                continue
 
-                new_db_version = (sf.replace("upgrade_to_", "").replace(".sql", "").strip())
-                sql += (
-                    "UPDATE {}.qgis_plugin "
-                    "SET (version, version_date) = ( '{}', now()::timestamp(0) )").format(
-                    SCHEMA, new_db_version)
+            new_db_version = (sf.replace("upgrade_to_", "").replace(".sql", "").strip())
+            sql += (
+                "UPDATE {}.qgis_plugin "
+                "SET (version, version_date) = ( '{}', now()::timestamp(0) )").format(
+                SCHEMA, new_db_version)
 
-                try:
-                    connection.executeSql(sql)
-                except QgsProviderConnectionException as e:
-                    raise QgsProcessingException(str(e))
-                feedback.pushInfo("Database version {} -- OK !".format(new_db_version))
+            try:
+                connection.executeSql(sql)
+            except QgsProviderConnectionException as e:
+                raise QgsProcessingException(str(e))
+            feedback.pushInfo("Database version {} -- OK !".format(new_db_version))
 
-        # Everything is fine, we now update to the plugin version
-        sql = (
-            "UPDATE {}.metadata "
-            "SET (me_version, me_version_date) = ( '{}', now()::timestamp(0) );").format(
-            SCHEMA, plugin_version)
-        try:
-            connection.executeSql(sql)
-        except QgsProviderConnectionException as e:
-            raise QgsProcessingException(str(e))
+        self.update_database_version(connection, plugin_version)
         feedback.pushInfo("Database upgraded to the current plugin version {}!".format(plugin_version))
 
         QgsExpressionContextUtils.setGlobalVariable("{}_connection_name".format(SCHEMA), connection_name)
 
         return results
+
+    @staticmethod
+    def update_database_version(connection: QgsAbstractDatabaseProviderConnection, plugin_version: str):
+        """ Update the database version. """
+        sql = (
+            "UPDATE {}.metadata "
+            "SET (me_version, me_version_date) = ( '{}', now()::timestamp(0) );".format(
+                SCHEMA, plugin_version))
+        try:
+            connection.executeSql(sql)
+        except QgsProviderConnectionException as e:
+            raise QgsProcessingException(str(e))
+
+    @staticmethod
+    def database_version(connection: QgsAbstractDatabaseProviderConnection) -> str:
+        """ Get database version. """
+        sql = (
+            "SELECT version "
+            "FROM {}.qgis_plugin "
+            "WHERE status = 1 "
+            "ORDER BY version_date DESC "
+            "LIMIT 1;").format(SCHEMA)
+        try:
+            data = connection.executeSql(sql)
+        except QgsProviderConnectionException as e:
+            raise QgsProcessingException(str(e))
+        db_version = None
+        for a in data:
+            db_version = a[0]
+        if not db_version:
+            error_message = tr("No version has been found in the database !")
+            raise QgsProcessingException(error_message)
+        return db_version
