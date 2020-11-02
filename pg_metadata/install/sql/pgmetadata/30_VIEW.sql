@@ -33,7 +33,7 @@ CREATE VIEW pgmetadata.v_contact AS
 
 
 -- VIEW v_contact
-COMMENT ON VIEW pgmetadata.v_contact IS 'Formated version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 
 -- v_dataset
@@ -124,7 +124,7 @@ CREATE VIEW pgmetadata.v_dataset AS
 
 
 -- VIEW v_dataset
-COMMENT ON VIEW pgmetadata.v_dataset IS 'Formated version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+COMMENT ON VIEW pgmetadata.v_dataset IS 'Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 
 -- v_link
@@ -149,7 +149,7 @@ CREATE VIEW pgmetadata.v_link AS
 
 
 -- VIEW v_link
-COMMENT ON VIEW pgmetadata.v_link IS 'Formated version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 
 -- v_orphan_dataset_items
@@ -163,7 +163,7 @@ CREATE VIEW pgmetadata.v_orphan_dataset_items AS
 
 
 -- VIEW v_orphan_dataset_items
-COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but inexisting';
+COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but not existing in the database itself.';
 
 
 -- v_orphan_tables

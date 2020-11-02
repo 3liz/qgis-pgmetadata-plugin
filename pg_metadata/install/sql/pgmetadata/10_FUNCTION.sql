@@ -137,7 +137,7 @@ $$;
 
 
 -- FUNCTION generate_html_from_json(_json_data json, _template_section text)
-COMMENT ON FUNCTION pgmetadata.generate_html_from_json(_json_data json, _template_section text) IS 'Generate HTML content for the given json representation of a record and givensection, based on the template stored in the pgmetadata.html_template table. Template section controlled values: main, contact, link. If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned';
+COMMENT ON FUNCTION pgmetadata.generate_html_from_json(_json_data json, _template_section text) IS 'Generate HTML content for the given JSON representation of a record and a given section, based on the template stored in the pgmetadata.html_template table. Template section controlled values are "main", "contact" and "link". If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned.';
 
 
 -- get_dataset_item_html_content(text, text)

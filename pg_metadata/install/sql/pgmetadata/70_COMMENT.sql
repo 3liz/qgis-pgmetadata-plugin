@@ -25,7 +25,7 @@ COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fiel
 
 
 -- FUNCTION generate_html_from_json(_json_data json, _template_section text)
-COMMENT ON FUNCTION pgmetadata.generate_html_from_json(_json_data json, _template_section text) IS 'Generate HTML content for the given json representation of a record and givensection, based on the template stored in the pgmetadata.html_template table. Template section controlled values: main, contact, link. If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned';
+COMMENT ON FUNCTION pgmetadata.generate_html_from_json(_json_data json, _template_section text) IS 'Generate HTML content for the given JSON representation of a record and a given section, based on the template stored in the pgmetadata.html_template table. Template section controlled values are "main", "contact" and "link". If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned.';
 
 
 -- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text)
@@ -274,19 +274,19 @@ COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database str
 
 
 -- VIEW v_contact
-COMMENT ON VIEW pgmetadata.v_contact IS 'Formated version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 
 -- VIEW v_dataset
-COMMENT ON VIEW pgmetadata.v_dataset IS 'Formated version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+COMMENT ON VIEW pgmetadata.v_dataset IS 'Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 
 -- VIEW v_link
-COMMENT ON VIEW pgmetadata.v_link IS 'Formated version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 
 -- VIEW v_orphan_dataset_items
-COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but inexisting';
+COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but not existing in the database itself.';
 
 
 -- VIEW v_orphan_tables

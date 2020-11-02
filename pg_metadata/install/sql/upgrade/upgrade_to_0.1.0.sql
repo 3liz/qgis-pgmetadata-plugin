@@ -99,7 +99,7 @@ WHERE CONCAT(schemaname, '.', tablename) NOT IN
 AND schemaname NOT IN ('pg_catalog', 'information_schema');
 
 -- VIEW v_orphan_dataset_items
-COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but inexisting';
+COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but not existing in the database itself.';
 
 
 -- VIEW v_orphan_tables
@@ -217,8 +217,7 @@ feature_count, geometry_type, projection_name, projection_authid, spatial_extent
 creation_date, update_date
 ;
 
-COMMENT ON VIEW pgmetadata.v_dataset IS 'Formated version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
-
+COMMENT ON VIEW pgmetadata.v_dataset IS 'Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 -- v_contact
 DROP VIEW IF EXISTS pgmetadata.v_contact;
 CREATE VIEW pgmetadata.v_contact AS
@@ -239,8 +238,7 @@ ORDER BY dc.id
 ;
 
 COMMENT ON VIEW pgmetadata.v_contact
-IS 'Formated version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content'
-;
+IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 -- v_link
 DROP VIEW IF EXISTS pgmetadata.v_link;
@@ -261,8 +259,7 @@ INNER JOIN pgmetadata.glossary AS g2
 WHERE True
 ORDER BY l.id;
 
-COMMENT ON VIEW pgmetadata.v_link IS 'Formated version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content'
-;
+COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 
 -- fonction pour récupérer
@@ -318,8 +315,7 @@ END;
 $$;
 
 COMMENT ON FUNCTION pgmetadata.generate_html_from_json(_json_data json, _template_section text)
-IS 'Generate HTML content for the given json representation of a record and givensection, based on the template stored in the pgmetadata.html_template table. Template section controlled values: main, contact, link. If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned'
-;
+IS 'Generate HTML content for the given JSON representation of a record and a given section, based on the template stored in the pgmetadata.html_template table. Template section controlled values are "main", "contact" and "link". If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned.';
 
 
 
