@@ -29,15 +29,15 @@ class TestSql(DatabaseTestCase):
 
         html_feature = {
             'section': "'main'",
-            'content': "'<p>[% \"title\" %]</p><b>[%\"title\"%]</b>'",
+            'content': "'<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b>'",
         }
         self._insert(html_feature, 'html_template')
 
         result = (
             self.connection.executeSql(
-                "SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines','main')")
+                "SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines')")
         )
-        self.assertEqual("<p>Test title</p><b>Test title</b>", result[0][0])
+        self.assertEqual("<p>Test title</p><b>Test abstract.</b>", result[0][0])
 
     def test_trigger_calculate_fields(self):
         """ Test if fields are correctly calculated on a layer having

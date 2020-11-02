@@ -24,8 +24,12 @@ COMMENT ON SCHEMA pgmetadata IS 'PgMetadata - contains tables for the QGIS plugi
 COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fields content when updating or inserting a line in pgmetadata.dataset table.';
 
 
--- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text)
-COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text) IS 'Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.';
+-- FUNCTION generate_html_from_json(_json_data json, _template_section text)
+COMMENT ON FUNCTION pgmetadata.generate_html_from_json(_json_data json, _template_section text) IS 'Generate HTML content for the given json representation of a record and givensection, based on the template stored in the pgmetadata.html_template table. Template section controlled values: main, contact, link. If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned';
+
+
+-- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text)
+COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text) IS 'Generate the metadata HTML content for the given table, or NULL if no templates are stored in the pgmetadata.html_template table.';
 
 
 -- FUNCTION refresh_dataset_calculated_fields()
@@ -110,7 +114,7 @@ COMMENT ON COLUMN pgmetadata.dataset.categories IS 'List of categories';
 
 
 -- dataset.keywords
-COMMENT ON COLUMN pgmetadata.dataset.keywords IS 'List of keywords';
+COMMENT ON COLUMN pgmetadata.dataset.keywords IS 'List of keywords separated by comma. Ex: environment, paris, trees';
 
 
 -- dataset.spatial_level
@@ -267,6 +271,18 @@ COMMENT ON COLUMN pgmetadata.link.fk_id_dataset IS 'Id of the dataset item';
 
 -- qgis_plugin
 COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
+
+
+-- VIEW v_contact
+COMMENT ON VIEW pgmetadata.v_contact IS 'Formated version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+
+
+-- VIEW v_dataset
+COMMENT ON VIEW pgmetadata.v_dataset IS 'Formated version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
+
+
+-- VIEW v_link
+COMMENT ON VIEW pgmetadata.v_link IS 'Formated version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content';
 
 
 -- VIEW v_orphan_dataset_items

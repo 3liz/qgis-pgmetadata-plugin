@@ -48,6 +48,16 @@ ALTER TABLE ONLY pgmetadata.dataset
     ADD CONSTRAINT dataset_uid_key UNIQUE (uid);
 
 
+-- glossary glossary_field_code_key
+ALTER TABLE ONLY pgmetadata.glossary
+    ADD CONSTRAINT glossary_field_code_key UNIQUE (field, code);
+
+
+-- glossary glossary_pkey
+ALTER TABLE ONLY pgmetadata.glossary
+    ADD CONSTRAINT glossary_pkey PRIMARY KEY (id);
+
+
 -- html_template html_template_pkey
 ALTER TABLE ONLY pgmetadata.html_template
     ADD CONSTRAINT html_template_pkey PRIMARY KEY (id);
