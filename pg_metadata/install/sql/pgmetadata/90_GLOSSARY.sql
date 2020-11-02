@@ -146,7 +146,7 @@ INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (124, 'dataset.publication_frequency', 'YEA', 'Yearly', 'Update data yearly', 2);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (125, 'dataset.publication_frequency', 'MON', 'Monthly', 'Update data monthly', 3);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (126, 'dataset.publication_frequency', 'WEE', 'Weekly', 'Update data weekly', 4);
-INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (127, 'dataset.publication_frequency', 'DAY', 'Daily', 'Update data dayly', 5);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (127, 'dataset.publication_frequency', 'DAY', 'Daily', 'Update data daily', 5);
 
 
 --

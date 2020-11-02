@@ -159,7 +159,8 @@ CREATE VIEW pgmetadata.v_orphan_dataset_items AS
     dataset.table_name
    FROM pgmetadata.dataset
   WHERE (NOT (concat(dataset.schema_name, '.', dataset.table_name) IN ( SELECT concat(pg_tables.schemaname, '.', pg_tables.tablename) AS concat
-           FROM pg_tables)));
+           FROM pg_tables)))
+  ORDER BY dataset.schema_name, dataset.table_name;
 
 
 -- VIEW v_orphan_dataset_items
@@ -173,7 +174,8 @@ CREATE VIEW pgmetadata.v_orphan_tables AS
     (pg_tables.tablename)::text AS tablename
    FROM pg_tables
   WHERE ((NOT (concat(pg_tables.schemaname, '.', pg_tables.tablename) IN ( SELECT concat(dataset.schema_name, '.', dataset.table_name) AS concat
-           FROM pgmetadata.dataset))) AND (pg_tables.schemaname <> ALL (ARRAY['pg_catalog'::name, 'information_schema'::name])));
+           FROM pgmetadata.dataset))) AND (pg_tables.schemaname <> ALL (ARRAY['pg_catalog'::name, 'information_schema'::name])))
+  ORDER BY ((pg_tables.schemaname)::text), ((pg_tables.tablename)::text);
 
 
 -- VIEW v_orphan_tables
@@ -185,7 +187,8 @@ CREATE VIEW pgmetadata.v_schema_list AS
  SELECT row_number() OVER () AS id,
     (schemata.schema_name)::text AS schema_name
    FROM information_schema.schemata
-  WHERE ((schemata.schema_name)::text <> ALL ((ARRAY['pg_toast'::character varying, 'pg_temp_1'::character varying, 'pg_toast_temp_1'::character varying, 'pg_catalog'::character varying, 'information_schema'::character varying])::text[]));
+  WHERE ((schemata.schema_name)::text <> ALL ((ARRAY['pg_toast'::character varying, 'pg_temp_1'::character varying, 'pg_toast_temp_1'::character varying, 'pg_catalog'::character varying, 'information_schema'::character varying])::text[]))
+  ORDER BY (schemata.schema_name)::text;
 
 
 -- VIEW v_schema_list
@@ -210,7 +213,8 @@ CREATE VIEW pgmetadata.v_table_list AS
     (tables.table_schema)::text AS schema_name,
     (tables.table_name)::text AS table_name
    FROM information_schema.tables
-  WHERE ((tables.table_schema)::text <> ALL ((ARRAY['pg_toast'::character varying, 'pg_temp_1'::character varying, 'pg_toast_temp_1'::character varying, 'pg_catalog'::character varying, 'information_schema'::character varying])::text[]));
+  WHERE ((tables.table_schema)::text <> ALL ((ARRAY['pg_toast'::character varying, 'pg_temp_1'::character varying, 'pg_toast_temp_1'::character varying, 'pg_catalog'::character varying, 'information_schema'::character varying])::text[]))
+  ORDER BY tables.table_schema, (tables.table_name)::text;
 
 
 -- VIEW v_table_list

@@ -88,7 +88,8 @@ CREATE VIEW pgmetadata.v_orphan_dataset_items AS
 SELECT row_number() OVER() AS id, schema_name, table_name
 FROM pgmetadata.dataset
 WHERE CONCAT(schema_name, '.', table_name ) NOT IN
-(SELECT CONCAT(schemaname, '.', tablename) FROM pg_tables );
+(SELECT CONCAT(schemaname, '.', tablename) FROM pg_tables )
+ORDER BY dataset.schema_name, dataset.table_name;
 
 -- View v_orphan_tables
 CREATE VIEW pgmetadata.v_orphan_tables AS
@@ -96,7 +97,8 @@ SELECT row_number() OVER() AS id, schemaname::text, tablename::text
 FROM pg_tables
 WHERE CONCAT(schemaname, '.', tablename) NOT IN
 (SELECT CONCAT(schema_name, '.', table_name ) FROM pgmetadata.dataset )
-AND schemaname NOT IN ('pg_catalog', 'information_schema');
+AND schemaname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY schemaname, tablename;
 
 -- VIEW v_orphan_dataset_items
 COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but not existing in the database itself.';
@@ -110,14 +112,16 @@ DROP VIEW pgmetadata.v_schema_list;
 CREATE VIEW pgmetadata.v_schema_list AS
 SELECT ROW_NUMBER() OVER() as id, schema_name::text
 FROM information_schema.schemata
-WHERE schema_name NOT IN ('pg_toast', 'pg_temp_1', 'pg_toast_temp_1', 'pg_catalog', 'information_schema');
+WHERE schema_name NOT IN ('pg_toast', 'pg_temp_1', 'pg_toast_temp_1', 'pg_catalog', 'information_schema')
+ORDER BY schema_name;
 
 -- v_table_list
 DROP VIEW pgmetadata.v_table_list;
 CREATE VIEW pgmetadata.v_table_list AS
 SELECT ROW_NUMBER() OVER() as id, table_schema::text as schema_name, table_name::text
 FROM information_schema.tables
-WHERE table_schema NOT IN ('pg_toast', 'pg_temp_1', 'pg_toast_temp_1', 'pg_catalog', 'information_schema');
+WHERE table_schema NOT IN ('pg_toast', 'pg_temp_1', 'pg_toast_temp_1', 'pg_catalog', 'information_schema')
+ORDER BY table_schema, table_name;
 
 -- VIEW v_schema_list
 COMMENT ON VIEW pgmetadata.v_schema_list IS 'View containing list of all schema in this database';
@@ -146,7 +150,7 @@ INSERT INTO pgmetadata.glossary (field, code, label, description, item_order) VA
 ('dataset.publication_frequency', 'YEA', 'Yearly', 'Update data yearly', 2),
 ('dataset.publication_frequency', 'MON', 'Monthly', 'Update data monthly', 3),
 ('dataset.publication_frequency', 'WEE', 'Weekly', 'Update data weekly', 4),
-('dataset.publication_frequency', 'DAY', 'Daily', 'Update data dayly', 5)
+('dataset.publication_frequency', 'DAY', 'Daily', 'Update data daily', 5)
 ON CONFLICT DO NOTHING
 ;
 

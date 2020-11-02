@@ -30,6 +30,7 @@ schemaspy:
 generate_sql:
 	@echo 'Generate SQL into install files'
 	cd pg_metadata/install/sql && ./export_database_structure_to_SQL.sh pgmetadata pgmetadata
+	git diff -p -R --no-ext-diff --no-color | grep -E "^(diff|(old|new) mode)" --color=never | git apply
 
 reformat_sql:
 	@echo 'Reformat SQL'
