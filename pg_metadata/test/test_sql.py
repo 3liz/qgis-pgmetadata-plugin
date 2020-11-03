@@ -27,6 +27,10 @@ class TestSql(DatabaseTestCase):
         }
         self._insert(dataset_feature, 'dataset')
 
+        # Remove previous template to have a smaller one
+        sql = "DELETE FROM pgmetadata.html_template WHERE section = 'main'"
+        self.connection.executeSql(sql)
+
         html_feature = {
             'section': "'main'",
             'content': "'<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b>'",
@@ -40,8 +44,7 @@ class TestSql(DatabaseTestCase):
         self.assertEqual("<p>Test title</p><b>Test abstract.</b>", result[0][0])
 
     def test_trigger_calculate_fields(self):
-        """ Test if fields are correctly calculated on a layer having
-        a geometry """
+        """ Test if fields are correctly calculated on a layer having a geometry. """
 
         # Adding data
         dataset_feature = {
