@@ -29,4 +29,4 @@ class TestUserVersusAdmin(unittest.TestCase):
         provider = Provider()
         provider.id = lambda: 'fake_pgmetadata_id_admin'
         registry.addProvider(provider)
-        self.assertEqual(4, len(provider.algorithms()))
+        self.assertEqual(5, len(provider.algorithms()))

@@ -12,6 +12,7 @@ from pg_metadata.processing.administration.create_administration_project import 
     CreateAdministrationProject,
 )
 from pg_metadata.processing.database.create import CreateDatabaseStructure
+from pg_metadata.processing.database.recompute_values import RecomputeValues
 from pg_metadata.processing.database.reset_html_template import (
     ResetHtmlTemplate,
 )
@@ -32,6 +33,7 @@ class PgMetadataProvider(QgsProcessingProvider):
 
         # Database
         self.addAlgorithm(CreateDatabaseStructure())
+        self.addAlgorithm(RecomputeValues())
         self.addAlgorithm(ResetHtmlTemplate())
         self.addAlgorithm(UpgradeDatabaseStructure())
 

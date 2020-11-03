@@ -19,27 +19,26 @@ if Qgis.QGIS_VERSION_INT >= 31400:
 from pg_metadata.connection_manager import add_connection, connections_list
 from pg_metadata.processing.database.base import BaseDatabaseAlgorithm
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
-from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
 
 SCHEMA = 'pgmetadata'
 
 
-class ResetHtmlTemplate(BaseDatabaseAlgorithm):
+class RecomputeValues(BaseDatabaseAlgorithm):
     """
-    Reset HTML templates which are in the database.
+    Recompute values in the dataset table.
     """
 
     CONNECTION_NAME = "CONNECTION_NAME"
     RESET = "RESET"
 
     def name(self):
-        return "reset_html_templates"
+        return "recompute_values_dataset"
 
     def displayName(self):
-        return tr("Reset HTML templates in the database")
+        return tr("Recompute values in the dataset table")
 
     def shortHelpString(self):
-        msg = tr("Reset HTML templates in the database")
+        msg = tr("Recalculate spatial related fields for all dataset item")
         msg += '\n\n'
         msg += self.parameters_help_string()
         return msg
@@ -83,10 +82,10 @@ class ResetHtmlTemplate(BaseDatabaseAlgorithm):
 
         param = QgsProcessingParameterBoolean(
             self.RESET,
-            tr("Reset HTML templates"),
+            tr("Recompute values in the dataset table"),
             defaultValue=False,
         )
-        tooltip = tr("** Be careful ** This will reset existing HTML templates !")
+        tooltip = tr("** Be careful ** This will recompute default values.")
         if Qgis.QGIS_VERSION_INT >= 31600:
             param.setHelp(tooltip)
         else:
@@ -126,27 +125,11 @@ class ResetHtmlTemplate(BaseDatabaseAlgorithm):
         if not connection:
             raise QgsProcessingException(tr("The connection {} does not exist.").format(connection_name))
 
-        for template in ["contact", "link", "main"]:
-            feedback.pushInfo(tr('Reset {}.html').format(template))
-
-            sql = (
-                "DELETE FROM pgmetadata.html_template "
-                "WHERE section = '{}'").format(template)
-            try:
-                connection.executeSql(sql)
-            except QgsProviderConnectionException as e:
-                feedback.reportError(str(e))
-
-            html_file = resources_path("html", "{}.html".format(template))
-            with open(html_file, "r") as f:
-                sql = (
-                    "INSERT INTO pgmetadata.html_template (section, content) "
-                    "VALUES ('{section}', '{value}');".format(section=template, value=f.read())
-                )
-            try:
-                connection.executeSql(sql)
-            except QgsProviderConnectionException as e:
-                feedback.reportError(str(e))
+        sql = "SELECT pgmetadata.refresh_dataset_calculated_fields();"
+        try:
+            connection.executeSql(sql)
+        except QgsProviderConnectionException as e:
+            feedback.reportError(str(e))
 
         add_connection(connection_name)
 
