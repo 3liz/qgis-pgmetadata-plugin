@@ -72,4 +72,4 @@ class PgMetadata:
             test_package(package, pattern)
         except (AttributeError, ModuleNotFoundError):
             message = 'Could not load tests. Are you using a production package?'
-            print(message)
+            print(message) # NOQA
