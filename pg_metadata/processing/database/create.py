@@ -5,6 +5,8 @@ __revision__ = "$Format:%H$"
 
 import os
 
+import processing
+
 from qgis.core import (
     Qgis,
     QgsProcessingException,
@@ -51,7 +53,7 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
             "When you are running the plugin for the first time on a new database, you need to install the "
             "database schema.")
         msg += '\n\n'
-        msg += "It will erase and/or create the schema '{}'.".format(SCHEMA)
+        msg += tr("It will erase and/or create the schema '{}'.").format(SCHEMA)
         msg += '\n\n'
         msg += self.parameters_help_string()
         return msg
@@ -226,6 +228,19 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
         except QgsProviderConnectionException as e:
             raise QgsProcessingException(str(e))
         feedback.pushInfo("Database version '{}'.".format(metadata_version))
+
+        feedback.pushInfo("Adding default HTML templates")
+        params = {
+            'CONNECTION_NAME': connection_name,
+            'RESET': True,
+        }
+        processing.run(
+            "pg_metadata:reset_html_templates",
+            params,
+            feedback=feedback,
+            context=context,
+            is_child_algorithm=True,
+        )
 
         add_connection(connection_name)
 

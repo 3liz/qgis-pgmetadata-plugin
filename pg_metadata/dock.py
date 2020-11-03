@@ -7,6 +7,7 @@ __email__ = 'info@3liz.org'
 import logging
 
 from qgis.core import (
+    NULL,
     QgsApplication,
     QgsProviderConnectionException,
     QgsProviderRegistry,
@@ -71,14 +72,8 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 return
 
             sql = (
-                "SELECT title, "
-                "abstract, "
-                "array_to_string(categories, ', '::text), "
-                "array_to_string(keywords, ', '::text) "
-                "FROM pgmetadata.dataset "
-                "WHERE table_name = '{table}' "
-                "AND schema_name = '{schema}' "
-                "LIMIT 1;".format(schema=uri.schema(), table=uri.table()))
+                "SELECT pgmetadata.get_dataset_item_html_content('{schema}', '{table}');"
+            ).format(schema=uri.schema(), table=uri.table())
 
             try:
                 data = connection.executeSql(sql)
@@ -91,17 +86,10 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 # Go to the next database
                 continue
 
-            metadata = data[0]
-            html = (
-                "<p>{abstract}</p>"
-                "<p>Categories : {categories}</p>"
-                "<p>Keywords : {keywords}</p>"
-            ).format(
-                abstract=metadata[1],
-                categories=metadata[2],
-                keywords=metadata[3],
-            )
-            self.set_html_content(metadata[0], html)
+            if data[0] == NULL:
+                continue
+
+            self.set_html_content(body=data[0][0])
 
             break
 
@@ -117,7 +105,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
     def open_external_help():
         QDesktopServices.openUrl(QUrl('https://docs.3liz.org/qgis-pgmetadata-plugin/'))
 
-    def set_html_content(self, title, body):
+    def set_html_content(self, title=None, body=None):
         css = (
             '<style>'
             'body { font-family: '
@@ -128,12 +116,13 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             'h2 { color: #fff; background-color: #014571; line-height: 2; padding-left:5px; }'
             '</style>'
         )
-        html = (
-            '<hmtl><head>{css}</head><body>'
-            '<h2>{title}</h2>'
-            '<p>{body}</p>'
-            '</body></html>'
-        ).format(title=title, body=body, css=css)
+        html = '<hmtl><head>{css}</head><body>'.format(css=css)
+        if title:
+            html += '<h2>{title}</h2>'.format(title=title)
+        if body:
+            html += body
+
+        html += '</body></html>'
 
         # It must be a file, even if it does not exist on the file system.
         base_url = QUrl.fromLocalFile(resources_path('images', 'must_be_a_file.png'))
