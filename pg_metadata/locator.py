@@ -63,7 +63,7 @@ class LocatorFilter(QgsLocatorFilter):
 
         # Search items from pgmetadata.dataset
         sql = " SELECT concat(title, ' (', table_name, '.', schema_name, ')') AS displayString,"
-        sql += " schema_name, table_name, geometry_type"
+        sql += " schema_name, table_name, geometry_type, title"
         sql += " FROM pgmetadata.dataset"
         sql += " WHERE concat(title, ' ', abstract, ' ', table_name) ILIKE '%{}%'".format(search)
         sql += " LIMIT 100"
@@ -80,10 +80,10 @@ class LocatorFilter(QgsLocatorFilter):
         for item in data:
             result = QgsLocatorResult()
             result.filter = self
-            result.displayString = '{}'.format(item[0])
+            result.displayString = item[0]
             result.icon = icon_for_geometry_type(item[3])
             result.userData = {
-                'name': item[0],
+                'name': item[4],
                 'connection': connection_name,
                 'schema': item[1],
                 'table': item[2],
