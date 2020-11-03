@@ -14,11 +14,35 @@
  </header>
  <article>
 <p><a href="./../">Up</a></p><div class="toc"><span class="toctitle">Table of content</span><ul>
+<li><a href="#for-the-normal-user">For the normal user</a><ul>
+<li><a href="#hide-processing-algorithms">Hide Processing algorithms</a></li>
+<li><a href="#locator">Locator</a></li>
+<li><a href="#datasource-manager">Datasource manager</a></li>
+<li><a href="#panel">Panel</a></li>
+</ul>
+</li>
+<li><a href="#for-the-administrator">For the administrator</a><ul>
 <li><a href="#installation">Installation</a></li>
-<li><a href="#usage">Usage</a></li>
+<li><a href="#html-template">HTML Template</a></li>
+</ul>
+</li>
 </ul>
 </div>
-<h1 id="installation">Installation</h1>
+<h1 id="for-the-normal-user">For the normal user</h1>
+<h2 id="hide-processing-algorithms">Hide Processing algorithms</h2>
+<p>The system administrator can hide PgMetadata Processing algorithms from normal users by adding a environment 
+variable <code>PGMETADATA_USER</code>. If this variable exists, Processing algorithms won't be displayed.</p>
+<h2 id="locator">Locator</h2>
+<p>Type <code>ctrl+k</code> in QGIS to open the locator widget. You can start type <code>meta</code> then you should see layers in the
+list.</p>
+<h2 id="datasource-manager">Datasource manager</h2>
+<p>This works without the plugin installed on the computer. It's native in QGIS.</p>
+<p><img alt="Search with comment" src="../datasource_manager.png"></p>
+<h2 id="panel">Panel</h2>
+<p>The PgMetadata panel can be opened. If set, the layer metadata will be displayed according to the layer 
+selected in the legend.</p>
+<h1 id="for-the-administrator">For the administrator</h1>
+<h2 id="installation">Installation</h2>
 <ol>
 <li>
 <p>The plugin is using a schema in PostgreSQL.</p>
@@ -33,9 +57,10 @@ plugin upgrade using the
 <li>
 <p>The GIS administrator can generate a QGIS project using 
 <a href="../processing/index.html#create-metadata-administration-project">create metadata project</a>. You need to open
-the generated project and use the normal QGIS editing tools.
-On the <code>dataset</code> table, you need to fill a row with these minimum information : </p>
-<ul>
+the generated project and use the normal QGIS editing tools.</p>
+</li>
+<li>On the <code>dataset</code> table, open the attribute table, switch on <strong>Edition</strong> mode and add a new row.
+    You need to fill a row with these minimum information : <ul>
 <li>Table name,</li>
 <li>Schema name,</li>
 <li>Title,</li>
@@ -43,10 +68,15 @@ On the <code>dataset</code> table, you need to fill a row with these minimum inf
 </ul>
 </li>
 </ol>
-<p>You need to save your <code>dataset</code> layer.</p>
-<h1 id="usage">Usage</h1>
-<p>Type <code>ctrl+k</code> in QGIS to open the locator widget. You can start type <code>meta</code> then you should see layers in the
-list.</p>
+<p><img alt="Attribute table" src="../attribute_table_new_row.png"></p>
+<p>You need to save your <code>dataset</code> layer by switching off editable mode.</p>
+<h2 id="html-template">HTML Template</h2>
+<p>You can customize the HTML template.</p>
+<ul>
+<li>Use <code>[% "name_of_field" %]</code> to display a specific field, eg <code>abstract</code>.</li>
+<li>use <code>[% meta_contacts %]</code> to display all contacts related. It's using the template called <code>contact</code>.</li>
+<li>use <code>[% meta_links %]</code> to display all links related. It's using the template called <code>link</code>.</li>
+</ul>
   </article>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
   </script>

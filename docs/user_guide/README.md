@@ -6,8 +6,32 @@ Up: True
 
 [TOC]
 
+# For the normal user
 
-# Installation
+## Hide Processing algorithms
+
+The system administrator can hide PgMetadata Processing algorithms from normal users by adding a environment 
+variable `PGMETADATA_USER`. If this variable exists, Processing algorithms won't be displayed.
+
+## Locator
+
+Type `ctrl+k` in QGIS to open the locator widget. You can start type `meta` then you should see layers in the
+list.
+
+## Datasource manager
+
+This works without the plugin installed on the computer. It's native in QGIS.
+
+![Search with comment](../datasource_manager.png)
+
+## Panel
+
+The PgMetadata panel can be opened. If set, the layer metadata will be displayed according to the layer 
+selected in the legend.
+
+# For the administrator
+
+## Installation
 
 1. The plugin is using a schema in PostgreSQL.
     * If you just installed the plugin in a new organization, you must
@@ -30,7 +54,11 @@ the generated project and use the normal QGIS editing tools.
 
 You need to save your `dataset` layer by switching off editable mode.
 
-# Usage
+## HTML Template
 
-Type `ctrl+k` in QGIS to open the locator widget. You can start type `meta` then you should see layers in the
-list.
+You can customize the HTML template.
+
+* Use `[% "name_of_field" %]` to display a specific field, eg `abstract`.
+* use `[% meta_contacts %]` to display all contacts related. It's using the template called `contact`.
+* use `[% meta_links %]` to display all links related. It's using the template called `link`.
+

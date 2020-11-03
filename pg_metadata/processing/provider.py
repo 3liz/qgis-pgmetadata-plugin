@@ -3,6 +3,8 @@ __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
+import os
+
 from qgis.core import QgsProcessingProvider
 from qgis.PyQt.QtGui import QIcon
 
@@ -20,6 +22,10 @@ from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
 class PgMetadataProvider(QgsProcessingProvider):
 
     def loadAlgorithms(self):
+
+        flag = os.environ.get('PGMETADATA_USER', False)
+        if flag:
+            return
 
         # Admin
         self.addAlgorithm(CreateAdministrationProject())
