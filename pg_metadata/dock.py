@@ -86,7 +86,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 # Go to the next database
                 continue
 
-            if data[0] == NULL:
+            if data[0] == NULL or data[0][0] == NULL:
                 continue
 
             self.set_html_content(body=data[0][0])
