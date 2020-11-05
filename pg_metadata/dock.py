@@ -15,6 +15,7 @@ from qgis.core import (
 )
 from qgis.PyQt.QtCore import QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
+from qgis.PyQt.QtWebKitWidgets import QWebPage
 from qgis.PyQt.QtWidgets import QDockWidget
 from qgis.utils import iface
 
@@ -38,6 +39,8 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.external_help.setText('')
         self.external_help.setIcon(QIcon(QgsApplication.iconPath('mActionHelpContents.svg')))
         self.external_help.clicked.connect(self.open_external_help)
+        self.viewer.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
+        self.viewer.page().linkClicked.connect(self.open_link)
 
         self.metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
@@ -105,20 +108,22 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
     def open_external_help():
         QDesktopServices.openUrl(QUrl('https://docs.3liz.org/qgis-pgmetadata-plugin/'))
 
+    @staticmethod
+    def open_link(url):
+        QDesktopServices.openUrl(url)
+
     def set_html_content(self, title=None, body=None):
-        css = (
-            '<style>'
-            'body { font-family: '
-            '\'Ubuntu\', \'Lucida Grande\', \'Segoe UI\', \'Arial\', sans-serif;'
-            'margin-left: 0px; margin-right: 0px; margin-top: 0px;'
-            'font-size: 14px;}'
-            'img { max-width: 100%;}'
-            'h2 { color: #fff; background-color: #014571; line-height: 2; padding-left:5px; }'
-            '</style>'
-        )
-        html = '<hmtl><head>{css}</head><body>'.format(css=css)
+        """ Set the content in the dock. """
+
+        css_file = resources_path('css', 'dock.css')
+        with open(css_file, 'r') as f:
+            css = f.read()
+
+        html = '<html><head><style>{css}</style></head><body>'.format(css=css)
+
         if title:
             html += '<h2>{title}</h2>'.format(title=title)
+
         if body:
             html += body
 

@@ -1,36 +1,116 @@
-<h2>[% title %]</h2>
-<h3>Identification</h3>
-<p>[% abstract %]</p>
-<p>[% categories %]</p>
 <div>
-<p>Keywords : [% keywords %]</p>
-</div>
-<p>Creation : [% creation_date %]</p>
-<p>Update : [% update_date %]</p>
-<p>[% uid %]</p>
-
-<h3>Spatial properties</h3>
-<p>Level : [% spatial_level %]</p>
-<p>Minimum scale : [% minimum_optimal_scale %]</p>
-<p>Maximum scale : [% maximum_optimal_scale %]</p>
-<p>Feature count : [% feature_count %]</p>
-<p>Geometry : [% geometry_type %]</p>
-<p>Projection : [% projection_name %]</p>
-<p>Projection authid : [% projection_authid %]</p>
-
-<h3>Publication</h3>
-<p>Date : [% publication_date %]</p>
-<p>Frequency : [% publication_frequency %]</p>
-<p>License : [% license %]</p>
-<p>Confidentiality : [% confidentiality %]</p>
-
-
-<div>
-<h3>Links</h3>
-<ul>[% meta_links %]</ul>
+    <h3>Identification</h3>
+    <table>
+        <tr>
+            <td>Title</td><td>[% title %]</td>
+        </tr>
+        <tr>
+            <td>Abstract</td><td>[% abstract %]</td>
+        </tr>
+        <tr>
+            <td>Categories</td><td>[% categories %]</td>
+        </tr>
+        <tr>
+            <td>Keywords</td><td>[% keywords %]</td>
+        </tr>
+    </table>
 </div>
 
 <div>
-<h3>Contacts</h3>
-<ul>[% meta_contacts %]</ul>
+    <h3>Spatial properties</h3>
+    <table>
+        <tr>
+            <td>Level</td><td>[% spatial_level %]</td>
+        </tr>
+        <tr>
+            <td>Minimum scale</td><td>[% minimum_optimal_scale %]</td>
+        </tr>
+        <tr>
+            <td>Maximum scale</td><td>[% maximum_optimal_scale %]</td>
+        </tr>
+        <tr>
+            <td>Feature count</td><td>[% feature_count %]</td>
+        </tr>
+        <tr>
+            <td>Geometry</td><td>[% geometry_type %]</td>
+        </tr>
+        <tr>
+            <td>Extent</td><td>[% spatial_extent %]</td>
+        </tr>
+        <tr>
+            <td>Projection name</td><td>[% projection_name %]</td>
+        </tr>
+        <tr>
+            <td>Projection ID</td><td>[% projection_authid %]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <h3>Publication</h3>
+    <table>
+        <tr>
+            <td>Date</td><td>[% publication_date %]</td>
+        </tr>
+        <tr>
+            <td>Frequency</td><td>[% publication_frequency %]</td>
+        </tr>
+        <tr>
+            <td>License</td><td>[% license %]</td>
+        </tr>
+        <tr>
+            <td>Confidentiality</td><td>[% confidentiality %]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <h3>Links</h3>
+    <table class="alternate">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Link</th>
+            <th>Format</th>
+            <th>MIME</th>
+            <th>Size</th>
+        </tr>
+        [% meta_links %]
+    </table>
+</div>
+
+<div>
+    <h3>Contacts</h3>
+    <table class="alternate">
+        <tr>
+            <th>Name</th>
+            <th>Organisation</th>
+            <th>Unit</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+        [% meta_contacts %]
+    </table>
+</div>
+
+<div>
+    <h3>Metadata</h3>
+    <table>
+        <tr>
+            <td>Table</td><td>[% table_name %]</td>
+        </tr>
+        <tr>
+            <td>Schema</td><td>[% schema_name %]</td>
+        </tr>
+        <tr>
+            <td>Creation</td><td>[% creation_date %]</td>
+        </tr>
+        <tr>
+            <td>Update</td><td>[% update_date %]</td>
+        </tr>
+        <tr>
+            <td>UUID</td><td>[% uid %]</td>
+        </tr>
+    </table>
 </div>
