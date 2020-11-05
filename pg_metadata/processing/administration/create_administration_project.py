@@ -97,7 +97,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             tr('QGIS project file to create'),
             defaultValue='',
             optional=False,
-            fileFilter='qgs',
+            fileFilter='QGS project (*.qgs)',
         )
         tooltip = tr("The destination file where to create the QGIS project.").format(SCHEMA)
         if Qgis.QGIS_VERSION_INT >= 31600:
