@@ -1487,7 +1487,7 @@ def my_form_open(dialog, layer, feature):
         <alias field="id" index="0" name="Id"></alias>
         <alias field="fk_id_contact" index="1" name="Contact"></alias>
         <alias field="fk_id_dataset" index="2" name="Dataset"></alias>
-        <alias field="contact_role" index="3" name=""></alias>
+        <alias field="contact_role" index="3" name="Role"></alias>
       </aliases>
       <excludeAttributesWMS></excludeAttributesWMS>
       <excludeAttributesWFS></excludeAttributesWFS>

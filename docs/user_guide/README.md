@@ -33,6 +33,8 @@ selected in the legend.
 
 ## Installation
 
+### Database
+
 1. The plugin is using a schema in PostgreSQL.
     * If you just installed the plugin in a new organization, you must
 use the [install database structure](../processing/index.html#installation-of-the-database-structure)
@@ -40,15 +42,22 @@ use the [install database structure](../processing/index.html#installation-of-th
     plugin upgrade using the 
     [upgrade database structure](../processing/index.html#upgrade-the-database-structure)
 
+### Administration project
+
 1. The GIS administrator can generate a QGIS project using 
 [create metadata project](../processing/index.html#create-metadata-administration-project). You need to open
 the generated project and use the normal QGIS editing tools.
-1. On the `dataset` table, open the attribute table, switch on **Edition** mode and add a new row.
+1. In the group called `Information Warnings` :
+    * `Orphan metadata` displays tables not existing in the database itself, but the metadata exists in the
+    `dataset` table.
+    * `Orphan tables` is the reverse. It displays tables existing in the database but in the `dataset` table.
+1. On the `Dataset` table, open the attribute table, switch on **Edition** mode and add a new row.
     You need to fill a row with these minimum information : 
     * Table name,
     * Schema name,
     * Title,
-    * Abstract
+    * Abstract,
+    * Etc
 
 ![Attribute table](../attribute_table_new_row.png)
 

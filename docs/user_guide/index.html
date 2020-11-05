@@ -22,7 +22,11 @@
 </ul>
 </li>
 <li><a href="#for-the-administrator">For the administrator</a><ul>
-<li><a href="#installation">Installation</a></li>
+<li><a href="#installation">Installation</a><ul>
+<li><a href="#database">Database</a></li>
+<li><a href="#administration-project">Administration project</a></li>
+</ul>
+</li>
 <li><a href="#html-template">HTML Template</a></li>
 </ul>
 </li>
@@ -43,10 +47,9 @@ list.</p>
 selected in the legend.</p>
 <h1 id="for-the-administrator">For the administrator</h1>
 <h2 id="installation">Installation</h2>
+<h3 id="database">Database</h3>
 <ol>
-<li>
-<p>The plugin is using a schema in PostgreSQL.</p>
-<ul>
+<li>The plugin is using a schema in PostgreSQL.<ul>
 <li>If you just installed the plugin in a new organization, you must
 use the <a href="../processing/index.html#installation-of-the-database-structure">install database structure</a></li>
 <li>If the <code>pgmetadata</code> schema is already existing in your database, you may need to upgrade it after a 
@@ -54,17 +57,25 @@ plugin upgrade using the
 <a href="../processing/index.html#upgrade-the-database-structure">upgrade database structure</a></li>
 </ul>
 </li>
-<li>
-<p>The GIS administrator can generate a QGIS project using 
+</ol>
+<h3 id="administration-project">Administration project</h3>
+<ol>
+<li>The GIS administrator can generate a QGIS project using 
 <a href="../processing/index.html#create-metadata-administration-project">create metadata project</a>. You need to open
-the generated project and use the normal QGIS editing tools.</p>
+the generated project and use the normal QGIS editing tools.</li>
+<li>In the group called <code>Information Warnings</code> :<ul>
+<li><code>Orphan metadata</code> displays tables not existing in the database itself, but the metadata exists in the
+<code>dataset</code> table.</li>
+<li><code>Orphan tables</code> is the reverse. It displays tables existing in the database but in the <code>dataset</code> table.</li>
+</ul>
 </li>
-<li>On the <code>dataset</code> table, open the attribute table, switch on <strong>Edition</strong> mode and add a new row.
+<li>On the <code>Dataset</code> table, open the attribute table, switch on <strong>Edition</strong> mode and add a new row.
     You need to fill a row with these minimum information : <ul>
 <li>Table name,</li>
 <li>Schema name,</li>
 <li>Title,</li>
-<li>Abstract</li>
+<li>Abstract,</li>
+<li>Etc</li>
 </ul>
 </li>
 </ol>
