@@ -19,7 +19,11 @@ from qgis.PyQt.QtWebKitWidgets import QWebPage
 from qgis.PyQt.QtWidgets import QDockWidget
 from qgis.utils import iface
 
-from pg_metadata.connection_manager import connections_list
+from pg_metadata.connection_manager import (
+    check_pgmetadata_is_installed,
+    connections_list,
+)
+from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 from pg_metadata.qgis_plugin_tools.tools.resources import (
     load_ui,
     resources_path,
@@ -72,7 +76,11 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             if not connection:
                 LOGGER.critical("The global variable pgmetadata_connection_names is not correct.")
                 self.default_html_content()
-                return
+                continue
+
+            if not check_pgmetadata_is_installed(connection_name):
+                LOGGER.critical(tr('PgMetadata is not installed on {}').format(connection_name))
+                continue
 
             sql = (
                 "SELECT pgmetadata.get_dataset_item_html_content('{schema}', '{table}');"
@@ -81,7 +89,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             try:
                 data = connection.executeSql(sql)
             except QgsProviderConnectionException as e:
-                LOGGER.critical('Error when querying the database : ' + str(e))
+                LOGGER.critical(tr('Error when querying the database : ') + str(e))
                 self.default_html_content()
                 return
 
@@ -100,7 +108,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             origin = uri.database() if uri.database() else uri.service()
             self.set_html_content(
                 'Missing metadata',
-                'The layer {origin} {schema}.{table} is missing metadata.'.format(
+                tr('The layer {origin} {schema}.{table} is missing metadata.').format(
                     origin=origin, schema=uri.schema(), table=uri.table())
             )
 
@@ -135,4 +143,4 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
 
     def default_html_content(self):
         self.set_html_content(
-            'PgMetadata', 'You should click on a layer in the legend which is stored in PostgreSQL.')
+            'PgMetadata', tr('You should click on a layer in the legend which is stored in PostgreSQL.'))

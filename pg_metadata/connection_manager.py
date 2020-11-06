@@ -12,6 +12,29 @@ from qgis.core import (
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 
 
+def check_pgmetadata_is_installed(connection_name: str) -> bool:
+    """ Test if a given connection has PgMetadata installed. """
+
+    if connection_name not in connections_list()[0]:
+        return False
+
+    metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
+    connection = metadata.findConnection(connection_name)
+
+    if 'pgmetadata' not in connection.schemas():
+        return False
+
+    if len([t for t in connection.tables('pgmetadata') if t.tableName() == 'dataset']) < 1:
+        return False
+
+    return True
+
+
+def reset_connections() -> None:
+    """ Reset connections to an empty list. """
+    QgsExpressionContextUtils.setGlobalVariable("pgmetadata_connection_names", '')
+
+
 def add_connection(connection_name: str) -> None:
     """ Add a connection name in the QGIS configuration. """
     existing_names = QgsExpressionContextUtils.globalScope().variable(
@@ -35,8 +58,8 @@ def connections_list() -> tuple:
     )
     if not connection_names:
         message = tr(
-                "One algorithm from PgMetadata must be used before. The plugin will be aware about the "
-                "database to use."
+            "You must use the 'Set Connections' algorithm in the Processing toolbox. The plugin must be "
+            "aware about the database to use. Multiple databases can be set."
         )
         return (), message
 

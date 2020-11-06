@@ -41,7 +41,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         return tr('Administration')
 
     def groupId(self):
-        return 'pg_metadata_administration'
+        return 'administration'
 
     def shortHelpString(self):
         short_help = tr(

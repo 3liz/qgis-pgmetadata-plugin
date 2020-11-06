@@ -11,6 +11,9 @@ from qgis.PyQt.QtGui import QIcon
 from pg_metadata.processing.administration.create_administration_project import (
     CreateAdministrationProject,
 )
+from pg_metadata.processing.administration.set_connections import (
+    SetConnectionDatabase,
+)
 from pg_metadata.processing.database.create import CreateDatabaseStructure
 from pg_metadata.processing.database.recompute_values import RecomputeValues
 from pg_metadata.processing.database.reset_html_template import (
@@ -23,6 +26,8 @@ from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
 class PgMetadataProvider(QgsProcessingProvider):
 
     def loadAlgorithms(self):
+
+        self.addAlgorithm(SetConnectionDatabase())
 
         flag = os.environ.get('PGMETADATA_USER', False)
         if flag:

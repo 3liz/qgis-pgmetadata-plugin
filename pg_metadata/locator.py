@@ -13,7 +13,10 @@ from qgis.core import (
     QgsVectorLayer,
 )
 
-from pg_metadata.connection_manager import connections_list
+from pg_metadata.connection_manager import (
+    check_pgmetadata_is_installed,
+    connections_list,
+)
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 from pg_metadata.tools import icon_for_geometry_type
 
@@ -50,6 +53,11 @@ class LocatorFilter(QgsLocatorFilter):
             self.logMessage(message, Qgis.Critical)
 
         for connection in connections:
+
+            if not check_pgmetadata_is_installed(connection):
+                self.logMessage(tr('PgMetadata is not installed on {}').format(connection), Qgis.Critical)
+                continue
+
             self.fetch_result_single_database(search, connection)
 
     def fetch_result_single_database(self, search: str, connection_name: str):

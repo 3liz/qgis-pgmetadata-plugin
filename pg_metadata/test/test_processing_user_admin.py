@@ -19,7 +19,7 @@ class TestUserVersusAdmin(unittest.TestCase):
         provider = Provider()
         provider.id = lambda: 'fake_pgmetadata_id_user'
         registry.addProvider(provider)
-        self.assertEqual(0, len(provider.algorithms()))
+        self.assertEqual(1, len(provider.algorithms()))
         QgsApplication.processingRegistry().removeProvider(provider)
         del os.environ['PGMETADATA_USER']
 
@@ -29,4 +29,4 @@ class TestUserVersusAdmin(unittest.TestCase):
         provider = Provider()
         provider.id = lambda: 'fake_pgmetadata_id_admin'
         registry.addProvider(provider)
-        self.assertEqual(5, len(provider.algorithms()))
+        self.assertEqual(6, len(provider.algorithms()))
