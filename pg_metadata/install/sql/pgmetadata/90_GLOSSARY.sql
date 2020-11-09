@@ -147,13 +147,15 @@ INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (125, 'dataset.publication_frequency', 'MON', 'Monthly', 'Update data monthly', 3);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (126, 'dataset.publication_frequency', 'WEE', 'Weekly', 'Update data weekly', 4);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (127, 'dataset.publication_frequency', 'DAY', 'Daily', 'Update data daily', 5);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (128, 'dataset.license', 'LO-2.0', 'Licence Ouverte Version 2.0', NULL, NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (129, 'dataset.license', 'LO-2.1', 'Licence Ouverte Version 2.1', NULL, NULL);
 
 
 --
 -- Name: glossary_id_seq; Type: SEQUENCE SET; Schema: pgmetadata; Owner: -
 --
 
-SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 127, true);
+SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 129, true);
 
 
 --

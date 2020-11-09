@@ -177,6 +177,10 @@ COMMENT ON COLUMN pgmetadata.dataset.update_date IS 'Date of update of the datas
 COMMENT ON COLUMN pgmetadata.dataset.geom IS 'Geometry defining the extent of the data. Can be any polygon.';
 
 
+-- dataset.data_last_update
+COMMENT ON COLUMN pgmetadata.dataset.data_last_update IS 'Date of the last modification of the target data (not on the dataset item line)';
+
+
 -- dataset_contact
 COMMENT ON TABLE pgmetadata.dataset_contact IS 'Pivot table between dataset and contacts.';
 
