@@ -71,7 +71,8 @@ CREATE TABLE pgmetadata.dataset (
     spatial_extent text,
     creation_date timestamp without time zone DEFAULT now() NOT NULL,
     update_date timestamp without time zone DEFAULT now(),
-    geom public.geometry(Polygon,4326)
+    geom public.geometry(Polygon,4326),
+    data_last_update timestamp without time zone
 );
 
 
