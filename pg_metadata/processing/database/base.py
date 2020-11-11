@@ -28,6 +28,10 @@ class BaseDatabaseAlgorithm(BaseProcessingAlgorithm):
         """ Execute a vacuum to recompute the feature count. """
         for table in connection.tables('pgmetadata'):
 
+            if table.tableName().startswith('v_'):
+                # We can't vacuum a view
+                continue
+
             sql = 'VACUUM ANALYSE {}.{};'.format('pgmetadata', table.tableName())
             feedback.pushDebugInfo(sql)
             try:
