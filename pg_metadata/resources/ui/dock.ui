@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>dock_widget</class>
- <widget class="QDockWidget" name="dock_widget">
+ <widget class="QDockWidget" name="pgmetadata_dock">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,6 +29,16 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="config">
+        <property name="text">
+         <string notr="true">...</string>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="external_help">

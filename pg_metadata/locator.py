@@ -10,8 +10,10 @@ from qgis.core import (
     QgsProject,
     QgsProviderConnectionException,
     QgsProviderRegistry,
+    QgsSettings,
     QgsVectorLayer,
 )
+from qgis.PyQt.QtWidgets import QDockWidget
 
 from pg_metadata.connection_manager import (
     check_pgmetadata_is_installed,
@@ -118,6 +120,12 @@ class LocatorFilter(QgsLocatorFilter):
 
         layer = QgsVectorLayer(uri.uri(), result.userData['name'], 'postgres')
         QgsProject.instance().addMapLayer(layer)
+
+        auto_open_dock = QgsSettings().value("pgmetadata/auto_open_dock", True, type=bool)
+        if auto_open_dock:
+            pgmetadata_dock = self.iface.mainWindow().findChildren(QDockWidget, "pgmetadata_dock")[0]
+            pgmetadata_dock.show()
+            pgmetadata_dock.raise_()
 
         self.iface.messageBar().pushSuccess(
             "PgMetadata",

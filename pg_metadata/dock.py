@@ -11,12 +11,13 @@ from qgis.core import (
     QgsApplication,
     QgsProviderConnectionException,
     QgsProviderRegistry,
+    QgsSettings,
     QgsVectorLayer,
 )
 from qgis.PyQt.QtCore import QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
 from qgis.PyQt.QtWebKitWidgets import QWebPage
-from qgis.PyQt.QtWidgets import QDockWidget
+from qgis.PyQt.QtWidgets import QAction, QDockWidget, QMenu, QToolButton
 from qgis.utils import iface
 
 from pg_metadata.connection_manager import (
@@ -39,6 +40,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         _ = parent
         super().__init__()
         self.setupUi(self)
+        self.settings = QgsSettings()
 
         self.external_help.setText('')
         self.external_help.setIcon(QIcon(QgsApplication.iconPath('mActionHelpContents.svg')))
@@ -46,11 +48,33 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.viewer.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
         self.viewer.page().linkClicked.connect(self.open_link)
 
+        # Settings menu
+        self.config.setAutoRaise(True)
+        self.config.setToolTip(tr("Settings"))
+        self.config.setPopupMode(QToolButton.InstantPopup)
+        self.config.setIcon(QgsApplication.getThemeIcon("/mActionOptions.svg"))
+
+        self.auto_open_dock_action = QAction(
+            tr('Auto open dock from locator'),
+            iface.mainWindow())
+        self.auto_open_dock_action.setCheckable(True)
+        self.auto_open_dock_action.setChecked(
+            self.settings.value("pgmetadata/auto_open_dock", True, type=bool)
+        )
+        self.auto_open_dock_action.triggered.connect(self.save_auto_open_dock)
+        menu = QMenu()
+        menu.addAction(self.auto_open_dock_action)
+        self.config.setMenu(menu)
+
         self.metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
         self.default_html_content()
 
         iface.layerTreeView().currentLayerChanged.connect(self.layer_changed)
+
+    def save_auto_open_dock(self):
+        """ Save settings about the dock. """
+        self.settings.setValue("pgmetadata/auto_open_dock", self.auto_open_dock_action.isChecked())
 
     def layer_changed(self, layer):
         if not isinstance(layer, QgsVectorLayer):
