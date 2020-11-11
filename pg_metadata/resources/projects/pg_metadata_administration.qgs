@@ -1071,6 +1071,19 @@ def my_form_open(dialog, layer, feature):
             </config>
           </editWidget>
         </field>
+        <field name="data_last_update">
+          <editWidget type="DateTime">
+            <config>
+              <Option type="Map">
+                <Option name="allow_null" type="bool" value="true"></Option>
+                <Option name="calendar_popup" type="bool" value="true"></Option>
+                <Option name="display_format" type="QString" value="yyyy-MM-dd HH:mm:ss"></Option>
+                <Option name="field_format" type="QString" value="yyyy-MM-dd HH:mm:ss"></Option>
+                <Option name="field_iso_format" type="bool" value="false"></Option>
+              </Option>
+            </config>
+          </editWidget>
+        </field>
       </fieldConfiguration>
       <aliases>
         <alias field="id" index="0" name="Id"></alias>
@@ -1095,6 +1108,7 @@ def my_form_open(dialog, layer, feature):
         <alias field="spatial_extent" index="19" name="Spatial extent"></alias>
         <alias field="creation_date" index="20" name="Created at"></alias>
         <alias field="update_date" index="21" name="Last updated at"></alias>
+        <alias field="data_last_update" index="22" name="Data last update"></alias>
       </aliases>
       <excludeAttributesWMS></excludeAttributesWMS>
       <excludeAttributesWFS></excludeAttributesWFS>
@@ -1121,6 +1135,7 @@ def my_form_open(dialog, layer, feature):
         <default applyOnUpdate="0" expression="" field="spatial_extent"></default>
         <default applyOnUpdate="0" expression="" field="creation_date"></default>
         <default applyOnUpdate="0" expression="" field="update_date"></default>
+        <default applyOnUpdate="0" expression="" field="data_last_update"></default>
       </defaults>
       <constraints>
         <constraint constraints="3" exp_strength="0" field="id" notnull_strength="2" unique_strength="1"></constraint>
@@ -1145,6 +1160,7 @@ def my_form_open(dialog, layer, feature):
         <constraint constraints="0" exp_strength="0" field="spatial_extent" notnull_strength="0" unique_strength="0"></constraint>
         <constraint constraints="1" exp_strength="0" field="creation_date" notnull_strength="1" unique_strength="0"></constraint>
         <constraint constraints="0" exp_strength="0" field="update_date" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="data_last_update" notnull_strength="0" unique_strength="0"></constraint>
       </constraints>
       <constraintExpressions>
         <constraint desc="" exp="" field="id"></constraint>
@@ -1169,6 +1185,7 @@ def my_form_open(dialog, layer, feature):
         <constraint desc="" exp="" field="spatial_extent"></constraint>
         <constraint desc="" exp="" field="creation_date"></constraint>
         <constraint desc="" exp="" field="update_date"></constraint>
+        <constraint desc="" exp="" field="data_last_update"></constraint>
       </constraintExpressions>
       <expressionfields></expressionfields>
       <attributeactions>
@@ -1199,6 +1216,7 @@ def my_form_open(dialog, layer, feature):
           <column hidden="0" name="creation_date" type="field" width="-1"></column>
           <column hidden="0" name="update_date" type="field" width="-1"></column>
           <column hidden="1" type="actions" width="-1"></column>
+          <column hidden="0" name="data_last_update" type="field" width="-1"></column>
         </columns>
       </attributetableconfig>
       <conditionalstyles>
@@ -1240,6 +1258,7 @@ def my_form_open(dialog, layer, feature):
             <attributeEditorField index="5" name="abstract" showLabel="1"></attributeEditorField>
             <attributeEditorField index="6" name="categories" showLabel="1"></attributeEditorField>
             <attributeEditorField index="7" name="keywords" showLabel="1"></attributeEditorField>
+            <attributeEditorField index="22" name="data_last_update" showLabel="1"></attributeEditorField>
           </attributeEditorContainer>
           <attributeEditorContainer columnCount="1" groupBox="1" name="Publication" showLabel="1" visibilityExpression="" visibilityExpressionEnabled="0">
             <attributeEditorField index="11" name="publication_date" showLabel="1"></attributeEditorField>
@@ -1274,6 +1293,7 @@ def my_form_open(dialog, layer, feature):
         <field editable="1" name="categories"></field>
         <field editable="1" name="confidentiality"></field>
         <field editable="0" name="creation_date"></field>
+        <field editable="1" name="data_last_update"></field>
         <field editable="0" name="feature_count"></field>
         <field editable="0" name="geometry_type"></field>
         <field editable="0" name="id"></field>
@@ -1298,6 +1318,7 @@ def my_form_open(dialog, layer, feature):
         <field labelOnTop="0" name="categories"></field>
         <field labelOnTop="0" name="confidentiality"></field>
         <field labelOnTop="0" name="creation_date"></field>
+        <field labelOnTop="0" name="data_last_update"></field>
         <field labelOnTop="0" name="feature_count"></field>
         <field labelOnTop="0" name="geometry_type"></field>
         <field labelOnTop="0" name="id"></field>
