@@ -1,5 +1,14 @@
 ## CHANGELOG
 
+### 0.2.0 - 03/11/2020
+
+* Auto vacuum tables after install/upgrade of the database
+* Add an option to auto open the dock from the locator
+* Add a new field data_last_update
+* Add an algorithm to set database connections for normal users
+* Review default HTML templates
+* Fix filter for QGS files in Processing
+
 ### 0.1.0 - 03/11/2020
 
 * Automatically compute values from the table itself : feature count, CRS etc
