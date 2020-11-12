@@ -64,16 +64,27 @@ BEGIN
         RAISE NOTICE 'pgmetadata - table % has a geometry column: %', target_table, geom_column_name;
 
         -- spatial_extent
-        EXECUTE 'SELECT CONCAT(min(ST_xmin(' || geom_column_name || '))::text, '', '',  max(ST_xmax(' || geom_column_name || '))::text, '', '', min(ST_ymin(' || geom_column_name || '))::text, '', '', max(ST_ymax(' || geom_column_name || '))::text) FROM '
-        || target_table
+        EXECUTE '
+            SELECT CONCAT(
+                min(ST_xmin("' || geom_column_name || '"))::text, '', '',
+                max(ST_xmax("' || geom_column_name || '"))::text, '', '',
+                min(ST_ymin("' || geom_column_name || '"))::text, '', '',
+                max(ST_ymax("' || geom_column_name || '"))::text)
+            FROM ' || target_table
         INTO NEW.spatial_extent;
 
         -- geom: convexhull from target table
-        EXECUTE 'SELECT ST_Transform(ST_ConvexHull(st_collect(' || geom_column_name || ')), 4326) FROM ' || target_table
+        EXECUTE '
+            SELECT ST_Transform(ST_ConvexHull(st_collect(ST_Force2d("' || geom_column_name || '"))), 4326)
+            FROM ' || target_table
         INTO NEW.geom;
 
         -- projection_authid
-        EXECUTE 'SELECT CONCAT(s.auth_name, '':'', ST_SRID(m.' || geom_column_name || ')::text) FROM ' || target_table || ' m, spatial_ref_sys s WHERE s.auth_srid = ST_SRID(m.' || geom_column_name || ') LIMIT 1'
+        EXECUTE '
+            SELECT CONCAT(s.auth_name, '':'', ST_SRID(m."' || geom_column_name || '")::text)
+            FROM ' || target_table || ' m, spatial_ref_sys s
+            WHERE s.auth_srid = ST_SRID(m."' || geom_column_name || '")
+            LIMIT 1'
         INTO NEW.projection_authid;
 
         -- projection_name
