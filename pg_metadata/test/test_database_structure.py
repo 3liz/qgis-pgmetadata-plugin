@@ -1,5 +1,5 @@
 """Tests for Processing algorithms."""
-
+import os
 import time
 
 import processing
@@ -25,6 +25,7 @@ __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
+VERSION = '0.0.1'
 SCHEMA = "pgmetadata"
 TABLES = [
     'contact',
@@ -113,6 +114,67 @@ class TestProcessing(unittest.TestCase):
             processing.run(alg, params, feedback=self.feedback)
         self.assertTrue(
             any("If you really want to remove and recreate the schema" in s for s in self.feedback.history))
+
+    def test_update_database(self):
+        """ Test we can upgrade a database. """
+        provider = ProcessingProvider()
+        registry = QgsApplication.processingRegistry()
+        if not registry.providerById(provider.id()):
+            registry.addProvider(provider)
+
+        # Install a old version
+        params = {
+            "CONNECTION_NAME": "test_database",
+            "OVERRIDE": True,
+        }
+        alg = "{}:create_database_structure".format(provider.id())
+        os.environ["TEST_DATABASE_INSTALL_{}".format(SCHEMA.capitalize())] = VERSION
+        results = processing.run(alg, params, feedback=self.feedback)
+        del os.environ["TEST_DATABASE_INSTALL_{}".format(SCHEMA.capitalize())]
+
+        self.assertEqual(VERSION, results['DATABASE_VERSION'])
+
+        tables = self.connection.tables(SCHEMA)
+        tables = [t.tableName() for t in tables]
+        expected_tables = [
+            'contact',
+            'dataset',
+            'dataset_contact',
+            'glossary',
+            'html_template',
+            'link',
+            'qgis_plugin',
+            'v_table_comment_from_metadata',
+        ]
+        self.assertCountEqual(expected_tables, tables)
+
+        # Do the migration
+        params = {
+            "CONNECTION_NAME": "test_database",
+            "RUN_MIGRATIONS": True,
+        }
+        alg = "{}:upgrade_database_structure".format(provider.id())
+        results = processing.run(alg, params, feedback=self.feedback)
+
+        # Take the last migration
+        migrations = available_migrations(000000)
+        last_migration = migrations[-1]
+        metadata_version = (
+            last_migration.replace("upgrade_to_", "").replace(".sql", "").strip()
+        )
+        self.assertEqual(metadata_version, results['DATABASE_VERSION'])
+
+        params = {
+            "CONNECTION_NAME": "test_database",
+            "RUN_MIGRATIONS": False,
+        }
+        alg = "{}:upgrade_database_structure".format(provider.id())
+        with self.assertRaises(QgsProcessingException):
+            processing.run(alg, params, feedback=self.feedback)
+        self.assertTrue(
+            any("You must use the checkbox to do the upgrade !" in s for s in self.feedback.history),
+            ', '.join(self.feedback.history)
+        )
 
 
 if __name__ == "__main__":
