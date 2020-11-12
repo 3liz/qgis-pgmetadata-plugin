@@ -90,3 +90,50 @@ $$;
 
 -- FUNCTION calculate_fields_from_data()
 COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fields content when updating or inserting a line in pgmetadata.dataset table.';
+
+
+DROP VIEW IF EXISTS pgmetadata.v_contact;
+CREATE VIEW pgmetadata.v_contact AS
+ SELECT d.table_name,
+    d.schema_name,
+    c.name,
+    c.organisation_name,
+    c.organisation_unit,
+    g.label AS contact_role,
+    c.email
+   FROM (((pgmetadata.dataset_contact dc
+     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))
+     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))
+     JOIN pgmetadata.glossary g ON (((g.field = 'contact.contact_role'::text) AND (g.code = dc.contact_role))))
+  WHERE true
+  ORDER BY dc.id;
+
+
+-- VIEW v_contact
+COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+
+-- v_link
+DROP VIEW IF EXISTS pgmetadata.v_link;
+CREATE VIEW pgmetadata.v_link AS
+ SELECT l.id,
+    d.table_name,
+    d.schema_name,
+    l.name,
+    l.type,
+    g1.label AS type_label,
+    l.url,
+    l.description,
+    l.format,
+    l.mime,
+    g2.label AS mime_label,
+    l.size
+   FROM (((pgmetadata.link l
+     JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))
+     JOIN pgmetadata.glossary g1 ON (((g1.field = 'link.type'::text) AND (g1.code = l.type))))
+     JOIN pgmetadata.glossary g2 ON (((g2.field = 'link.mime'::text) AND (g2.code = l.mime))))
+  WHERE true
+  ORDER BY l.id;
+
+
+-- VIEW v_link
+COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';

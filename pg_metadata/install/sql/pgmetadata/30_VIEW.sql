@@ -23,7 +23,8 @@ CREATE VIEW pgmetadata.v_contact AS
     c.name,
     c.organisation_name,
     c.organisation_unit,
-    g.label AS contact_role
+    g.label AS contact_role,
+    c.email
    FROM (((pgmetadata.dataset_contact dc
      JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))
      JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))
@@ -139,7 +140,8 @@ CREATE VIEW pgmetadata.v_link AS
     l.description,
     l.format,
     l.mime,
-    g2.label AS mime_label
+    g2.label AS mime_label,
+    l.size
    FROM (((pgmetadata.link l
      JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))
      JOIN pgmetadata.glossary g1 ON (((g1.field = 'link.type'::text) AND (g1.code = l.type))))
