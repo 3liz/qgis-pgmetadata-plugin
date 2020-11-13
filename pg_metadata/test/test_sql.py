@@ -134,3 +134,30 @@ class TestSql(DatabaseTestCase):
         )
         result = self._sql(sql)
         self.assertEqual([NULL, NULL, NULL, NULL], result[0])
+
+    def test_trigger_calculate_geom_z(self):
+        """ Test compute fields on a table with Z values. """
+        sql = "CREATE TABLE pgmetadata.test_geom_z (id serial, geom geometry(POINTZ, 4326) );"
+        self._sql(sql)
+        sql = "INSERT INTO pgmetadata.test_geom_z (\"geom\") VALUES (ST_GeomFromText('POINTZ(0 0 0)', 4326))"
+        self._sql(sql)
+        sql = "INSERT INTO pgmetadata.test_geom_z (\"geom\") VALUES (ST_GeomFromText('POINTZ(1 1 1)', 4326))"
+        self._sql(sql)
+        sql = "INSERT INTO pgmetadata.test_geom_z (\"geom\") VALUES (ST_GeomFromText('POINTZ(0 1 1)', 4326))"
+        self._sql(sql)
+
+        dataset_feature = {
+            'table_name': "'test_geom_z'",
+            'schema_name': "'pgmetadata'",
+            'title': "'Test title Z'",
+            'abstract': "'Test abstract Z.'",
+        }
+        self._insert(dataset_feature, 'dataset')
+
+        sql = (
+            "SELECT geometry_type, projection_authid, spatial_extent "
+            "FROM pgmetadata.dataset "
+            "WHERE table_name = 'test_geom_z'"
+        )
+        result = self._sql(sql)
+        self.assertListEqual(['POINT', 'EPSG:4326', '0, 1, 0, 1'], result[0])
