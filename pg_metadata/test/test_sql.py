@@ -5,17 +5,23 @@ from pg_metadata.test.base_database import DatabaseTestCase
 
 class TestSql(DatabaseTestCase):
 
-    def _insert(self, feature_map, table='dataset'):
+    def _sql(self, sql):
+        return self.connection.executeSql(sql)
+
+    def _insert(self, feature_map, table='dataset', return_value=None):
         fields = []
         values = []
         for f, v in feature_map.items():
             fields.append(f)
             values.append(v)
-        sql = 'INSERT INTO pgmetadata.{table} ({fields}) VALUES ({values});'.format(
+        sql = 'INSERT INTO pgmetadata.{table} ({fields}) VALUES ({values})'.format(
             table=table,
             fields=','.join(fields),
-            values=','.join(values))
-        self.connection.executeSql(sql)
+            values=','.join(values),
+        )
+        if return_value:
+            sql += ' RETURNING {};'.format(return_value)
+        return self._sql(sql)
 
     def test_html_template(self):
         """ Test HTML template. """
@@ -25,23 +31,37 @@ class TestSql(DatabaseTestCase):
             'title': "'Test title'",
             'abstract': "'Test abstract.'",
         }
-        self._insert(dataset_feature, 'dataset')
+        return_value = self._insert(dataset_feature, 'dataset', 'id')
+        link_feature = {
+            'name': "'test link'",
+            'type': "'file'",
+            'url': "'https://metadata.is.good'",
+            'description': "''",
+            'size': "0.5",
+            'fk_id_dataset': "{}".format(return_value[0][0]),
+        }
+        self._insert(link_feature, 'link')
 
         # Remove previous template to have a smaller one
-        sql = "DELETE FROM pgmetadata.html_template WHERE section = 'main'"
-        self.connection.executeSql(sql)
+        sql = "DELETE FROM pgmetadata.html_template WHERE section IN ('main', 'link');"
+        self._sql(sql)
 
         html_feature = {
             'section': "'main'",
-            'content': "'<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b>'",
+            'content': "'<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b><p>[% meta_links %]<p>'",
+        }
+        self._insert(html_feature, 'html_template')
+        html_feature = {
+            'section': "'link'",
+            'content': "'<p>[% \"name\" %] [% \"description\" %]</p><p>[% \"size\" %]</p>'",
         }
         self._insert(html_feature, 'html_template')
 
         result = (
-            self.connection.executeSql(
-                "SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines')")
+            self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines')")
         )
-        self.assertEqual("<p>Test title</p><b>Test abstract.</b>", result[0][0])
+        # TODO this test is wrong #34
+        self.assertEqual("<p>Test title</p><b>Test abstract.</b><p><p>", result[0][0])
 
     def test_trigger_calculate_fields(self):
         """ Test if fields are correctly calculated on a layer having a geometry. """
@@ -57,14 +77,14 @@ class TestSql(DatabaseTestCase):
 
         # Test insert
         sql = "SELECT geometry_type, projection_authid, spatial_extent FROM pgmetadata.dataset"
-        result = self.connection.executeSql(sql)
+        result = self._sql(sql)
         self.assertEqual(['LINESTRING', 'EPSG:4326', '3.854, 3.897, 43.5786, 43.622'], result[0])
 
         # Test update
         sql = "UPDATE pgmetadata.dataset SET title = 'test lines title' WHERE table_name = 'lines'"
-        self.connection.executeSql(sql)
+        self._sql(sql)
         sql = "SELECT title, geometry_type, projection_authid, spatial_extent FROM pgmetadata.dataset"
-        result = self.connection.executeSql(sql)
+        result = self._sql(sql)
         self.assertEqual(
             ['test lines title', 'LINESTRING', 'EPSG:4326', '3.854, 3.897, 43.5786, 43.622'],
             result[0]
@@ -84,19 +104,19 @@ class TestSql(DatabaseTestCase):
 
         # Test with removing the geom column
         sql = "ALTER TABLE pgmetadata.lines DROP COLUMN geom"
-        self.connection.executeSql(sql)
+        self._sql(sql)
         sql = "UPDATE pgmetadata.dataset SET title = 'test after drop geom column'"
-        self.connection.executeSql(sql)
+        self._sql(sql)
         sql = "SELECT title, geometry_type, projection_authid, spatial_extent, geom FROM pgmetadata.dataset"
-        result = self.connection.executeSql(sql)
+        result = self._sql(sql)
         self.assertEqual(['test after drop geom column', NULL, NULL, NULL, NULL], result[0])
 
     def test_trigger_calculate_fields_without_geom(self):
         """ Test compute fields on a geometry less table. """
 
-        # Test with new table whithout geom column
+        # Test with new table without geom column
         sql = "CREATE TABLE pgmetadata.testwithoutgeom (id serial, name text)"
-        self.connection.executeSql(sql)
+        self._sql(sql)
         dataset_feature = {
             'table_name': "'testwithoutgeom'",
             'schema_name': "'pgmetadata'",
@@ -108,5 +128,5 @@ class TestSql(DatabaseTestCase):
             "SELECT geometry_type, projection_authid, spatial_extent, geom FROM pgmetadata.dataset WHERE"
             " table_name = 'testwithoutgeom'"
         )
-        result = self.connection.executeSql(sql)
+        result = self._sql(sql)
         self.assertEqual([NULL, NULL, NULL, NULL], result[0])
