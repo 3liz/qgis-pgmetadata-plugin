@@ -137,3 +137,16 @@ CREATE VIEW pgmetadata.v_link AS
 
 -- VIEW v_link
 COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+
+
+-- v_valid_dataset
+DROP VIEW IF EXISTS pgmetadata.v_valid_dataset;
+CREATE VIEW pgmetadata.v_valid_dataset AS 
+ SELECT schema_name, table_name
+  FROM pgmetadata.dataset
+  WHERE 
+	concat(schema_name, '.', table_name) NOT IN (SELECT concat(schema_name, '.', table_name) FROM pgmetadata.v_orphan_dataset_items)
+	AND concat(schema_name, '.', table_name) NOT IN (SELECT concat(schema_name, '.', table_name) FROM pgmetadata.v_orphan_tables);
+
+-- VIEW v_valid_dataset
+COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables.';

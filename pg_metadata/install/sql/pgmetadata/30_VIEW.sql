@@ -223,6 +223,20 @@ CREATE VIEW pgmetadata.v_table_list AS
 COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables in this database with schema name';
 
 
+-- v_valid_dataset
+CREATE VIEW pgmetadata.v_valid_dataset AS
+ SELECT dataset.schema_name,
+    dataset.table_name
+   FROM pgmetadata.dataset
+  WHERE ((NOT (concat(dataset.schema_name, '.', dataset.table_name) IN ( SELECT concat(v_orphan_dataset_items.schema_name, '.', v_orphan_dataset_items.table_name) AS concat
+           FROM pgmetadata.v_orphan_dataset_items))) AND (NOT (concat(dataset.schema_name, '.', dataset.table_name) IN ( SELECT concat(dataset.schema_name, '.', dataset.table_name) AS concat
+           FROM pgmetadata.v_orphan_tables))));
+
+
+-- VIEW v_valid_dataset
+COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables.';
+
+
 --
 -- PostgreSQL database dump complete
 --
