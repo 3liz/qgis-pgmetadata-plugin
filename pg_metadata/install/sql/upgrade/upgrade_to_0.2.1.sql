@@ -129,8 +129,8 @@ CREATE VIEW pgmetadata.v_link AS
     l.size
    FROM (((pgmetadata.link l
      JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))
-     JOIN pgmetadata.glossary g1 ON (((g1.field = 'link.type'::text) AND (g1.code = l.type))))
-     JOIN pgmetadata.glossary g2 ON (((g2.field = 'link.mime'::text) AND (g2.code = l.mime))))
+     LEFT JOIN pgmetadata.glossary g1 ON (((g1.field = 'link.type'::text) AND (g1.code = l.type))))
+     LEFT JOIN pgmetadata.glossary g2 ON (((g2.field = 'link.mime'::text) AND (g2.code = l.mime))))
   WHERE true
   ORDER BY l.id;
 

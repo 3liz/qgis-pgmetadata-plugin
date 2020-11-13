@@ -48,7 +48,7 @@ class TestSql(DatabaseTestCase):
 
         html_feature = {
             'section': "'main'",
-            'content': "'<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b><p>[% meta_links %]<p>'",
+            'content': "'<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b><p>[% meta_links %]</p>'",
         }
         self._insert(html_feature, 'html_template')
         html_feature = {
@@ -60,8 +60,11 @@ class TestSql(DatabaseTestCase):
         result = (
             self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines')")
         )
-        # TODO this test is wrong #34
-        self.assertEqual("<p>Test title</p><b>Test abstract.</b><p><p>", result[0][0])
+        expected = (
+            '<p>Test title</p><b>Test abstract.</b><p>'
+            '\n            <p>test link </p><p>1</p></p>'
+        )
+        self.assertEqual(expected, result[0][0])
 
     def test_trigger_calculate_fields(self):
         """ Test if fields are correctly calculated on a layer having a geometry. """
