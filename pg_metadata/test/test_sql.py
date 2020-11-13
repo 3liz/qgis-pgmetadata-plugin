@@ -61,8 +61,8 @@ class TestSql(DatabaseTestCase):
             self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines')")
         )
         expected = (
-            '<p>Test title</p><b>Test abstract.</b><p>'
-            '\n            <p>test link </p><p>1</p></p>'
+            '<p>Test title</p><b>Test abstract.</b><p>\n'
+            '            <p>test link </p><p>1</p></p>'
         )
         self.assertEqual(expected, result[0][0])
 
@@ -118,18 +118,19 @@ class TestSql(DatabaseTestCase):
         """ Test compute fields on a geometry less table. """
 
         # Test with new table without geom column
-        sql = "CREATE TABLE pgmetadata.testwithoutgeom (id serial, name text)"
+        sql = "CREATE TABLE pgmetadata.test_without_geom (id serial, name text)"
         self._sql(sql)
         dataset_feature = {
-            'table_name': "'testwithoutgeom'",
+            'table_name': "'test_without_geom'",
             'schema_name': "'pgmetadata'",
             'title': "'Test title'",
             'abstract': "'Test abstract.'",
         }
         self._insert(dataset_feature, 'dataset')
         sql = (
-            "SELECT geometry_type, projection_authid, spatial_extent, geom FROM pgmetadata.dataset WHERE"
-            " table_name = 'testwithoutgeom'"
+            "SELECT geometry_type, projection_authid, spatial_extent, geom "
+            "FROM pgmetadata.dataset "
+            "WHERE table_name = 'test_without_geom'"
         )
         result = self._sql(sql)
         self.assertEqual([NULL, NULL, NULL, NULL], result[0])
