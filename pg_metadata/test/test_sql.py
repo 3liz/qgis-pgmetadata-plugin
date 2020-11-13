@@ -141,10 +141,6 @@ class TestSql(DatabaseTestCase):
         self._sql(sql)
         sql = "INSERT INTO pgmetadata.test_geom_z (\"geom\") VALUES (ST_GeomFromText('POINTZ(0 0 0)', 4326))"
         self._sql(sql)
-        sql = "INSERT INTO pgmetadata.test_geom_z (\"geom\") VALUES (ST_GeomFromText('POINTZ(1 1 1)', 4326))"
-        self._sql(sql)
-        sql = "INSERT INTO pgmetadata.test_geom_z (\"geom\") VALUES (ST_GeomFromText('POINTZ(0 1 1)', 4326))"
-        self._sql(sql)
 
         dataset_feature = {
             'table_name': "'test_geom_z'",
@@ -160,4 +156,4 @@ class TestSql(DatabaseTestCase):
             "WHERE table_name = 'test_geom_z'"
         )
         result = self._sql(sql)
-        self.assertListEqual(['POINT', 'EPSG:4326', '0, 1, 0, 1'], result[0])
+        self.assertListEqual(['POINT', 'EPSG:4326', '0, 0, 0, 0'], result[0])
