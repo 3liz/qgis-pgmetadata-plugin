@@ -43,6 +43,7 @@ TABLES = [
     'v_contact',
     'v_dataset',
     'v_link',
+    'v_valid_dataset',
 ]
 
 
