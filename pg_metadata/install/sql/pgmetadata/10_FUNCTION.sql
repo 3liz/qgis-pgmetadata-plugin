@@ -24,6 +24,7 @@ DECLARE
     test_target_table regclass;
     target_table text;
     test_geom_column record;
+    geom_envelop geometry;
 geom_column_name text;
 BEGIN
 
@@ -77,7 +78,16 @@ BEGIN
         EXECUTE '
             SELECT ST_Transform(ST_ConvexHull(st_collect(ST_Force2d("' || geom_column_name || '"))), 4326)
             FROM ' || target_table
-        INTO NEW.geom;
+        INTO geom_envelop;
+
+        -- Test if it's not a point or a line
+        IF GeometryType(geom_envelop) != 'POLYGON' THEN
+            EXECUTE '
+                SELECT ST_SetSRID(ST_Buffer(ST_GeomFromText(''' || ST_ASTEXT(geom_envelop) || '''), 0.0001), 4326)'
+            INTO NEW.geom;
+        ELSE
+            NEW.GEOM = geom_envelop;
+        END IF;
 
         -- projection_authid
         EXECUTE '
