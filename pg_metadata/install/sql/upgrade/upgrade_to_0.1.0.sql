@@ -110,7 +110,7 @@ COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables
 COMMENT ON VIEW pgmetadata.v_orphan_tables IS 'View containing the existing tables but not referenced in dataset';
 
 -- v_schema_list
-DROP VIEW pgmetadata.v_schema_list;
+DROP VIEW IF EXISTS pgmetadata.v_schema_list;
 CREATE VIEW pgmetadata.v_schema_list AS
 SELECT ROW_NUMBER() OVER() as id, schema_name::text
 FROM information_schema.schemata
@@ -118,7 +118,7 @@ WHERE schema_name NOT IN ('pg_toast', 'pg_temp_1', 'pg_toast_temp_1', 'pg_catalo
 ORDER BY schema_name;
 
 -- v_table_list
-DROP VIEW pgmetadata.v_table_list;
+DROP VIEW IF EXISTS pgmetadata.v_table_list;
 CREATE VIEW pgmetadata.v_table_list AS
 SELECT ROW_NUMBER() OVER() as id, table_schema::text as schema_name, table_name::text
 FROM information_schema.tables
