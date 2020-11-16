@@ -1,6 +1,16 @@
 ## CHANGELOG
 
-### 0.2.0 - 03/11/2020
+### 0.2.1 - 16/11/2020
+
+* Improve HTML templates for making them compatible with Lizmap
+* SQL - Fix calculate spatial field with Z or M geometries
+* SQL - Fix HTML generation for fields email and size
+* Processing - Fix upgrade algorithm and add tests
+* Fix bug with empty links when link has no mime or type - fixes #34
+* SQL - Fix if the envelop is a point or a line
+* SQL - Add a view to query only valid dataset with the locator
+
+### 0.2.0 - 12/11/2020
 
 * Auto vacuum tables after install/upgrade of the database
 * Add an option to auto open the dock from the locator
