@@ -181,6 +181,10 @@ COMMENT ON COLUMN pgmetadata.dataset.geom IS 'Geometry defining the extent of th
 COMMENT ON COLUMN pgmetadata.dataset.data_last_update IS 'Date of the last modification of the target data (not on the dataset item line)';
 
 
+-- dataset.theme
+COMMENT ON COLUMN pgmetadata.dataset.theme IS 'List of themes';
+
+
 -- dataset_contact
 COMMENT ON TABLE pgmetadata.dataset_contact IS 'Pivot table between dataset and contacts.';
 

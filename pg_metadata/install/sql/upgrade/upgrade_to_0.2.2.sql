@@ -42,3 +42,11 @@ COMMENT ON COLUMN pgmetadata.theme.label IS 'Label of the theme';
 
 -- theme.description
 COMMENT ON COLUMN pgmetadata.theme.description IS 'Description of the theme';
+
+
+-- Add field theme in dataset
+ALTER TABLE pgmetadata.dataset ADD COLUMN theme text[];
+
+
+-- dataset.theme
+COMMENT ON COLUMN pgmetadata.dataset.theme IS 'List of themes';
