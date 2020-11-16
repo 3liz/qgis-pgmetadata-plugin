@@ -175,7 +175,7 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
         plugin_version = version()
         dev_version = False
         run_migration = os.environ.get(
-            "TEST_DATABASE_INSTALL_{}".format(SCHEMA.capitalize())
+            "TEST_DATABASE_INSTALL_{}".format(SCHEMA.upper())
         )
         if plugin_version in ["master", "dev"] and not run_migration:
             feedback.reportError(
@@ -231,6 +231,21 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
             raise QgsProcessingException(str(e))
         feedback.pushInfo("Database version '{}'.".format(metadata_version))
 
+        if not run_migration:
+            self.install_html_templates(feedback, connection_name, context)
+        else:
+            feedback.reportError(
+                'As you are running an old version of the database, HTML templates are not installed.')
+
+        add_connection(connection_name)
+
+        results = {
+            self.DATABASE_VERSION: metadata_version,
+        }
+        return results
+
+    @staticmethod
+    def install_html_templates(feedback, connection_name, context):
         feedback.pushInfo("Adding default HTML templates")
         params = {
             'CONNECTION_NAME': connection_name,
@@ -243,10 +258,3 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
             context=context,
             is_child_algorithm=True,
         )
-
-        add_connection(connection_name)
-
-        results = {
-            self.DATABASE_VERSION: metadata_version,
-        }
-        return results

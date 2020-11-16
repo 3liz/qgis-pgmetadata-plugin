@@ -129,9 +129,9 @@ class TestProcessing(unittest.TestCase):
             "OVERRIDE": True,
         }
         alg = "{}:create_database_structure".format(provider.id())
-        os.environ["TEST_DATABASE_INSTALL_{}".format(SCHEMA.capitalize())] = VERSION
+        os.environ["TEST_DATABASE_INSTALL_{}".format(SCHEMA.upper())] = VERSION
         results = processing.run(alg, params, feedback=self.feedback)
-        del os.environ["TEST_DATABASE_INSTALL_{}".format(SCHEMA.capitalize())]
+        del os.environ["TEST_DATABASE_INSTALL_{}".format(SCHEMA.upper())]
 
         self.assertEqual(VERSION, results['DATABASE_VERSION'])
 

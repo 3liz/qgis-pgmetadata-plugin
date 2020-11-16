@@ -199,7 +199,10 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
                 feedback.pushInfo("* " + sf + " -- " + tr("SKIPPING, EMPTY FILE"))
                 continue
 
-            # Check run migration
+            try:
+                connection.executeSql(sql)
+            except QgsProviderConnectionException as e:
+                raise QgsProcessingException(str(e))
 
             new_db_version = (sf.replace("upgrade_to_", "").replace(".sql", "").strip())
             self.update_database_version(connection, new_db_version)

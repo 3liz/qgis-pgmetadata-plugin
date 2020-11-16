@@ -14,3 +14,7 @@ In QGIS, you should add a
 [custom repository in QGIS](https://docs.qgis.org/testing/en/docs/user_manual/plugins/plugins.html#the-settings-tab).
 
 The URL is `https://github.com/3liz/qgis-pgmetadata-plugin/releases/latest/download/plugins.xml`
+
+## Running migrations
+
+Environment variable `TEST_DATABASE_INSTALL_PGMETADATA = 0.0.1`
