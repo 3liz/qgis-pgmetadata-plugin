@@ -153,3 +153,18 @@ ORDER BY d.schema_name, d.table_name;
 
 -- VIEW v_valid_dataset
 COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables.';
+
+-- v_orphan_dataset_items
+DROP VIEW IF EXISTS pgmetadata.v_orphan_dataset_items;
+CREATE VIEW pgmetadata.v_orphan_dataset_items AS
+ SELECT row_number() OVER () AS id,
+    d.schema_name,
+    d.table_name
+   FROM (pgmetadata.dataset d
+     LEFT JOIN pg_tables t ON (((d.schema_name = (t.schemaname)::text) AND (d.table_name = (t.tablename)::text))))
+  WHERE (t.tablename IS NULL)
+  ORDER BY d.schema_name, d.table_name;
+
+
+-- VIEW v_orphan_dataset_items
+COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but not existing in the database itself.';
