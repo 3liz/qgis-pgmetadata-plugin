@@ -225,12 +225,12 @@ COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables i
 
 -- v_valid_dataset
 CREATE VIEW pgmetadata.v_valid_dataset AS
- SELECT dataset.schema_name,
-    dataset.table_name
-   FROM pgmetadata.dataset
-  WHERE ((NOT (concat(dataset.schema_name, '.', dataset.table_name) IN ( SELECT concat(v_orphan_dataset_items.schema_name, '.', v_orphan_dataset_items.table_name) AS concat
-           FROM pgmetadata.v_orphan_dataset_items))) AND (NOT (concat(dataset.schema_name, '.', dataset.table_name) IN ( SELECT concat(dataset.schema_name, '.', dataset.table_name) AS concat
-           FROM pgmetadata.v_orphan_tables))));
+ SELECT d.schema_name,
+    d.table_name
+   FROM (pgmetadata.dataset d
+     LEFT JOIN pg_tables t ON (((d.schema_name = (t.schemaname)::text) AND (d.table_name = (t.tablename)::text))))
+  WHERE (t.tablename IS NOT NULL)
+  ORDER BY d.schema_name, d.table_name;
 
 
 -- VIEW v_valid_dataset

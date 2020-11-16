@@ -142,11 +142,14 @@ COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all t
 -- v_valid_dataset
 DROP VIEW IF EXISTS pgmetadata.v_valid_dataset;
 CREATE VIEW pgmetadata.v_valid_dataset AS 
- SELECT schema_name, table_name
-  FROM pgmetadata.dataset
-  WHERE 
-	concat(schema_name, '.', table_name) NOT IN (SELECT concat(schema_name, '.', table_name) FROM pgmetadata.v_orphan_dataset_items)
-	AND concat(schema_name, '.', table_name) NOT IN (SELECT concat(schema_name, '.', table_name) FROM pgmetadata.v_orphan_tables);
+ SELECT 
+	d.schema_name,
+	d.table_name
+FROM pgmetadata.dataset AS d
+LEFT JOIN pg_tables AS t
+	ON d.schema_name = t.schemaname AND d.table_name = t.tablename
+WHERE t.tablename IS NOT NULL
+ORDER BY d.schema_name, d.table_name;
 
 -- VIEW v_valid_dataset
 COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables.';
