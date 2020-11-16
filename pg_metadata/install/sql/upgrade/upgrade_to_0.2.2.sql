@@ -1,3 +1,5 @@
+BEGIN;
+
 -- theme
 DROP TABLE IF EXISTS pgmetadata.theme;
 CREATE TABLE pgmetadata.theme ( 
@@ -45,8 +47,11 @@ COMMENT ON COLUMN pgmetadata.theme.description IS 'Description of the theme';
 
 
 -- Add field theme in dataset
-ALTER TABLE pgmetadata.dataset ADD COLUMN theme text[];
+ALTER TABLE pgmetadata.dataset ADD COLUMN themes text[];
 
 
--- dataset.theme
-COMMENT ON COLUMN pgmetadata.dataset.theme IS 'List of themes';
+-- dataset.themes
+COMMENT ON COLUMN pgmetadata.dataset.themes IS 'List of themes';
+
+
+COMMIT;
