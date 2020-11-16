@@ -199,6 +199,8 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
                 feedback.pushInfo("* " + sf + " -- " + tr("SKIPPING, EMPTY FILE"))
                 continue
 
+            # Check run migration
+
             new_db_version = (sf.replace("upgrade_to_", "").replace(".sql", "").strip())
             self.update_database_version(connection, new_db_version)
             feedback.pushInfo("Database version {} -- OK !".format(new_db_version))

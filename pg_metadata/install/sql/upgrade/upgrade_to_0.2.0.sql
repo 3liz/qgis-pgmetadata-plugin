@@ -1,3 +1,4 @@
+BEGIN;
 
 CREATE OR REPLACE FUNCTION pgmetadata.calculate_fields_from_data() RETURNS trigger
     LANGUAGE plpgsql
@@ -91,3 +92,4 @@ ON CONFLICT DO NOTHING
 ALTER TABLE pgmetadata.dataset ADD COLUMN IF NOT EXISTS data_last_update timestamp;
 COMMENT ON COLUMN pgmetadata.dataset.data_last_update IS 'Date of the last modification of the target data (not on the dataset item line)';
 
+COMMIT;

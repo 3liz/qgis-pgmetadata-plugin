@@ -1,3 +1,4 @@
+BEGIN;
 
 CREATE OR REPLACE FUNCTION pgmetadata.calculate_fields_from_data() RETURNS trigger
     LANGUAGE plpgsql
@@ -151,8 +152,8 @@ COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all t
 
 -- v_valid_dataset
 DROP VIEW IF EXISTS pgmetadata.v_valid_dataset;
-CREATE VIEW pgmetadata.v_valid_dataset AS 
- SELECT 
+CREATE VIEW pgmetadata.v_valid_dataset AS
+ SELECT
 	d.schema_name,
 	d.table_name
 FROM pgmetadata.dataset AS d
@@ -178,3 +179,5 @@ CREATE VIEW pgmetadata.v_orphan_dataset_items AS
 
 -- VIEW v_orphan_dataset_items
 COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but not existing in the database itself.';
+
+COMMIT;

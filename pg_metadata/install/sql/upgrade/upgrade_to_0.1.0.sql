@@ -1,3 +1,5 @@
+BEGIN;
+
 -- calculate_fields_from_data()
 CREATE FUNCTION pgmetadata.calculate_fields_from_data() RETURNS trigger
     LANGUAGE plpgsql
@@ -440,3 +442,5 @@ COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text,
 IS 'Generate the metadata HTML content for the given table, or NULL if no templates are stored in the pgmetadata.html_template table.';
 
 DROP FUNCTION IF EXISTS pgmetadata.get_dataset_item_html_content(text, text, text);
+
+COMMIT;
