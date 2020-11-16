@@ -72,10 +72,12 @@ class LocatorFilter(QgsLocatorFilter):
             )
 
         # Search items from pgmetadata.dataset
-        sql = " SELECT concat(title, ' (', table_name, '.', schema_name, ')') AS displayString,"
-        sql += " schema_name, table_name, geometry_type, title"
-        sql += " FROM pgmetadata.dataset"
-        sql += " WHERE concat(title, ' ', abstract, ' ', table_name) ILIKE '%{}%'".format(search)
+        sql = " SELECT concat(d.title, ' (', d.v_valid_dataset, '.', d.schema_name, ')') AS displayString,"
+        sql += " d.schema_name, d.table_name, d.geometry_type, title"
+        sql += " FROM pgmetadata.dataset d"
+        sql += " INNER JOIN pgmetadata.v_validate_dataset v ON concat(v.v_valid_dataset, '.', v.schema_name)"
+        sql += "= concat(d.table_name, '.', d.schema_name)"
+        sql += " WHERE concat(d.title, ' ', d.abstract, ' ', d.table_name) ILIKE '%{}%'".format(search)
         sql += " LIMIT 100"
 
         try:

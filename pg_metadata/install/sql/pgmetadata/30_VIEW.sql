@@ -157,12 +157,12 @@ COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all t
 -- v_orphan_dataset_items
 CREATE VIEW pgmetadata.v_orphan_dataset_items AS
  SELECT row_number() OVER () AS id,
-    dataset.schema_name,
-    dataset.table_name
-   FROM pgmetadata.dataset
-  WHERE (NOT (concat(dataset.schema_name, '.', dataset.table_name) IN ( SELECT concat(pg_tables.schemaname, '.', pg_tables.tablename) AS concat
-           FROM pg_tables)))
-  ORDER BY dataset.schema_name, dataset.table_name;
+    d.schema_name,
+    d.table_name
+   FROM (pgmetadata.dataset d
+     LEFT JOIN pg_tables t ON (((d.schema_name = (t.schemaname)::text) AND (d.table_name = (t.tablename)::text))))
+  WHERE (t.tablename IS NULL)
+  ORDER BY d.schema_name, d.table_name;
 
 
 -- VIEW v_orphan_dataset_items
@@ -221,6 +221,20 @@ CREATE VIEW pgmetadata.v_table_list AS
 
 -- VIEW v_table_list
 COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables in this database with schema name';
+
+
+-- v_valid_dataset
+CREATE VIEW pgmetadata.v_valid_dataset AS
+ SELECT d.schema_name,
+    d.table_name
+   FROM (pgmetadata.dataset d
+     LEFT JOIN pg_tables t ON (((d.schema_name = (t.schemaname)::text) AND (d.table_name = (t.tablename)::text))))
+  WHERE (t.tablename IS NOT NULL)
+  ORDER BY d.schema_name, d.table_name;
+
+
+-- VIEW v_valid_dataset
+COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables.';
 
 
 --
