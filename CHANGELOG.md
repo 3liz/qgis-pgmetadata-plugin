@@ -9,6 +9,7 @@
 * Fix bug with empty links when link has no mime or type - fixes #34
 * SQL - Fix if the envelop is a point or a line
 * SQL - Add a view to query only valid dataset with the locator
+* Fix running migrations in the Processing algorithm
 
 ### 0.2.0 - 12/11/2020
 
