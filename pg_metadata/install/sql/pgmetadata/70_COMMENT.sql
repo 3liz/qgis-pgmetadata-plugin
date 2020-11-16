@@ -277,6 +277,26 @@ COMMENT ON COLUMN pgmetadata.link.fk_id_dataset IS 'Id of the dataset item';
 COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
 
 
+-- theme
+COMMENT ON TABLE pgmetadata.theme IS 'List of themes related to the published datasets.';
+
+
+-- theme.id
+COMMENT ON COLUMN pgmetadata.theme.id IS 'Internal automatic integer ID';
+
+
+-- theme.code
+COMMENT ON COLUMN pgmetadata.theme.code IS 'Code Of the theme';
+
+
+-- theme.label
+COMMENT ON COLUMN pgmetadata.theme.label IS 'Label of the theme';
+
+
+-- theme.description
+COMMENT ON COLUMN pgmetadata.theme.description IS 'Description of the theme';
+
+
 -- VIEW v_contact
 COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
