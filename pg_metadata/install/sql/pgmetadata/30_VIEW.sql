@@ -47,6 +47,7 @@ CREATE VIEW pgmetadata.v_dataset AS
             d.title,
             d.abstract,
             d.categories,
+            d.themes,
             d.keywords,
             d.spatial_level,
             d.minimum_optimal_scale,
@@ -63,9 +64,11 @@ CREATE VIEW pgmetadata.v_dataset AS
             d.creation_date,
             d.update_date,
             d.geom,
-            cat.cat
-           FROM (pgmetadata.dataset d
+            cat.cat,
+            theme.theme
+           FROM ((pgmetadata.dataset d
              LEFT JOIN LATERAL unnest(d.categories) cat(cat) ON (true))
+             LEFT JOIN LATERAL unnest(d.themes) theme(theme) ON (true))
           WHERE true
           ORDER BY d.id
         ), ss AS (
@@ -76,6 +79,7 @@ CREATE VIEW pgmetadata.v_dataset AS
             s.title,
             s.abstract,
             gcat.label AS cat,
+            gtheme.label AS theme,
             s.keywords,
             s.spatial_level,
             ('1/'::text || s.minimum_optimal_scale) AS minimum_optimal_scale,
@@ -91,8 +95,9 @@ CREATE VIEW pgmetadata.v_dataset AS
             s.spatial_extent,
             s.creation_date,
             s.update_date
-           FROM (((((s
+           FROM ((((((s
              LEFT JOIN pgmetadata.glossary gcat ON (((gcat.field = 'dataset.categories'::text) AND (gcat.code = s.cat))))
+             LEFT JOIN pgmetadata.glossary gtheme ON (((gtheme.field = 'dataset.themes'::text) AND (gtheme.code = s.theme))))
              LEFT JOIN pgmetadata.glossary gfre ON (((gfre.field = 'dataset.publication_frequency'::text) AND (gfre.code = s.publication_frequency))))
              LEFT JOIN pgmetadata.glossary glic ON (((glic.field = 'dataset.license'::text) AND (glic.code = s.license))))
              LEFT JOIN pgmetadata.glossary gcon ON (((gcon.field = 'dataset.confidentiality'::text) AND (gcon.code = s.confidentiality))))
@@ -105,6 +110,7 @@ CREATE VIEW pgmetadata.v_dataset AS
     ss.title,
     ss.abstract,
     string_agg(DISTINCT ss.cat, ', '::text ORDER BY ss.cat) AS categories,
+    string_agg(DISTINCT ss.theme, ', '::text ORDER BY ss.theme) AS themes,
     ss.keywords,
     ss.spatial_level,
     ss.minimum_optimal_scale,
