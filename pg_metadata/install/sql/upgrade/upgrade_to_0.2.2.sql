@@ -115,7 +115,7 @@ CREATE VIEW pgmetadata.v_dataset AS
             s.update_date
            FROM ((((((s
              LEFT JOIN pgmetadata.glossary gcat ON (((gcat.field = 'dataset.categories'::text) AND (gcat.code = s.cat))))
-             LEFT JOIN pgmetadata.glossary gtheme ON (((gtheme.field = 'dataset.themes'::text) AND (gtheme.code = s.theme))))
+             LEFT JOIN pgmetadata.theme gtheme ON ((gtheme.code = s.theme)))
              LEFT JOIN pgmetadata.glossary gfre ON (((gfre.field = 'dataset.publication_frequency'::text) AND (gfre.code = s.publication_frequency))))
              LEFT JOIN pgmetadata.glossary glic ON (((glic.field = 'dataset.license'::text) AND (glic.code = s.license))))
              LEFT JOIN pgmetadata.glossary gcon ON (((gcon.field = 'dataset.confidentiality'::text) AND (gcon.code = s.confidentiality))))
