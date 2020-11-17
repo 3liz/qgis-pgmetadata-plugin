@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 0.2.2 - 17/11/2020
+
+* Fix locator SQL query
+* Add themes
+* Update of the QGIS project
+
 ### 0.2.1 - 16/11/2020
 
 * Improve HTML templates for making them compatible with Lizmap
