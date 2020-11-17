@@ -181,6 +181,10 @@ COMMENT ON COLUMN pgmetadata.dataset.geom IS 'Geometry defining the extent of th
 COMMENT ON COLUMN pgmetadata.dataset.data_last_update IS 'Date of the last modification of the target data (not on the dataset item line)';
 
 
+-- dataset.themes
+COMMENT ON COLUMN pgmetadata.dataset.themes IS 'List of themes';
+
+
 -- dataset_contact
 COMMENT ON TABLE pgmetadata.dataset_contact IS 'Pivot table between dataset and contacts.';
 
@@ -275,6 +279,26 @@ COMMENT ON COLUMN pgmetadata.link.fk_id_dataset IS 'Id of the dataset item';
 
 -- qgis_plugin
 COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
+
+
+-- theme
+COMMENT ON TABLE pgmetadata.theme IS 'List of themes related to the published datasets.';
+
+
+-- theme.id
+COMMENT ON COLUMN pgmetadata.theme.id IS 'Internal automatic integer ID';
+
+
+-- theme.code
+COMMENT ON COLUMN pgmetadata.theme.code IS 'Code Of the theme';
+
+
+-- theme.label
+COMMENT ON COLUMN pgmetadata.theme.label IS 'Label of the theme';
+
+
+-- theme.description
+COMMENT ON COLUMN pgmetadata.theme.description IS 'Description of the theme';
 
 
 -- VIEW v_contact

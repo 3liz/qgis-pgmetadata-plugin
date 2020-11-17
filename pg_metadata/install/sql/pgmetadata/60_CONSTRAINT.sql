@@ -73,6 +73,16 @@ ALTER TABLE ONLY pgmetadata.link
     ADD CONSTRAINT link_pkey PRIMARY KEY (id);
 
 
+-- theme theme_code_key
+ALTER TABLE ONLY pgmetadata.theme
+    ADD CONSTRAINT theme_code_key UNIQUE (code);
+
+
+-- theme theme_label_key
+ALTER TABLE ONLY pgmetadata.theme
+    ADD CONSTRAINT theme_label_key UNIQUE (label);
+
+
 -- dataset_contact dataset_contact_fk_id_contact_fkey
 ALTER TABLE ONLY pgmetadata.dataset_contact
     ADD CONSTRAINT dataset_contact_fk_id_contact_fkey FOREIGN KEY (fk_id_contact) REFERENCES pgmetadata.contact(id) ON DELETE RESTRICT;

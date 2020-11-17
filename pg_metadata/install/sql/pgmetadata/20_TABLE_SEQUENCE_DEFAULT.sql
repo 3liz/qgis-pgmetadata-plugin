@@ -72,7 +72,8 @@ CREATE TABLE pgmetadata.dataset (
     creation_date timestamp without time zone DEFAULT now() NOT NULL,
     update_date timestamp without time zone DEFAULT now(),
     geom public.geometry(Polygon,4326),
-    data_last_update timestamp without time zone
+    data_last_update timestamp without time zone,
+    themes text[]
 );
 
 
@@ -218,6 +219,32 @@ CREATE TABLE pgmetadata.qgis_plugin (
 COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
 
 
+-- theme
+CREATE TABLE pgmetadata.theme (
+    id integer NOT NULL,
+    code text NOT NULL,
+    label text NOT NULL,
+    description text
+);
+
+
+-- theme
+COMMENT ON TABLE pgmetadata.theme IS 'List of themes related to the published datasets.';
+
+
+-- theme_id_seq
+CREATE SEQUENCE pgmetadata.theme_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+-- theme_id_seq
+ALTER SEQUENCE pgmetadata.theme_id_seq OWNED BY pgmetadata.theme.id;
+
+
 -- contact id
 ALTER TABLE ONLY pgmetadata.contact ALTER COLUMN id SET DEFAULT nextval('pgmetadata.contact_id_seq'::regclass);
 
@@ -240,6 +267,10 @@ ALTER TABLE ONLY pgmetadata.html_template ALTER COLUMN id SET DEFAULT nextval('p
 
 -- link id
 ALTER TABLE ONLY pgmetadata.link ALTER COLUMN id SET DEFAULT nextval('pgmetadata.link_id_seq'::regclass);
+
+
+-- theme id
+ALTER TABLE ONLY pgmetadata.theme ALTER COLUMN id SET DEFAULT nextval('pgmetadata.theme_id_seq'::regclass);
 
 
 --

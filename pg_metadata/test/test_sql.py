@@ -25,11 +25,17 @@ class TestSql(DatabaseTestCase):
 
     def test_html_template(self):
         """ Test HTML template. """
+        theme_feature = {
+            'code': "'A01'",
+            'label': "'test theme'",
+        }
+        self._insert(theme_feature, 'theme')
         dataset_feature = {
             'table_name': "'lines'",
             'schema_name': "'pgmetadata'",
             'title': "'Test title'",
             'abstract': "'Test abstract.'",
+            'themes': "'{\"A01\"}'",
         }
         return_value = self._insert(dataset_feature, 'dataset', 'id')
         link_feature = {
