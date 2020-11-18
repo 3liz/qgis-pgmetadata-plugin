@@ -26,6 +26,11 @@ CREATE SEQUENCE pgmetadata.theme_id_seq
 ALTER SEQUENCE pgmetadata.theme_id_seq OWNED BY pgmetadata.theme.id;
 
 
+-- theme theme_pkey
+ALTER TABLE ONLY pgmetadata.theme
+    ADD CONSTRAINT theme_pkey PRIMARY KEY (id);
+
+
 -- theme id
 ALTER TABLE ONLY pgmetadata.theme ALTER COLUMN id SET DEFAULT nextval('pgmetadata.theme_id_seq'::regclass);
 

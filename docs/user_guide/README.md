@@ -51,7 +51,26 @@ the generated project and use the normal QGIS editing tools.
     * `Orphan metadata` displays tables not existing in the database itself, but the metadata exists in the
     `dataset` table.
     * `Orphan tables` is the reverse. It displays tables existing in the database but in the `dataset` table.
-1. On the `Dataset` table, open the attribute table, switch on **Edition** mode and add a new row.
+
+### Editing metadata
+
+Before creating metadata for our layer/table, you need to implement some table. To edit this table you need to 
+open the attribute table, switch on **Edition** mode and add a new row.
+
+Switching to edit mode:
+![Attribute table](../attribute_table_edit_mode.png)
+
+Adding a new row:
+![Attribute table](../attribute_table_new_row.png)
+
+1. On the `Theme` table you can add many theme corresponding to different theme of your layers.
+    You need to enter a **code** eg. "A01" and a **label** corresponding at the name eg. "Naturals area".
+    Example adding theme:
+    ![Attribute table](../attribute_table_add_theme.png)
+1. On the `Contact` table you can add contacts that can later be associated with your metadata layer.
+    Example new contact:
+    ![Attribute table](../attribute_table_add_contact.png)
+1. The `Dataset` table is the metadata table. You can add many rows and one added line corresponds to a metadata of a layer.
     You need to fill a row with these minimum information : 
     * Table name,
     * Schema name,
@@ -59,9 +78,21 @@ the generated project and use the normal QGIS editing tools.
     * Abstract,
     * Etc
 
-![Attribute table](../attribute_table_new_row.png)
+    Example to add a new metadata for a layer:
+      On the second picture you can see the theme.
+    ![Attribute table](../attribute_table_add_dataset_1.png) ![Attribute table](../attribute_table_add_dataset_2.png)
+1. Now you can add a contact to a dataset row with de `Dataset <-> Contact` table.
+    Example:
+    ![Attribute table](../attribute_table_add_contact.png)
+1. And now you can edit the `Link` table to add list of links related to the published datasets.
+    Example:
+    ![Attribute table](../attribute_table_add_link.png)
 
-You need to save your `dataset` layer by switching off editable mode.
+
+When you stop editing a table, don't forget to save your change with clicking on the save icon et leave the edit mode.
+To save:
+![Attribute table](../attribute_table_save.png)
+To leave the edit mode you need to click on the same button that to enter in the edit mode.
 
 ## HTML Template
 
