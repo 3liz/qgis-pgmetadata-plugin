@@ -30,12 +30,17 @@ class TestSql(DatabaseTestCase):
             'label': "'test theme'",
         }
         self._insert(theme_feature, 'theme')
+        theme_feature = {
+            'code': "'A02'",
+            'label': "'New test theme'",
+        }
+        self._insert(theme_feature, 'theme')
         dataset_feature = {
             'table_name': "'lines'",
             'schema_name': "'pgmetadata'",
             'title': "'Test title'",
             'abstract': "'Test abstract.'",
-            'themes': "'{\"A01\"}'",
+            'themes': "'{\"A01\", \"A02\"}'",
         }
         return_value = self._insert(dataset_feature, 'dataset', 'id')
         link_feature = {
@@ -54,7 +59,10 @@ class TestSql(DatabaseTestCase):
 
         html_feature = {
             'section': "'main'",
-            'content': "'<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b><p>[% meta_links %]</p>'",
+            'content': (
+                "'<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b><p>[% meta_links %]</p>"
+                "<p>[%\"themes\"%]</p>'"
+            ),
         }
         self._insert(html_feature, 'html_template')
         html_feature = {
@@ -68,7 +76,7 @@ class TestSql(DatabaseTestCase):
         )
         expected = (
             '<p>Test title</p><b>Test abstract.</b><p>\n'
-            '            <p>test link </p><p>1</p></p>'
+            '            <p>test link </p><p>1</p></p><p>New test theme, test theme</p>'
         )
         self.assertEqual(expected, result[0][0])
 
