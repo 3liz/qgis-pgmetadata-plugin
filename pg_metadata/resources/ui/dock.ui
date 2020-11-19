@@ -41,6 +41,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="save_button">
+        <property name="text">
+         <string notr="true">help</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="external_help">
         <property name="text">
          <string notr="true">help</string>

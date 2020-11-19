@@ -45,6 +45,10 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.external_help.setText('')
         self.external_help.setIcon(QIcon(QgsApplication.iconPath('mActionHelpContents.svg')))
         self.external_help.clicked.connect(self.open_external_help)
+        self.save_button.setText('')
+        self.save_button.setIcon(QIcon(QgsApplication.iconPath('mActionFileSave.svg')))
+        self.save_button.setToolTip(tr("Save metadata"))
+        self.config.setPopupMode(QToolButton.InstantPopup)
         self.viewer.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
         self.viewer.page().linkClicked.connect(self.open_link)
 
