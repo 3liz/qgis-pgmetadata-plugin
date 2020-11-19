@@ -25,6 +25,7 @@
 <li><a href="#installation">Installation</a><ul>
 <li><a href="#database">Database</a></li>
 <li><a href="#administration-project">Administration project</a></li>
+<li><a href="#editing-metadata">Editing metadata</a></li>
 </ul>
 </li>
 <li><a href="#html-template">HTML Template</a></li>
@@ -69,18 +70,59 @@ the generated project and use the normal QGIS editing tools.</li>
 <li><code>Orphan tables</code> is the reverse. It displays tables existing in the database but in the <code>dataset</code> table.</li>
 </ul>
 </li>
-<li>On the <code>Dataset</code> table, open the attribute table, switch on <strong>Edition</strong> mode and add a new row.
-    You need to fill a row with these minimum information : <ul>
+</ol>
+<h3 id="editing-metadata">Editing metadata</h3>
+<p>Before creating metadata for your layer/table, you need to implement some table. To edit this table you need to 
+open the attribute table, switch on <strong>Edition</strong> mode and add a new row.</p>
+<p>Switching to edit mode:</p>
+<p><img alt="Attribute table" src="../attribute_table_edit_mode.png"></p>
+<p>Adding a new row:</p>
+<p><img alt="Attribute table" src="../attribute_table_new_row.png"></p>
+<p>Switching to the form view: You can access the form view at the bottom right corner of the attribute table.</p>
+<p><img alt="Attribute table" src="../attribute_table_view_form.png"></p>
+<ol>
+<li>
+<p>On the <code>Theme</code> table you can add many theme corresponding to different theme of your layers.
+    You need to enter a <strong>code</strong> eg. "A01" and a <strong>label</strong> corresponding at the name eg. "Naturals area".
+    Example adding theme:</p>
+<p><img alt="Attribute table" src="../attribute_table_add_theme.png"></p>
+</li>
+<li>
+<p>On the <code>Contact</code> table you can add contacts that can later be associated with your metadata layer.
+    Example new contact:</p>
+<p><img alt="Attribute table" src="../attribute_table_add_contact.png"></p>
+</li>
+<li>
+<p>The <code>Dataset</code> table is the metadata table. You can add many rows and one added line corresponds to a metadata of a layer.
+    You need to fill a row with these minimum information : </p>
+<ul>
 <li>Table name,</li>
 <li>Schema name,</li>
 <li>Title,</li>
 <li>Abstract,</li>
 <li>Etc</li>
 </ul>
+<p>Example to add a new metadata for a layer:
+  On the second picture you can see the theme.</p>
+<p><img alt="Attribute table" src="../attribute_table_add_dataset.png"></p>
+</li>
+<li>
+<p>Now you can add a contact to a dataset row with the <code>Dataset</code> table. You can click on a tab called <code>contact</code>.
+    You need to allow <strong>edit mode</strong> in this tab because you implement an other table.
+    Example:</p>
+<p><img alt="Attribute table" src="../attribute_table_add_contact.png"></p>
+</li>
+<li>
+<p>And now you can add some<code>Link</code> to a dataset row with the <code>Dataset</code> table. It's same that to add a contact, you have a link tab.
+    Don't forget to allow <strong>edit mode</strong>.
+    Example:</p>
+<p><img alt="Attribute table" src="../attribute_table_add_link.png"></p>
 </li>
 </ol>
-<p><img alt="Attribute table" src="../attribute_table_new_row.png"></p>
-<p>You need to save your <code>dataset</code> layer by switching off editable mode.</p>
+<p>When you stop editing a table, don't forget to save your change with clicking on the save icon et leave the edit mode.
+To save:</p>
+<p><img alt="Attribute table" src="../attribute_table_save.png"></p>
+<p>To leave the edit mode you need to click on the same button that to enter in the edit mode.</p>
 <h2 id="html-template">HTML Template</h2>
 <p>You can customize the HTML template.</p>
 <ul>
