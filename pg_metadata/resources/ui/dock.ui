@@ -41,9 +41,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="save_button">
+       <widget class="QToolButton" name="save_button">
         <property name="text">
-         <string notr="true">help</string>
+         <string notr="true">...</string>
         </property>
        </widget>
       </item>
