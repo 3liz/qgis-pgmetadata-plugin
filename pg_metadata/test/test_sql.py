@@ -11,9 +11,9 @@ class TestSql(DatabaseTestCase):
     def _insert(self, feature_map, table='dataset', return_value=None):
         fields = []
         values = []
-        for f, v in feature_map.items():
-            fields.append(f)
-            values.append(v)
+        for column, value in feature_map.items():
+            fields.append(column)
+            values.append(value)
         sql = 'INSERT INTO pgmetadata.{table} ({fields}) VALUES ({values})'.format(
             table=table,
             fields=','.join(fields),

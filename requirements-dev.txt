@@ -8,4 +8,5 @@ flake8-multiline-containers
 flake8-pep3101
 flake8-print
 flake8-isort
+flake8-variables-names
 isort
