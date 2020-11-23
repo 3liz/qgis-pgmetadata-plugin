@@ -5,6 +5,9 @@ __license__ = 'GPL version 3'
 __email__ = 'info@3liz.org'
 
 import logging
+import os
+
+from functools import partial
 
 from qgis.core import (
     NULL,
@@ -16,12 +19,16 @@ from qgis.core import (
 )
 from qgis.PyQt.QtCore import QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
+from qgis.PyQt.QtPrintSupport import QPrinter
 from qgis.PyQt.QtWebKitWidgets import QWebPage
-from qgis.PyQt.QtWidgets import QAction, QDockWidget, QMenu, QToolButton, QDialog, QFileDialog
-from qgis.PyQt.QtPrintSupport import QPrinter, QPrintDialog
+from qgis.PyQt.QtWidgets import (
+    QAction,
+    QDockWidget,
+    QFileDialog,
+    QMenu,
+    QToolButton,
+)
 from qgis.utils import iface
-
-from functools import partial
 
 from pg_metadata.connection_manager import (
     check_pgmetadata_is_installed,
@@ -77,12 +84,12 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.save_button.setIcon(QIcon(QgsApplication.iconPath('mActionFileSave.svg')))
 
         self.save_as_pdf = QAction(
-            tr('Save content as PDF file'),
+            tr('Save as PDF...'),
             iface.mainWindow())
         self.save_as_pdf.triggered.connect(partial(self.export_dock_content, 'pdf'))
 
         self.save_as_html = QAction(
-            tr('Save content as HTML file'),
+            tr('Save as HTML..'),
             iface.mainWindow())
         self.save_as_html.triggered.connect(partial(self.export_dock_content, 'html'))
 
@@ -98,26 +105,51 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         iface.layerTreeView().currentLayerChanged.connect(self.layer_changed)
 
     def export_dock_content(self, output_format):
+        if not iface.activeLayer():
+            iface.messageBar().pushWarning(
+                "Select Layer",
+                "You need to select layer to export in PDF or HTML"
+            )
+            return
+        self.settings.setValue("UI/lastFileNameWidgetDir", 'home/user/')
+        layer_name = iface.activeLayer().name()
         if output_format == 'pdf':
             printer = QPrinter()
             printer.setOutputFormat(QPrinter.PdfFormat)
-            printer.setOutputFileName('exampleFile.pdf')
-            dialog = QPrintDialog(printer, self)
-            if dialog.exec_() == QDialog.Accepted:
+            output_file = QFileDialog.getSaveFileName(
+                self,
+                tr("Save File as PDF"),
+                self.settings.value("UI/lastFileNameWidgetDir") + layer_name + '.pdf',
+                tr("PDF(*.pdf)")
+            )
+
+            if output_file[0] != '':
+                printer.setOutputFileName(output_file[0])
+                self.settings.setValue("UI/lastFileNameWidgetDir", os.path.dirname(output_file[0]))
                 self.viewer.print(printer)
+                iface.messageBar().pushSuccess(
+                    "Export PDF",
+                    "The metadata has been exported as PDF successfully"
+                )
+
         elif output_format == 'html':
             html_str = self.viewer.page().currentFrame().toHtml()
-            file = QFileDialog.getSaveFileName(
+            output_file = QFileDialog.getSaveFileName(
                 self,
-                tr("Save File"),
-                "/home/untitled.html",
+                tr("Save File as HTML"),
+                self.settings.value("UI/lastFileNameWidgetDir") + layer_name + '.html',
                 tr("HTML(*.html)")
             )
 
-            if file[0] != '':
-                Html_file = open(file[0], "w")
-                Html_file.write(html_str)
-                Html_file.close()
+            if output_file[0] != '':
+                self.settings.setValue("UI/lastFileNameWidgetDir", os.path.dirname(output_file[0]))
+                html_file = open(output_file[0], "w")
+                html_file.write(html_str)
+                html_file.close()
+                iface.messageBar().pushSuccess(
+                    "Export HTML",
+                    "The metadata has been exported as HTML successfully"
+                )
 
     def save_auto_open_dock(self):
         """ Save settings about the dock. """
@@ -156,6 +188,8 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             sql = (
                 "SELECT pgmetadata.get_dataset_item_html_content('{schema}', '{table}');"
             ).format(schema=uri.schema(), table=uri.table())
+
+            self.connection = connection
 
             try:
                 data = connection.executeSql(sql)
