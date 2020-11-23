@@ -17,8 +17,8 @@ from qgis.core import (
 from qgis.PyQt.QtCore import QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
 from qgis.PyQt.QtWebKitWidgets import QWebPage
-from qgis.PyQt.QtWidgets import QAction, QDockWidget, QMenu, QToolButton
-from qgis.PyQt.QtPrintSupport import QPrinter
+from qgis.PyQt.QtWidgets import QAction, QDockWidget, QMenu, QToolButton, QFileDialog, QDialog
+from qgis.PyQt.QtPrintSupport import QPrinter, QPrintDialog
 from qgis.utils import iface
 
 from functools import partial
@@ -101,8 +101,10 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         if output_format == 'pdf':
             printer = QPrinter()
             printer.setOutputFormat(QPrinter.PdfFormat)
-            printer.setOutputFileName('test.html')
-            self.viewer.print(printer)
+            printer.setOutputFileName('exampleFile.pdf')
+            dialog = QPrintDialog(printer, self)
+            if dialog.exec_() == QDialog.Accepted:
+                self.viewer.print(printer)
 
     def save_auto_open_dock(self):
         """ Save settings about the dock. """
