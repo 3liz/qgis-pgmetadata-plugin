@@ -17,7 +17,7 @@ from qgis.core import (
 from qgis.PyQt.QtCore import QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
 from qgis.PyQt.QtWebKitWidgets import QWebPage
-from qgis.PyQt.QtWidgets import QAction, QDockWidget, QMenu, QToolButton, QFileDialog, QDialog
+from qgis.PyQt.QtWidgets import QAction, QDockWidget, QMenu, QToolButton, QDialog, QFileDialog
 from qgis.PyQt.QtPrintSupport import QPrinter, QPrintDialog
 from qgis.utils import iface
 
@@ -105,6 +105,19 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             dialog = QPrintDialog(printer, self)
             if dialog.exec_() == QDialog.Accepted:
                 self.viewer.print(printer)
+        elif output_format == 'html':
+            html_str = self.viewer.page().currentFrame().toHtml()
+            file = QFileDialog.getSaveFileName(
+                self,
+                tr("Save File"),
+                "/home/untitled.html",
+                tr("HTML(*.html)")
+            )
+
+            if file[0] != '':
+                Html_file = open(file[0], "w")
+                Html_file.write(html_str)
+                Html_file.close()
 
     def save_auto_open_dock(self):
         """ Save settings about the dock. """
