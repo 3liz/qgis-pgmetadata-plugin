@@ -93,10 +93,11 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             iface.mainWindow())
         self.save_as_html.triggered.connect(partial(self.export_dock_content, 'html'))
 
-        menu_save = QMenu()
-        menu_save.addAction(self.save_as_pdf)
-        menu_save.addAction(self.save_as_html)
-        self.save_button.setMenu(menu_save)
+        self.menu_save = QMenu()
+        self.menu_save.addAction(self.save_as_pdf)
+        self.menu_save.addAction(self.save_as_html)
+        self.save_button.setMenu(self.menu_save)
+        self.save_button.setEnabled(False)
 
         self.metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
@@ -105,13 +106,6 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         iface.layerTreeView().currentLayerChanged.connect(self.layer_changed)
 
     def export_dock_content(self, output_format):
-        if not iface.activeLayer():
-            iface.messageBar().pushWarning(
-                "Select Layer",
-                "You need to select layer to export in PDF or HTML"
-            )
-            return
-        self.settings.setValue("UI/lastFileNameWidgetDir", 'home/user/')
         layer_name = iface.activeLayer().name()
         if output_format == 'pdf':
             printer = QPrinter()
@@ -156,6 +150,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.settings.setValue("pgmetadata/auto_open_dock", self.auto_open_dock_action.isChecked())
 
     def layer_changed(self, layer):
+        self.save_button.setEnabled(False)
         if not isinstance(layer, QgsVectorLayer):
             self.default_html_content()
             return
@@ -189,8 +184,6 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 "SELECT pgmetadata.get_dataset_item_html_content('{schema}', '{table}');"
             ).format(schema=uri.schema(), table=uri.table())
 
-            self.connection = connection
-
             try:
                 data = connection.executeSql(sql)
             except QgsProviderConnectionException as e:
@@ -206,6 +199,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 continue
 
             self.set_html_content(body=data[0][0])
+            self.save_button.setEnabled(True)
 
             break
 
