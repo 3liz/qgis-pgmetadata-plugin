@@ -5,6 +5,9 @@ __license__ = 'GPL version 3'
 __email__ = 'info@3liz.org'
 
 import logging
+import os
+
+from functools import partial
 
 from qgis.core import (
     NULL,
@@ -16,8 +19,15 @@ from qgis.core import (
 )
 from qgis.PyQt.QtCore import QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
+from qgis.PyQt.QtPrintSupport import QPrinter
 from qgis.PyQt.QtWebKitWidgets import QWebPage
-from qgis.PyQt.QtWidgets import QAction, QDockWidget, QMenu, QToolButton
+from qgis.PyQt.QtWidgets import (
+    QAction,
+    QDockWidget,
+    QFileDialog,
+    QMenu,
+    QToolButton,
+)
 from qgis.utils import iface
 
 from pg_metadata.connection_manager import (
@@ -45,6 +55,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.external_help.setText('')
         self.external_help.setIcon(QIcon(QgsApplication.iconPath('mActionHelpContents.svg')))
         self.external_help.clicked.connect(self.open_external_help)
+
         self.viewer.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
         self.viewer.page().linkClicked.connect(self.open_link)
 
@@ -66,17 +77,80 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         menu.addAction(self.auto_open_dock_action)
         self.config.setMenu(menu)
 
+        # Setting PDF/HTML menu
+        self.save_button.setAutoRaise(True)
+        self.save_button.setToolTip(tr("Save metadata"))
+        self.save_button.setPopupMode(QToolButton.InstantPopup)
+        self.save_button.setIcon(QIcon(QgsApplication.iconPath('mActionFileSave.svg')))
+
+        self.save_as_pdf = QAction(
+            tr('Save as PDF...'),
+            iface.mainWindow())
+        self.save_as_pdf.triggered.connect(partial(self.export_dock_content, 'pdf'))
+
+        self.save_as_html = QAction(
+            tr('Save as HTML..'),
+            iface.mainWindow())
+        self.save_as_html.triggered.connect(partial(self.export_dock_content, 'html'))
+
+        self.menu_save = QMenu()
+        self.menu_save.addAction(self.save_as_pdf)
+        self.menu_save.addAction(self.save_as_html)
+        self.save_button.setMenu(self.menu_save)
+        self.save_button.setEnabled(False)
+
         self.metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
         self.default_html_content()
 
         iface.layerTreeView().currentLayerChanged.connect(self.layer_changed)
 
+    def export_dock_content(self, output_format):
+        layer_name = iface.activeLayer().name()
+        if output_format == 'pdf':
+            printer = QPrinter()
+            printer.setOutputFormat(QPrinter.PdfFormat)
+            output_file = QFileDialog.getSaveFileName(
+                self,
+                tr("Save File as PDF"),
+                self.settings.value("UI/lastFileNameWidgetDir") + layer_name + '.pdf',
+                tr("PDF(*.pdf)")
+            )
+
+            if output_file[0] != '':
+                printer.setOutputFileName(output_file[0])
+                self.settings.setValue("UI/lastFileNameWidgetDir", os.path.dirname(output_file[0]))
+                self.viewer.print(printer)
+                iface.messageBar().pushSuccess(
+                    "Export PDF",
+                    "The metadata has been exported as PDF successfully"
+                )
+
+        elif output_format == 'html':
+            html_str = self.viewer.page().currentFrame().toHtml()
+            output_file = QFileDialog.getSaveFileName(
+                self,
+                tr("Save File as HTML"),
+                self.settings.value("UI/lastFileNameWidgetDir") + layer_name + '.html',
+                tr("HTML(*.html)")
+            )
+
+            if output_file[0] != '':
+                self.settings.setValue("UI/lastFileNameWidgetDir", os.path.dirname(output_file[0]))
+                html_file = open(output_file[0], "w")
+                html_file.write(html_str)
+                html_file.close()
+                iface.messageBar().pushSuccess(
+                    "Export HTML",
+                    "The metadata has been exported as HTML successfully"
+                )
+
     def save_auto_open_dock(self):
         """ Save settings about the dock. """
         self.settings.setValue("pgmetadata/auto_open_dock", self.auto_open_dock_action.isChecked())
 
     def layer_changed(self, layer):
+        self.save_button.setEnabled(False)
         if not isinstance(layer, QgsVectorLayer):
             self.default_html_content()
             return
@@ -125,6 +199,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 continue
 
             self.set_html_content(body=data[0][0])
+            self.save_button.setEnabled(True)
 
             break
 
