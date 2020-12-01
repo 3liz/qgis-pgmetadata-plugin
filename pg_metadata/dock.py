@@ -113,7 +113,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             output_file = QFileDialog.getSaveFileName(
                 self,
                 tr("Save File as PDF"),
-                self.settings.value("UI/lastFileNameWidgetDir") + layer_name + '.pdf',
+                os.path.join(self.settings.value("UI/lastFileNameWidgetDir"), layer_name + '.pdf'),
                 tr("PDF(*.pdf)")
             )
 
@@ -131,7 +131,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             output_file = QFileDialog.getSaveFileName(
                 self,
                 tr("Save File as HTML"),
-                self.settings.value("UI/lastFileNameWidgetDir") + layer_name + '.html',
+                os.path.join(self.settings.value("UI/lastFileNameWidgetDir"), layer_name + '.html'),
                 tr("HTML(*.html)")
             )
 
