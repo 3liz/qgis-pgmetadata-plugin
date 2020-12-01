@@ -22,7 +22,7 @@ list.
 
 This works without the plugin installed on the computer. It's native in QGIS.
 
-![Search with comment](../datasource_manager.png)
+![Search with comment](../img/datasource_manager.png)
 
 ## Panel
 
@@ -59,26 +59,26 @@ open the attribute table, switch on **Edition** mode and add a new row.
 
 Switching to edit mode:
 
-![Attribute table](../attribute_table_edit_mode.png)
+![Attribute table](../img/attribute_table_edit_mode.png)
 
 Adding a new row:
 
-![Attribute table](../attribute_table_new_row.png)
+![Attribute table](../img/attribute_table_new_row.png)
 
 Switching to the form view: You can access the form view at the bottom right corner of the attribute table.
 
-![Attribute table](../attribute_table_view_form.png)
+![Attribute table](../img/attribute_table_view_form.png)
 
 1. On the `Theme` table you can add many theme corresponding to different theme of your layers.
     You need to enter a **code** eg. "A01" and a **label** corresponding at the name eg. "Naturals area".
     Example adding theme:
 
-    ![Attribute table](../attribute_table_add_theme.png)
+    ![Attribute table](../img/attribute_table_add_theme.png)
 
 1. On the `Contact` table you can add contacts that can later be associated with your metadata layer.
     Example new contact:
 
-    ![Attribute table](../attribute_table_add_contact.png)
+    ![Attribute table](../img/attribute_table_add_contact.png)
 
 1. The `Dataset` table is the metadata table. You can add many rows and one added line corresponds to a metadata of a layer.
     You need to fill a row with these minimum information : 
@@ -91,25 +91,25 @@ Switching to the form view: You can access the form view at the bottom right cor
     Example to add a new metadata for a layer:
       On the second picture you can see the theme.
 
-    ![Attribute table](../attribute_table_add_dataset.png)
+    ![Attribute table](../img/attribute_table_add_dataset.png)
 
 1. Now you can add a contact to a dataset row with the `Dataset` table. You can click on a tab called `contact`.
     You need to allow **edit mode** in this tab because you implement an other table.
     Example:
 
-    ![Attribute table](../attribute_table_add_contact.png)
+    ![Attribute table](../img/attribute_table_add_contact.png)
 
 1. And now you can add some`Link` to a dataset row with the `Dataset` table. It's same that to add a contact, you have a link tab.
     Don't forget to allow **edit mode**.
     Example:
 
-    ![Attribute table](../attribute_table_add_link.png)
+    ![Attribute table](../img/attribute_table_add_link.png)
 
 
 When you stop editing a table, don't forget to save your change with clicking on the save icon et leave the edit mode.
 To save:
 
-![Attribute table](../attribute_table_save.png)
+![Attribute table](../img/attribute_table_save.png)
 
 To leave the edit mode you need to click on the same button that to enter in the edit mode.
 
@@ -121,3 +121,13 @@ You can customize the HTML template.
 * use `[% meta_contacts %]` to display all contacts related. It's using the template called `contact`.
 * use `[% meta_links %]` to display all links related. It's using the template called `link`.
 
+## Export as PDF/HTML
+
+To export metadata as PDF or HTML you need to select a layer in your layer tree saved in the metadata table `dataset`.
+Then in the dock you have a button to open the `export menu` and save metadata as PDF or HTML.
+
+![Button Export](../img/dockpgmetadata_with_metadata.png)
+
+If no layer with metadata are selected, you can't click on the button of the `export menu`.
+
+![Button Export without metadata](../img/dockpgmetadatawithoutmetadata.png)
