@@ -110,6 +110,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         if output_format == 'pdf':
             printer = QPrinter()
             printer.setOutputFormat(QPrinter.PdfFormat)
+            printer.setPageMargins(20, 20, 20, 20, QPrinter.Millimeter)
             output_file = QFileDialog.getSaveFileName(
                 self,
                 tr("Save File as PDF"),
