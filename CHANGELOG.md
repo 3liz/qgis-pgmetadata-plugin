@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 0.3.0 - 14/12/2020
+
+* Update online documentation
+* Add export as PDF/HTML button in the dock
+
 ### 0.2.2 - 17/11/2020
 
 * Fix locator SQL query
