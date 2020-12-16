@@ -97,13 +97,22 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td><a href="routines/generate_html_from_json.html">generate_html_from_json</a></td>
+                                        <td>FUNCTION</td>
+                                        <td>PLPGSQL</td>
+                                        <td>false</td>
+                                        <td>text</td>
+                                        <td>INVOKER</td>
+                                        <td><p>Generate HTML content for the given JSON representation of a record and a given section, based on the template stored in the pgmetadata.html_template table. Template section controlled values are &ldquo;main&rdquo;, &ldquo;contact&rdquo; and &ldquo;link&rdquo;. If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned.</p></td>
+                                    </tr>
+                                    <tr>
                                         <td><a href="routines/get_dataset_item_html_content.html">get_dataset_item_html_content</a></td>
                                         <td>FUNCTION</td>
                                         <td>PLPGSQL</td>
                                         <td>false</td>
                                         <td>text</td>
                                         <td>INVOKER</td>
-                                        <td><p>Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.</p></td>
+                                        <td><p>Generate the metadata HTML content for the given table, or NULL if no templates are stored in the pgmetadata.html_template table.</p></td>
                                     </tr>
                                     <tr>
                                         <td><a href="routines/update_postgresql_table_comment.html">update_postgresql_table_comment</a></td>
@@ -124,6 +133,24 @@ pgmetadata.update_postgresql_table_comment(
 ) AS comment_updated
 FROM pgmetadata.v_table_comment_from_metadata AS v
 </code></pre></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="routines/refresh_dataset_calculated_fields.html">refresh_dataset_calculated_fields</a></td>
+                                        <td>FUNCTION</td>
+                                        <td>PLPGSQL</td>
+                                        <td>false</td>
+                                        <td>void</td>
+                                        <td>INVOKER</td>
+                                        <td><p>Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="routines/calculate_fields_from_data.html">calculate_fields_from_data</a></td>
+                                        <td>FUNCTION</td>
+                                        <td>PLPGSQL</td>
+                                        <td>false</td>
+                                        <td>trigger</td>
+                                        <td>INVOKER</td>
+                                        <td><p>Update some fields content when updating or inserting a line in pgmetadata.dataset table.</p></td>
                                     </tr>
                                     <tr>
                                         <td><a href="routines/update_table_comment_from_dataset.html">update_table_comment_from_dataset</a></td>

@@ -85,7 +85,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p><p>Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.</p></p>
+                            <p><p>Generate the metadata HTML content for the given table, or NULL if no templates are stored in the pgmetadata.html_template table.</p></p>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -121,11 +121,6 @@
                                     <td>text</td>
                                     <td>IN</td>
                                 </tr>
-                                <tr>
-                                    <td>_template_section</td>
-                                    <td>text</td>
-                                    <td>IN</td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -140,7 +135,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    item record;&#10;    html text;&#10;BEGIN&#10;&#10;    -- Get main HTML template&#10;    SELECT content&#10;    FROM pgmetadata.html_template AS h&#10;    WHERE True&#10;    AND section = _template_section&#10;    INTO html&#10;    ;&#10;&#10;    IF html IS NULL THEN&#10;        RETURN &#39;No HTML template found&#39;;&#10;    END IF;&#10;&#10;    -- Get dataset item&#10;    -- We transpose dataset record into rows such as&#10;    -- col    | val&#10;    -- id     | 1&#10;    -- uid    | dfd3b73c-3cd3-40b7-b92d-aa0f625c86fe&#10;    -- ...&#10;    -- title  | My title&#10;    -- For each row, we search and replace the [% &quot;col&quot; %] by val&#10;    FOR item IN&#10;        SELECT (line.d).key AS col, Coalesce((line.d).value, &#39;&#39;) AS val&#10;        FROM (&#10;            SELECT json_each_text(row_to_json(d.*)) d&#10;            FROM pgmetadata.dataset AS d&#10;            WHERE True&#10;            AND d.schema_name = _table_schema&#10;            AND d.table_name = _table_name&#10;        ) AS line&#10;    LOOP&#10;        -- replace QGIS style field [% &quot;my_field&quot; %] by field value&#10;        html = regexp_replace(&#10;            html,&#10;            concat(&#39;\[%( )*?(&quot;)*&#39;, item.col ,&#39;(&quot;)*( )*%\]&#39;),&#10;            item.val,&#10;            &#39;g&#39;&#10;        )&#10;        ;&#10;&#10;    END LOOP;&#10;&#10;    RETURN html;&#10;&#10;END;&#10;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    item record;&#10;    dataset_rec record;&#10;    json_data json;&#10;    html text;&#10;    html_contact text;&#10;    html_link text;&#10;    html_main text;&#10;BEGIN&#10;    -- Check if dataset exists&#10;    SELECT *&#10;    FROM pgmetadata.dataset&#10;    WHERE True&#10;    AND schema_name = _table_schema&#10;    AND table_name = _table_name&#10;    LIMIT 1&#10;    INTO dataset_rec&#10;    ;&#10;&#10;    IF dataset_rec.id IS NULL THEN&#10;        RETURN NULL;&#10;    END IF;&#10;&#10;    -- Contacts&#10;    html_contact = &#39;&#39;;&#10;    FOR json_data IN&#10;        WITH a AS (&#10;            SELECT *&#10;            FROM pgmetadata.v_contact&#10;            WHERE True&#10;            AND schema_name = _table_schema&#10;            AND table_name = _table_name&#10;        )&#10;        SELECT row_to_json(a.*)&#10;        FROM a&#10;    LOOP&#10;        html_contact = concat(&#10;            html_contact, &#39;&#10;            &#39;,&#10;            pgmetadata.generate_html_from_json(json_data, &#39;contact&#39;)&#10;        );&#10;    END LOOP;&#10;    RAISE NOTICE &#39;html_contact: %&#39;, html_contact;&#10;&#10;    -- Links&#10;    html_link = &#39;&#39;;&#10;    FOR json_data IN&#10;        WITH a AS (&#10;            SELECT *&#10;            FROM pgmetadata.v_link&#10;            WHERE True&#10;            AND schema_name = _table_schema&#10;            AND table_name = _table_name&#10;        )&#10;        SELECT row_to_json(a.*)&#10;        FROM a&#10;    LOOP&#10;        html_link = concat(&#10;            html_link, &#39;&#10;            &#39;,&#10;            pgmetadata.generate_html_from_json(json_data, &#39;link&#39;)&#10;        );&#10;    END LOOP;&#10;    RAISE NOTICE &#39;html_link: %&#39;, html_link;&#10;&#10;    -- Main&#10;    html_main = &#39;&#39;;&#10;    WITH a AS (&#10;        SELECT *&#10;        FROM pgmetadata.v_dataset&#10;        WHERE True&#10;        AND schema_name = _table_schema&#10;        AND table_name = _table_name&#10;    )&#10;    SELECT row_to_json(a.*)&#10;    FROM a&#10;    INTO json_data&#10;    ;&#10;    html_main = pgmetadata.generate_html_from_json(json_data, &#39;main&#39;);&#10;    RAISE NOTICE &#39;html_main: %&#39;, html_main;&#10;&#10;    IF html_main IS NULL THEN&#10;        RETURN NULL;&#10;    END IF;&#10;&#10;    html = html_main;&#10;&#10;    -- add contacts: [% &quot;meta_contacts&quot; %]&#10;    html = regexp_replace(&#10;        html,&#10;        concat(&#39;\[%( )*?(&quot;)*meta_contacts(&quot;)*( )*%\]&#39;),&#10;        coalesce(html_contact, &#39;&#39;),&#10;        &#39;g&#39;&#10;    );&#10;&#10;    -- add links [% &quot;meta_links&quot; %]&#10;    html = regexp_replace(&#10;        html,&#10;        concat(&#39;\[%( )*?(&quot;)*meta_links(&quot;)*( )*%\]&#39;),&#10;        coalesce(html_link, &#39;&#39;),&#10;        &#39;g&#39;&#10;    );&#10;&#10;    RETURN html;&#10;&#10;END;&#10;</textarea>
                         </div>
                     </div>
                 </section>

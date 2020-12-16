@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>html_template - gis Database</title>
+        <title>gis Database</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>html_template</h1><p><span id="recordNumber">0</span> rows</p><br />
+                    <h1>calculate_fields_from_data</h1><br />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="fa fa-file-text-o"></i>
@@ -82,10 +82,12 @@
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
-                        </div><!-- /.box-header -->
+                        </div>
+                        <!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p>This table contains the HTML templates for the main metadata sheet, and one for the contacts and links. Contacts and links templates are used to compute a unique contact or link HTML representation.</p>
-                        </div><!-- /.box-body -->
+                            <p><p>Update some fields content when updating or inserting a line in pgmetadata.dataset table.</p></p>
+                        </div>
+                        <!-- /.box-body -->
                     </div>
                 </section>
                 <!-- Main content -->
@@ -93,7 +95,7 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                            <h3 id="Columns" class="box-title">Columns</h3>
+                            <h3 id="Columns" class="box-title">Parameters</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -103,146 +105,30 @@
                             <table id="standard_table" class="table table-bordered table-striped dataTable" role="grid">
                                 <thead align='left'>
                                 <tr>
-                                    <th>Column</th>
+                                    <th>Name</th>
                                     <th>Type</th>
-                                    <th>Size</th>
-                                    <th title='Are nulls allowed?'>Nulls</th>
-                                    <th title='Is column automatically updated?'>Auto</th>
-                                    <th title='Default value'>Default</th>
-                                    <th title='Columns in tables that reference this column'>Children</th>
-                                    <th title='Columns in tables that are referenced by this column'>Parents</th>
-                                    <th title='Comments' class="toggle"><span>Comments</span></th>
+                                    <th>Mode</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="id">id</span></td>
-                                    <td>serial</td>
-                                    <td>10</td>
-                                    <td title=''></td>
-                                    <td title='Automatically updated by the database'>√</td>
-                                    <td>nextval(&#39;pgmetadata.html_template_id_seq&#39;::regclass)</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="section">section</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="content">content</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <i class="fa fa-sitemap"></i>
-                            <h3 id="Indexes" class="box-title">Indexes</h3>
+                            <i class="fa fa-file-code-o"></i>
+                            <h3 id="RoutineDefinition" class="box-title">Definition</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
-                            <table id="indexes_table" class="table table-bordered table-striped dataTable" role="grid">
-                                <thead>
-                                <tr>
-                                    <th>Constraint Name</th>
-                                    <th>Type</th>
-                                    <th>Sort</th>
-                                    <th>Column(s)</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> html_template_pkey</td>
-                                    <td>Primary key</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>id</td>
-                                </tr>
-                                <tr>
-                                    <td class='uniqueKey' title='Unique Key'><i class='icon ion-key iconkey'></i> html_template_section_key</td>
-                                    <td>Must be unique</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>section</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div><!-- /.box-body -->
-                    </div>
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <i class="fa fa-sitemap"></i>
-                            <h3 class="box-title">Check Constraints</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    test_target_table regclass;&#10;    target_table text;&#10;    test_geom_column record;&#10;    geom_envelop geometry;&#10;geom_column_name text;&#10;BEGIN&#10;&#10;    -- table&#10;    target_table = quote_ident(NEW.schema_name) || &#39;.&#39; || quote_ident(NEW.table_name);&#10;    IF target_table IS NULL THEN&#10;        RETURN NEW;&#10;    END IF;&#10;&#10;    -- Check if table exists&#10;    EXECUTE &#39;SELECT to_regclass(&#39; || quote_literal(target_table) ||&#39;)&#39;&#10;    INTO test_target_table&#10;    ;&#10;    IF test_target_table IS NULL THEN&#10;        RAISE NOTICE &#39;pgmetadata - table does not exists: %&#39;, target_table;&#10;        RETURN NEW;&#10;    END IF;&#10;&#10;-- Get table feature count&#10;    EXECUTE &#39;SELECT COUNT(*) FROM &#39; || target_table&#10;    INTO NEW.feature_count;&#10;    -- RAISE NOTICE &#39;pgmetadata - % feature_count: %&#39;, target_table, NEW.feature_count;&#10;&#10;-- Check geometry properties: get data from geometry_columns&#10;    EXECUTE&#10;    &#39; SELECT *&#39; ||&#10;    &#39; FROM geometry_columns&#39; ||&#10;    &#39; WHERE f_table_schema=&#39; || quote_literal(NEW.schema_name) ||&#10;    &#39; AND f_table_name=&#39; || quote_literal(NEW.table_name) ||&#10;    &#39; LIMIT 1&#39;&#10;    INTO test_geom_column;&#10;&#10;-- If the table has a geometry column, calculate field values&#10;    IF test_geom_column IS NOT NULL THEN&#10;&#10;        -- column name&#10;        geom_column_name = test_geom_column.f_geometry_column;&#10;        RAISE NOTICE &#39;pgmetadata - table % has a geometry column: %&#39;, target_table, geom_column_name;&#10;&#10;        -- spatial_extent&#10;        EXECUTE &#39;&#10;            SELECT CONCAT(&#10;                min(ST_xmin(&quot;&#39; || geom_column_name || &#39;&quot;))::text, &#39;&#39;, &#39;&#39;,&#10;                max(ST_xmax(&quot;&#39; || geom_column_name || &#39;&quot;))::text, &#39;&#39;, &#39;&#39;,&#10;                min(ST_ymin(&quot;&#39; || geom_column_name || &#39;&quot;))::text, &#39;&#39;, &#39;&#39;,&#10;                max(ST_ymax(&quot;&#39; || geom_column_name || &#39;&quot;))::text)&#10;            FROM &#39; || target_table&#10;        INTO NEW.spatial_extent;&#10;&#10;        -- geom: convexhull from target table&#10;        EXECUTE &#39;&#10;            SELECT ST_Transform(ST_ConvexHull(st_collect(ST_Force2d(&quot;&#39; || geom_column_name || &#39;&quot;))), 4326)&#10;            FROM &#39; || target_table&#10;        INTO geom_envelop;&#10;&#10;        -- Test if it&#39;s not a point or a line&#10;        IF GeometryType(geom_envelop) != &#39;POLYGON&#39; THEN&#10;            EXECUTE &#39;&#10;                SELECT ST_SetSRID(ST_Buffer(ST_GeomFromText(&#39;&#39;&#39; || ST_ASTEXT(geom_envelop) || &#39;&#39;&#39;), 0.0001), 4326)&#39;&#10;            INTO NEW.geom;&#10;        ELSE&#10;            NEW.GEOM = geom_envelop;&#10;        END IF;&#10;&#10;        -- projection_authid&#10;        EXECUTE &#39;&#10;            SELECT CONCAT(s.auth_name, &#39;&#39;:&#39;&#39;, ST_SRID(m.&quot;&#39; || geom_column_name || &#39;&quot;)::text)&#10;            FROM &#39; || target_table || &#39; m, spatial_ref_sys s&#10;            WHERE s.auth_srid = ST_SRID(m.&quot;&#39; || geom_column_name || &#39;&quot;)&#10;            LIMIT 1&#39;&#10;        INTO NEW.projection_authid;&#10;&#10;        -- projection_name&#10;        -- TODO&#10;&#10;        -- geometry_type&#10;        NEW.geometry_type = test_geom_column.type;&#10;&#10;    ELSE&#10;    -- No geometry column found: we need to erase values&#10;            NEW.geom = NULL;&#10;            NEW.projection_authid = NULL;&#10;            NEW.geometry_type = NULL;&#10;            NEW.spatial_extent = NULL;&#10;    END IF;&#10;&#10;    RETURN NEW;&#10;END;&#10;</textarea>
                         </div>
-                        <div class="box-body">
-                            <table id="check_table" class="table table-bordered table-striped dataTable" role="grid">
-                                <thead align='left'>
-                                <tr>
-                                    <th>Constraint Name</th>
-                                    <th>Constraint</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>html_template_section_check</td>
-                                    <td>((section = ANY (ARRAY[&#39;main&#39;::text, &#39;contact&#39;::text, &#39;link&#39;::text])))</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="alert alert-warning alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h4><i class="icon fa fa-warning"></i>Diagram producer might be missing</h4>
-                        <p>No diagrams were produced please see application output for any errors</p>
                     </div>
                 </section>
-                <script>
-                    var config = {
-                        pagination: true
-                    }
-                </script>
             </div>
             <!-- /.content-wrapper -->
             <footer class="main-footer">
@@ -289,7 +175,7 @@
         <script src="../bower/codemirror/sql.js"></script>
         <!-- AdminLTE App -->
         <script src="../bower/admin-lte/dist/js/app.min.js"></script>
-        <script src="table.js"></script>
+        <script src="routine.js"></script>
         <script src="../schemaSpy.js"></script>
     </body>
 </html>

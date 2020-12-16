@@ -1,3 +1,4 @@
+theme
 qgis_plugin
 html_template
 glossary

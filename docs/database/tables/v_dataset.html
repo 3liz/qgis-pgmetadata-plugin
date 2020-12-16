@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>dataset - gis Database</title>
+        <title>v_dataset - gis Database</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>dataset</h1><p><span id="recordNumber">0</span> rows</p><br />
+                    <h1>v_dataset</h1><p><span id="recordNumber">0</span> rows</p><br />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="fa fa-file-text-o"></i>
@@ -84,7 +84,7 @@
                             </div>
                         </div><!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p>Main table for storing dataset about PostgreSQL vector layers.</p>
+                            <p>Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.</p>
                         </div><!-- /.box-body -->
                     </div>
                 </section>
@@ -116,118 +116,25 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="id">id</span></td>
-                                    <td>serial</td>
+                                    <td><span id="id">id</span></td>
+                                    <td>int4</td>
                                     <td>10</td>
+                                    <td title='nullable'>√</td>
                                     <td title=''></td>
-                                    <td title='Automatically updated by the database'>√</td>
-                                    <td>nextval(&#39;pgmetadata.dataset_id_seq&#39;::regclass)</td>
+                                    <td>null</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
-                                            <tr>
-                                                <td title="dataset_contact.fk_id_dataset references dataset.id via dataset_contact_fk_id_dataset_fkey"><a href='dataset_contact.html'>dataset_contact</a><span class='relatedKey'>.fk_id_dataset</span></td>
-                                                <td class="constraint detail">dataset_contact_fk_id_dataset_fkey<span title='Cascade on delete:&#10;Deletion of parent deletes child'>C</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td title="link.fk_id_dataset references dataset.id via link_fk_id_dataset_fkey"><a href='link.html'>link</a><span class='relatedKey'>.fk_id_dataset</span></td>
-                                                <td class="constraint detail">link_fk_id_dataset_fkey<span title='Cascade on delete:&#10;Deletion of parent deletes child'>C</span></td>
-                                            </tr>
                                         </table>
                                     </td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Internal automatic integer ID</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="uid">uid</span></td>
+                                    <td><span id="uid">uid</span></td>
                                     <td>uuid</td>
-                                    <td>2147483647</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>uuid_generate_v4()</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a</p></td>
-                                </tr>
-                                <tr>
-                                    <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="table_name">table_name</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Name of the related table in the database</p></td>
-                                </tr>
-                                <tr>
-                                    <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="schema_name">schema_name</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Name of the related schema in the database</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="title">title</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Title of the data</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="abstract">abstract</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Full description of the data</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="categories">categories</span></td>
-                                    <td>_text</td>
                                     <td>2147483647</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
@@ -240,7 +147,109 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>List of categories</p></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="table_name">table_name</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="schema_name">schema_name</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="title">title</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="abstract">abstract</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="categories">categories</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="themes">themes</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="keywords">keywords</span></td>
@@ -257,7 +266,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>List of keywords separated by comma. Ex: environment, paris, trees</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="spatial_level">spatial_level</span></td>
@@ -274,12 +283,12 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Spatial level of the data. E.g. city, country, street</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="minimum_optimal_scale">minimum_optimal_scale</span></td>
-                                    <td>int4</td>
-                                    <td>10</td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
                                     <td>null</td>
@@ -291,12 +300,12 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Minimum optimal scale denominator to view the data. E.g. 100000 for 1/100000. Most &ldquo;zoomed out&rdquo;.</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="maximum_optimal_scale">maximum_optimal_scale</span></td>
-                                    <td>int4</td>
-                                    <td>10</td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
                                     <td>null</td>
@@ -308,7 +317,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Maximum optimal scale denominator to view the data. E.g. 2000 for 1/2000. Most &ldquo;zoomed in&rdquo;.</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="publication_date">publication_date</span></td>
@@ -316,7 +325,7 @@
                                     <td>29,6</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
-                                    <td>now()</td>
+                                    <td>null</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
@@ -325,7 +334,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Date of publication of the data</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="publication_frequency">publication_frequency</span></td>
@@ -342,7 +351,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Frequency of publication: how often the data is published.</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="license">license</span></td>
@@ -359,7 +368,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>License. E.g. Public domain</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="confidentiality">confidentiality</span></td>
@@ -376,7 +385,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Confidentiality of the data.</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="feature_count">feature_count</span></td>
@@ -393,7 +402,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Number of features of the data</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="geometry_type">geometry_type</span></td>
@@ -410,7 +419,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Geometry type. E.g. Polygon</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="projection_name">projection_name</span></td>
@@ -427,7 +436,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Projection name of the dataset. E.g. WGS 84 - Geographic</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="projection_authid">projection_authid</span></td>
@@ -444,7 +453,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Projection auth id. E.g. EPSG:4326</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="spatial_extent">spatial_extent</span></td>
@@ -461,15 +470,15 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Spatial extent of the data. xmin,ymin,xmax,ymax.</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="creation_date">creation_date</span></td>
                                     <td>timestamp</td>
                                     <td>29,6</td>
+                                    <td title='nullable'>√</td>
                                     <td title=''></td>
-                                    <td title=''></td>
-                                    <td>now()</td>
+                                    <td>null</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
@@ -478,7 +487,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Date of creation of the dataset item</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="update_date">update_date</span></td>
@@ -486,23 +495,6 @@
                                     <td>29,6</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
-                                    <td>now()</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Date of update of the dataset item</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="geom">geom</span></td>
-                                    <td>geometry</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
                                     <td>null</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
@@ -512,41 +504,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Geometry defining the extent of the data. Can be any polygon.</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="data_last_update">data_last_update</span></td>
-                                    <td>timestamp</td>
-                                    <td>29,6</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Date of the last modification of the target data (not on the dataset item line)</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="themes">themes</span></td>
-                                    <td>_text</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>List of themes</p></td>
+                                    <td></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -554,87 +512,29 @@
                     </div>
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <i class="fa fa-sitemap"></i>
-                            <h3 id="Indexes" class="box-title">Indexes</h3>
+                            <i class="fa fa-file-code-o"></i>
+                            <h3 id="ViewDefinition" class="box-title">View Definition</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
-                            <table id="indexes_table" class="table table-bordered table-striped dataTable" role="grid">
-                                <thead>
-                                <tr>
-                                    <th>Constraint Name</th>
-                                    <th>Type</th>
-                                    <th>Sort</th>
-                                    <th>Column(s)</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> dataset_pkey</td>
-                                    <td>Primary key</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>id</td>
-                                </tr>
-                                <tr>
-                                    <td title='Indexed'>dataset_id_idx</td>
-                                    <td>Performance</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>id</td>
-                                </tr>
-                                <tr>
-                                    <td class='uniqueKey' title='Unique Key'><i class='icon ion-key iconkey'></i> dataset_table_name_schema_name_key</td>
-                                    <td>Must be unique</td>
-                                    <td><span title='Ascending'>Asc</span>/<span title='Ascending'>Asc</span></td>
-                                    <td>table_name + schema_name</td>
-                                </tr>
-                                <tr>
-                                    <td class='uniqueKey' title='Unique Key'><i class='icon ion-key iconkey'></i> dataset_uid_key</td>
-                                    <td>Must be unique</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>uid</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div><!-- /.box-body -->
-                    </div>
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <i class="fa fa-code-fork"></i>
-                            <h3 id="Relationships" class="box-title">Relationships</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="nav-tabs-custom"><!-- Tabs within a box -->
-                                <h5>Close relationships within degrees of separation</h5>
-                                <ul class="nav nav-tabs pull-left ui-sortable-handle">
-                                    <li class="active"><a href="#oneDegreeImg-chart" data-toggle="tab" aria-expanded="true">One</a></li>
-                                    <li class=""><a href="#twodegreesDegreeImg-chart" data-toggle="tab" aria-expanded="true">Two degrees</a></li>
-                                </ul>
-                                <div class="tab-content no-padding">
-                                    <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
-                                        <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="dataset_contact.html" target="_top" title="dataset_contact" alt="" coords="475,5,683,187">
-<area shape="rect" id="node2" href="dataset.html" target="_top" title="dataset" alt="" coords="5,145,431,948">
-<area shape="rect" id="node3" href="link.html" target="_top" title="link" alt="" coords="502,204,655,351">
-</map>
-                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/dataset.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
-                                    </div>
-                                    <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
-                                        <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="dataset_contact.html" target="_top" title="dataset_contact" alt="" coords="475,5,683,187">
-<area shape="rect" id="node2" href="contact.html" target="_top" title="contact" alt="" coords="146,37,290,125">
-<area shape="rect" id="node3" href="dataset.html" target="_top" title="dataset" alt="" coords="5,187,431,989">
-<area shape="rect" id="node4" href="link.html" target="_top" title="link" alt="" coords="502,204,655,351">
-</map>
-                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/dataset.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
-                                    </div>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">WITH s AS (&#10;         SELECT d.id,&#10;            d.uid,&#10;            d.table_name,&#10;            d.schema_name,&#10;            d.title,&#10;            d.abstract,&#10;            d.categories,&#10;            d.themes,&#10;            d.keywords,&#10;            d.spatial_level,&#10;            d.minimum_optimal_scale,&#10;            d.maximum_optimal_scale,&#10;            d.publication_date,&#10;            d.publication_frequency,&#10;            d.license,&#10;            d.confidentiality,&#10;            d.feature_count,&#10;            d.geometry_type,&#10;            d.projection_name,&#10;            d.projection_authid,&#10;            d.spatial_extent,&#10;            d.creation_date,&#10;            d.update_date,&#10;            d.geom,&#10;            cat.cat,&#10;            theme.theme&#10;           FROM ((pgmetadata.dataset d&#10;             LEFT JOIN LATERAL unnest(d.categories) cat(cat) ON (true))&#10;             LEFT JOIN LATERAL unnest(d.themes) theme(theme) ON (true))&#10;          WHERE true&#10;          ORDER BY d.id&#10;        ), ss AS (&#10;         SELECT s.id,&#10;            s.uid,&#10;            s.table_name,&#10;            s.schema_name,&#10;            s.title,&#10;            s.abstract,&#10;            gcat.label AS cat,&#10;            gtheme.label AS theme,&#10;            s.keywords,&#10;            s.spatial_level,&#10;            (&#39;1/&#39;::text || s.minimum_optimal_scale) AS minimum_optimal_scale,&#10;            (&#39;1/&#39;::text || s.maximum_optimal_scale) AS maximum_optimal_scale,&#10;            s.publication_date,&#10;            gfre.label AS publication_frequency,&#10;            concat(glic.label, &#39; (&#39;, s.license, &#39;)&#39;) AS license,&#10;            gcon.label AS confidentiality,&#10;            s.feature_count,&#10;            s.geometry_type,&#10;            (regexp_split_to_array((rs.srtext)::text, &#39;&quot;&#39;::text))[2] AS projection_name,&#10;            s.projection_authid,&#10;            s.spatial_extent,&#10;            s.creation_date,&#10;            s.update_date&#10;           FROM ((((((s&#10;             LEFT JOIN pgmetadata.glossary gcat ON (((gcat.field = &#39;dataset.categories&#39;::text) AND (gcat.code = s.cat))))&#10;             LEFT JOIN pgmetadata.theme gtheme ON ((gtheme.code = s.theme)))&#10;             LEFT JOIN pgmetadata.glossary gfre ON (((gfre.field = &#39;dataset.publication_frequency&#39;::text) AND (gfre.code = s.publication_frequency))))&#10;             LEFT JOIN pgmetadata.glossary glic ON (((glic.field = &#39;dataset.license&#39;::text) AND (glic.code = s.license))))&#10;             LEFT JOIN pgmetadata.glossary gcon ON (((gcon.field = &#39;dataset.confidentiality&#39;::text) AND (gcon.code = s.confidentiality))))&#10;             LEFT JOIN spatial_ref_sys rs ON ((concat(rs.auth_name, &#39;:&#39;, rs.auth_srid) = s.projection_authid)))&#10;        )&#10; SELECT ss.id,&#10;    ss.uid,&#10;    ss.table_name,&#10;    ss.schema_name,&#10;    ss.title,&#10;    ss.abstract,&#10;    string_agg(DISTINCT ss.cat, &#39;, &#39;::text ORDER BY ss.cat) AS categories,&#10;    string_agg(DISTINCT ss.theme, &#39;, &#39;::text ORDER BY ss.theme) AS themes,&#10;    ss.keywords,&#10;    ss.spatial_level,&#10;    ss.minimum_optimal_scale,&#10;    ss.maximum_optimal_scale,&#10;    ss.publication_date,&#10;    ss.publication_frequency,&#10;    ss.license,&#10;    ss.confidentiality,&#10;    ss.feature_count,&#10;    ss.geometry_type,&#10;    ss.projection_name,&#10;    ss.projection_authid,&#10;    ss.spatial_extent,&#10;    ss.creation_date,&#10;    ss.update_date&#10;   FROM ss&#10;  GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date;</textarea>
+                            <div style="padding-top: 5px;"><hr></div>
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-puzzle-piece"></i>
+                                    <h3 class="box-title">Possibly Referenced Tables/Views</h3>
                                 </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <ul class="list-unstyled">
+                                        <li><a href="theme.html">theme</a></li>
+                                        <li><a href="dataset.html">dataset</a></li>
+                                        <li><a href="glossary.html">glossary</a></li>
+                                    </ul>
+                                </div><!-- /.box-body -->
                             </div>
                         </div><!-- /.box-body -->
                     </div>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>html_template - gis Database</title>
+        <title>gis Database</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>html_template</h1><p><span id="recordNumber">0</span> rows</p><br />
+                    <h1>generate_html_from_json</h1><br />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="fa fa-file-text-o"></i>
@@ -82,10 +82,12 @@
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
-                        </div><!-- /.box-header -->
+                        </div>
+                        <!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p>This table contains the HTML templates for the main metadata sheet, and one for the contacts and links. Contacts and links templates are used to compute a unique contact or link HTML representation.</p>
-                        </div><!-- /.box-body -->
+                            <p><p>Generate HTML content for the given JSON representation of a record and a given section, based on the template stored in the pgmetadata.html_template table. Template section controlled values are &ldquo;main&rdquo;, &ldquo;contact&rdquo; and &ldquo;link&rdquo;. If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned.</p></p>
+                        </div>
+                        <!-- /.box-body -->
                     </div>
                 </section>
                 <!-- Main content -->
@@ -93,7 +95,7 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                            <h3 id="Columns" class="box-title">Columns</h3>
+                            <h3 id="Columns" class="box-title">Parameters</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -103,68 +105,21 @@
                             <table id="standard_table" class="table table-bordered table-striped dataTable" role="grid">
                                 <thead align='left'>
                                 <tr>
-                                    <th>Column</th>
+                                    <th>Name</th>
                                     <th>Type</th>
-                                    <th>Size</th>
-                                    <th title='Are nulls allowed?'>Nulls</th>
-                                    <th title='Is column automatically updated?'>Auto</th>
-                                    <th title='Default value'>Default</th>
-                                    <th title='Columns in tables that reference this column'>Children</th>
-                                    <th title='Columns in tables that are referenced by this column'>Parents</th>
-                                    <th title='Comments' class="toggle"><span>Comments</span></th>
+                                    <th>Mode</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="id">id</span></td>
-                                    <td>serial</td>
-                                    <td>10</td>
-                                    <td title=''></td>
-                                    <td title='Automatically updated by the database'>√</td>
-                                    <td>nextval(&#39;pgmetadata.html_template_id_seq&#39;::regclass)</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
+                                    <td>_json_data</td>
+                                    <td>json</td>
+                                    <td>IN</td>
                                 </tr>
                                 <tr>
-                                    <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="section">section</span></td>
+                                    <td>_template_section</td>
                                     <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="content">content</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
+                                    <td>IN</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -172,77 +127,18 @@
                     </div>
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <i class="fa fa-sitemap"></i>
-                            <h3 id="Indexes" class="box-title">Indexes</h3>
+                            <i class="fa fa-file-code-o"></i>
+                            <h3 id="RoutineDefinition" class="box-title">Definition</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
-                            <table id="indexes_table" class="table table-bordered table-striped dataTable" role="grid">
-                                <thead>
-                                <tr>
-                                    <th>Constraint Name</th>
-                                    <th>Type</th>
-                                    <th>Sort</th>
-                                    <th>Column(s)</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> html_template_pkey</td>
-                                    <td>Primary key</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>id</td>
-                                </tr>
-                                <tr>
-                                    <td class='uniqueKey' title='Unique Key'><i class='icon ion-key iconkey'></i> html_template_section_key</td>
-                                    <td>Must be unique</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>section</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div><!-- /.box-body -->
-                    </div>
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <i class="fa fa-sitemap"></i>
-                            <h3 class="box-title">Check Constraints</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    item record;&#10;    html text;&#10;BEGIN&#10;&#10;    -- Get HTML template from html_template table&#10;    SELECT content&#10;    FROM pgmetadata.html_template AS h&#10;    WHERE True&#10;    AND section = _template_section&#10;    INTO html&#10;    ;&#10;    IF html IS NULL THEN&#10;        RETURN NULL;&#10;    END IF;&#10;&#10;    -- Get dataset item&#10;    -- We transpose dataset record into rows such as&#10;    -- col    | val&#10;    -- id     | 1&#10;    -- uid    | dfd3b73c-3cd3-40b7-b92d-aa0f625c86fe&#10;    -- ...&#10;    -- title  | My title&#10;    -- For each row, we search and replace the [% &quot;col&quot; %] by val&#10;    FOR item IN&#10;        SELECT (line.d).key AS col, Coalesce((line.d).value, &#39;&#39;) AS val&#10;        FROM (&#10;            SELECT json_each_text(_json_data) d&#10;        ) AS line&#10;    LOOP&#10;        -- replace QGIS style field [% &quot;my_field&quot; %] by field value&#10;        html = regexp_replace(&#10;            html,&#10;            concat(&#39;\[%( )*?(&quot;)*&#39;, item.col ,&#39;(&quot;)*( )*%\]&#39;),&#10;            item.val,&#10;            &#39;g&#39;&#10;        )&#10;        ;&#10;&#10;    END LOOP;&#10;&#10;    RETURN html;&#10;&#10;END;&#10;</textarea>
                         </div>
-                        <div class="box-body">
-                            <table id="check_table" class="table table-bordered table-striped dataTable" role="grid">
-                                <thead align='left'>
-                                <tr>
-                                    <th>Constraint Name</th>
-                                    <th>Constraint</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>html_template_section_check</td>
-                                    <td>((section = ANY (ARRAY[&#39;main&#39;::text, &#39;contact&#39;::text, &#39;link&#39;::text])))</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="alert alert-warning alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h4><i class="icon fa fa-warning"></i>Diagram producer might be missing</h4>
-                        <p>No diagrams were produced please see application output for any errors</p>
                     </div>
                 </section>
-                <script>
-                    var config = {
-                        pagination: true
-                    }
-                </script>
             </div>
             <!-- /.content-wrapper -->
             <footer class="main-footer">
@@ -289,7 +185,7 @@
         <script src="../bower/codemirror/sql.js"></script>
         <!-- AdminLTE App -->
         <script src="../bower/admin-lte/dist/js/app.min.js"></script>
-        <script src="table.js"></script>
+        <script src="routine.js"></script>
         <script src="../schemaSpy.js"></script>
     </body>
 </html>
