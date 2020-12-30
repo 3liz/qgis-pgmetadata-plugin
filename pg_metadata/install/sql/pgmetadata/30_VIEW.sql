@@ -16,30 +16,60 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+-- v_glossary
+CREATE VIEW pgmetadata.v_glossary AS
+ WITH one AS (
+         SELECT glossary.field,
+            glossary.code,
+            json_build_object('label', json_build_object('en', glossary.label, 'fr', COALESCE(NULLIF(glossary.label_fr, ''::text), glossary.label, ''::text)), 'description', json_build_object('en', glossary.description, 'fr', COALESCE(NULLIF(glossary.description_fr, ''::text), glossary.description, ''::text))) AS dict
+           FROM pgmetadata.glossary
+        ), two AS (
+         SELECT one.field,
+            json_object_agg(one.code, one.dict) AS dict
+           FROM one
+          GROUP BY one.field
+        )
+ SELECT json_object_agg(two.field, two.dict) AS dict
+   FROM two;
+
+
+-- VIEW v_glossary
+COMMENT ON VIEW pgmetadata.v_glossary IS 'View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION "pgmetadata.locale" = ''fr''; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict->''contact.contact_role''->''OW''->''label''->''fr'')::text AS label FROM glossary;';
+
+
 -- v_contact
 CREATE VIEW pgmetadata.v_contact AS
+ WITH glossary AS (
+         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,
+            v_glossary.dict
+           FROM pgmetadata.v_glossary
+        )
  SELECT d.table_name,
     d.schema_name,
     c.name,
     c.organisation_name,
     c.organisation_unit,
-    g.label AS contact_role,
+    ((((glossary.dict -> 'contact.contact_role'::text) -> dc.contact_role) -> 'label'::text) ->> glossary.locale) AS contact_role,
     c.email
-   FROM (((pgmetadata.dataset_contact dc
+   FROM glossary,
+    ((pgmetadata.dataset_contact dc
      JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))
      JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))
-     JOIN pgmetadata.glossary g ON (((g.field = 'contact.contact_role'::text) AND (g.code = dc.contact_role))))
   WHERE true
   ORDER BY dc.id;
 
 
 -- VIEW v_contact
-COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting ''pgmetadata.locale''. For example with: SET SESSION "pgmetadata.locale" = ''fr''; ';
 
 
 -- v_dataset
 CREATE VIEW pgmetadata.v_dataset AS
- WITH s AS (
+ WITH glossary AS (
+         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,
+            v_glossary.dict
+           FROM pgmetadata.v_glossary
+        ), s AS (
          SELECT d.id,
             d.uid,
             d.table_name,
@@ -78,16 +108,16 @@ CREATE VIEW pgmetadata.v_dataset AS
             s.schema_name,
             s.title,
             s.abstract,
-            gcat.label AS cat,
+            ((((glossary.dict -> 'dataset.categories'::text) -> s.cat) -> 'label'::text) ->> glossary.locale) AS cat,
             gtheme.label AS theme,
             s.keywords,
             s.spatial_level,
             ('1/'::text || s.minimum_optimal_scale) AS minimum_optimal_scale,
             ('1/'::text || s.maximum_optimal_scale) AS maximum_optimal_scale,
             s.publication_date,
-            gfre.label AS publication_frequency,
-            concat(glic.label, ' (', s.license, ')') AS license,
-            gcon.label AS confidentiality,
+            ((((glossary.dict -> 'dataset.publication_frequency'::text) -> s.publication_frequency) -> 'label'::text) ->> glossary.locale) AS publication_frequency,
+            ((((glossary.dict -> 'dataset.license'::text) -> s.license) -> 'label'::text) ->> glossary.locale) AS license,
+            ((((glossary.dict -> 'dataset.confidentiality'::text) -> s.confidentiality) -> 'label'::text) ->> glossary.locale) AS confidentiality,
             s.feature_count,
             s.geometry_type,
             (regexp_split_to_array((rs.srtext)::text, '"'::text))[2] AS projection_name,
@@ -95,12 +125,9 @@ CREATE VIEW pgmetadata.v_dataset AS
             s.spatial_extent,
             s.creation_date,
             s.update_date
-           FROM ((((((s
-             LEFT JOIN pgmetadata.glossary gcat ON (((gcat.field = 'dataset.categories'::text) AND (gcat.code = s.cat))))
+           FROM glossary,
+            ((s
              LEFT JOIN pgmetadata.theme gtheme ON ((gtheme.code = s.theme)))
-             LEFT JOIN pgmetadata.glossary gfre ON (((gfre.field = 'dataset.publication_frequency'::text) AND (gfre.code = s.publication_frequency))))
-             LEFT JOIN pgmetadata.glossary glic ON (((glic.field = 'dataset.license'::text) AND (glic.code = s.license))))
-             LEFT JOIN pgmetadata.glossary gcon ON (((gcon.field = 'dataset.confidentiality'::text) AND (gcon.code = s.confidentiality))))
              LEFT JOIN public.spatial_ref_sys rs ON ((concat(rs.auth_name, ':', rs.auth_srid) = s.projection_authid)))
         )
  SELECT ss.id,
@@ -136,22 +163,26 @@ COMMENT ON VIEW pgmetadata.v_dataset IS 'Formatted version of dataset data, with
 
 -- v_link
 CREATE VIEW pgmetadata.v_link AS
+ WITH glossary AS (
+         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,
+            v_glossary.dict
+           FROM pgmetadata.v_glossary
+        )
  SELECT l.id,
     d.table_name,
     d.schema_name,
     l.name,
     l.type,
-    g1.label AS type_label,
+    ((((glossary.dict -> 'link.type'::text) -> l.type) -> 'label'::text) ->> glossary.locale) AS type_label,
     l.url,
     l.description,
     l.format,
     l.mime,
-    g2.label AS mime_label,
+    ((((glossary.dict -> 'link.mime'::text) -> l.mime) -> 'label'::text) ->> glossary.locale) AS mime_label,
     l.size
-   FROM (((pgmetadata.link l
+   FROM glossary,
+    (pgmetadata.link l
      JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))
-     LEFT JOIN pgmetadata.glossary g1 ON (((g1.field = 'link.type'::text) AND (g1.code = l.type))))
-     LEFT JOIN pgmetadata.glossary g2 ON (((g2.field = 'link.mime'::text) AND (g2.code = l.mime))))
   WHERE true
   ORDER BY l.id;
 

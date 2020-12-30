@@ -29,7 +29,7 @@ COMMENT ON FUNCTION pgmetadata.generate_html_from_json(_json_data json, _templat
 
 
 -- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text)
-COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text) IS 'Generate the metadata HTML content for the given table, or NULL if no templates are stored in the pgmetadata.html_template table.';
+COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text) IS 'Generate the metadata HTML content for the given table and locale, or NULL if no templates are stored in the pgmetadata.html_template table.';
 
 
 -- FUNCTION refresh_dataset_calculated_fields()
@@ -301,8 +301,12 @@ COMMENT ON COLUMN pgmetadata.theme.label IS 'Label of the theme';
 COMMENT ON COLUMN pgmetadata.theme.description IS 'Description of the theme';
 
 
+-- VIEW v_glossary
+COMMENT ON VIEW pgmetadata.v_glossary IS 'View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION "pgmetadata.locale" = ''fr''; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict->''contact.contact_role''->''OW''->''label''->''fr'')::text AS label FROM glossary;';
+
+
 -- VIEW v_contact
-COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting ''pgmetadata.locale''. For example with: SET SESSION "pgmetadata.locale" = ''fr''; ';
 
 
 -- VIEW v_dataset

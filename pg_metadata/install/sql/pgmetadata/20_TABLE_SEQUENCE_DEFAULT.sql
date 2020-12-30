@@ -127,7 +127,9 @@ CREATE TABLE pgmetadata.glossary (
     code text NOT NULL,
     label text NOT NULL,
     description text,
-    item_order smallint
+    item_order smallint,
+    label_fr text,
+    description_fr text
 );
 
 
@@ -163,7 +165,7 @@ COMMENT ON TABLE pgmetadata.html_template IS 'This table contains the HTML templ
 
 -- html_template_id_seq
 CREATE SEQUENCE pgmetadata.html_template_id_seq
-    AS integer
+
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
