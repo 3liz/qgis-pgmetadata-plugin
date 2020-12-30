@@ -45,6 +45,7 @@ TABLES = [
     'v_link',
     'v_valid_dataset',
     'theme',
+    'v_glossary',
 ]
 
 

@@ -180,8 +180,30 @@ CREATE FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _ta
     LANGUAGE plpgsql
     AS $$
 DECLARE
+    html text;
+BEGIN
+    -- Call the new function with locale set to en
+    SELECT pgmetadata.get_dataset_item_html_content(_table_schema, _table_name, 'en')
+    INTO html;
+
+    RETURN html;
+
+END;
+$$;
+
+
+-- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text)
+COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text) IS 'Generate the metadata HTML content for the given table and locale, or NULL if no templates are stored in the pgmetadata.html_template table.';
+
+
+-- get_dataset_item_html_content(text, text, text)
+CREATE FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _locale text) RETURNS text
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
     item record;
     dataset_rec record;
+    sql_text text;
     json_data json;
     html text;
     html_contact text;
@@ -202,6 +224,11 @@ BEGIN
         RETURN NULL;
     END IF;
 
+    -- Set locale
+    -- We must use EXECUTE in order to have _locale to be correctly interpreted
+    sql_text = concat('SET SESSION "pgmetadata.locale" = ', quote_literal(_locale));
+    EXECUTE sql_text;
+
     -- Contacts
     html_contact = '';
     FOR json_data IN
@@ -221,7 +248,7 @@ BEGIN
             pgmetadata.generate_html_from_json(json_data, 'contact')
         );
     END LOOP;
-    RAISE NOTICE 'html_contact: %', html_contact;
+    -- RAISE NOTICE 'html_contact: %', html_contact;
 
     -- Links
     html_link = '';
@@ -242,7 +269,7 @@ BEGIN
             pgmetadata.generate_html_from_json(json_data, 'link')
         );
     END LOOP;
-    RAISE NOTICE 'html_link: %', html_link;
+    --RAISE NOTICE 'html_link: %', html_link;
 
     -- Main
     html_main = '';
@@ -258,7 +285,7 @@ BEGIN
     INTO json_data
     ;
     html_main = pgmetadata.generate_html_from_json(json_data, 'main');
-    RAISE NOTICE 'html_main: %', html_main;
+    -- RAISE NOTICE 'html_main: %', html_main;
 
     IF html_main IS NULL THEN
         RETURN NULL;
@@ -286,10 +313,6 @@ BEGIN
 
 END;
 $$;
-
-
--- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text)
-COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text) IS 'Generate the metadata HTML content for the given table, or NULL if no templates are stored in the pgmetadata.html_template table.';
 
 
 -- refresh_dataset_calculated_fields()
