@@ -23,6 +23,49 @@ class TestSql(DatabaseTestCase):
             sql += ' RETURNING {};'.format(return_value)
         return self._sql(sql)
 
+    def test_translation(self):
+        """ Test to translate some glossary terms. """
+        # Insert a feature
+        dataset_feature = {
+            'table_name': "'lines'",
+            'schema_name': "'pgmetadata'",
+            'title': "'Test title'",
+            'abstract': "'Test abstract.'",
+            'publication_frequency': "'NEC'",  # Available in EN and FR
+            'license': "'CC0'",  # Available in EN only, not in FR
+        }
+        self._insert(dataset_feature, 'dataset')
+
+        # Remove previous template to have a smaller one
+        sql = "DELETE FROM pgmetadata.html_template WHERE section IN ('main');"
+        self._sql(sql)
+
+        html_feature = {
+            'section': "'main'",
+            'content': "'<p>[% publication_frequency %]</p><p>[% license %]</p>'",
+        }
+        self._insert(html_feature, 'html_template')
+
+        # To English by default
+        result = self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines')")
+        self.assertEqual('<p>When necessary</p><p>Creative Commons CC Zero</p>', result[0][0])
+
+        # To English
+        result = self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines', 'en')")
+        self.assertEqual('<p>When necessary</p><p>Creative Commons CC Zero</p>', result[0][0])
+
+        # To French
+        result = self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines', 'fr')")
+        self.assertEqual('<p>Lorsque nécessaire</p><p>Creative Commons CC Zero</p>', result[0][0])
+
+        # To French, capital letter
+        result = self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines', 'FR')")
+        self.assertEqual('<p></p><p></p>', result[0][0])
+
+        # To leet, https://en.wikipedia.org/wiki/Leet ;-)
+        result = self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines', 'leet')")
+        self.assertEqual('<p></p><p></p>', result[0][0])
+
     def test_html_template(self):
         """ Test HTML template. """
         theme_feature = {
