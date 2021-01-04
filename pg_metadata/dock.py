@@ -182,7 +182,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 continue
 
             locale = QgsSettings().value("locale/userLocale", QLocale().name())
-            locale = locale.split('_')[0]
+            locale = locale.split('_')[0].lower()
 
             sql = (
                 "SELECT pgmetadata.get_dataset_item_html_content('{schema}', '{table}', '{locale}');"
