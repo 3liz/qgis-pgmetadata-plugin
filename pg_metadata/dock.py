@@ -17,7 +17,7 @@ from qgis.core import (
     QgsSettings,
     QgsVectorLayer,
 )
-from qgis.PyQt.QtCore import QUrl
+from qgis.PyQt.QtCore import QLocale, QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
 from qgis.PyQt.QtPrintSupport import QPrinter
 from qgis.PyQt.QtWebKitWidgets import QWebPage
@@ -181,9 +181,12 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 LOGGER.critical(tr('PgMetadata is not installed on {}').format(connection_name))
                 continue
 
+            locale = QgsSettings().value("locale/userLocale", QLocale().name())
+            locale = locale.split('_')[0]
+
             sql = (
-                "SELECT pgmetadata.get_dataset_item_html_content('{schema}', '{table}');"
-            ).format(schema=uri.schema(), table=uri.table())
+                "SELECT pgmetadata.get_dataset_item_html_content('{schema}', '{table}', '{locale}');"
+            ).format(schema=uri.schema(), table=uri.table(), locale=locale)
 
             try:
                 data = connection.executeSql(sql)
