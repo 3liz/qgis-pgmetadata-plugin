@@ -78,7 +78,7 @@
                         <div class="col-md-12">
                             <div class="callout callout-info">
                                 <h4>SchemaSpy Analysis of gis</h4>
-                                <p>Generated on Wed Dec 16 10:43 GMT 2020</p>
+                                <p>Generated on Mon Jan 04 10:56 GMT 2021</p>
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                                 <span class="info-box-icon bg-teal"><i class="fa fa-table"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">VIEWS</span>
-                                    <span class="info-box-number">9</span>
+                                    <span class="info-box-number">10</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -118,7 +118,7 @@
                                 <span class="info-box-icon bg-green"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">COLUMNS</span>
-                                    <span class="info-box-number">118</span>
+                                    <span class="info-box-number">121</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -257,7 +257,7 @@
                                         <td class="detail"><a href="tables/glossary.html">glossary</a></td>
                                         <td class="detail" align="right">0</td>
                                         <td class="detail" align="right">0</td>
-                                        <td class="detail" align="right">6</td>
+                                        <td class="detail" align="right">8</td>
                                         <td class="detail" align="right">129</td>
                                         <td class="detail" align="right">Table</td>
                                         <td class="comment detail" style="display: table-cell;"><p>List of labels and words used as labels for stored data</p></td>
@@ -290,13 +290,22 @@
                                         <td class="comment detail" style="display: table-cell;"><p>View containing list of all tables in this database with schema name</p></td>
                                     </tr>
                                     <tr class="tbl even" valign="top">
+                                        <td class="detail"><a href="tables/v_glossary.html">v_glossary</a></td>
+                                        <td class="detail" align="right">0</td>
+                                        <td class="detail" align="right">0</td>
+                                        <td class="detail" align="right">1</td>
+                                        <td class="detail" align="right">0</td>
+                                        <td class="detail" align="right">View</td>
+                                        <td class="comment detail" style="display: table-cell;"><p>View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION &ldquo;pgmetadata.locale&rdquo; = &lsquo;fr&rsquo;; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict-&gt;&lsquo;contact.contact_role&rsquo;-&gt;&lsquo;OW&rsquo;-&gt;&lsquo;label&rsquo;-&gt;&lsquo;fr&rsquo;)::text AS label FROM glossary;</p></td>
+                                    </tr>
+                                    <tr class="tbl even" valign="top">
                                         <td class="detail"><a href="tables/v_contact.html">v_contact</a></td>
                                         <td class="detail" align="right">0</td>
                                         <td class="detail" align="right">0</td>
                                         <td class="detail" align="right">7</td>
                                         <td class="detail" align="right">0</td>
                                         <td class="detail" align="right">View</td>
-                                        <td class="comment detail" style="display: table-cell;"><p>Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.</p></td>
+                                        <td class="comment detail" style="display: table-cell;"><p>Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting &lsquo;pgmetadata.locale&rsquo;. For example with: SET SESSION &ldquo;pgmetadata.locale&rdquo; = &lsquo;fr&rsquo;;</p></td>
                                     </tr>
                                     <tr class="tbl even" valign="top">
                                         <td class="detail"><a href="tables/v_orphan_dataset_items.html">v_orphan_dataset_items</a></td>

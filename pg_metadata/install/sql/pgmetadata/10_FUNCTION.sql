@@ -193,7 +193,7 @@ $$;
 
 
 -- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text)
-COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text) IS 'Generate the metadata HTML content for the given table and locale, or NULL if no templates are stored in the pgmetadata.html_template table.';
+COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text) IS 'Generate the metadata HTML content in English for the given table or NULL if no templates are stored in the pgmetadata.html_template table.';
 
 
 -- get_dataset_item_html_content(text, text, text)
@@ -313,6 +313,10 @@ BEGIN
 
 END;
 $$;
+
+
+-- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text, _locale text)
+COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _locale text) IS 'Generate the metadata HTML content for the given table and given language or NULL if no templates are stored in the pgmetadata.html_template table.';
 
 
 -- refresh_dataset_calculated_fields()

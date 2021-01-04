@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>v_contact - gis Database</title>
+        <title>v_glossary - gis Database</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>v_contact</h1><p><span id="recordNumber">0</span> rows</p><br />
+                    <h1>v_glossary</h1><p><span id="recordNumber">0</span> rows</p><br />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="fa fa-file-text-o"></i>
@@ -84,7 +84,7 @@
                             </div>
                         </div><!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p>Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting &lsquo;pgmetadata.locale&rsquo;. For example with: SET SESSION &ldquo;pgmetadata.locale&rdquo; = &lsquo;fr&rsquo;;</p>
+                            <p>View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION &ldquo;pgmetadata.locale&rdquo; = &lsquo;fr&rsquo;; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict-&gt;&lsquo;contact.contact_role&rsquo;-&gt;&lsquo;OW&rsquo;-&gt;&lsquo;label&rsquo;-&gt;&lsquo;fr&rsquo;)::text AS label FROM glossary;</p>
                         </div><!-- /.box-body -->
                     </div>
                 </section>
@@ -116,110 +116,8 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td><span id="table_name">table_name</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="schema_name">schema_name</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="name">name</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="organisation_name">organisation_name</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="organisation_unit">organisation_unit</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="contact_role">contact_role</span></td>
-                                    <td>text</td>
-                                    <td>2147483647</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="email">email</span></td>
-                                    <td>text</td>
+                                    <td><span id="dict">dict</span></td>
+                                    <td>json</td>
                                     <td>2147483647</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
@@ -248,7 +146,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">WITH glossary AS (&#10;         SELECT COALESCE(current_setting(&#39;pgmetadata.locale&#39;::text, true), &#39;en&#39;::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT d.table_name,&#10;    d.schema_name,&#10;    c.name,&#10;    c.organisation_name,&#10;    c.organisation_unit,&#10;    ((((glossary.dict -&gt; &#39;contact.contact_role&#39;::text) -&gt; dc.contact_role) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale) AS contact_role,&#10;    c.email&#10;   FROM glossary,&#10;    ((pgmetadata.dataset_contact dc&#10;     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))&#10;     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))&#10;  WHERE true&#10;  ORDER BY dc.id;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">WITH one AS (&#10;         SELECT glossary.field,&#10;            glossary.code,&#10;            json_build_object(&#39;label&#39;, json_build_object(&#39;en&#39;, glossary.label, &#39;fr&#39;, COALESCE(NULLIF(glossary.label_fr, &#39;&#39;::text), glossary.label, &#39;&#39;::text)), &#39;description&#39;, json_build_object(&#39;en&#39;, glossary.description, &#39;fr&#39;, COALESCE(NULLIF(glossary.description_fr, &#39;&#39;::text), glossary.description, &#39;&#39;::text))) AS dict&#10;           FROM pgmetadata.glossary&#10;        ), two AS (&#10;         SELECT one.field,&#10;            json_object_agg(one.code, one.dict) AS dict&#10;           FROM one&#10;          GROUP BY one.field&#10;        )&#10; SELECT json_object_agg(two.field, two.dict) AS dict&#10;   FROM two;</textarea>
                             <div style="padding-top: 5px;"><hr></div>
                             <div class="box box-solid">
                                 <div class="box-header with-border">
@@ -259,10 +157,6 @@
                                 <div class="box-body">
                                     <ul class="list-unstyled">
                                         <li><a href="glossary.html">glossary</a></li>
-                                        <li><a href="v_glossary.html">v_glossary</a></li>
-                                        <li><a href="dataset_contact.html">dataset_contact</a></li>
-                                        <li><a href="dataset.html">dataset</a></li>
-                                        <li><a href="contact.html">contact</a></li>
                                     </ul>
                                 </div><!-- /.box-body -->
                             </div>

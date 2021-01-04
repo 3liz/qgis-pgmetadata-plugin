@@ -93,6 +93,8 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="label" nullable="false" remarks="Item label" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description" nullable="true" remarks="Description" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="item_order" nullable="true" remarks="Display order" size="5" type="int2" typeCode="5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="label_fr" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="description_fr" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="glossary_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -160,7 +162,7 @@
             <column ascending="true" name="label"/>
          </index>
       </table>
-      <table name="v_contact" numRows="0" remarks="Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content." schema="pgmetadata" type="VIEW" viewSql=" SELECT d.table_name,&#10;    d.schema_name,&#10;    c.name,&#10;    c.organisation_name,&#10;    c.organisation_unit,&#10;    g.label AS contact_role,&#10;    c.email&#10;   FROM (((pgmetadata.dataset_contact dc&#10;     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))&#10;     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))&#10;     JOIN pgmetadata.glossary g ON (((g.field = 'contact.contact_role'::text) AND (g.code = dc.contact_role))))&#10;  WHERE true&#10;  ORDER BY dc.id;">
+      <table name="v_contact" numRows="0" remarks="Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting 'pgmetadata.locale'. For example with: SET SESSION &quot;pgmetadata.locale&quot; = 'fr';" schema="pgmetadata" type="VIEW" viewSql=" WITH glossary AS (&#10;         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT d.table_name,&#10;    d.schema_name,&#10;    c.name,&#10;    c.organisation_name,&#10;    c.organisation_unit,&#10;    ((((glossary.dict -&gt; 'contact.contact_role'::text) -&gt; dc.contact_role) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS contact_role,&#10;    c.email&#10;   FROM glossary,&#10;    ((pgmetadata.dataset_contact dc&#10;     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))&#10;     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))&#10;  WHERE true&#10;  ORDER BY dc.id;">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
@@ -169,7 +171,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="contact_role" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="email" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
       </table>
-      <table name="v_dataset" numRows="0" remarks="Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content." schema="pgmetadata" type="VIEW" viewSql=" WITH s AS (&#10;         SELECT d.id,&#10;            d.uid,&#10;            d.table_name,&#10;            d.schema_name,&#10;            d.title,&#10;            d.abstract,&#10;            d.categories,&#10;            d.themes,&#10;            d.keywords,&#10;            d.spatial_level,&#10;            d.minimum_optimal_scale,&#10;            d.maximum_optimal_scale,&#10;            d.publication_date,&#10;            d.publication_frequency,&#10;            d.license,&#10;            d.confidentiality,&#10;            d.feature_count,&#10;            d.geometry_type,&#10;            d.projection_name,&#10;            d.projection_authid,&#10;            d.spatial_extent,&#10;            d.creation_date,&#10;            d.update_date,&#10;            d.geom,&#10;            cat.cat,&#10;            theme.theme&#10;           FROM ((pgmetadata.dataset d&#10;             LEFT JOIN LATERAL unnest(d.categories) cat(cat) ON (true))&#10;             LEFT JOIN LATERAL unnest(d.themes) theme(theme) ON (true))&#10;          WHERE true&#10;          ORDER BY d.id&#10;        ), ss AS (&#10;         SELECT s.id,&#10;            s.uid,&#10;            s.table_name,&#10;            s.schema_name,&#10;            s.title,&#10;            s.abstract,&#10;            gcat.label AS cat,&#10;            gtheme.label AS theme,&#10;            s.keywords,&#10;            s.spatial_level,&#10;            ('1/'::text || s.minimum_optimal_scale) AS minimum_optimal_scale,&#10;            ('1/'::text || s.maximum_optimal_scale) AS maximum_optimal_scale,&#10;            s.publication_date,&#10;            gfre.label AS publication_frequency,&#10;            concat(glic.label, ' (', s.license, ')') AS license,&#10;            gcon.label AS confidentiality,&#10;            s.feature_count,&#10;            s.geometry_type,&#10;            (regexp_split_to_array((rs.srtext)::text, '&quot;'::text))[2] AS projection_name,&#10;            s.projection_authid,&#10;            s.spatial_extent,&#10;            s.creation_date,&#10;            s.update_date&#10;           FROM ((((((s&#10;             LEFT JOIN pgmetadata.glossary gcat ON (((gcat.field = 'dataset.categories'::text) AND (gcat.code = s.cat))))&#10;             LEFT JOIN pgmetadata.theme gtheme ON ((gtheme.code = s.theme)))&#10;             LEFT JOIN pgmetadata.glossary gfre ON (((gfre.field = 'dataset.publication_frequency'::text) AND (gfre.code = s.publication_frequency))))&#10;             LEFT JOIN pgmetadata.glossary glic ON (((glic.field = 'dataset.license'::text) AND (glic.code = s.license))))&#10;             LEFT JOIN pgmetadata.glossary gcon ON (((gcon.field = 'dataset.confidentiality'::text) AND (gcon.code = s.confidentiality))))&#10;             LEFT JOIN spatial_ref_sys rs ON ((concat(rs.auth_name, ':', rs.auth_srid) = s.projection_authid)))&#10;        )&#10; SELECT ss.id,&#10;    ss.uid,&#10;    ss.table_name,&#10;    ss.schema_name,&#10;    ss.title,&#10;    ss.abstract,&#10;    string_agg(DISTINCT ss.cat, ', '::text ORDER BY ss.cat) AS categories,&#10;    string_agg(DISTINCT ss.theme, ', '::text ORDER BY ss.theme) AS themes,&#10;    ss.keywords,&#10;    ss.spatial_level,&#10;    ss.minimum_optimal_scale,&#10;    ss.maximum_optimal_scale,&#10;    ss.publication_date,&#10;    ss.publication_frequency,&#10;    ss.license,&#10;    ss.confidentiality,&#10;    ss.feature_count,&#10;    ss.geometry_type,&#10;    ss.projection_name,&#10;    ss.projection_authid,&#10;    ss.spatial_extent,&#10;    ss.creation_date,&#10;    ss.update_date&#10;   FROM ss&#10;  GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date;">
+      <table name="v_dataset" numRows="0" remarks="Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content." schema="pgmetadata" type="VIEW" viewSql=" WITH glossary AS (&#10;         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        ), s AS (&#10;         SELECT d.id,&#10;            d.uid,&#10;            d.table_name,&#10;            d.schema_name,&#10;            d.title,&#10;            d.abstract,&#10;            d.categories,&#10;            d.themes,&#10;            d.keywords,&#10;            d.spatial_level,&#10;            d.minimum_optimal_scale,&#10;            d.maximum_optimal_scale,&#10;            d.publication_date,&#10;            d.publication_frequency,&#10;            d.license,&#10;            d.confidentiality,&#10;            d.feature_count,&#10;            d.geometry_type,&#10;            d.projection_name,&#10;            d.projection_authid,&#10;            d.spatial_extent,&#10;            d.creation_date,&#10;            d.update_date,&#10;            d.geom,&#10;            cat.cat,&#10;            theme.theme&#10;           FROM ((pgmetadata.dataset d&#10;             LEFT JOIN LATERAL unnest(d.categories) cat(cat) ON (true))&#10;             LEFT JOIN LATERAL unnest(d.themes) theme(theme) ON (true))&#10;          WHERE true&#10;          ORDER BY d.id&#10;        ), ss AS (&#10;         SELECT s.id,&#10;            s.uid,&#10;            s.table_name,&#10;            s.schema_name,&#10;            s.title,&#10;            s.abstract,&#10;            ((((glossary.dict -&gt; 'dataset.categories'::text) -&gt; s.cat) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS cat,&#10;            gtheme.label AS theme,&#10;            s.keywords,&#10;            s.spatial_level,&#10;            ('1/'::text || s.minimum_optimal_scale) AS minimum_optimal_scale,&#10;            ('1/'::text || s.maximum_optimal_scale) AS maximum_optimal_scale,&#10;            s.publication_date,&#10;            ((((glossary.dict -&gt; 'dataset.publication_frequency'::text) -&gt; s.publication_frequency) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS publication_frequency,&#10;            ((((glossary.dict -&gt; 'dataset.license'::text) -&gt; s.license) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS license,&#10;            ((((glossary.dict -&gt; 'dataset.confidentiality'::text) -&gt; s.confidentiality) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS confidentiality,&#10;            s.feature_count,&#10;            s.geometry_type,&#10;            (regexp_split_to_array((rs.srtext)::text, '&quot;'::text))[2] AS projection_name,&#10;            s.projection_authid,&#10;            s.spatial_extent,&#10;            s.creation_date,&#10;            s.update_date&#10;           FROM glossary,&#10;            ((s&#10;             LEFT JOIN pgmetadata.theme gtheme ON ((gtheme.code = s.theme)))&#10;             LEFT JOIN spatial_ref_sys rs ON ((concat(rs.auth_name, ':', rs.auth_srid) = s.projection_authid)))&#10;        )&#10; SELECT ss.id,&#10;    ss.uid,&#10;    ss.table_name,&#10;    ss.schema_name,&#10;    ss.title,&#10;    ss.abstract,&#10;    string_agg(DISTINCT ss.cat, ', '::text ORDER BY ss.cat) AS categories,&#10;    string_agg(DISTINCT ss.theme, ', '::text ORDER BY ss.theme) AS themes,&#10;    ss.keywords,&#10;    ss.spatial_level,&#10;    ss.minimum_optimal_scale,&#10;    ss.maximum_optimal_scale,&#10;    ss.publication_date,&#10;    ss.publication_frequency,&#10;    ss.license,&#10;    ss.confidentiality,&#10;    ss.feature_count,&#10;    ss.geometry_type,&#10;    ss.projection_name,&#10;    ss.projection_authid,&#10;    ss.spatial_extent,&#10;    ss.creation_date,&#10;    ss.update_date&#10;   FROM ss&#10;  GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date;">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="uid" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
@@ -194,7 +196,10 @@
          <column autoUpdated="false" defaultValue="null" digits="6" id="21" name="creation_date" nullable="true" remarks="" size="29" type="timestamp" typeCode="93"/>
          <column autoUpdated="false" defaultValue="null" digits="6" id="22" name="update_date" nullable="true" remarks="" size="29" type="timestamp" typeCode="93"/>
       </table>
-      <table name="v_link" numRows="0" remarks="Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content." schema="pgmetadata" type="VIEW" viewSql=" SELECT l.id,&#10;    d.table_name,&#10;    d.schema_name,&#10;    l.name,&#10;    l.type,&#10;    g1.label AS type_label,&#10;    l.url,&#10;    l.description,&#10;    l.format,&#10;    l.mime,&#10;    g2.label AS mime_label,&#10;    l.size&#10;   FROM (((pgmetadata.link l&#10;     JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))&#10;     LEFT JOIN pgmetadata.glossary g1 ON (((g1.field = 'link.type'::text) AND (g1.code = l.type))))&#10;     LEFT JOIN pgmetadata.glossary g2 ON (((g2.field = 'link.mime'::text) AND (g2.code = l.mime))))&#10;  WHERE true&#10;  ORDER BY l.id;">
+      <table name="v_glossary" numRows="0" remarks="View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION &quot;pgmetadata.locale&quot; = 'fr'; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict-&gt;'contact.contact_role'-&gt;'OW'-&gt;'label'-&gt;'fr')::text AS label FROM glossary;" schema="pgmetadata" type="VIEW" viewSql=" WITH one AS (&#10;         SELECT glossary.field,&#10;            glossary.code,&#10;            json_build_object('label', json_build_object('en', glossary.label, 'fr', COALESCE(NULLIF(glossary.label_fr, ''::text), glossary.label, ''::text)), 'description', json_build_object('en', glossary.description, 'fr', COALESCE(NULLIF(glossary.description_fr, ''::text), glossary.description, ''::text))) AS dict&#10;           FROM pgmetadata.glossary&#10;        ), two AS (&#10;         SELECT one.field,&#10;            json_object_agg(one.code, one.dict) AS dict&#10;           FROM one&#10;          GROUP BY one.field&#10;        )&#10; SELECT json_object_agg(two.field, two.dict) AS dict&#10;   FROM two;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="dict" nullable="true" remarks="" size="2147483647" type="json" typeCode="1111"/>
+      </table>
+      <table name="v_link" numRows="0" remarks="Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content." schema="pgmetadata" type="VIEW" viewSql=" WITH glossary AS (&#10;         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT l.id,&#10;    d.table_name,&#10;    d.schema_name,&#10;    l.name,&#10;    l.type,&#10;    ((((glossary.dict -&gt; 'link.type'::text) -&gt; l.type) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS type_label,&#10;    l.url,&#10;    l.description,&#10;    l.format,&#10;    l.mime,&#10;    ((((glossary.dict -&gt; 'link.mime'::text) -&gt; l.mime) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS mime_label,&#10;    l.size&#10;   FROM glossary,&#10;    (pgmetadata.link l&#10;     JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))&#10;  WHERE true&#10;  ORDER BY l.id;">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
@@ -386,110 +391,14 @@ END;
 ]]></definition>
       </routine>
       <routine dataAccess="MODIFIES" deterministic="false" name="get_dataset_item_html_content" returnType="text" securityType="INVOKER" type="FUNCTION">
-         <comment><![CDATA[Generate the metadata HTML content for the given table, or NULL if no templates are stored in the pgmetadata.html_template table.]]></comment>
+         <comment><![CDATA[Generate the metadata HTML content for the given table and given language or NULL if no templates are stored in the pgmetadata.html_template table.]]></comment>
          <definition language="PLPGSQL"><![CDATA[
 DECLARE
-    item record;
-    dataset_rec record;
-    json_data json;
     html text;
-    html_contact text;
-    html_link text;
-    html_main text;
 BEGIN
-    -- Check if dataset exists
-    SELECT *
-    FROM pgmetadata.dataset
-    WHERE True
-    AND schema_name = _table_schema
-    AND table_name = _table_name
-    LIMIT 1
-    INTO dataset_rec
-    ;
-
-    IF dataset_rec.id IS NULL THEN
-        RETURN NULL;
-    END IF;
-
-    -- Contacts
-    html_contact = '';
-    FOR json_data IN
-        WITH a AS (
-            SELECT *
-            FROM pgmetadata.v_contact
-            WHERE True
-            AND schema_name = _table_schema
-            AND table_name = _table_name
-        )
-        SELECT row_to_json(a.*)
-        FROM a
-    LOOP
-        html_contact = concat(
-            html_contact, '
-            ',
-            pgmetadata.generate_html_from_json(json_data, 'contact')
-        );
-    END LOOP;
-    RAISE NOTICE 'html_contact: %', html_contact;
-
-    -- Links
-    html_link = '';
-    FOR json_data IN
-        WITH a AS (
-            SELECT *
-            FROM pgmetadata.v_link
-            WHERE True
-            AND schema_name = _table_schema
-            AND table_name = _table_name
-        )
-        SELECT row_to_json(a.*)
-        FROM a
-    LOOP
-        html_link = concat(
-            html_link, '
-            ',
-            pgmetadata.generate_html_from_json(json_data, 'link')
-        );
-    END LOOP;
-    RAISE NOTICE 'html_link: %', html_link;
-
-    -- Main
-    html_main = '';
-    WITH a AS (
-        SELECT *
-        FROM pgmetadata.v_dataset
-        WHERE True
-        AND schema_name = _table_schema
-        AND table_name = _table_name
-    )
-    SELECT row_to_json(a.*)
-    FROM a
-    INTO json_data
-    ;
-    html_main = pgmetadata.generate_html_from_json(json_data, 'main');
-    RAISE NOTICE 'html_main: %', html_main;
-
-    IF html_main IS NULL THEN
-        RETURN NULL;
-    END IF;
-
-    html = html_main;
-
-    -- add contacts: [% "meta_contacts" %]
-    html = regexp_replace(
-        html,
-        concat('\[%( )*?(")*meta_contacts(")*( )*%\]'),
-        coalesce(html_contact, ''),
-        'g'
-    );
-
-    -- add links [% "meta_links" %]
-    html = regexp_replace(
-        html,
-        concat('\[%( )*?(")*meta_links(")*( )*%\]'),
-        coalesce(html_link, ''),
-        'g'
-    );
+    -- Call the new function with locale set to en
+    SELECT pgmetadata.get_dataset_item_html_content(_table_schema, _table_name, 'en')
+    INTO html;
 
     RETURN html;
 

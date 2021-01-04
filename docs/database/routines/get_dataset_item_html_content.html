@@ -85,7 +85,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p><p>Generate the metadata HTML content for the given table, or NULL if no templates are stored in the pgmetadata.html_template table.</p></p>
+                            <p><p>Generate the metadata HTML content for the given table and given language or NULL if no templates are stored in the pgmetadata.html_template table.</p></p>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -121,6 +121,21 @@
                                     <td>text</td>
                                     <td>IN</td>
                                 </tr>
+                                <tr>
+                                    <td>_table_schema</td>
+                                    <td>text</td>
+                                    <td>IN</td>
+                                </tr>
+                                <tr>
+                                    <td>_table_name</td>
+                                    <td>text</td>
+                                    <td>IN</td>
+                                </tr>
+                                <tr>
+                                    <td>_locale</td>
+                                    <td>text</td>
+                                    <td>IN</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -135,7 +150,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    item record;&#10;    dataset_rec record;&#10;    json_data json;&#10;    html text;&#10;    html_contact text;&#10;    html_link text;&#10;    html_main text;&#10;BEGIN&#10;    -- Check if dataset exists&#10;    SELECT *&#10;    FROM pgmetadata.dataset&#10;    WHERE True&#10;    AND schema_name = _table_schema&#10;    AND table_name = _table_name&#10;    LIMIT 1&#10;    INTO dataset_rec&#10;    ;&#10;&#10;    IF dataset_rec.id IS NULL THEN&#10;        RETURN NULL;&#10;    END IF;&#10;&#10;    -- Contacts&#10;    html_contact = &#39;&#39;;&#10;    FOR json_data IN&#10;        WITH a AS (&#10;            SELECT *&#10;            FROM pgmetadata.v_contact&#10;            WHERE True&#10;            AND schema_name = _table_schema&#10;            AND table_name = _table_name&#10;        )&#10;        SELECT row_to_json(a.*)&#10;        FROM a&#10;    LOOP&#10;        html_contact = concat(&#10;            html_contact, &#39;&#10;            &#39;,&#10;            pgmetadata.generate_html_from_json(json_data, &#39;contact&#39;)&#10;        );&#10;    END LOOP;&#10;    RAISE NOTICE &#39;html_contact: %&#39;, html_contact;&#10;&#10;    -- Links&#10;    html_link = &#39;&#39;;&#10;    FOR json_data IN&#10;        WITH a AS (&#10;            SELECT *&#10;            FROM pgmetadata.v_link&#10;            WHERE True&#10;            AND schema_name = _table_schema&#10;            AND table_name = _table_name&#10;        )&#10;        SELECT row_to_json(a.*)&#10;        FROM a&#10;    LOOP&#10;        html_link = concat(&#10;            html_link, &#39;&#10;            &#39;,&#10;            pgmetadata.generate_html_from_json(json_data, &#39;link&#39;)&#10;        );&#10;    END LOOP;&#10;    RAISE NOTICE &#39;html_link: %&#39;, html_link;&#10;&#10;    -- Main&#10;    html_main = &#39;&#39;;&#10;    WITH a AS (&#10;        SELECT *&#10;        FROM pgmetadata.v_dataset&#10;        WHERE True&#10;        AND schema_name = _table_schema&#10;        AND table_name = _table_name&#10;    )&#10;    SELECT row_to_json(a.*)&#10;    FROM a&#10;    INTO json_data&#10;    ;&#10;    html_main = pgmetadata.generate_html_from_json(json_data, &#39;main&#39;);&#10;    RAISE NOTICE &#39;html_main: %&#39;, html_main;&#10;&#10;    IF html_main IS NULL THEN&#10;        RETURN NULL;&#10;    END IF;&#10;&#10;    html = html_main;&#10;&#10;    -- add contacts: [% &quot;meta_contacts&quot; %]&#10;    html = regexp_replace(&#10;        html,&#10;        concat(&#39;\[%( )*?(&quot;)*meta_contacts(&quot;)*( )*%\]&#39;),&#10;        coalesce(html_contact, &#39;&#39;),&#10;        &#39;g&#39;&#10;    );&#10;&#10;    -- add links [% &quot;meta_links&quot; %]&#10;    html = regexp_replace(&#10;        html,&#10;        concat(&#39;\[%( )*?(&quot;)*meta_links(&quot;)*( )*%\]&#39;),&#10;        coalesce(html_link, &#39;&#39;),&#10;        &#39;g&#39;&#10;    );&#10;&#10;    RETURN html;&#10;&#10;END;&#10;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    html text;&#10;BEGIN&#10;    -- Call the new function with locale set to en&#10;    SELECT pgmetadata.get_dataset_item_html_content(_table_schema, _table_name, &#39;en&#39;)&#10;    INTO html;&#10;&#10;    RETURN html;&#10;&#10;END;&#10;</textarea>
                         </div>
                     </div>
                 </section>

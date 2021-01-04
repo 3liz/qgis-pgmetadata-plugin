@@ -333,7 +333,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">SELECT l.id,&#10;    d.table_name,&#10;    d.schema_name,&#10;    l.name,&#10;    l.type,&#10;    g1.label AS type_label,&#10;    l.url,&#10;    l.description,&#10;    l.format,&#10;    l.mime,&#10;    g2.label AS mime_label,&#10;    l.size&#10;   FROM (((pgmetadata.link l&#10;     JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))&#10;     LEFT JOIN pgmetadata.glossary g1 ON (((g1.field = &#39;link.type&#39;::text) AND (g1.code = l.type))))&#10;     LEFT JOIN pgmetadata.glossary g2 ON (((g2.field = &#39;link.mime&#39;::text) AND (g2.code = l.mime))))&#10;  WHERE true&#10;  ORDER BY l.id;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">WITH glossary AS (&#10;         SELECT COALESCE(current_setting(&#39;pgmetadata.locale&#39;::text, true), &#39;en&#39;::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT l.id,&#10;    d.table_name,&#10;    d.schema_name,&#10;    l.name,&#10;    l.type,&#10;    ((((glossary.dict -&gt; &#39;link.type&#39;::text) -&gt; l.type) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale) AS type_label,&#10;    l.url,&#10;    l.description,&#10;    l.format,&#10;    l.mime,&#10;    ((((glossary.dict -&gt; &#39;link.mime&#39;::text) -&gt; l.mime) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale) AS mime_label,&#10;    l.size&#10;   FROM glossary,&#10;    (pgmetadata.link l&#10;     JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))&#10;  WHERE true&#10;  ORDER BY l.id;</textarea>
                             <div style="padding-top: 5px;"><hr></div>
                             <div class="box box-solid">
                                 <div class="box-header with-border">
@@ -343,9 +343,10 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <ul class="list-unstyled">
+                                        <li><a href="glossary.html">glossary</a></li>
+                                        <li><a href="v_glossary.html">v_glossary</a></li>
                                         <li><a href="link.html">link</a></li>
                                         <li><a href="dataset.html">dataset</a></li>
-                                        <li><a href="glossary.html">glossary</a></li>
                                     </ul>
                                 </div><!-- /.box-body -->
                             </div>
