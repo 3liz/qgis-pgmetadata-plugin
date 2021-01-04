@@ -10,6 +10,12 @@ ALTER TABLE ONLY pgmetadata.theme
 -- Add french columns for label and description in glossary
 ALTER TABLE pgmetadata.glossary ADD COLUMN IF NOT EXISTS label_fr text;
 ALTER TABLE pgmetadata.glossary ADD COLUMN IF NOT EXISTS description_fr text;
+ALTER TABLE pgmetadata.glossary ADD COLUMN IF NOT EXISTS label_it text;
+ALTER TABLE pgmetadata.glossary ADD COLUMN IF NOT EXISTS description_it text;
+ALTER TABLE pgmetadata.glossary ADD COLUMN IF NOT EXISTS label_es text;
+ALTER TABLE pgmetadata.glossary ADD COLUMN IF NOT EXISTS description_es text;
+ALTER TABLE pgmetadata.glossary ADD COLUMN IF NOT EXISTS label_de text;
+ALTER TABLE pgmetadata.glossary ADD COLUMN IF NOT EXISTS description_de text;
 
 CREATE TABLE pgmetadata.t_glossary (code text, label_fr text, description_fr text);
 INSERT INTO pgmetadata.t_glossary (code, label_fr, description_fr)
@@ -70,11 +76,19 @@ WITH one AS (
     json_build_object(
         'label',
         json_build_object(
-            'en', label, 'fr', Coalesce(Nullif(label_fr, ''), label, '')
+            'en', label,
+            'fr', Coalesce(Nullif(label_fr, ''), label, ''),
+            'it', Coalesce(Nullif(label_it, ''), label, ''),
+            'es', Coalesce(Nullif(label_es, ''), label, ''),
+            'de', Coalesce(Nullif(label_de, ''), label, '')
         ),
         'description',
         json_build_object(
-            'en', description, 'fr', Coalesce(Nullif(description_fr, ''), description, '')
+            'en', description,
+            'fr', Coalesce(Nullif(description_fr, ''), description, ''),
+            'it', Coalesce(Nullif(description_it, ''), description, ''),
+            'es', Coalesce(Nullif(description_es, ''), description, ''),
+            'de', Coalesce(Nullif(description_de, ''), description, '')
         )
     ) AS dict
     FROM pgmetadata.glossary
@@ -260,10 +274,26 @@ COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text,
 IS 'Backward compatibility function calling pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _locale text)'
 ;
 
+-- View to get available locales
+CREATE OR REPLACE VIEW pgmetadata.v_locales AS
+SELECT 'en' AS locale
+UNION
+SELECT replace(column_name, 'label_', '') AS locale
+FROM information_schema.columns
+WHERE table_schema = 'pgmetadata'
+AND table_name   = 'glossary'
+AND column_name LIKE 'label_%'
+ORDER BY locale;
+
+COMMENT ON VIEW pgmetadata.v_locales
+IS 'Lists the locales available in the glossary, by listing the columns label_xx of the table pgmetadata.glossary';
+
+
 CREATE OR REPLACE FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _locale text) RETURNS text
     LANGUAGE plpgsql
     AS $$
 DECLARE
+    locale_exists boolean;
     item record;
     dataset_rec record;
     sql_text text;
@@ -285,6 +315,15 @@ BEGIN
 
     IF dataset_rec.id IS NULL THEN
         RETURN NULL;
+    END IF;
+
+    -- Check if the _locale parameter corresponds to the available locales
+    _locale = lower(_locale);
+    SELECT _locale IN (SELECT locale FROM pgmetadata.v_locales)
+    INTO locale_exists
+    ;
+    IF NOT locale_exists THEN
+        _locale = 'en';
     END IF;
 
     -- Set locale

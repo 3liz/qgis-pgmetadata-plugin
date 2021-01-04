@@ -60,11 +60,11 @@ class TestSql(DatabaseTestCase):
 
         # To French, capital letter
         result = self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines', 'FR')")
-        self.assertEqual('<p></p><p></p>', result[0][0])
+        self.assertEqual('<p>Lorsque nécessaire</p><p>Creative Commons CC Zero</p>', result[0][0])
 
         # To leet, https://en.wikipedia.org/wiki/Leet ;-)
         result = self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines', 'leet')")
-        self.assertEqual('<p></p><p></p>', result[0][0])
+        self.assertEqual('<p>When necessary</p><p>Creative Commons CC Zero</p>', result[0][0])
 
     def test_html_template(self):
         """ Test HTML template. """

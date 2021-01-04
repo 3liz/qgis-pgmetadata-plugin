@@ -21,7 +21,7 @@ CREATE VIEW pgmetadata.v_glossary AS
  WITH one AS (
          SELECT glossary.field,
             glossary.code,
-            json_build_object('label', json_build_object('en', glossary.label, 'fr', COALESCE(NULLIF(glossary.label_fr, ''::text), glossary.label, ''::text)), 'description', json_build_object('en', glossary.description, 'fr', COALESCE(NULLIF(glossary.description_fr, ''::text), glossary.description, ''::text))) AS dict
+            json_build_object('label', json_build_object('en', glossary.label, 'fr', COALESCE(NULLIF(glossary.label_fr, ''::text), glossary.label, ''::text), 'it', COALESCE(NULLIF(glossary.label_it, ''::text), glossary.label, ''::text), 'es', COALESCE(NULLIF(glossary.label_es, ''::text), glossary.label, ''::text), 'de', COALESCE(NULLIF(glossary.label_de, ''::text), glossary.label, ''::text)), 'description', json_build_object('en', glossary.description, 'fr', COALESCE(NULLIF(glossary.description_fr, ''::text), glossary.description, ''::text), 'it', COALESCE(NULLIF(glossary.description_it, ''::text), glossary.description, ''::text), 'es', COALESCE(NULLIF(glossary.description_es, ''::text), glossary.description, ''::text), 'de', COALESCE(NULLIF(glossary.description_de, ''::text), glossary.description, ''::text))) AS dict
            FROM pgmetadata.glossary
         ), two AS (
          SELECT one.field,
@@ -189,6 +189,20 @@ CREATE VIEW pgmetadata.v_link AS
 
 -- VIEW v_link
 COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+
+
+-- v_locales
+CREATE VIEW pgmetadata.v_locales AS
+ SELECT 'en'::text AS locale
+UNION
+ SELECT replace((columns.column_name)::text, 'label_'::text, ''::text) AS locale
+   FROM information_schema.columns
+  WHERE (((columns.table_schema)::text = 'pgmetadata'::text) AND ((columns.table_name)::text = 'glossary'::text) AND ((columns.column_name)::text ~~ 'label_%'::text))
+  ORDER BY 1;
+
+
+-- VIEW v_locales
+COMMENT ON VIEW pgmetadata.v_locales IS 'Lists the locales available in the glossary, by listing the columns label_xx of the table pgmetadata.glossary';
 
 
 -- v_orphan_dataset_items

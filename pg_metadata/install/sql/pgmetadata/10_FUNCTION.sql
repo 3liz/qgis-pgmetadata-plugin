@@ -201,6 +201,7 @@ CREATE FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _ta
     LANGUAGE plpgsql
     AS $$
 DECLARE
+    locale_exists boolean;
     item record;
     dataset_rec record;
     sql_text text;
@@ -222,6 +223,15 @@ BEGIN
 
     IF dataset_rec.id IS NULL THEN
         RETURN NULL;
+    END IF;
+
+    -- Check if the _locale parameter corresponds to the available locales
+    _locale = lower(_locale);
+    SELECT _locale IN (SELECT locale FROM pgmetadata.v_locales)
+    INTO locale_exists
+    ;
+    IF NOT locale_exists THEN
+        _locale = 'en';
     END IF;
 
     -- Set locale

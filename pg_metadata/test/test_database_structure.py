@@ -46,6 +46,7 @@ TABLES = [
     'v_valid_dataset',
     'theme',
     'v_glossary',
+    'v_locales',
 ]
 
 

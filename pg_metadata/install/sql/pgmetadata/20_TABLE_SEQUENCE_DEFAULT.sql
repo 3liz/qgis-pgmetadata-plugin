@@ -129,7 +129,13 @@ CREATE TABLE pgmetadata.glossary (
     description text,
     item_order smallint,
     label_fr text,
-    description_fr text
+    description_fr text,
+    label_it text,
+    description_it text,
+    label_es text,
+    description_es text,
+    label_de text,
+    description_de text
 );
 
 

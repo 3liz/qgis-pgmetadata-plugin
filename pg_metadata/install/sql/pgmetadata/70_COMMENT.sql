@@ -321,6 +321,10 @@ COMMENT ON VIEW pgmetadata.v_dataset IS 'Formatted version of dataset data, with
 COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 
+-- VIEW v_locales
+COMMENT ON VIEW pgmetadata.v_locales IS 'Lists the locales available in the glossary, by listing the columns label_xx of the table pgmetadata.glossary';
+
+
 -- VIEW v_orphan_dataset_items
 COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but not existing in the database itself.';
 
