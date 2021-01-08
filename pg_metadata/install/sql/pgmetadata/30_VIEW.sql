@@ -161,6 +161,36 @@ CREATE VIEW pgmetadata.v_dataset AS
 COMMENT ON VIEW pgmetadata.v_dataset IS 'Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 
+-- v_dataset_as_dcat
+CREATE VIEW pgmetadata.v_dataset_as_dcat AS
+ WITH glossary AS (
+         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,
+            v_glossary.dict
+           FROM pgmetadata.v_glossary
+        )
+ SELECT d.schema_name,
+    d.table_name,
+    d.uid,
+    XMLELEMENT(NAME "dcat:dataset", XMLELEMENT(NAME "dcat:Dataset", XMLATTRIBUTES(('https://pgmetadata.com/index.php/pgmetadata/dcat/?id='::text || d.uid) AS "rdf:about"), XMLFOREST(d.uid AS "dct:identifier", d.title AS "dct:title", d.abstract AS "dct:description", COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS "dct:language", ((((glossary.dict -> 'dataset.license'::text) -> d.license) -> 'label'::text) ->> glossary.locale) AS "dct:license", ((((glossary.dict -> 'dataset.confidentiality'::text) -> d.confidentiality) -> 'label'::text) ->> glossary.locale) AS "dct:rights", ((((glossary.dict -> 'dataset.publication_frequency'::text) -> d.publication_frequency) -> 'label'::text) ->> glossary.locale) AS "dct:accrualPeriodicity", public.st_asgeojson(d.geom) AS "dct:spatial"), XMLELEMENT(NAME "dct:created", XMLATTRIBUTES('http://www.w3.org/2001/XMLSchema#dateTime' AS "rdf:datatype"), d.creation_date), XMLELEMENT(NAME "dct:issued", XMLATTRIBUTES('http://www.w3.org/2001/XMLSchema#dateTime' AS "rdf:datatype"), d.publication_date), XMLELEMENT(NAME "dct:modified", XMLATTRIBUTES('http://www.w3.org/2001/XMLSchema#dateTime' AS "rdf:datatype"), d.update_date), ( SELECT xmlagg(XMLCONCAT(XMLELEMENT(NAME "dcat:contactPoint", XMLELEMENT(NAME "vcard:Organization", XMLELEMENT(NAME "vcard:fn", btrim(concat(c.name, ' - ', c.organisation_name, ((' ('::text || c.organisation_unit) || ')'::text)))), XMLELEMENT(NAME "vcard:hasEmail", XMLATTRIBUTES(c.email AS "rdf:resource"), c.email))), XMLELEMENT(NAME "dct:creator", XMLELEMENT(NAME "foaf:Organization", XMLELEMENT(NAME "foaf:name", btrim(concat(c.name, ' - ', c.organisation_name, ((' ('::text || c.organisation_unit) || ')'::text)))), XMLELEMENT(NAME "foaf:mbox", c.email))))) AS xmlagg
+           FROM (pgmetadata.contact c
+             JOIN pgmetadata.dataset_contact dc ON (((dc.contact_role = 'OW'::text) AND (dc.fk_id_dataset = d.id) AND (dc.fk_id_contact = c.id))))), ( SELECT xmlagg(XMLELEMENT(NAME "dct:publisher", XMLELEMENT(NAME "foaf:Organization", XMLELEMENT(NAME "foaf:name", btrim(concat(c.name, ' - ', c.organisation_name, ((' ('::text || c.organisation_unit) || ')'::text)))), XMLELEMENT(NAME "foaf:mbox", c.email)))) AS xmlagg
+           FROM (pgmetadata.contact c
+             JOIN pgmetadata.dataset_contact dc ON (((dc.contact_role = 'DI'::text) AND (dc.fk_id_dataset = d.id) AND (dc.fk_id_contact = c.id))))), ( SELECT xmlagg(XMLELEMENT(NAME "dcat:distribution", XMLELEMENT(NAME "dcat:Distribution", XMLFOREST(l.name AS "dct:title", l.description AS "dct:description", l.url AS "dcat:downloadURL", ((((glossary.dict -> 'link.mime'::text) -> l.mime) -> 'label'::text) ->> glossary.locale) AS "dcat:mediaType", COALESCE(l.format, ((((glossary.dict -> 'link.type'::text) -> l.type) -> 'label'::text) ->> glossary.locale)) AS "dct:format", l.size AS "dct:bytesize")))) AS xmlagg
+           FROM pgmetadata.link l
+          WHERE (l.fk_id_dataset = d.id)), ( SELECT xmlagg(XMLELEMENT(NAME "dcat:keyword", btrim(kw.kw))) AS xmlagg
+           FROM unnest(regexp_split_to_array(d.keywords, ','::text)) kw(kw)), ( SELECT xmlagg(XMLELEMENT(NAME "dcat:theme", th.label)) AS xmlagg
+           FROM pgmetadata.theme th,
+            unnest(d.themes) cat(cat)
+          WHERE (th.code = cat.cat)), ( SELECT xmlagg(XMLELEMENT(NAME "dcat:theme", ((((glossary.dict -> 'dataset.categories'::text) -> cat.cat) -> 'label'::text) ->> glossary.locale))) AS xmlagg
+           FROM unnest(d.categories) cat(cat)))) AS dataset
+   FROM glossary,
+    pgmetadata.dataset d;
+
+
+-- VIEW v_dataset_as_dcat
+COMMENT ON VIEW pgmetadata.v_dataset_as_dcat IS 'DCAT - View which formats the datasets AS DCAT XML record objects';
+
+
 -- v_link
 CREATE VIEW pgmetadata.v_link AS
  WITH glossary AS (

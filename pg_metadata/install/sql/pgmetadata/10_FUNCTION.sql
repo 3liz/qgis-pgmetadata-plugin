@@ -329,6 +329,51 @@ $$;
 COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _locale text) IS 'Generate the metadata HTML content for the given table and given language or NULL if no templates are stored in the pgmetadata.html_template table.';
 
 
+-- get_datasets_as_dcat_xml(text)
+CREATE FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) RETURNS TABLE(table_name text, schema_name text, uid uuid, dataset xml)
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    locale_exists boolean;
+    item record;
+    dataset_rec record;
+    sql_text text;
+    json_data json;
+    html text;
+    html_contact text;
+    html_link text;
+    html_main text;
+BEGIN
+
+    -- Check if the _locale parameter corresponds to the available locales
+    _locale = lower(_locale);
+    SELECT _locale IN (SELECT locale FROM pgmetadata.v_locales)
+    INTO locale_exists
+    ;
+    IF NOT locale_exists THEN
+        _locale = 'en';
+    END IF;
+
+    -- Set locale
+    -- We must use EXECUTE in order to have _locale to be correctly interpreted
+    sql_text = concat('SET SESSION "pgmetadata.locale" = ', quote_literal(_locale));
+    EXECUTE sql_text;
+
+    -- Return content
+    RETURN QUERY
+    SELECT
+    *
+    FROM pgmetadata.v_dataset_as_dcat
+    ;
+
+END;
+$$;
+
+
+-- FUNCTION get_datasets_as_dcat_xml(_locale text)
+COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) IS 'Get the datasets records as XML DCAT datasets for the given locale.';
+
+
 -- refresh_dataset_calculated_fields()
 CREATE FUNCTION pgmetadata.refresh_dataset_calculated_fields() RETURNS void
     LANGUAGE plpgsql
