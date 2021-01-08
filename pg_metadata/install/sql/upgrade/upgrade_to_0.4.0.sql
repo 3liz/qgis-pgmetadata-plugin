@@ -14,9 +14,6 @@ xmlelement(
 name "dcat:dataset",
     xmlelement(
         name "dcat:Dataset",
-        xmlattributes(
-             'https://pgmetadata.com/index.php/pgmetadata/dcat/?id=' || uid AS "rdf:about"
-        ),
         xmlforest(
             uid AS "dct:identifier",
             title AS "dct:title",
