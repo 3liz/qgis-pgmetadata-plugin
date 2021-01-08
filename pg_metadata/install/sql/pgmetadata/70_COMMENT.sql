@@ -36,6 +36,10 @@ COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text,
 COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _locale text) IS 'Generate the metadata HTML content for the given table and given language or NULL if no templates are stored in the pgmetadata.html_template table.';
 
 
+-- FUNCTION get_datasets_as_dcat_xml(_locale text)
+COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) IS 'Get the datasets records as XML DCAT datasets for the given locale.';
+
+
 -- FUNCTION refresh_dataset_calculated_fields()
 COMMENT ON FUNCTION pgmetadata.refresh_dataset_calculated_fields() IS 'Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data';
 
@@ -315,6 +319,10 @@ COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with
 
 -- VIEW v_dataset
 COMMENT ON VIEW pgmetadata.v_dataset IS 'Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+
+
+-- VIEW v_dataset_as_dcat
+COMMENT ON VIEW pgmetadata.v_dataset_as_dcat IS 'DCAT - View which formats the datasets AS DCAT XML record objects';
 
 
 -- VIEW v_link

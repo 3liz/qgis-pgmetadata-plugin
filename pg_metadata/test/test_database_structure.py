@@ -47,6 +47,7 @@ TABLES = [
     'theme',
     'v_glossary',
     'v_locales',
+    'v_dataset_as_dcat',
 ]
 
 

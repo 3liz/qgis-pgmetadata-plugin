@@ -5,6 +5,9 @@ from pg_metadata.test.base_database import DatabaseTestCase
 
 class TestSql(DatabaseTestCase):
 
+    # For the DCAT output, diffs can be long.
+    maxDiff = None
+
     def _sql(self, sql):
         return self.connection.executeSql(sql)
 
@@ -125,6 +128,131 @@ class TestSql(DatabaseTestCase):
         expected = (
             '<p>Test title</p><b>Test abstract.</b><p>2020-12-25T20:35:59</p><p>\n'
             '            <p>test link </p><p>1</p></p><p>New test theme, test theme</p>'
+        )
+        self.assertEqual(expected, result[0][0])
+
+    def test_dcat_export(self):
+        """ Test DCAT export. """
+        theme_feature = {
+            'code': "'A01'",
+            'label': "'test theme'",
+        }
+        self._insert(theme_feature, 'theme')
+        theme_feature = {
+            'code': "'A02'",
+            'label': "'New test theme'",
+        }
+        self._insert(theme_feature, 'theme')
+        dataset_feature = {
+            'table_name': "'lines'",
+            'schema_name': "'pgmetadata'",
+            'title': "'Test title'",
+            'abstract': "'Test abstract.'",
+            'themes': "'{\"A01\", \"A02\"}'",
+            'keywords': "'tag_one, tag_two'",
+            'confidentiality': "'OPE'",
+            'publication_frequency': "'YEA'",
+            'license': "'LO-2.1'",
+            'publication_date': "'2020-12-31T09:16:16.980258'",
+            'creation_date': "'2020-12-31T09:16:16.980258'",
+            'update_date': "'2020-12-31T09:16:16.980258'",
+        }
+        return_value = self._insert(dataset_feature, 'dataset', 'id, uid')
+
+        link_feature = {
+            'name': "'test link'",
+            'type': "'file'",
+            'mime': "'pdf'",
+            'url': "'https://metadata.is.good'",
+            'description': "'Link description'",
+            'size': "590",
+            'fk_id_dataset': "{}".format(return_value[0][0]),
+        }
+        self._insert(link_feature, 'link')
+
+        contact_feature = {
+            'name': "'Jane Doe'",
+            'organisation_name': "'Acme'",
+            'organisation_unit': "'GIS'",
+            'email': "'jane.doe@acme.gis'",
+        }
+        contact_a = self._insert(contact_feature, 'contact', 'id')
+        contact_feature = {
+            'name': "'Bob Robert'",
+            'organisation_name': "'Corp'",
+            'organisation_unit': "'Spatial div'",
+            'email': "'bob.bob@corp.spa'",
+        }
+        contact_b = self._insert(contact_feature, 'contact', 'id')
+        dataset_contact_feature = {
+            'fk_id_contact': "{}".format(contact_a[0][0]),
+            'fk_id_dataset': "{}".format(return_value[0][0]),
+            'contact_role': "'OW'",
+        }
+        self._insert(dataset_contact_feature, 'dataset_contact')
+        dataset_contact_feature = {
+            'fk_id_contact': "{}".format(contact_b[0][0]),
+            'fk_id_dataset': "{}".format(return_value[0][0]),
+            'contact_role': "'DI'",
+        }
+        self._insert(dataset_contact_feature, 'dataset_contact')
+
+        result = (
+            self._sql(
+                "SELECT dataset FROM pgmetadata.get_datasets_as_dcat_xml('en')"
+                " WHERE uid = '{}'::uuid".format(return_value[0][1])
+            )
+        )
+        expected = (
+            '<dcat:dataset><dcat:Dataset rdf:about="https://pgmetadata.com/index.php/pgmetadata/dcat/?'
+            'id={uid}">'
+            '<dct:identifier>{uid}</dct:identifier><dct:title>Test title</dct:title>'
+            '<dct:description>Test abstract.</dct:description>'
+            '<dct:language>en</dct:language>'
+            '<dct:license>Licence Ouverte Version 2.1</dct:license>'
+            '<dct:rights>Open</dct:rights>'
+            '<dct:accrualPeriodicity>Yearly</dct:accrualPeriodicity>'
+            '<dct:spatial>{polygon}</dct:spatial>'
+
+            '<dct:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">'
+            '2020-12-31T09:16:16.980258'
+            '</dct:created>'
+            '<dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">'
+            '2020-12-31T09:16:16.980258'
+            '</dct:issued>'
+            '<dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">'
+            '2020-12-31T09:16:16.980258'
+            '</dct:modified>'
+
+            '<dcat:contactPoint><vcard:Organization><vcard:fn>Jane Doe - Acme (GIS)</vcard:fn>'
+            '<vcard:hasEmail rdf:resource="jane.doe@acme.gis">jane.doe@acme.gis</vcard:hasEmail>'
+            '</vcard:Organization></dcat:contactPoint>'
+
+            '<dct:creator><foaf:Organization>'
+            '<foaf:name>Jane Doe - Acme (GIS)</foaf:name><foaf:mbox>jane.doe@acme.gis</foaf:mbox>'
+            '</foaf:Organization></dct:creator>'
+
+            '<dct:publisher><foaf:Organization>'
+            '<foaf:name>Bob Robert - Corp (Spatial div)</foaf:name>'
+            '<foaf:mbox>bob.bob@corp.spa</foaf:mbox>'
+            '</foaf:Organization></dct:publisher>'
+
+            '<dcat:distribution><dcat:Distribution><dct:title>test link</dct:title>'
+            '<dct:description>Link description</dct:description>'
+            '<dcat:downloadURL>https://metadata.is.good</dcat:downloadURL>'
+            '<dcat:mediaType>application/pdf</dcat:mediaType><dct:format>a file</dct:format>'
+            '<dct:bytesize>590</dct:bytesize>'
+            '</dcat:Distribution></dcat:distribution>'
+
+            '<dcat:keyword>tag_one</dcat:keyword><dcat:keyword>tag_two</dcat:keyword>'
+            '<dcat:theme>test theme</dcat:theme><dcat:theme>New test theme</dcat:theme>'
+            '</dcat:Dataset></dcat:dataset>'
+        ).format(
+            polygon=(
+                '{"type":"Polygon","coordinates":[[[3.854,43.5786],[3.854,43.622],[3.897,43.622],'
+                '[3.897,43.5786],[3.854,43.5786]]]}'
+            ),
+            uid=return_value[0][1]
         )
         self.assertEqual(expected, result[0][0])
 
