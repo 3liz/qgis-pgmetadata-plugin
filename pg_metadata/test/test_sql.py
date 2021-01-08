@@ -199,8 +199,7 @@ class TestSql(DatabaseTestCase):
             )
         )
         expected = (
-            '<dcat:dataset><dcat:Dataset rdf:about="https://pgmetadata.com/index.php/pgmetadata/dcat/?'
-            'id={uid}">'
+            '<dcat:dataset><dcat:Dataset>'
             '<dct:identifier>{uid}</dct:identifier><dct:title>Test title</dct:title>'
             '<dct:description>Test abstract.</dct:description>'
             '<dct:language>en</dct:language>'
