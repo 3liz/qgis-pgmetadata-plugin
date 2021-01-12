@@ -84,6 +84,7 @@ class TestSql(DatabaseTestCase):
             'title': "'Test title'",
             'abstract': "'Test abstract.'",
             'themes': "'{\"A01\", \"A02\"}'",
+            'data_last_update': "'2020-12-25T20:35:59'::timestamp",
         }
         return_value = self._insert(dataset_feature, 'dataset', 'id')
         link_feature = {
@@ -103,8 +104,12 @@ class TestSql(DatabaseTestCase):
         html_feature = {
             'section': "'main'",
             'content': (
-                "'<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b><p>[% meta_links %]</p>"
-                "<p>[%\"themes\"%]</p>'"
+                "'"
+                "<p>[% \"title\" %]</p><b>[%\"abstract\"%]</b>"
+                "<p>[%\"data_last_update\"%]</p>"
+                "<p>[% meta_links %]</p>"
+                "<p>[%\"themes\"%]</p>"
+                "'"
             ),
         }
         self._insert(html_feature, 'html_template')
@@ -118,7 +123,7 @@ class TestSql(DatabaseTestCase):
             self._sql("SELECT pgmetadata.get_dataset_item_html_content('pgmetadata','lines')")
         )
         expected = (
-            '<p>Test title</p><b>Test abstract.</b><p>\n'
+            '<p>Test title</p><b>Test abstract.</b><p>2020-12-25T20:35:59</p><p>\n'
             '            <p>test link </p><p>1</p></p><p>New test theme, test theme</p>'
         )
         self.assertEqual(expected, result[0][0])
