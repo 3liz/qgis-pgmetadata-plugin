@@ -93,6 +93,7 @@ CREATE VIEW pgmetadata.v_dataset AS
             d.spatial_extent,
             d.creation_date,
             d.update_date,
+            d.data_last_update,
             d.geom,
             cat.cat,
             theme.theme
@@ -124,7 +125,8 @@ CREATE VIEW pgmetadata.v_dataset AS
             s.projection_authid,
             s.spatial_extent,
             s.creation_date,
-            s.update_date
+            s.update_date,
+            s.data_last_update
            FROM glossary,
             ((s
              LEFT JOIN pgmetadata.theme gtheme ON ((gtheme.code = s.theme)))
@@ -152,9 +154,10 @@ CREATE VIEW pgmetadata.v_dataset AS
     ss.projection_authid,
     ss.spatial_extent,
     ss.creation_date,
-    ss.update_date
+    ss.update_date,
+    ss.data_last_update
    FROM ss
-  GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date;
+  GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date, ss.data_last_update;
 
 
 -- VIEW v_dataset

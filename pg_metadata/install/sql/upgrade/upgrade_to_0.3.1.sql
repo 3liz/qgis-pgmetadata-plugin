@@ -132,7 +132,7 @@ ORDER BY dc.id
 
 COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting ''pgmetadata.locale''. For example with: SET SESSION "pgmetadata.locale" = ''fr''; ';
 
-
+DROP VIEW IF EXISTS pgmetadata.v_dataset;
 CREATE OR REPLACE VIEW pgmetadata.v_dataset AS
 WITH glossary AS (
     SELECT
@@ -165,6 +165,7 @@ s AS (
         d.spatial_extent,
         d.creation_date,
         d.update_date,
+        d.data_last_update,
         d.geom,
         cat.cat,
         theme.theme
@@ -197,7 +198,8 @@ s AS (
         s.projection_authid,
         s.spatial_extent,
         s.creation_date,
-        s.update_date
+        s.update_date,
+        s.data_last_update
     FROM glossary, s
     LEFT JOIN pgmetadata.theme gtheme ON gtheme.code = s.theme
     LEFT JOIN public.spatial_ref_sys rs ON concat(rs.auth_name, ':', rs.auth_srid) = s.projection_authid
@@ -225,9 +227,13 @@ SELECT
     ss.projection_authid,
     ss.spatial_extent,
     ss.creation_date,
-    ss.update_date
+    ss.update_date,
+    ss.data_last_update
 FROM ss
-GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date;
+GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date, ss.data_last_update;
+
+COMMENT ON VIEW pgmetadata.v_dataset
+IS 'Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
 
 CREATE OR REPLACE VIEW pgmetadata.v_link AS
 WITH glossary AS (
