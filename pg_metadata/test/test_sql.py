@@ -1,4 +1,7 @@
+from xml.dom.minidom import parseString
+
 from qgis.PyQt.QtCore import NULL
+from qgis_plugin_tools.tools.resources import resources_path
 
 from pg_metadata.test.base_database import DatabaseTestCase
 
@@ -264,6 +267,13 @@ class TestSql(DatabaseTestCase):
             uid=return_value[0][1]
         )
         self.assertEqual(expected, result[0][3])
+
+        # Test XML validity
+        with open(resources_path('xml', 'dcat.xml')) as xml_file:
+            xml_template = xml_file.read()
+
+        # An exception is raised if the validity is not correct
+        parseString(xml_template.format(locale='fr', content=result[0][3]))
 
     def test_trigger_calculate_fields(self):
         """ Test if fields are correctly calculated on a layer having a geometry. """

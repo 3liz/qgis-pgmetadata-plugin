@@ -9,6 +9,7 @@ import os
 
 from enum import Enum, unique
 from functools import partial
+from xml.dom.minidom import parseString
 
 from qgis.core import (
     NULL,
@@ -172,7 +173,14 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 sql = self.sql_for_layer(
                     self.current_datasource_uri, output_format=OutputFormats.Dcat)
                 data = self.current_connection.executeSql(sql)
-                data_str = data[0][0]
+                with open(resources_path('xml', 'dcat.xml')) as xml_file:
+                    xml_template = xml_file.read()
+
+                locale = QgsSettings().value("locale/userLocale", QLocale().name())
+                locale = locale.split('_')[0].lower()
+
+                xml = parseString(xml_template.format(locale=locale, content=data[0][0]))
+                data_str = xml.toprettyxml()
 
             file_writer = open(output_file[0], "w")
             file_writer.write(data_str)
