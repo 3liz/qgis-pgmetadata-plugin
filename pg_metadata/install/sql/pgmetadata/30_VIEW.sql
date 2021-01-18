@@ -50,6 +50,7 @@ CREATE VIEW pgmetadata.v_contact AS
     c.organisation_name,
     c.organisation_unit,
     ((((glossary.dict -> 'contact.contact_role'::text) -> dc.contact_role) -> 'label'::text) ->> glossary.locale) AS contact_role,
+    dc.contact_role AS contact_role_code,
     c.email
    FROM glossary,
     ((pgmetadata.dataset_contact dc

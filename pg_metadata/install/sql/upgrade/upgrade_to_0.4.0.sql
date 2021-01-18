@@ -681,4 +681,33 @@ COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) IS
 
 -- End DCAT
 
+-- Start contact role
+
+DROP VIEW IF EXISTS pgmetadata.v_contact;
+CREATE VIEW pgmetadata.v_contact AS
+ WITH glossary AS (
+         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,
+            v_glossary.dict
+           FROM pgmetadata.v_glossary
+        )
+ SELECT d.table_name,
+    d.schema_name,
+    c.name,
+    c.organisation_name,
+    c.organisation_unit,
+    ((((glossary.dict -> 'contact.contact_role'::text) -> dc.contact_role) -> 'label'::text) ->> glossary.locale) AS contact_role,
+    dc.contact_role AS contact_role_code,
+    c.email
+   FROM glossary,
+    ((pgmetadata.dataset_contact dc
+     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))
+     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))
+  WHERE true
+  ORDER BY dc.id;
+
+COMMENT ON VIEW pgmetadata.v_contact IS
+'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting ''pgmetadata.locale''. For example with: SET SESSION "pgmetadata.locale" = ''fr''; ';
+
+-- End contact role
+
 COMMIT;

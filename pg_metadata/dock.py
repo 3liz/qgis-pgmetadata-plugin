@@ -13,6 +13,7 @@ from xml.dom.minidom import parseString
 
 from qgis.core import (
     NULL,
+    QgsAbstractDatabaseProviderConnection,
     QgsApplication,
     QgsProviderConnectionException,
     QgsProviderRegistry,
@@ -269,6 +270,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
 
             self.set_html_content(body=data[0][0])
             self.save_button.setEnabled(True)
+            self.set_layer_metadata(layer, connection, uri.schema(), uri.table())
             self.current_datasource_uri = uri
             self.current_connection = connection
 
@@ -314,3 +316,39 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
     def default_html_content(self):
         self.set_html_content(
             'PgMetadata', tr('You should click on a layer in the legend which is stored in PostgreSQL.'))
+
+    @staticmethod
+    def set_layer_metadata(
+            layer: QgsVectorLayer,
+            connection: QgsAbstractDatabaseProviderConnection,
+            schema: str,
+            table: str,
+    ):
+        """ Set the main owner contact for the attribution. """
+        sql = (
+            "SELECT name FROM pgmetadata.v_contact "
+            f"WHERE table_name = '{table}' "
+            f"AND schema_name = '{schema}' "
+            "ORDER BY CASE "
+            "WHEN contact_role_code = 'OW' then 1 "
+            "WHEN contact_role_code = 'DI' then 2 "
+            "WHEN contact_role_code = 'CU' then 3 "
+            "ELSE 10 "
+            "END ASC "
+            "LIMIT 1;"
+        )
+
+        data = connection.executeSql(sql)
+        if not data:
+            return
+
+        if data[0] == NULL or data[0][0] == NULL:
+            return
+
+        # QGIS Server panel
+        layer.setAttribution(data[0][0])
+
+        # Metadata panel
+        metadata = layer.metadata()
+        metadata.setRights([data[0][0]])
+        layer.setMetadata(metadata)
