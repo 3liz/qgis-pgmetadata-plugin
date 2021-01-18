@@ -14,9 +14,10 @@ The plugin is not yet available in the official QGIS repository, you must instal
 
 ### Custom repository
 
-We recommend adding the QGIS [custom repository](https://docs.qgis.org/testing/en/docs/user_manual/plugins/plugins.html#the-settings-tab),
+We recommend adding the QGIS 
+[custom repository](https://docs.qgis.org/testing/en/docs/user_manual/plugins/plugins.html#the-settings-tab),
 using this URL `https://github.com/3liz/qgis-pgmetadata-plugin/releases/latest/download/plugins.xml`.
-There isn't any authentification and you will have automatic updates later.
+There isn't any authentication, and you will have automatic updates later.
 
 ### Manual ZIP
 

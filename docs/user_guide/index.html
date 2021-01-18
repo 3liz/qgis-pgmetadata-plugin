@@ -19,6 +19,7 @@
 <li><a href="#locator">Locator</a></li>
 <li><a href="#datasource-manager">Datasource manager</a></li>
 <li><a href="#panel">Panel</a></li>
+<li><a href="#export">Export</a></li>
 </ul>
 </li>
 <li><a href="#for-the-administrator">For the administrator</a><ul>
@@ -29,9 +30,9 @@
 </ul>
 </li>
 <li><a href="#html-template">HTML Template</a></li>
-<li><a href="#export-as-pdfhtml">Export as PDF/HTML</a></li>
 </ul>
 </li>
+<li><a href="#lizmap-web-client">Lizmap Web Client</a></li>
 </ul>
 </div>
 <h1 id="for-the-normal-user">For the normal user</h1>
@@ -47,6 +48,12 @@ list.</p>
 <h2 id="panel">Panel</h2>
 <p>The PgMetadata panel can be opened. If set, the layer metadata will be displayed according to the layer 
 selected in the legend.</p>
+<h2 id="export">Export</h2>
+<p>To export metadata as PDF, HTML or DCAT, you need to select a layer in your layer tree saved in the metadata 
+table <code>dataset</code>. Then in the dock you have a button to open the <code>export menu</code> and choose the output format.</p>
+<p><img alt="Button Export" src="../img/dockpgmetadata_with_metadata.png"></p>
+<p>If no layer with metadata are selected, you can't click on the button of the <code>export menu</code>.</p>
+<p><img alt="Button Export without metadata" src="../img/dockpgmetadatawithoutmetadata.png"></p>
 <h1 id="for-the-administrator">For the administrator</h1>
 <h2 id="installation">Installation</h2>
 <h3 id="database">Database</h3>
@@ -73,8 +80,8 @@ the generated project and use the normal QGIS editing tools.</li>
 </li>
 </ol>
 <h3 id="editing-metadata">Editing metadata</h3>
-<p>Before creating metadata for your layer/table, you need to implement some table. To edit this table you need to 
-open the attribute table, switch on <strong>Edition</strong> mode and add a new row.</p>
+<p>Before creating metadata for your layer/table, you need to implement some table. To edit this table you need
+to open the attribute table, switch on <strong>Edition</strong> mode and add a new row.</p>
 <p>Switching to edit mode:</p>
 <p><img alt="Attribute table" src="../img/attribute_table_edit_mode.png"></p>
 <p>Adding a new row:</p>
@@ -84,7 +91,7 @@ open the attribute table, switch on <strong>Edition</strong> mode and add a new 
 <ol>
 <li>
 <p>On the <code>Theme</code> table you can add many theme corresponding to different theme of your layers.
-    You need to enter a <strong>code</strong> eg. "A01" and a <strong>label</strong> corresponding at the name eg. "Naturals area".
+    You need to enter a <strong>code</strong> e.g. "A01" and a <strong>label</strong> corresponding at the name e.g. "Naturals area".
     Example adding theme:</p>
 <p><img alt="Attribute table" src="../img/attribute_table_add_theme.png"></p>
 </li>
@@ -94,7 +101,8 @@ open the attribute table, switch on <strong>Edition</strong> mode and add a new 
 <p><img alt="Attribute table" src="../img/attribute_table_add_contact.png"></p>
 </li>
 <li>
-<p>The <code>Dataset</code> table is the metadata table. You can add many rows and one added line corresponds to a metadata of a layer.
+<p>The <code>Dataset</code> table is the metadata table. You can add many rows and one added line corresponds to a 
+   metadata of a layer.
     You need to fill a row with these minimum information : </p>
 <ul>
 <li>Table name,</li>
@@ -114,16 +122,18 @@ open the attribute table, switch on <strong>Edition</strong> mode and add a new 
 <p><img alt="Attribute table" src="../img/attribute_table_add_contact.png"></p>
 </li>
 <li>
-<p>And now you can add some<code>Link</code> to a dataset row with the <code>Dataset</code> table. It's same that to add a contact, you have a link tab.
+<p>And now you can add some<code>Link</code> to a dataset row with the <code>Dataset</code> table. It's same that to add a contact,
+   you have a link tab.
     Don't forget to allow <strong>edit mode</strong>.
     Example:</p>
 <p><img alt="Attribute table" src="../img/attribute_table_add_link.png"></p>
 </li>
 </ol>
-<p>When you stop editing a table, don't forget to save your change with clicking on the save icon et leave the edit mode.
+<p>When you stop editing a table, don't forget to save your change with clicking on the save icon et leave the
+edit mode.
 To save:</p>
 <p><img alt="Attribute table" src="../img/attribute_table_save.png"></p>
-<p>To leave the edit mode you need to click on the same button that to enter in the edit mode.</p>
+<p>To leave the edit mode you need to click on the same button that to enter the edit mode.</p>
 <h2 id="html-template">HTML Template</h2>
 <p>You can customize the HTML template.</p>
 <ul>
@@ -131,12 +141,9 @@ To save:</p>
 <li>use <code>[% meta_contacts %]</code> to display all contacts related. It's using the template called <code>contact</code>.</li>
 <li>use <code>[% meta_links %]</code> to display all links related. It's using the template called <code>link</code>.</li>
 </ul>
-<h2 id="export-as-pdfhtml">Export as PDF/HTML</h2>
-<p>To export metadata as PDF or HTML you need to select a layer in your layer tree saved in the metadata table <code>dataset</code>.
-Then in the dock you have a button to open the <code>export menu</code> and save metadata as PDF or HTML.</p>
-<p><img alt="Button Export" src="../img/dockpgmetadata_with_metadata.png"></p>
-<p>If no layer with metadata are selected, you can't click on the button of the <code>export menu</code>.</p>
-<p><img alt="Button Export without metadata" src="../img/dockpgmetadatawithoutmetadata.png"></p>
+<h1 id="lizmap-web-client">Lizmap Web Client</h1>
+<p>The metadata can be displayed in the QGIS Lizmap Web Client using the
+<a href="https://github.com/3liz/lizmap-pgmetadata-module">module</a>. The module is also providing a DCAT catalog.</p>
   </article>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
   </script>

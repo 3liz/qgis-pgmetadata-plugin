@@ -29,6 +29,17 @@ This works without the plugin installed on the computer. It's native in QGIS.
 The PgMetadata panel can be opened. If set, the layer metadata will be displayed according to the layer 
 selected in the legend.
 
+## Export
+
+To export metadata as PDF, HTML or DCAT, you need to select a layer in your layer tree saved in the metadata 
+table `dataset`. Then in the dock you have a button to open the `export menu` and choose the output format.
+
+![Button Export](../img/dockpgmetadata_with_metadata.png)
+
+If no layer with metadata are selected, you can't click on the button of the `export menu`.
+
+![Button Export without metadata](../img/dockpgmetadatawithoutmetadata.png)
+
 # For the administrator
 
 ## Installation
@@ -54,8 +65,8 @@ the generated project and use the normal QGIS editing tools.
 
 ### Editing metadata
 
-Before creating metadata for your layer/table, you need to implement some table. To edit this table you need to 
-open the attribute table, switch on **Edition** mode and add a new row.
+Before creating metadata for your layer/table, you need to implement some table. To edit this table you need
+to open the attribute table, switch on **Edition** mode and add a new row.
 
 Switching to edit mode:
 
@@ -70,7 +81,7 @@ Switching to the form view: You can access the form view at the bottom right cor
 ![Attribute table](../img/attribute_table_view_form.png)
 
 1. On the `Theme` table you can add many theme corresponding to different theme of your layers.
-    You need to enter a **code** eg. "A01" and a **label** corresponding at the name eg. "Naturals area".
+    You need to enter a **code** e.g. "A01" and a **label** corresponding at the name e.g. "Naturals area".
     Example adding theme:
 
     ![Attribute table](../img/attribute_table_add_theme.png)
@@ -80,7 +91,8 @@ Switching to the form view: You can access the form view at the bottom right cor
 
     ![Attribute table](../img/attribute_table_add_contact.png)
 
-1. The `Dataset` table is the metadata table. You can add many rows and one added line corresponds to a metadata of a layer.
+1. The `Dataset` table is the metadata table. You can add many rows and one added line corresponds to a 
+   metadata of a layer.
     You need to fill a row with these minimum information : 
     * Table name,
     * Schema name,
@@ -99,19 +111,21 @@ Switching to the form view: You can access the form view at the bottom right cor
 
     ![Attribute table](../img/attribute_table_add_contact.png)
 
-1. And now you can add some`Link` to a dataset row with the `Dataset` table. It's same that to add a contact, you have a link tab.
+1. And now you can add some`Link` to a dataset row with the `Dataset` table. It's same that to add a contact,
+   you have a link tab.
     Don't forget to allow **edit mode**.
     Example:
 
     ![Attribute table](../img/attribute_table_add_link.png)
 
 
-When you stop editing a table, don't forget to save your change with clicking on the save icon et leave the edit mode.
+When you stop editing a table, don't forget to save your change with clicking on the save icon et leave the
+edit mode.
 To save:
 
 ![Attribute table](../img/attribute_table_save.png)
 
-To leave the edit mode you need to click on the same button that to enter in the edit mode.
+To leave the edit mode you need to click on the same button that to enter the edit mode.
 
 ## HTML Template
 
@@ -121,13 +135,7 @@ You can customize the HTML template.
 * use `[% meta_contacts %]` to display all contacts related. It's using the template called `contact`.
 * use `[% meta_links %]` to display all links related. It's using the template called `link`.
 
-## Export as PDF/HTML
+# Lizmap Web Client
 
-To export metadata as PDF or HTML you need to select a layer in your layer tree saved in the metadata table `dataset`.
-Then in the dock you have a button to open the `export menu` and save metadata as PDF or HTML.
-
-![Button Export](../img/dockpgmetadata_with_metadata.png)
-
-If no layer with metadata are selected, you can't click on the button of the `export menu`.
-
-![Button Export without metadata](../img/dockpgmetadatawithoutmetadata.png)
+The metadata can be displayed in the QGIS Lizmap Web Client using the
+[module](https://github.com/3liz/lizmap-pgmetadata-module). The module is also providing a DCAT catalog.
