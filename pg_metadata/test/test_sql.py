@@ -199,10 +199,20 @@ class TestSql(DatabaseTestCase):
 
         result = (
             self._sql(
-                "SELECT dataset FROM pgmetadata.get_datasets_as_dcat_xml('en')"
+                "SELECT table_name, schema_name, uid, dataset FROM pgmetadata.get_datasets_as_dcat_xml('en')"
                 " WHERE uid = '{}'::uuid".format(return_value[0][1])
             )
         )
+        # Table name
+        self.assertEqual('pgmetadata', result[0][0])  # Wrong, it must be "lines"
+
+        # Schema name
+        self.assertEqual('lines', result[0][1])  # Wrong, it must be "pgmetadata"
+
+        # UUID
+        self.assertEqual(return_value[0][1], result[0][2])
+
+        # DCAT
         expected = (
             '<dcat:dataset><dcat:Dataset>'
             '<dct:identifier>{uid}</dct:identifier><dct:title>Test title</dct:title>'
@@ -253,7 +263,7 @@ class TestSql(DatabaseTestCase):
             ),
             uid=return_value[0][1]
         )
-        self.assertEqual(expected, result[0][0])
+        self.assertEqual(expected, result[0][3])
 
     def test_trigger_calculate_fields(self):
         """ Test if fields are correctly calculated on a layer having a geometry. """
