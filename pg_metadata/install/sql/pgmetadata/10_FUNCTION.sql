@@ -330,7 +330,7 @@ COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text,
 
 
 -- get_datasets_as_dcat_xml(text)
-CREATE FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) RETURNS TABLE(table_name text, schema_name text, uid uuid, dataset xml)
+CREATE FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) RETURNS TABLE(schema_name text, table_name text, uid uuid, dataset xml)
     LANGUAGE plpgsql
     AS $$
 DECLARE

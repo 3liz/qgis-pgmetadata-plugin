@@ -632,8 +632,8 @@ IS 'DCAT - View which formats the datasets AS DCAT XML record objects'
 
 CREATE OR REPLACE FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text)
 RETURNS TABLE (
-  table_name text,
   schema_name text,
+  table_name text,
   uid uuid,
   dataset xml
 )

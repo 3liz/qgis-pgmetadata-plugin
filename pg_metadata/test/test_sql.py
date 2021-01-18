@@ -207,10 +207,10 @@ class TestSql(DatabaseTestCase):
             )
         )
         # Table name
-        self.assertEqual('pgmetadata', result[0][0])  # Wrong, it must be "lines"
+        self.assertEqual('lines', result[0][0])
 
         # Schema name
-        self.assertEqual('lines', result[0][1])  # Wrong, it must be "pgmetadata"
+        self.assertEqual('pgmetadata', result[0][1])
 
         # UUID
         self.assertEqual(return_value[0][1], result[0][2])

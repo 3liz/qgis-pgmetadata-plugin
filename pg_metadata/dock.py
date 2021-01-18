@@ -210,7 +210,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 "SELECT dataset FROM pgmetadata.get_datasets_as_dcat_xml('{locale}') "
                 "WHERE schema_name = '{schema}' "
                 "AND table_name = '{table}';"
-            ).format(schema=uri.table(), table=uri.schema(), locale=locale)
+            ).format(schema=uri.schema(), table=uri.table(), locale=locale)
         else:
             raise NotImplementedError('Output format is not yet implemented.')
 
