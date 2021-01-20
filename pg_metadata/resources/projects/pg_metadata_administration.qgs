@@ -1,4 +1,4 @@
-<qgis projectname="" version="3.10.11-A Coruña">
+<qgis projectname="" version="3.10.14-A Coruña">
   <homePath path=""></homePath>
   <title></title>
   <autotransaction active="0"></autotransaction>
@@ -49,7 +49,7 @@
           <property key="showFeatureCount" value="0"></property>
         </customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="theme_3d260140_3e41_4dbe_8e79_813f3f5d3d50" legend_exp="" name="Theme" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='label' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;theme&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="theme_3d260140_3e41_4dbe_8e79_813f3f5d3d50" legend_exp="" name="Theme" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='label_en' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;theme&quot; sql=">
         <customproperties></customproperties>
       </layer-tree-layer>
     </layer-tree-group>
@@ -80,7 +80,6 @@
     </layer-tree-group>
     <custom-order enabled="0">
       <item>dataset_00c9da4d_d717_48cc_a848_0d4544b019fd</item>
-      <item>v_valid_dataset_4e46ef23_a5aa_441f_b21a_92bb573cbdfd</item>
     </custom-order>
   </layer-tree-group>
   <snapping-settings enabled="0" intersection-snapping="0" mode="2" tolerance="0" type="1" unit="2">
@@ -616,7 +615,7 @@ def my_form_open(dialog, layer, feature):
               </Option>
               <Option name="drawToAllParts" type="bool" value="false"></Option>
               <Option name="enabled" type="QString" value="0"></Option>
-              <Option name="lineSymbol" type="QString" value="&lt;symbol name=&quot;symbol&quot; alpha=&quot;1&quot; force_rhr=&quot;0&quot; type=&quot;line&quot; clip_to_extent=&quot;1&quot;>&lt;layer class=&quot;SimpleLine&quot; locked=&quot;0&quot; enabled=&quot;1&quot; pass=&quot;0&quot;>&lt;prop k=&quot;capstyle&quot; v=&quot;square&quot;/>&lt;prop k=&quot;customdash&quot; v=&quot;5;2&quot;/>&lt;prop k=&quot;customdash_map_unit_scale&quot; v=&quot;3x:0,0,0,0,0,0&quot;/>&lt;prop k=&quot;customdash_unit&quot; v=&quot;MM&quot;/>&lt;prop k=&quot;draw_inside_polygon&quot; v=&quot;0&quot;/>&lt;prop k=&quot;joinstyle&quot; v=&quot;bevel&quot;/>&lt;prop k=&quot;line_color&quot; v=&quot;60,60,60,255&quot;/>&lt;prop k=&quot;line_style&quot; v=&quot;solid&quot;/>&lt;prop k=&quot;line_width&quot; v=&quot;0.3&quot;/>&lt;prop k=&quot;line_width_unit&quot; v=&quot;MM&quot;/>&lt;prop k=&quot;offset&quot; v=&quot;0&quot;/>&lt;prop k=&quot;offset_map_unit_scale&quot; v=&quot;3x:0,0,0,0,0,0&quot;/>&lt;prop k=&quot;offset_unit&quot; v=&quot;MM&quot;/>&lt;prop k=&quot;ring_filter&quot; v=&quot;0&quot;/>&lt;prop k=&quot;use_custom_dash&quot; v=&quot;0&quot;/>&lt;prop k=&quot;width_map_unit_scale&quot; v=&quot;3x:0,0,0,0,0,0&quot;/>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; value=&quot;&quot; type=&quot;QString&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option name=&quot;type&quot; value=&quot;collection&quot; type=&quot;QString&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;/layer>&lt;/symbol>"></Option>
+              <Option name="lineSymbol" type="QString" value="&lt;symbol alpha=&quot;1&quot; clip_to_extent=&quot;1&quot; type=&quot;line&quot; name=&quot;symbol&quot; force_rhr=&quot;0&quot;>&lt;layer class=&quot;SimpleLine&quot; pass=&quot;0&quot; enabled=&quot;1&quot; locked=&quot;0&quot;>&lt;prop k=&quot;capstyle&quot; v=&quot;square&quot;/>&lt;prop k=&quot;customdash&quot; v=&quot;5;2&quot;/>&lt;prop k=&quot;customdash_map_unit_scale&quot; v=&quot;3x:0,0,0,0,0,0&quot;/>&lt;prop k=&quot;customdash_unit&quot; v=&quot;MM&quot;/>&lt;prop k=&quot;draw_inside_polygon&quot; v=&quot;0&quot;/>&lt;prop k=&quot;joinstyle&quot; v=&quot;bevel&quot;/>&lt;prop k=&quot;line_color&quot; v=&quot;60,60,60,255&quot;/>&lt;prop k=&quot;line_style&quot; v=&quot;solid&quot;/>&lt;prop k=&quot;line_width&quot; v=&quot;0.3&quot;/>&lt;prop k=&quot;line_width_unit&quot; v=&quot;MM&quot;/>&lt;prop k=&quot;offset&quot; v=&quot;0&quot;/>&lt;prop k=&quot;offset_map_unit_scale&quot; v=&quot;3x:0,0,0,0,0,0&quot;/>&lt;prop k=&quot;offset_unit&quot; v=&quot;MM&quot;/>&lt;prop k=&quot;ring_filter&quot; v=&quot;0&quot;/>&lt;prop k=&quot;use_custom_dash&quot; v=&quot;0&quot;/>&lt;prop k=&quot;width_map_unit_scale&quot; v=&quot;3x:0,0,0,0,0,0&quot;/>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option type=&quot;QString&quot; value=&quot;&quot; name=&quot;name&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option type=&quot;QString&quot; value=&quot;collection&quot; name=&quot;type&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;/layer>&lt;/symbol>"></Option>
               <Option name="minLength" type="double" value="0"></Option>
               <Option name="minLengthMapUnitScale" type="QString" value="3x:0,0,0,0,0,0"></Option>
               <Option name="minLengthUnit" type="QString" value="MM"></Option>
@@ -1619,14 +1618,14 @@ def my_form_open(dialog, layer, feature):
             </config>
           </editWidget>
         </field>
-        <field name="label">
+        <field name="label_en">
           <editWidget type="TextEdit">
             <config>
               <Option></Option>
             </config>
           </editWidget>
         </field>
-        <field name="description">
+        <field name="description_en">
           <editWidget type="TextEdit">
             <config>
               <Option></Option>
@@ -1640,14 +1639,78 @@ def my_form_open(dialog, layer, feature):
             </config>
           </editWidget>
         </field>
+        <field name="label_fr">
+          <editWidget type="">
+            <config>
+              <Option></Option>
+            </config>
+          </editWidget>
+        </field>
+        <field name="description_fr">
+          <editWidget type="">
+            <config>
+              <Option></Option>
+            </config>
+          </editWidget>
+        </field>
+        <field name="label_it">
+          <editWidget type="">
+            <config>
+              <Option></Option>
+            </config>
+          </editWidget>
+        </field>
+        <field name="description_it">
+          <editWidget type="">
+            <config>
+              <Option></Option>
+            </config>
+          </editWidget>
+        </field>
+        <field name="label_es">
+          <editWidget type="">
+            <config>
+              <Option></Option>
+            </config>
+          </editWidget>
+        </field>
+        <field name="description_es">
+          <editWidget type="">
+            <config>
+              <Option></Option>
+            </config>
+          </editWidget>
+        </field>
+        <field name="label_de">
+          <editWidget type="">
+            <config>
+              <Option></Option>
+            </config>
+          </editWidget>
+        </field>
+        <field name="description_de">
+          <editWidget type="">
+            <config>
+              <Option></Option>
+            </config>
+          </editWidget>
+        </field>
       </fieldConfiguration>
       <aliases>
         <alias field="id" index="0" name=""></alias>
         <alias field="field" index="1" name=""></alias>
         <alias field="code" index="2" name=""></alias>
-        <alias field="label" index="3" name=""></alias>
-        <alias field="description" index="4" name=""></alias>
+        <alias field="label_en" index="3" name=""></alias>
+        <alias field="description_en" index="4" name=""></alias>
         <alias field="item_order" index="5" name=""></alias>
+        <alias field="label_fr" index="6" name=""></alias>
+        <alias field="description_fr" index="7" name=""></alias>
+        <alias field="label_it" index="8" name=""></alias>
+        <alias field="description_it" index="9" name=""></alias>
+        <alias field="label_es" index="10" name=""></alias>
+        <alias field="description_es" index="11" name=""></alias>
+        <alias field="label_de" index="12" name=""></alias>
+        <alias field="description_de" index="13" name=""></alias>
       </aliases>
       <excludeAttributesWMS></excludeAttributesWMS>
       <excludeAttributesWFS></excludeAttributesWFS>
@@ -1655,25 +1718,49 @@ def my_form_open(dialog, layer, feature):
         <default applyOnUpdate="0" expression="" field="id"></default>
         <default applyOnUpdate="0" expression="" field="field"></default>
         <default applyOnUpdate="0" expression="" field="code"></default>
-        <default applyOnUpdate="0" expression="" field="label"></default>
-        <default applyOnUpdate="0" expression="" field="description"></default>
+        <default applyOnUpdate="0" expression="" field="label_en"></default>
+        <default applyOnUpdate="0" expression="" field="description_en"></default>
         <default applyOnUpdate="0" expression="" field="item_order"></default>
+        <default applyOnUpdate="0" expression="" field="label_fr"></default>
+        <default applyOnUpdate="0" expression="" field="description_fr"></default>
+        <default applyOnUpdate="0" expression="" field="label_it"></default>
+        <default applyOnUpdate="0" expression="" field="description_it"></default>
+        <default applyOnUpdate="0" expression="" field="label_es"></default>
+        <default applyOnUpdate="0" expression="" field="description_es"></default>
+        <default applyOnUpdate="0" expression="" field="label_de"></default>
+        <default applyOnUpdate="0" expression="" field="description_de"></default>
       </defaults>
       <constraints>
         <constraint constraints="3" exp_strength="0" field="id" notnull_strength="1" unique_strength="1"></constraint>
         <constraint constraints="1" exp_strength="0" field="field" notnull_strength="1" unique_strength="0"></constraint>
         <constraint constraints="1" exp_strength="0" field="code" notnull_strength="1" unique_strength="0"></constraint>
-        <constraint constraints="1" exp_strength="0" field="label" notnull_strength="1" unique_strength="0"></constraint>
-        <constraint constraints="0" exp_strength="0" field="description" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="1" exp_strength="0" field="label_en" notnull_strength="1" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="description_en" notnull_strength="0" unique_strength="0"></constraint>
         <constraint constraints="0" exp_strength="0" field="item_order" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="label_fr" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="description_fr" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="label_it" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="description_it" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="label_es" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="description_es" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="label_de" notnull_strength="0" unique_strength="0"></constraint>
+        <constraint constraints="0" exp_strength="0" field="description_de" notnull_strength="0" unique_strength="0"></constraint>
       </constraints>
       <constraintExpressions>
         <constraint desc="" exp="" field="id"></constraint>
         <constraint desc="" exp="" field="field"></constraint>
         <constraint desc="" exp="" field="code"></constraint>
-        <constraint desc="" exp="" field="label"></constraint>
-        <constraint desc="" exp="" field="description"></constraint>
+        <constraint desc="" exp="" field="label_en"></constraint>
+        <constraint desc="" exp="" field="description_en"></constraint>
         <constraint desc="" exp="" field="item_order"></constraint>
+        <constraint desc="" exp="" field="label_fr"></constraint>
+        <constraint desc="" exp="" field="description_fr"></constraint>
+        <constraint desc="" exp="" field="label_it"></constraint>
+        <constraint desc="" exp="" field="description_it"></constraint>
+        <constraint desc="" exp="" field="label_es"></constraint>
+        <constraint desc="" exp="" field="description_es"></constraint>
+        <constraint desc="" exp="" field="label_de"></constraint>
+        <constraint desc="" exp="" field="description_de"></constraint>
       </constraintExpressions>
       <expressionfields></expressionfields>
       <attributeactions>
@@ -2287,7 +2374,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>theme_3d260140_3e41_4dbe_8e79_813f3f5d3d50</id>
-      <datasource>service='pgmetadata' sslmode=disable key='label' checkPrimaryKeyUnicity='1' table="pgmetadata"."theme" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='label_en' checkPrimaryKeyUnicity='1' table="pgmetadata"."theme" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
