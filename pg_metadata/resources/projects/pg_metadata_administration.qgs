@@ -21,58 +21,58 @@
     <customproperties></customproperties>
     <layer-tree-group checked="Qt::Checked" expanded="1" name="Configuration">
       <customproperties></customproperties>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="contact_640d326a_25a7_4b9c_8878_42d1201a8198" legend_exp="" name="Contact" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;contact&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="contact_640d326a_25a7_4b9c_8878_42d1201a8198" legend_exp="" name="Contact" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;contact&quot; sql=">
         <customproperties>
           <property key="showFeatureCount" value="0"></property>
         </customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="dataset_contact_ff2bb406_5b18_4ab7_9fc0_3a25c3aa9675" legend_exp="" name="Dataset &lt;-> Contact" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;dataset_contact&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="dataset_contact_ff2bb406_5b18_4ab7_9fc0_3a25c3aa9675" legend_exp="" name="Dataset &lt;-> Contact" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;dataset_contact&quot; sql=">
         <customproperties></customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="dataset_00c9da4d_d717_48cc_a848_0d4544b019fd" legend_exp="" name="Dataset" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' srid=4326 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;dataset&quot; (geom) sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="dataset_00c9da4d_d717_48cc_a848_0d4544b019fd" legend_exp="" name="Dataset" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true srid=4326 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;dataset&quot; (geom) sql=">
         <customproperties>
           <property key="showFeatureCount" value="0"></property>
         </customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="link_6157b282_9882_44f3_b6a1_c133f5595d2a" legend_exp="" name="Link" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;link&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="link_6157b282_9882_44f3_b6a1_c133f5595d2a" legend_exp="" name="Link" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;link&quot; sql=">
         <customproperties>
           <property key="showFeatureCount" value="0"></property>
         </customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="html_template_e9cca240_a640_4a7c_a9d0_a181beb9797e" legend_exp="" name="HTML templates" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;html_template&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="html_template_e9cca240_a640_4a7c_a9d0_a181beb9797e" legend_exp="" name="HTML templates" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;html_template&quot; sql=">
         <customproperties>
           <property key="showFeatureCount" value="0"></property>
         </customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab" legend_exp="" name="Glossary" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab" legend_exp="" name="Glossary" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql=">
         <customproperties>
           <property key="showFeatureCount" value="0"></property>
         </customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="theme_3d260140_3e41_4dbe_8e79_813f3f5d3d50" legend_exp="" name="Theme" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='label_en' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;theme&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="theme_3d260140_3e41_4dbe_8e79_813f3f5d3d50" legend_exp="" name="Theme" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;theme&quot; sql=">
         <customproperties></customproperties>
       </layer-tree-layer>
     </layer-tree-group>
     <layer-tree-group checked="Qt::Checked" expanded="1" name="Information">
       <customproperties></customproperties>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_table_list_48c78797_5376_47b8_90e0_8c4f8236fa44" legend_exp="" name="Table list" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_table_list&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_table_list_48c78797_5376_47b8_90e0_8c4f8236fa44" legend_exp="" name="Table list" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_table_list&quot; sql=">
         <customproperties></customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_schema_list_140f3a29_ae94_480c_932c_fb47bdad292c" legend_exp="" name="Schema list" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_schema_list&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_schema_list_140f3a29_ae94_480c_932c_fb47bdad292c" legend_exp="" name="Schema list" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_schema_list&quot; sql=">
         <customproperties></customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_valid_dataset_4e46ef23_a5aa_441f_b21a_92bb573cbdfd" legend_exp="" name="Valid metadata" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='schema_name' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_valid_dataset&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_valid_dataset_4e46ef23_a5aa_441f_b21a_92bb573cbdfd" legend_exp="" name="Valid metadata" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='schema_name' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_valid_dataset&quot; sql=">
         <customproperties></customproperties>
       </layer-tree-layer>
     </layer-tree-group>
     <layer-tree-group checked="Qt::Checked" expanded="1" name="Information warnings">
       <customproperties></customproperties>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_orphan_tables_33b5eba9_96d1_442a_a32e_90a10c6fd2e5" legend_exp="" name="Orphan tables" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_orphan_tables&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_orphan_tables_33b5eba9_96d1_442a_a32e_90a10c6fd2e5" legend_exp="" name="Orphan tables" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_orphan_tables&quot; sql=">
         <customproperties>
           <property key="showFeatureCount" value="0"></property>
         </customproperties>
       </layer-tree-layer>
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_orphan_dataset_items_0fbfb83f_0c98_4391_bf51_8b5d8a362a73" legend_exp="" name="Orphan metadata" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='schema_name' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_orphan_dataset_items&quot; sql=">
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="v_orphan_dataset_items_0fbfb83f_0c98_4391_bf51_8b5d8a362a73" legend_exp="" name="Orphan metadata" providerKey="postgres" source="service='pgmetadata' sslmode=disable key='schema_name' estimatedmetadata=true checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_orphan_dataset_items&quot; sql=">
         <customproperties>
           <property key="showFeatureCount" value="0"></property>
         </customproperties>
@@ -197,7 +197,7 @@
   <projectlayers>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>contact_640d326a_25a7_4b9c_8878_42d1201a8198</id>
-      <datasource>service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="pgmetadata"."contact" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."contact" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -437,14 +437,8 @@ def my_form_open(dialog, layer, feature):
       <mapTip></mapTip>
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="1" maxScale="0" minScale="1e+08" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="0" simplifyMaxScale="1" styleCategories="AllStyleCategories" type="vector" wkbType="Polygon">
-      <extent>
-        <xmin>-0.80069482320508201</xmin>
-        <ymin>49.29162416387060119</ymin>
-        <xmax>-0.66031194965223095</xmax>
-        <ymax>49.35357429621569736</ymax>
-      </extent>
       <id>dataset_00c9da4d_d717_48cc_a848_0d4544b019fd</id>
-      <datasource>service='pgmetadata' sslmode=disable key='id' srid=4326 type=Polygon checkPrimaryKeyUnicity='1' table="pgmetadata"."dataset" (geom) sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true srid=4326 type=Polygon checkPrimaryKeyUnicity='1' table="pgmetadata"."dataset" (geom) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -695,7 +689,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="v_table_list_48c78797_5376_47b8_90e0_8c4f8236fa44"></Option>
                 <Option name="LayerName" type="QString" value="Table list"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_table_list&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_table_list&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="false"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
@@ -715,7 +709,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="v_schema_list_140f3a29_ae94_480c_932c_fb47bdad292c"></Option>
                 <Option name="LayerName" type="QString" value="Schema list"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_schema_list&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;v_schema_list&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="false"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
@@ -755,7 +749,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab"></Option>
                 <Option name="LayerName" type="QString" value="Glossary"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="true"></Option>
@@ -835,7 +829,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab"></Option>
                 <Option name="LayerName" type="QString" value="Glossary"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
@@ -855,7 +849,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab"></Option>
                 <Option name="LayerName" type="QString" value="Glossary"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
@@ -875,7 +869,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab"></Option>
                 <Option name="LayerName" type="QString" value="Glossary"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
@@ -984,7 +978,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="theme_3d260140_3e41_4dbe_8e79_813f3f5d3d50"></Option>
                 <Option name="LayerName" type="QString" value="Theme"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='label' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;theme&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='label' checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;theme&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
@@ -1274,7 +1268,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>dataset_contact_ff2bb406_5b18_4ab7_9fc0_3a25c3aa9675</id>
-      <datasource>service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="pgmetadata"."dataset_contact" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."dataset_contact" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -1413,7 +1407,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab"></Option>
                 <Option name="LayerName" type="QString" value="glossary"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='tid' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='tid' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
@@ -1508,7 +1502,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab</id>
-      <datasource>service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="pgmetadata"."glossary" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."glossary" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -1827,7 +1821,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>html_template_e9cca240_a640_4a7c_a9d0_a181beb9797e</id>
-      <datasource>service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="pgmetadata"."html_template" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."html_template" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -2035,7 +2029,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>link_6157b282_9882_44f3_b6a1_c133f5595d2a</id>
-      <datasource>service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="pgmetadata"."link" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."link" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -2154,7 +2148,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab"></Option>
                 <Option name="LayerName" type="QString" value="Glossary"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
@@ -2204,7 +2198,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="Layer" type="QString" value="glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab"></Option>
                 <Option name="LayerName" type="QString" value="Glossary"></Option>
                 <Option name="LayerProviderName" type="QString" value="postgres"></Option>
-                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
+                <Option name="LayerSource" type="QString" value="service='pgmetadata' sslmode=disable estimatedmetadata=true sslmode=disable key='id' estimatedmetadata=false checkPrimaryKeyUnicity='1' table=&quot;pgmetadata&quot;.&quot;glossary&quot; sql="></Option>
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="false"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
@@ -2374,7 +2368,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>theme_3d260140_3e41_4dbe_8e79_813f3f5d3d50</id>
-      <datasource>service='pgmetadata' sslmode=disable key='label_en' checkPrimaryKeyUnicity='1' table="pgmetadata"."theme" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='label' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."theme" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -2582,7 +2576,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="1" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>v_orphan_dataset_items_0fbfb83f_0c98_4391_bf51_8b5d8a362a73</id>
-      <datasource>service='pgmetadata' sslmode=disable key='schema_name' checkPrimaryKeyUnicity='1' table="pgmetadata"."v_orphan_dataset_items" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='schema_name' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."v_orphan_dataset_items" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -2780,7 +2774,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="1" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>v_orphan_tables_33b5eba9_96d1_442a_a32e_90a10c6fd2e5</id>
-      <datasource>service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="pgmetadata"."v_orphan_tables" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."v_orphan_tables" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -2982,7 +2976,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="1" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>v_schema_list_140f3a29_ae94_480c_932c_fb47bdad292c</id>
-      <datasource>service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="pgmetadata"."v_schema_list" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."v_schema_list" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -3163,7 +3157,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="1" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>v_table_list_48c78797_5376_47b8_90e0_8c4f8236fa44</id>
-      <datasource>service='pgmetadata' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="pgmetadata"."v_table_list" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='id' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."v_table_list" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -3366,7 +3360,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer autoRefreshEnabled="0" autoRefreshTime="0" geometry="No geometry" hasScaleBasedVisibilityFlag="0" maxScale="0" minScale="1e+08" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="vector" wkbType="NoGeometry">
       <id>v_valid_dataset_4e46ef23_a5aa_441f_b21a_92bb573cbdfd</id>
-      <datasource>service='pgmetadata' sslmode=disable key='schema_name' checkPrimaryKeyUnicity='1' table="pgmetadata"."v_valid_dataset" sql=</datasource>
+      <datasource>service='pgmetadata' sslmode=disable key='schema_name' estimatedmetadata=true checkPrimaryKeyUnicity='1' table="pgmetadata"."v_valid_dataset" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
