@@ -1,16 +1,17 @@
-name: Tests 🎳
+name: Flake8 🎳
 
 on:
   push:
-    paths:
-      - '**.py'
+#    paths:
+#      - '**.py'
   pull_request:
-    paths:
-      - '**.py'
+#    paths:
+#      - '**.py'
 
 jobs:
-  test-flake8:
+  flake8:
     runs-on: ubuntu-latest
+    name: "Flake8"
     steps:
       - name: Setup Python
         uses: actions/setup-python@v2

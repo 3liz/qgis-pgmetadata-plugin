@@ -6,7 +6,8 @@ on:
       - '**.py'
 
 jobs:
-  build:
+  push:
+    name: Push to Transifex
     runs-on: ubuntu-latest
     if: github.repository == '3liz/qgis-pgmetadata-plugin'
 

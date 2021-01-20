@@ -1,15 +1,16 @@
-name: Tests 🎳
+name: Migration 🗂
 
 on:
   push:
-    paths:
-      - '**.sql'
+#    paths:
+#      - '**.sql'
   pull_request:
-    paths:
-      - '**.sql'
+#    paths:
+#      - '**.sql'
 
 jobs:
   test-migration:
+    name: "Migration"
     runs-on: ubuntu-latest
     defaults:
       run:
