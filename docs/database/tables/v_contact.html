@@ -218,6 +218,23 @@
                                     <td></td>
                                 </tr>
                                 <tr>
+                                    <td><span id="contact_role_code">contact_role_code</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
                                     <td><span id="email">email</span></td>
                                     <td>text</td>
                                     <td>2147483647</td>
@@ -248,7 +265,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">WITH glossary AS (&#10;         SELECT COALESCE(current_setting(&#39;pgmetadata.locale&#39;::text, true), &#39;en&#39;::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT d.table_name,&#10;    d.schema_name,&#10;    c.name,&#10;    c.organisation_name,&#10;    c.organisation_unit,&#10;    ((((glossary.dict -&gt; &#39;contact.contact_role&#39;::text) -&gt; dc.contact_role) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale) AS contact_role,&#10;    c.email&#10;   FROM glossary,&#10;    ((pgmetadata.dataset_contact dc&#10;     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))&#10;     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))&#10;  WHERE true&#10;  ORDER BY dc.id;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">WITH glossary AS (&#10;         SELECT COALESCE(current_setting(&#39;pgmetadata.locale&#39;::text, true), &#39;en&#39;::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT d.table_name,&#10;    d.schema_name,&#10;    c.name,&#10;    c.organisation_name,&#10;    c.organisation_unit,&#10;    ((((glossary.dict -&gt; &#39;contact.contact_role&#39;::text) -&gt; dc.contact_role) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale) AS contact_role,&#10;    dc.contact_role AS contact_role_code,&#10;    c.email&#10;   FROM glossary,&#10;    ((pgmetadata.dataset_contact dc&#10;     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))&#10;     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))&#10;  WHERE true&#10;  ORDER BY dc.id;</textarea>
                             <div style="padding-top: 5px;"><hr></div>
                             <div class="box box-solid">
                                 <div class="box-header with-border">

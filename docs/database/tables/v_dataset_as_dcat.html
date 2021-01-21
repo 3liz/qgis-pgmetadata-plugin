@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>v_glossary - gis Database</title>
+        <title>v_dataset_as_dcat - gis Database</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>v_glossary</h1><p><span id="recordNumber">0</span> rows</p><br />
+                    <h1>v_dataset_as_dcat</h1><p><span id="recordNumber">0</span> rows</p><br />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="fa fa-file-text-o"></i>
@@ -84,7 +84,7 @@
                             </div>
                         </div><!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p>View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION &ldquo;pgmetadata.locale&rdquo; = &lsquo;fr&rsquo;; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict-&gt;&lsquo;contact.contact_role&rsquo;-&gt;&lsquo;OW&rsquo;-&gt;&lsquo;label&rsquo;-&gt;&lsquo;fr&rsquo;)::text AS label FROM glossary;</p>
+                            <p>DCAT - View which formats the datasets AS DCAT XML record objects</p>
                         </div><!-- /.box-body -->
                     </div>
                 </section>
@@ -116,8 +116,59 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td><span id="dict">dict</span></td>
-                                    <td>json</td>
+                                    <td><span id="schema_name">schema_name</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="table_name">table_name</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="uid">uid</span></td>
+                                    <td>uuid</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="dataset">dataset</span></td>
+                                    <td>xml</td>
                                     <td>2147483647</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
@@ -146,7 +197,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">WITH one AS (&#10;         SELECT glossary.field,&#10;            glossary.code,&#10;            json_build_object(&#39;label&#39;, json_build_object(&#39;en&#39;, glossary.label_en, &#39;fr&#39;, COALESCE(NULLIF(glossary.label_fr, &#39;&#39;::text), glossary.label_en, &#39;&#39;::text), &#39;it&#39;, COALESCE(NULLIF(glossary.label_it, &#39;&#39;::text), glossary.label_en, &#39;&#39;::text), &#39;es&#39;, COALESCE(NULLIF(glossary.label_es, &#39;&#39;::text), glossary.label_en, &#39;&#39;::text), &#39;de&#39;, COALESCE(NULLIF(glossary.label_de, &#39;&#39;::text), glossary.label_en, &#39;&#39;::text)), &#39;description&#39;, json_build_object(&#39;en&#39;, glossary.description_en, &#39;fr&#39;, COALESCE(NULLIF(glossary.description_fr, &#39;&#39;::text), glossary.description_en, &#39;&#39;::text), &#39;it&#39;, COALESCE(NULLIF(glossary.description_it, &#39;&#39;::text), glossary.description_en, &#39;&#39;::text), &#39;es&#39;, COALESCE(NULLIF(glossary.description_es, &#39;&#39;::text), glossary.description_en, &#39;&#39;::text), &#39;de&#39;, COALESCE(NULLIF(glossary.description_de, &#39;&#39;::text), glossary.description_en, &#39;&#39;::text))) AS dict&#10;           FROM pgmetadata.glossary&#10;        ), two AS (&#10;         SELECT one.field,&#10;            json_object_agg(one.code, one.dict) AS dict&#10;           FROM one&#10;          GROUP BY one.field&#10;        )&#10; SELECT json_object_agg(two.field, two.dict) AS dict&#10;   FROM two;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">WITH glossary AS (&#10;         SELECT COALESCE(current_setting(&#39;pgmetadata.locale&#39;::text, true), &#39;en&#39;::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT d.schema_name,&#10;    d.table_name,&#10;    d.uid,&#10;    XMLELEMENT(NAME &quot;dcat:dataset&quot;, XMLELEMENT(NAME &quot;dcat:Dataset&quot;, XMLFOREST(d.uid AS &quot;dct:identifier&quot;, d.title AS &quot;dct:title&quot;, d.abstract AS &quot;dct:description&quot;, COALESCE(current_setting(&#39;pgmetadata.locale&#39;::text, true), &#39;en&#39;::text) AS &quot;dct:language&quot;, ((((glossary.dict -&gt; &#39;dataset.license&#39;::text) -&gt; d.license) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale) AS &quot;dct:license&quot;, ((((glossary.dict -&gt; &#39;dataset.confidentiality&#39;::text) -&gt; d.confidentiality) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale) AS &quot;dct:rights&quot;, ((((glossary.dict -&gt; &#39;dataset.publication_frequency&#39;::text) -&gt; d.publication_frequency) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale) AS &quot;dct:accrualPeriodicity&quot;, st_asgeojson(d.geom) AS &quot;dct:spatial&quot;), XMLELEMENT(NAME &quot;dct:created&quot;, XMLATTRIBUTES(&#39;http://www.w3.org/2001/XMLSchema#dateTime&#39; AS &quot;rdf:datatype&quot;), d.creation_date), XMLELEMENT(NAME &quot;dct:issued&quot;, XMLATTRIBUTES(&#39;http://www.w3.org/2001/XMLSchema#dateTime&#39; AS &quot;rdf:datatype&quot;), d.publication_date), XMLELEMENT(NAME &quot;dct:modified&quot;, XMLATTRIBUTES(&#39;http://www.w3.org/2001/XMLSchema#dateTime&#39; AS &quot;rdf:datatype&quot;), d.update_date), ( SELECT xmlagg(XMLCONCAT(XMLELEMENT(NAME &quot;dcat:contactPoint&quot;, XMLELEMENT(NAME &quot;vcard:Organization&quot;, XMLELEMENT(NAME &quot;vcard:fn&quot;, btrim(concat(c.name, &#39; - &#39;, c.organisation_name, ((&#39; (&#39;::text || c.organisation_unit) || &#39;)&#39;::text)))), XMLELEMENT(NAME &quot;vcard:hasEmail&quot;, XMLATTRIBUTES(c.email AS &quot;rdf:resource&quot;), c.email))), XMLELEMENT(NAME &quot;dct:creator&quot;, XMLELEMENT(NAME &quot;foaf:Organization&quot;, XMLELEMENT(NAME &quot;foaf:name&quot;, btrim(concat(c.name, &#39; - &#39;, c.organisation_name, ((&#39; (&#39;::text || c.organisation_unit) || &#39;)&#39;::text)))), XMLELEMENT(NAME &quot;foaf:mbox&quot;, c.email))))) AS xmlagg&#10;           FROM (pgmetadata.contact c&#10;             JOIN pgmetadata.dataset_contact dc ON (((dc.contact_role = &#39;OW&#39;::text) AND (dc.fk_id_dataset = d.id) AND (dc.fk_id_contact = c.id))))), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dct:publisher&quot;, XMLELEMENT(NAME &quot;foaf:Organization&quot;, XMLELEMENT(NAME &quot;foaf:name&quot;, btrim(concat(c.name, &#39; - &#39;, c.organisation_name, ((&#39; (&#39;::text || c.organisation_unit) || &#39;)&#39;::text)))), XMLELEMENT(NAME &quot;foaf:mbox&quot;, c.email)))) AS xmlagg&#10;           FROM (pgmetadata.contact c&#10;             JOIN pgmetadata.dataset_contact dc ON (((dc.contact_role = &#39;DI&#39;::text) AND (dc.fk_id_dataset = d.id) AND (dc.fk_id_contact = c.id))))), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dcat:distribution&quot;, XMLELEMENT(NAME &quot;dcat:Distribution&quot;, XMLFOREST(l.name AS &quot;dct:title&quot;, l.description AS &quot;dct:description&quot;, l.url AS &quot;dcat:downloadURL&quot;, ((((glossary.dict -&gt; &#39;link.mime&#39;::text) -&gt; l.mime) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale) AS &quot;dcat:mediaType&quot;, COALESCE(l.format, ((((glossary.dict -&gt; &#39;link.type&#39;::text) -&gt; l.type) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale)) AS &quot;dct:format&quot;, l.size AS &quot;dct:bytesize&quot;)))) AS xmlagg&#10;           FROM pgmetadata.link l&#10;          WHERE (l.fk_id_dataset = d.id)), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dcat:keyword&quot;, btrim(kw.kw))) AS xmlagg&#10;           FROM unnest(regexp_split_to_array(d.keywords, &#39;,&#39;::text)) kw(kw)), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dcat:theme&quot;, th.label)) AS xmlagg&#10;           FROM pgmetadata.theme th,&#10;            unnest(d.themes) cat(cat)&#10;          WHERE (th.code = cat.cat)), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dcat:theme&quot;, ((((glossary.dict -&gt; &#39;dataset.categories&#39;::text) -&gt; cat.cat) -&gt; &#39;label&#39;::text) -&gt;&gt; glossary.locale))) AS xmlagg&#10;           FROM unnest(d.categories) cat(cat)))) AS dataset&#10;   FROM glossary,&#10;    pgmetadata.dataset d;</textarea>
                             <div style="padding-top: 5px;"><hr></div>
                             <div class="box box-solid">
                                 <div class="box-header with-border">
@@ -157,6 +208,12 @@
                                 <div class="box-body">
                                     <ul class="list-unstyled">
                                         <li><a href="glossary.html">glossary</a></li>
+                                        <li><a href="v_glossary.html">v_glossary</a></li>
+                                        <li><a href="contact.html">contact</a></li>
+                                        <li><a href="dataset_contact.html">dataset_contact</a></li>
+                                        <li><a href="link.html">link</a></li>
+                                        <li><a href="theme.html">theme</a></li>
+                                        <li><a href="dataset.html">dataset</a></li>
                                     </ul>
                                 </div><!-- /.box-body -->
                             </div>

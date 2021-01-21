@@ -78,7 +78,7 @@
                         <div class="col-md-12">
                             <div class="callout callout-info">
                                 <h4>SchemaSpy Analysis of gis</h4>
-                                <p>Generated on Mon Jan 04 10:56 GMT 2021</p>
+                                <p>Generated on Thu Jan 21 09:55 GMT 2021</p>
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                                 <span class="info-box-icon bg-teal"><i class="fa fa-table"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">VIEWS</span>
-                                    <span class="info-box-number">10</span>
+                                    <span class="info-box-number">12</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -118,7 +118,7 @@
                                 <span class="info-box-icon bg-green"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">COLUMNS</span>
-                                    <span class="info-box-number">121</span>
+                                    <span class="info-box-number">134</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -154,7 +154,7 @@
                                 <span class="info-box-icon bg-navy"><i class="fa fa-file-code-o" aria-hidden="true"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Routines</span>
-                                    <span class="info-box-number">6</span>
+                                    <span class="info-box-number">7</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -257,7 +257,7 @@
                                         <td class="detail"><a href="tables/glossary.html">glossary</a></td>
                                         <td class="detail" align="right">0</td>
                                         <td class="detail" align="right">0</td>
-                                        <td class="detail" align="right">8</td>
+                                        <td class="detail" align="right">14</td>
                                         <td class="detail" align="right">129</td>
                                         <td class="detail" align="right">Table</td>
                                         <td class="comment detail" style="display: table-cell;"><p>List of labels and words used as labels for stored data</p></td>
@@ -275,7 +275,7 @@
                                         <td class="detail"><a href="tables/v_dataset.html">v_dataset</a></td>
                                         <td class="detail" align="right">0</td>
                                         <td class="detail" align="right">0</td>
-                                        <td class="detail" align="right">23</td>
+                                        <td class="detail" align="right">24</td>
                                         <td class="detail" align="right">0</td>
                                         <td class="detail" align="right">View</td>
                                         <td class="comment detail" style="display: table-cell;"><p>Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.</p></td>
@@ -299,10 +299,28 @@
                                         <td class="comment detail" style="display: table-cell;"><p>View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION &ldquo;pgmetadata.locale&rdquo; = &lsquo;fr&rsquo;; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict-&gt;&lsquo;contact.contact_role&rsquo;-&gt;&lsquo;OW&rsquo;-&gt;&lsquo;label&rsquo;-&gt;&lsquo;fr&rsquo;)::text AS label FROM glossary;</p></td>
                                     </tr>
                                     <tr class="tbl even" valign="top">
+                                        <td class="detail"><a href="tables/v_locales.html">v_locales</a></td>
+                                        <td class="detail" align="right">0</td>
+                                        <td class="detail" align="right">0</td>
+                                        <td class="detail" align="right">1</td>
+                                        <td class="detail" align="right">0</td>
+                                        <td class="detail" align="right">View</td>
+                                        <td class="comment detail" style="display: table-cell;"><p>Lists the locales available in the glossary, by listing the columns label_xx of the table pgmetadata.glossary</p></td>
+                                    </tr>
+                                    <tr class="tbl even" valign="top">
+                                        <td class="detail"><a href="tables/v_dataset_as_dcat.html">v_dataset_as_dcat</a></td>
+                                        <td class="detail" align="right">0</td>
+                                        <td class="detail" align="right">0</td>
+                                        <td class="detail" align="right">4</td>
+                                        <td class="detail" align="right">0</td>
+                                        <td class="detail" align="right">View</td>
+                                        <td class="comment detail" style="display: table-cell;"><p>DCAT - View which formats the datasets AS DCAT XML record objects</p></td>
+                                    </tr>
+                                    <tr class="tbl even" valign="top">
                                         <td class="detail"><a href="tables/v_contact.html">v_contact</a></td>
                                         <td class="detail" align="right">0</td>
                                         <td class="detail" align="right">0</td>
-                                        <td class="detail" align="right">7</td>
+                                        <td class="detail" align="right">8</td>
                                         <td class="detail" align="right">0</td>
                                         <td class="detail" align="right">View</td>
                                         <td class="comment detail" style="display: table-cell;"><p>Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting &lsquo;pgmetadata.locale&rsquo;. For example with: SET SESSION &ldquo;pgmetadata.locale&rdquo; = &lsquo;fr&rsquo;;</p></td>

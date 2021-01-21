@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>v_glossary - gis Database</title>
+        <title>v_locales - gis Database</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>v_glossary</h1><p><span id="recordNumber">0</span> rows</p><br />
+                    <h1>v_locales</h1><p><span id="recordNumber">0</span> rows</p><br />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="fa fa-file-text-o"></i>
@@ -84,7 +84,7 @@
                             </div>
                         </div><!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p>View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION &ldquo;pgmetadata.locale&rdquo; = &lsquo;fr&rsquo;; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict-&gt;&lsquo;contact.contact_role&rsquo;-&gt;&lsquo;OW&rsquo;-&gt;&lsquo;label&rsquo;-&gt;&lsquo;fr&rsquo;)::text AS label FROM glossary;</p>
+                            <p>Lists the locales available in the glossary, by listing the columns label_xx of the table pgmetadata.glossary</p>
                         </div><!-- /.box-body -->
                     </div>
                 </section>
@@ -116,8 +116,8 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td><span id="dict">dict</span></td>
-                                    <td>json</td>
+                                    <td><span id="locale">locale</span></td>
+                                    <td>text</td>
                                     <td>2147483647</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
@@ -146,7 +146,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">WITH one AS (&#10;         SELECT glossary.field,&#10;            glossary.code,&#10;            json_build_object(&#39;label&#39;, json_build_object(&#39;en&#39;, glossary.label_en, &#39;fr&#39;, COALESCE(NULLIF(glossary.label_fr, &#39;&#39;::text), glossary.label_en, &#39;&#39;::text), &#39;it&#39;, COALESCE(NULLIF(glossary.label_it, &#39;&#39;::text), glossary.label_en, &#39;&#39;::text), &#39;es&#39;, COALESCE(NULLIF(glossary.label_es, &#39;&#39;::text), glossary.label_en, &#39;&#39;::text), &#39;de&#39;, COALESCE(NULLIF(glossary.label_de, &#39;&#39;::text), glossary.label_en, &#39;&#39;::text)), &#39;description&#39;, json_build_object(&#39;en&#39;, glossary.description_en, &#39;fr&#39;, COALESCE(NULLIF(glossary.description_fr, &#39;&#39;::text), glossary.description_en, &#39;&#39;::text), &#39;it&#39;, COALESCE(NULLIF(glossary.description_it, &#39;&#39;::text), glossary.description_en, &#39;&#39;::text), &#39;es&#39;, COALESCE(NULLIF(glossary.description_es, &#39;&#39;::text), glossary.description_en, &#39;&#39;::text), &#39;de&#39;, COALESCE(NULLIF(glossary.description_de, &#39;&#39;::text), glossary.description_en, &#39;&#39;::text))) AS dict&#10;           FROM pgmetadata.glossary&#10;        ), two AS (&#10;         SELECT one.field,&#10;            json_object_agg(one.code, one.dict) AS dict&#10;           FROM one&#10;          GROUP BY one.field&#10;        )&#10; SELECT json_object_agg(two.field, two.dict) AS dict&#10;   FROM two;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">SELECT &#39;en&#39;::text AS locale&#10;UNION&#10; SELECT replace((columns.column_name)::text, &#39;label_&#39;::text, &#39;&#39;::text) AS locale&#10;   FROM information_schema.columns&#10;  WHERE (((columns.table_schema)::text = &#39;pgmetadata&#39;::text) AND ((columns.table_name)::text = &#39;glossary&#39;::text) AND ((columns.column_name)::text ~~ &#39;label_%&#39;::text))&#10;  ORDER BY 1;</textarea>
                             <div style="padding-top: 5px;"><hr></div>
                             <div class="box box-solid">
                                 <div class="box-header with-border">
@@ -156,7 +156,6 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <ul class="list-unstyled">
-                                        <li><a href="glossary.html">glossary</a></li>
                                     </ul>
                                 </div><!-- /.box-body -->
                             </div>
