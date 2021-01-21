@@ -710,4 +710,11 @@ COMMENT ON VIEW pgmetadata.v_contact IS
 
 -- End contact role
 
+-- Start glossary EN
+
+ALTER TABLE pgmetadata.glossary RENAME COLUMN label TO label_en;
+ALTER TABLE pgmetadata.glossary RENAME COLUMN description TO description_en;
+
+-- End glossary EN
+
 COMMIT;

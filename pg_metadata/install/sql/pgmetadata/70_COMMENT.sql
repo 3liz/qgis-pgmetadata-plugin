@@ -229,12 +229,12 @@ COMMENT ON COLUMN pgmetadata.glossary.field IS 'Field name';
 COMMENT ON COLUMN pgmetadata.glossary.code IS 'Item code';
 
 
--- glossary.label
-COMMENT ON COLUMN pgmetadata.glossary.label IS 'Item label';
+-- glossary.label_en
+COMMENT ON COLUMN pgmetadata.glossary.label_en IS 'Item label';
 
 
--- glossary.description
-COMMENT ON COLUMN pgmetadata.glossary.description IS 'Description';
+-- glossary.description_en
+COMMENT ON COLUMN pgmetadata.glossary.description_en IS 'Description';
 
 
 -- glossary.item_order

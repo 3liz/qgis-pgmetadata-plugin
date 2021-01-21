@@ -32,4 +32,9 @@ If you don't want to setup a custom repository, you can download the ZIP file fr
 
 ## Running migrations
 
-Environment variable `TEST_DATABASE_INSTALL_PGMETADATA = 0.0.1`
+Environment variable
+
+```python
+import os
+os.environ['TEST_DATABASE_INSTALL_PGMETADATA'] = '0.0.1'
+```

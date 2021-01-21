@@ -19,6 +19,8 @@ class TestProcessing(BaseTestProcessing):
         with open(template_file, 'r') as fin:
             file_data = fin.read()
 
+        self.assertGreater(file_data.count("estimatedmetadata=true"), 20)
+
         self.assertIn("service='pgmetadata'", file_data)
         self.assertNotIn("host=db", file_data)
 
