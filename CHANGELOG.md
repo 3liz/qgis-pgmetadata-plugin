@@ -1,17 +1,26 @@
-## CHANGELOG
+# CHANGELOG
 
-### 0.3.0 - 14/12/2020
+## 0.4.0 - 21/01/2020
+
+* Improve documentation user guide and schemaspy
+* Save a metadata sheet as DCAT XML  
+* Add localized glossary labels and description : it, fr, es, de
+* Display the translated HTML in the dock when available
+* Add data_last_update in the HTML template
+* Add some layers in the QGIS administration project
+
+## 0.3.0 - 14/12/2020
 
 * Update online documentation
 * Add export as PDF/HTML button in the dock
 
-### 0.2.2 - 17/11/2020
+## 0.2.2 - 17/11/2020
 
 * Fix locator SQL query
 * Add themes
 * Update of the QGIS project
 
-### 0.2.1 - 16/11/2020
+## 0.2.1 - 16/11/2020
 
 * Improve HTML templates for making them compatible with Lizmap
 * SQL - Fix calculate spatial field with Z or M geometries
@@ -22,7 +31,7 @@
 * SQL - Add a view to query only valid dataset with the locator
 * Fix running migrations in the Processing algorithm
 
-### 0.2.0 - 12/11/2020
+## 0.2.0 - 12/11/2020
 
 * Auto vacuum tables after install/upgrade of the database
 * Add an option to auto open the dock from the locator
@@ -31,7 +40,7 @@
 * Review default HTML templates
 * Fix filter for QGS files in Processing
 
-### 0.1.0 - 03/11/2020
+## 0.1.0 - 03/11/2020
 
 * Automatically compute values from the table itself : feature count, CRS etc
 * Improve QGIS form
@@ -40,20 +49,18 @@
 * Display the layer geometry in the locator
 * Add flag to disable Processing algorithm if needed for non admin user
 
-### 0.0.3 - 20/10/2020
+## 0.0.3 - 20/10/2020
 
 * Add a dock displaying basic metadata information
 * Fix file filter about QGS file selector
 * Improve error reporting from the locator
 
-### 0.0.2 - 15/10/2020
+## 0.0.2 - 15/10/2020
 
 * Add French language
 
-### 0.0.1 - 14/10/2020
+## 0.0.1 - 14/10/2020
 
 * Provide a basic locator for adding layers
 * Install the database schema
 * Provide a QGIS project to edit the metadata
-
-###
