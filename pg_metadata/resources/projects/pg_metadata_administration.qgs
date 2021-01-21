@@ -776,7 +776,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="true"></Option>
-                <Option name="Value" type="QString" value="label"></Option>
+                <Option name="Value" type="QString" value="label_en"></Option>
               </Option>
             </config>
           </editWidget>
@@ -856,7 +856,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
-                <Option name="Value" type="QString" value="label"></Option>
+                <Option name="Value" type="QString" value="label_en"></Option>
               </Option>
             </config>
           </editWidget>
@@ -876,7 +876,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
-                <Option name="Value" type="QString" value="label"></Option>
+                <Option name="Value" type="QString" value="label_en"></Option>
               </Option>
             </config>
           </editWidget>
@@ -896,7 +896,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
-                <Option name="Value" type="QString" value="label"></Option>
+                <Option name="Value" type="QString" value="label_en"></Option>
               </Option>
             </config>
           </editWidget>
@@ -1434,7 +1434,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
-                <Option name="Value" type="QString" value="label"></Option>
+                <Option name="Value" type="QString" value="label_en"></Option>
               </Option>
             </config>
           </editWidget>
@@ -1602,8 +1602,8 @@ def my_form_open(dialog, layer, feature):
       </flags>
       <customproperties>
         <property key="dualview/previewExpressions">
-          <value>"label"</value>
-          <value>"description"</value>
+          <value>"label_en"</value>
+          <value>"description_en"</value>
         </property>
         <property key="embeddedWidgets/count" value="0"></property>
         <property key="variableNames"></property>
@@ -2175,7 +2175,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="true"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
-                <Option name="Value" type="QString" value="label"></Option>
+                <Option name="Value" type="QString" value="label_en"></Option>
               </Option>
             </config>
           </editWidget>
@@ -2225,7 +2225,7 @@ def my_form_open(dialog, layer, feature):
                 <Option name="NofColumns" type="int" value="1"></Option>
                 <Option name="OrderByValue" type="bool" value="false"></Option>
                 <Option name="UseCompleter" type="bool" value="false"></Option>
-                <Option name="Value" type="QString" value="label"></Option>
+                <Option name="Value" type="QString" value="label_en"></Option>
               </Option>
             </config>
           </editWidget>
