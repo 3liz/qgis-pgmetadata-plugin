@@ -24,4 +24,6 @@ pg_metadata/i18n/*.qm
 # Temp files
 *~
 *.bak
+*.gpkg-wal
+*.gpkg-shm
 .~lock.*

@@ -34,7 +34,9 @@ Some features for the GIS administrator :
   * Some views are included to detect some orphaned tables.
 * [Customization](./user-guide/gis-admin.md#html-template) of the HTML template
 
-![Overview of PgMetadata](./img/dock_qgis.png)
+To help, there are some [videos tutorials](./user-guide/tutorial.md).
+
+![Overview of PgMetadata](media/dock_qgis.png)
 
 ## Description
 

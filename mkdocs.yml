@@ -12,15 +12,17 @@ nav:
     - docs.3liz.org: '../'
     - Home: index.md
     - User guide:
+        - 'Index': 'user-guide/index.md'
         - 'End user': 'user-guide/end-user.md'
         - 'GIS admin': 'user-guide/gis-admin.md'
         - 'Sys admin': 'user-guide/sys-admin.md'
-        - 'Installation': 'user-guide/installation.md'
+        - 'Tutorial': 'user-guide/tutorial.md'
     - Lizmap: lizmap.md
     - Processing: processing/README.md
     - References: references.md
     - Changelog: changelog.md
     - Contributing: contributing.md
+    - Roadmap: roadmap.md
     - Database: database/index.html
 
 plugins:

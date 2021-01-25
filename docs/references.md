@@ -18,7 +18,7 @@ As a consequence, the province has its
 [own page](https://www.data.gouv.fr/fr/organizations/departement-du-gard/) on the national portal showing the
 same metadata.
 
-![Gard Province in France](./img/cd_30.png)
+![Gard Province in France](media/cd_30.png)
 
 Thanks to the [French Gard province](https://www.gard.fr) for funding this project.
 
