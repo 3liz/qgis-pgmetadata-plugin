@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.14 (Debian 10.14-1.pgdg100+1)
--- Dumped by pg_dump version 10.14 (Debian 10.14-1.pgdg100+1)
+-- Dumped from database version 10.15 (Debian 10.15-1.pgdg100+1)
+-- Dumped by pg_dump version 10.15 (Debian 10.15-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -118,6 +118,44 @@ $$;
 
 -- FUNCTION calculate_fields_from_data()
 COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fields content when updating or inserting a line in pgmetadata.dataset table.';
+
+
+-- export_datasets_as_flat_table(text)
+CREATE FUNCTION pgmetadata.export_datasets_as_flat_table(_locale text) RETURNS TABLE(uid uuid, table_name text, schema_name text, title text, abstract text, categories text, themes text, keywords text, spatial_level text, minimum_optimal_scale integer, maximum_optimal_scale integer, publication_date timestamp without time zone, publication_frequency text, license text, confidentiality text, feature_count integer, geometry_type text, projection_name text, projection_authid text, spatial_extent text, creation_date timestamp without time zone, update_date timestamp without time zone, data_last_update timestamp without time zone, links text, contacts text)
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    locale_exists boolean;
+    sql_text text;
+BEGIN
+
+    -- Check if the _locale parameter corresponds to the available locales
+    _locale = lower(_locale);
+    SELECT _locale IN (SELECT locale FROM pgmetadata.v_locales)
+    INTO locale_exists
+    ;
+    IF NOT locale_exists THEN
+        _locale = 'en';
+    END IF;
+
+    -- Set locale
+    -- We must use EXECUTE in order to have _locale to be correctly interpreted
+    sql_text = concat('SET SESSION "pgmetadata.locale" = ', quote_literal(_locale));
+    EXECUTE sql_text;
+
+    -- Return content
+    RETURN QUERY
+    SELECT
+    *
+    FROM pgmetadata.v_export_table
+    ;
+
+END;
+$$;
+
+
+-- FUNCTION export_datasets_as_flat_table(_locale text)
+COMMENT ON FUNCTION pgmetadata.export_datasets_as_flat_table(_locale text) IS 'Generate a flat representation of the datasets for a given locale.';
 
 
 -- generate_html_from_json(json, text)
@@ -333,16 +371,33 @@ COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text,
 CREATE FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) RETURNS TABLE(schema_name text, table_name text, uid uuid, dataset xml)
     LANGUAGE plpgsql
     AS $$
+BEGIN
+    -- Call the new function
+    RETURN QUERY
+    SELECT
+    *
+    FROM pgmetadata.get_datasets_as_dcat_xml(
+        _locale,
+        -- passing NULL means no filter
+        NULL
+    )
+    ;
+
+END;
+$$;
+
+
+-- FUNCTION get_datasets_as_dcat_xml(_locale text)
+COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) IS 'Get the datasets records as XML DCAT datasets for the given locale. All datasets are returned';
+
+
+-- get_datasets_as_dcat_xml(text, uuid[])
+CREATE FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text, uids uuid[]) RETURNS TABLE(schema_name text, table_name text, uid uuid, dataset xml)
+    LANGUAGE plpgsql
+    AS $$
 DECLARE
     locale_exists boolean;
-    item record;
-    dataset_rec record;
     sql_text text;
-    json_data json;
-    html text;
-    html_contact text;
-    html_link text;
-    html_main text;
 BEGIN
 
     -- Check if the _locale parameter corresponds to the available locales
@@ -360,18 +415,27 @@ BEGIN
     EXECUTE sql_text;
 
     -- Return content
-    RETURN QUERY
-    SELECT
-    *
-    FROM pgmetadata.v_dataset_as_dcat
-    ;
+    IF uids IS NOT NULL THEN
+        RETURN QUERY
+        SELECT
+        *
+        FROM pgmetadata.v_dataset_as_dcat AS d
+        WHERE d.uid = ANY (uids)
+        ;
+    ELSE
+        RETURN QUERY
+        SELECT
+        *
+        FROM pgmetadata.v_dataset_as_dcat AS d
+        ;
+    END IF;
 
 END;
 $$;
 
 
--- FUNCTION get_datasets_as_dcat_xml(_locale text)
-COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) IS 'Get the datasets records as XML DCAT datasets for the given locale.';
+-- FUNCTION get_datasets_as_dcat_xml(_locale text, uids uuid[])
+COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text, uids uuid[]) IS 'Get the datasets records as XML DCAT datasets for the given locale. Datasets are filtered by the given array of uids. IF uids is NULL, no filter is used and all datasets are returned';
 
 
 -- refresh_dataset_calculated_fields()

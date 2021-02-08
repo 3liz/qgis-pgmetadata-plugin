@@ -200,11 +200,15 @@ class TestSql(DatabaseTestCase):
         }
         self._insert(dataset_contact_feature, 'dataset_contact')
 
+        sql = (
+            "SELECT table_name, schema_name, uid, dataset"
+            " FROM pgmetadata.get_datasets_as_dcat_xml("
+            "    'en',"
+            "    ARRAY['{}'::uuid]"
+            ")"
+        ).format(return_value[0][1])
         result = (
-            self._sql(
-                "SELECT table_name, schema_name, uid, dataset FROM pgmetadata.get_datasets_as_dcat_xml('en')"
-                " WHERE uid = '{}'::uuid".format(return_value[0][1])
-            )
+            self._sql(sql)
         )
         # Table name
         self.assertEqual('lines', result[0][0])
@@ -254,6 +258,7 @@ class TestSql(DatabaseTestCase):
             '<dcat:downloadURL>https://metadata.is.good</dcat:downloadURL>'
             '<dcat:mediaType>application/pdf</dcat:mediaType><dct:format>a file</dct:format>'
             '<dct:bytesize>590</dct:bytesize>'
+            '<dct:license>Licence Ouverte Version 2.1</dct:license>'
             '</dcat:Distribution></dcat:distribution>'
 
             '<dcat:keyword>tag_one</dcat:keyword><dcat:keyword>tag_two</dcat:keyword>'

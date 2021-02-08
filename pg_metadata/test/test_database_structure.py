@@ -48,6 +48,7 @@ TABLES = [
     'v_glossary',
     'v_locales',
     'v_dataset_as_dcat',
+    'v_export_table',
 ]
 
 

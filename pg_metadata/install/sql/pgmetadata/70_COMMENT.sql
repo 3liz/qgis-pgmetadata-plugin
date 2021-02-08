@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.14 (Debian 10.14-1.pgdg100+1)
--- Dumped by pg_dump version 10.14 (Debian 10.14-1.pgdg100+1)
+-- Dumped from database version 10.15 (Debian 10.15-1.pgdg100+1)
+-- Dumped by pg_dump version 10.15 (Debian 10.15-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -24,6 +24,10 @@ COMMENT ON SCHEMA pgmetadata IS 'PgMetadata - contains tables for the QGIS plugi
 COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fields content when updating or inserting a line in pgmetadata.dataset table.';
 
 
+-- FUNCTION export_datasets_as_flat_table(_locale text)
+COMMENT ON FUNCTION pgmetadata.export_datasets_as_flat_table(_locale text) IS 'Generate a flat representation of the datasets for a given locale.';
+
+
 -- FUNCTION generate_html_from_json(_json_data json, _template_section text)
 COMMENT ON FUNCTION pgmetadata.generate_html_from_json(_json_data json, _template_section text) IS 'Generate HTML content for the given JSON representation of a record and a given section, based on the template stored in the pgmetadata.html_template table. Template section controlled values are "main", "contact" and "link". If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned.';
 
@@ -37,7 +41,11 @@ COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text,
 
 
 -- FUNCTION get_datasets_as_dcat_xml(_locale text)
-COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) IS 'Get the datasets records as XML DCAT datasets for the given locale.';
+COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) IS 'Get the datasets records as XML DCAT datasets for the given locale. All datasets are returned';
+
+
+-- FUNCTION get_datasets_as_dcat_xml(_locale text, uids uuid[])
+COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text, uids uuid[]) IS 'Get the datasets records as XML DCAT datasets for the given locale. Datasets are filtered by the given array of uids. IF uids is NULL, no filter is used and all datasets are returned';
 
 
 -- FUNCTION refresh_dataset_calculated_fields()
@@ -327,6 +335,10 @@ COMMENT ON VIEW pgmetadata.v_dataset_as_dcat IS 'DCAT - View which formats the d
 
 -- VIEW v_link
 COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+
+
+-- VIEW v_export_table
+COMMENT ON VIEW pgmetadata.v_export_table IS 'Generate a flat representation of the datasets. Links and contacts are grouped in one column each';
 
 
 -- VIEW v_locales

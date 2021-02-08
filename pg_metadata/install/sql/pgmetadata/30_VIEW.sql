@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.14 (Debian 10.14-1.pgdg100+1)
--- Dumped by pg_dump version 10.14 (Debian 10.14-1.pgdg100+1)
+-- Dumped from database version 10.15 (Debian 10.15-1.pgdg100+1)
+-- Dumped by pg_dump version 10.15 (Debian 10.15-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -179,7 +179,7 @@ CREATE VIEW pgmetadata.v_dataset_as_dcat AS
            FROM (pgmetadata.contact c
              JOIN pgmetadata.dataset_contact dc ON (((dc.contact_role = 'OW'::text) AND (dc.fk_id_dataset = d.id) AND (dc.fk_id_contact = c.id))))), ( SELECT xmlagg(XMLELEMENT(NAME "dct:publisher", XMLELEMENT(NAME "foaf:Organization", XMLELEMENT(NAME "foaf:name", btrim(concat(c.name, ' - ', c.organisation_name, ((' ('::text || c.organisation_unit) || ')'::text)))), XMLELEMENT(NAME "foaf:mbox", c.email)))) AS xmlagg
            FROM (pgmetadata.contact c
-             JOIN pgmetadata.dataset_contact dc ON (((dc.contact_role = 'DI'::text) AND (dc.fk_id_dataset = d.id) AND (dc.fk_id_contact = c.id))))), ( SELECT xmlagg(XMLELEMENT(NAME "dcat:distribution", XMLELEMENT(NAME "dcat:Distribution", XMLFOREST(l.name AS "dct:title", l.description AS "dct:description", l.url AS "dcat:downloadURL", ((((glossary.dict -> 'link.mime'::text) -> l.mime) -> 'label'::text) ->> glossary.locale) AS "dcat:mediaType", COALESCE(l.format, ((((glossary.dict -> 'link.type'::text) -> l.type) -> 'label'::text) ->> glossary.locale)) AS "dct:format", l.size AS "dct:bytesize")))) AS xmlagg
+             JOIN pgmetadata.dataset_contact dc ON (((dc.contact_role = 'DI'::text) AND (dc.fk_id_dataset = d.id) AND (dc.fk_id_contact = c.id))))), ( SELECT xmlagg(XMLELEMENT(NAME "dcat:distribution", XMLELEMENT(NAME "dcat:Distribution", XMLFOREST(l.name AS "dct:title", l.description AS "dct:description", l.url AS "dcat:downloadURL", ((((glossary.dict -> 'link.mime'::text) -> l.mime) -> 'label'::text) ->> glossary.locale) AS "dcat:mediaType", COALESCE(l.format, ((((glossary.dict -> 'link.type'::text) -> l.type) -> 'label'::text) ->> glossary.locale)) AS "dct:format", l.size AS "dct:bytesize", ((((glossary.dict -> 'dataset.license'::text) -> d.license) -> 'label'::text) ->> glossary.locale) AS "dct:license")))) AS xmlagg
            FROM pgmetadata.link l
           WHERE (l.fk_id_dataset = d.id)), ( SELECT xmlagg(XMLELEMENT(NAME "dcat:keyword", btrim(kw.kw))) AS xmlagg
            FROM unnest(regexp_split_to_array(d.keywords, ','::text)) kw(kw)), ( SELECT xmlagg(XMLELEMENT(NAME "dcat:theme", th.label)) AS xmlagg
@@ -223,6 +223,44 @@ CREATE VIEW pgmetadata.v_link AS
 
 -- VIEW v_link
 COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+
+
+-- v_export_table
+CREATE VIEW pgmetadata.v_export_table AS
+ SELECT d.uid,
+    d.table_name,
+    d.schema_name,
+    d.title,
+    d.abstract,
+    d.categories,
+    d.themes,
+    d.keywords,
+    d.spatial_level,
+    d.minimum_optimal_scale,
+    d.maximum_optimal_scale,
+    d.publication_date,
+    d.publication_frequency,
+    d.license,
+    d.confidentiality,
+    d.feature_count,
+    d.geometry_type,
+    d.projection_name,
+    d.projection_authid,
+    d.spatial_extent,
+    d.creation_date,
+    d.update_date,
+    d.data_last_update,
+    string_agg(((l.name || ': '::text) || l.url), ', '::text) AS links,
+    string_agg((((((c.name || ' ('::text) || c.organisation_name) || ')'::text) || ' - '::text) || c.contact_role), ', '::text) AS contacts
+   FROM ((pgmetadata.v_dataset d
+     LEFT JOIN pgmetadata.v_link l ON (((l.table_name = d.table_name) AND (l.schema_name = d.schema_name))))
+     LEFT JOIN pgmetadata.v_contact c ON (((c.table_name = d.table_name) AND (c.schema_name = d.schema_name))))
+  GROUP BY d.uid, d.table_name, d.schema_name, d.title, d.abstract, d.categories, d.themes, d.keywords, d.spatial_level, d.minimum_optimal_scale, d.maximum_optimal_scale, d.publication_date, d.publication_frequency, d.license, d.confidentiality, d.feature_count, d.geometry_type, d.projection_name, d.projection_authid, d.spatial_extent, d.creation_date, d.update_date, d.data_last_update
+  ORDER BY d.schema_name, d.table_name;
+
+
+-- VIEW v_export_table
+COMMENT ON VIEW pgmetadata.v_export_table IS 'Generate a flat representation of the datasets. Links and contacts are grouped in one column each';
 
 
 -- v_locales

@@ -207,9 +207,16 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             ).format(schema=uri.schema(), table=uri.table(), locale=locale)
         elif output_format == OutputFormats.Dcat:
             sql = (
-                "SELECT dataset FROM pgmetadata.get_datasets_as_dcat_xml('{locale}') "
-                "WHERE schema_name = '{schema}' "
-                "AND table_name = '{table}';"
+                "SELECT dataset FROM pgmetadata.get_datasets_as_dcat_xml("
+                "    '{locale}',"
+                "    ("
+                "    SELECT array_agg(uid)"
+                "    FROM pgmetadata.dataset AS d"
+                "    WHERE d.schema_name = '{schema}' "
+                "    AND d.table_name = '{table}'"
+                "    )"
+                ") "
+
             ).format(schema=uri.schema(), table=uri.table(), locale=locale)
         else:
             raise NotImplementedError('Output format is not yet implemented.')
