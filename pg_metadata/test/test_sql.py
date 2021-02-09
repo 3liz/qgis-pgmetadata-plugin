@@ -1,5 +1,6 @@
 from xml.dom.minidom import parseString
 
+from qgis.core import QgsDataSourceUri, QgsVectorLayer
 from qgis.PyQt.QtCore import NULL
 from qgis_plugin_tools.tools.resources import resources_path
 
@@ -279,6 +280,33 @@ class TestSql(DatabaseTestCase):
 
         # An exception is raised if the validity is not correct
         parseString(xml_template.format(locale='fr', content=result[0][3]))
+
+    def test_export_catalog_as_flat_table(self):
+        """ Test to export the catalog as a flat table. """
+        dataset_feature = {
+            'table_name': "'lines'",
+            'schema_name': "'pgmetadata'",
+            'title': "'Test title'",
+            'abstract': "'Test abstract.'",
+        }
+        self._insert(dataset_feature, 'dataset')
+        dataset_feature = {
+            'table_name': "'does_not_exist'",
+            'schema_name': "'pgmetadata'",
+            'title': "'Test title'",
+            'abstract': "'Test abstract.'",
+        }
+        self._insert(dataset_feature, 'dataset')
+
+        uri = QgsDataSourceUri(self.connection.uri())
+        uri.setTable('(SELECT * FROM pgmetadata.export_datasets_as_flat_table(\'fr\'))')
+        uri.setKeyColumn('uid')
+        layer = QgsVectorLayer(uri.uri(False), 'export catalog', 'postgres')
+
+        self.assertTrue(layer.isValid())
+        self.assertEqual(2, layer.featureCount())  # We count invalid dataset as well
+        self.assertNotEqual(-1, layer.fields().indexFromName('links'))
+        self.assertNotEqual(-1, layer.fields().indexFromName('contacts'))
 
     def test_trigger_calculate_fields(self):
         """ Test if fields are correctly calculated on a layer having a geometry. """

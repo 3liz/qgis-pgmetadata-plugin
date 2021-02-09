@@ -121,7 +121,7 @@ COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fiel
 
 
 -- export_datasets_as_flat_table(text)
-CREATE FUNCTION pgmetadata.export_datasets_as_flat_table(_locale text) RETURNS TABLE(uid uuid, table_name text, schema_name text, title text, abstract text, categories text, themes text, keywords text, spatial_level text, minimum_optimal_scale integer, maximum_optimal_scale integer, publication_date timestamp without time zone, publication_frequency text, license text, confidentiality text, feature_count integer, geometry_type text, projection_name text, projection_authid text, spatial_extent text, creation_date timestamp without time zone, update_date timestamp without time zone, data_last_update timestamp without time zone, links text, contacts text)
+CREATE FUNCTION pgmetadata.export_datasets_as_flat_table(_locale text) RETURNS TABLE(uid uuid, table_name text, schema_name text, title text, abstract text, categories text, themes text, keywords text, spatial_level text, minimum_optimal_scale text, maximum_optimal_scale text, publication_date timestamp without time zone, publication_frequency text, license text, confidentiality text, feature_count integer, geometry_type text, projection_name text, projection_authid text, spatial_extent text, creation_date timestamp without time zone, update_date timestamp without time zone, data_last_update timestamp without time zone, links text, contacts text)
     LANGUAGE plpgsql
     AS $$
 DECLARE
