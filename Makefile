@@ -43,11 +43,5 @@ flake8:
 	@echo 'Running flake8'
 	@docker run --rm -w /plugin -v $(shell pwd):/plugin etrimaille/flake8:3.8.2
 
-github-pages:
-	@docker run --rm -w /plugin -v $(shell pwd):/plugin 3liz/pymarkdown:latest docs/README.md docs/index.html
-	@docker run --rm -w /plugin -v $(shell pwd):/plugin 3liz/pymarkdown:latest docs/processing/README.md docs/processing/index.html
-	@docker run --rm -w /plugin -v $(shell pwd):/plugin 3liz/pymarkdown:latest docs/user_guide/README.md docs/user_guide/index.html
-
 processing-doc:
 	cd .docker && ./processing_doc.sh
-	@docker run --rm -w /plugin -v $(shell pwd):/plugin 3liz/pymarkdown:latest docs/processing/README.md docs/processing/index.html

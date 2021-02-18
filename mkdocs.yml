@@ -1,0 +1,69 @@
+site_name: PgMetadata
+site_author: 3Liz
+site_description: PgMetadata
+site_url: https://docs.3liz.org/qgis-pgmetadata-plugin/
+repo_url: https://github.com/3liz/qgis-pgmetadata-plugin/
+copyright: '<span class="copyleft">&copy;</span> 3Liz'
+
+docs_dir: docs
+site_dir: build
+
+nav:
+    - docs.3liz.org: '../'
+    - Home: index.md
+    - User guide:
+        - 'Installation': 'user-guide/installation.md'
+        - 'End users': 'user-guide/end-user.md'
+        - 'GIS admins': 'user-guide/gis-admin.md'
+        - 'Sys admins': 'user-guide/sys-admin.md'
+    - Processing: processing/README.md
+    - Database: database/index.html
+    - Changelog: changelog.md
+    - Lizmap: lizmap.md
+
+markdown_extensions:
+  # - git-revision-date:
+  - toc:
+      permalink: "#"
+  - meta:
+  - pymdownx.highlight:
+      linenums: true
+      linenums_style: pymdownx.inline
+  - pymdownx.superfences:
+  - pymdownx.tabbed:
+  - pymdownx.magiclink:
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css
+
+theme:
+  name: material
+  font: false
+  icon:
+    repo: fontawesome/brands/github-alt
+  language: 'en'
+  logo: icon.png
+  favicon: icon.png
+  palette:
+    accent: deep-orange
+    primary: green
+    scheme: preference
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/3LIZ_news
+
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/3liz
+
+    - icon: fontawesome/brands/github
+      link: https://github.com/3liz/
+
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/u/3liz

@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 venv/
+.venv/
+build/
 
 # OS
 .DS_Store
