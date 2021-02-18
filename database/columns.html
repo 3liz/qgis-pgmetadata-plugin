@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>gis Database</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="bower/admin-lte/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="bower/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="bower/ionicons/css/ionicons.min.css">
+        <!-- DataTables -->
+        <link rel="stylesheet" href="bower/datatables.net-bs/css/dataTables.bootstrap.min.css">
+        <link rel="stylesheet" href="bower/datatables.net-buttons-bs/css/buttons.bootstrap.min.css">
+        <!-- Code Mirror -->
+        <link rel="stylesheet" href="bower/codemirror/codemirror.css">
+        <!-- Fonts -->
+        <link href='fonts/indieflower/indie-flower.css' rel='stylesheet' type='text/css'>
+        <link href='fonts/source-sans-pro/source-sans-pro.css' rel='stylesheet' type='text/css'>
+
+        <!-- Theme style -->
+        <link rel="stylesheet" href="bower/admin-lte/dist/css/AdminLTE.min.css">
+        <!-- Salvattore -->
+        <link rel="stylesheet" href="bower/salvattore/salvattore.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+           folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="bower/admin-lte/dist/css/skins/_all-skins.min.css">
+        <!-- SchemaSpy -->
+        <link rel="stylesheet" href="schemaSpy.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="bower/html5shiv/html5shiv.min.js"></script>
+        <script src="bower/respond/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+    <body class="hold-transition skin-blue layout-top-nav">
+        <div class="wrapper">
+            <header class="main-header">
+                <nav class="navbar navbar-static-top">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <a href="index.html" class="navbar-brand"><b>gis</b> Database</a>
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"><i class="fa fa-bars"></i></button>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a href="index.html">Tables <span class="sr-only">(current)</span></a></li>
+                                <li><a href="columns.html" title="All of the columns in the schema">Columns</a></li>
+                                <li><a href="constraints.html" title="Useful for diagnosing error messages that just give constraint name or number">Constraints</a></li>
+                                <li><a href="relationships.html" title="Diagram of table relationships">Relationships</a></li>
+                                <li><a href="orphans.html" title="View of tables with neither parents nor children">Orphan&nbsp;Tables</a></li>
+                                <li><a href="anomalies.html" title="Things that might not be quite right">Anomalies</a></li>
+                                <li><a href="routines.html" title="Procedures and functions">Routines</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                        <!-- Navbar Right Menu -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+            </header>
+            <!-- Main content -->
+            <!-- Full Width Column -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>Columns</h1>
+                </section>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                            <h3 class="box-title">Columns</h3>
+                        </div>
+                        <div class="box-body">
+                            <table id="column_table" class="table table-bordered table-striped dataTable" role="grid">
+                                <thead align='left'>
+                                    <tr>
+                                        <th>Table</th>
+                                        <th>Type</th>
+                                        <th>Column</th>
+                                        <th>Type</th>
+                                        <th>Size</th>
+                                        <th title='Are nulls allowed?'>Nullable</th>
+                                        <th title='Is column automatically updated?'>Auto</th>
+                                        <th title='Default value'>Default</th>
+                                        <th title='Comments' class="toggle"><span>Comments</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                <script>
+                    var tableData = [
+    {
+        "tableName": "contact",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "email",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Email address<\/p>"
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "description_de",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_orphan_tables",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "schemaname",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>uid",
+        "type": "uuid",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "uuid_generate_v4()",
+        "comments": "<p>Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "abstract",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "schema_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "qgis_plugin",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "status",
+        "type": "int2",
+        "length": 5,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "label_en",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Item label<\/p>"
+    },
+    {
+        "tableName": "dataset_contact",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>contact_role",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Role of the contact for the specified dataset item. E.g. owner, distributor<\/p>"
+    },
+    {
+        "tableName": "contact",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "organisation_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Organisation name. E.g. ACME<\/p>"
+    },
+    {
+        "tableName": "v_valid_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "schema_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_table_comment_from_metadata",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "theme",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "serial",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "√",
+        "defaultValue": "nextval('pgmetadata.theme_id_seq'::regclass)",
+        "comments": "<p>Internal automatic integer ID<\/p>"
+    },
+    {
+        "tableName": "html_template",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "content",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset_contact",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "serial",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "√",
+        "defaultValue": "nextval('pgmetadata.dataset_contact_id_seq'::regclass)",
+        "comments": "<p>Internal automatic integer ID<\/p>"
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "geometry_type",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Geometry type. E.g. Polygon<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "categories",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "minimum_optimal_scale",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Minimum optimal scale denominator to view the data. E.g. 100000 for 1/100000. Most &ldquo;zoomed out&rdquo;.<\/p>"
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "creation_date",
+        "type": "timestamp",
+        "length": 29,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "now()",
+        "comments": "<p>Date of creation of the dataset item<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "minimum_optimal_scale",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "feature_count",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "link",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "description",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Description<\/p>"
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "title",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Title of the data<\/p>"
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>table_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Name of the related table in the database<\/p>"
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "label_es",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "license",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>License. E.g. Public domain<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "creation_date",
+        "type": "timestamp",
+        "length": 29,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "link",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "url",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Full URL<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "themes",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "spatial_extent",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Spatial extent of the data. xmin,ymin,xmax,ymax.<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "title",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "themes",
+        "type": "_text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>List of themes<\/p>"
+    },
+    {
+        "tableName": "theme",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>code",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Code Of the theme<\/p>"
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "mime",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "link",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Name of the link<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "publication_frequency",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "update_date",
+        "type": "timestamp",
+        "length": 29,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "mime_label",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "uid",
+        "type": "uuid",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_contact",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_contact",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "contact_role",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>code",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Item code<\/p>"
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "label_it",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_locales",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "locale",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset_as_dcat",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "uid",
+        "type": "uuid",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "contact",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "organisation_unit",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Organisation unit name. E.g. GIS unit<\/p>"
+    },
+    {
+        "tableName": "v_dataset_as_dcat",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "dataset",
+        "type": "xml",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "contact",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Full name of the contact<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "data_last_update",
+        "type": "timestamp",
+        "length": 29,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_glossary",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "dict",
+        "type": "json",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "data_last_update",
+        "type": "timestamp",
+        "length": 29,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Date of the last modification of the target data (not on the dataset item line)<\/p>"
+    },
+    {
+        "tableName": "v_schema_list",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "id",
+        "type": "int8",
+        "length": 19,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "geometry_type",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "feature_count",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Number of features of the data<\/p>"
+    },
+    {
+        "tableName": "theme",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>label",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Label of the theme<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "publication_date",
+        "type": "timestamp",
+        "length": 29,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_schema_list",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "schema_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "description_es",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_contact",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "organisation_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "publication_date",
+        "type": "timestamp",
+        "length": 29,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "now()",
+        "comments": "<p>Date of publication of the data<\/p>"
+    },
+    {
+        "tableName": "v_contact",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "size",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_contact",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "contact_role_code",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "label_fr",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "description_fr",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_valid_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "label_de",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "link",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "size",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Size of the target<\/p>"
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "description_it",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "theme",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "description",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Description of the theme<\/p>"
+    },
+    {
+        "tableName": "v_orphan_dataset_items",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "projection_authid",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Projection auth id. E.g. EPSG:4326<\/p>"
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>schema_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Name of the related schema in the database<\/p>"
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "item_order",
+        "type": "int2",
+        "length": 5,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Display order<\/p>"
+    },
+    {
+        "tableName": "v_contact",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "schema_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "publication_frequency",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Frequency of publication: how often the data is published.<\/p>"
+    },
+    {
+        "tableName": "link",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "type",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Type of the link. E.g. https, git, OGC:WFS<\/p>"
+    },
+    {
+        "tableName": "link",
+        "tableType": "Table",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>fk_id_dataset",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Id of the dataset item<\/p>"
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "update_date",
+        "type": "timestamp",
+        "length": 29,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "now()",
+        "comments": "<p>Date of update of the dataset item<\/p>"
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "serial",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "√",
+        "defaultValue": "nextval('pgmetadata.glossary_id_seq'::regclass)",
+        "comments": "<p>Internal automatic integer ID<\/p>"
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "abstract",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Full description of the data<\/p>"
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "description_en",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Description<\/p>"
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "type",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "confidentiality",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Confidentiality of the data.<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "maximum_optimal_scale",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "spatial_level",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "projection_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Projection name of the dataset. E.g. WGS 84 - Geographic<\/p>"
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "license",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "link",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "serial",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "√",
+        "defaultValue": "nextval('pgmetadata.link_id_seq'::regclass)",
+        "comments": "<p>Internal automatic integer ID<\/p>"
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "format",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "link",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "mime",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Mime type<\/p>"
+    },
+    {
+        "tableName": "v_dataset_as_dcat",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset_contact",
+        "tableType": "Table",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>fk_id_dataset",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Id of the dataset item<\/p>"
+    },
+    {
+        "tableName": "v_dataset_as_dcat",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "schema_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "maximum_optimal_scale",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Maximum optimal scale denominator to view the data. E.g. 2000 for 1/2000. Most &ldquo;zoomed in&rdquo;.<\/p>"
+    },
+    {
+        "tableName": "v_orphan_dataset_items",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "schema_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_table_comment_from_metadata",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_schema",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_table_list",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "id",
+        "type": "int8",
+        "length": 19,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_contact",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "email",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "html_template",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "serial",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "√",
+        "defaultValue": "nextval('pgmetadata.html_template_id_seq'::regclass)",
+        "comments": ""
+    },
+    {
+        "tableName": "v_orphan_dataset_items",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "id",
+        "type": "int8",
+        "length": 19,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_orphan_tables",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "id",
+        "type": "int8",
+        "length": 19,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "geom",
+        "type": "geometry",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Geometry defining the extent of the data. Can be any polygon.<\/p>"
+    },
+    {
+        "tableName": "dataset_contact",
+        "tableType": "Table",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>fk_id_contact",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Id of the contact item<\/p>"
+    },
+    {
+        "tableName": "v_table_list",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "schema_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "serial",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "√",
+        "defaultValue": "nextval('pgmetadata.dataset_id_seq'::regclass)",
+        "comments": "<p>Internal automatic integer ID<\/p>"
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "categories",
+        "type": "_text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>List of categories<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "confidentiality",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "qgis_plugin",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "version_date",
+        "type": "date",
+        "length": 13,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "html_template",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>section",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "contact",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "serial",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "√",
+        "defaultValue": "nextval('pgmetadata.contact_id_seq'::regclass)",
+        "comments": "<p>Internal automatic integer ID<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "spatial_extent",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_table_comment_from_metadata",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_comment",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "url",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "qgis_plugin",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "version",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "description",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "spatial_level",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Spatial level of the data. E.g. city, country, street<\/p>"
+    },
+    {
+        "tableName": "qgis_plugin",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "dataset",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "keywords",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>List of keywords separated by comma. Ex: environment, paris, trees<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "projection_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_link",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "type_label",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "schema_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "projection_authid",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_contact",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "organisation_unit",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "link",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "format",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Format.<\/p>"
+    },
+    {
+        "tableName": "v_dataset",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "keywords",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_table_list",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "table_name",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "v_orphan_tables",
+        "tableType": "View",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "tablename",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": ""
+    },
+    {
+        "tableName": "glossary",
+        "tableType": "Table",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>field",
+        "type": "text",
+        "length": 2147483647,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>Field name<\/p>"
+    }
+];
+                    var config = {
+                        pagination: true
+                    };
+                </script>
+            </div>
+            <!-- /.content-wrapper -->
+            <footer class="main-footer">
+                <div>
+                    <div class="pull-right hidden-xs">
+                        <a href="https://github.com/schemaspy/schemaspy" title="GitHub for SchemaSpy"><i class="fa fa-github-square fa-2x"></i></a>
+                        <a href="http://stackoverflow.com/questions/tagged/schemaspy" title="StackOverflow for SchemaSpy"><i class="fa fa-stack-overflow fa-2x"></i></a>
+                    </div>
+                    <strong>Generated by <a href="http://schemaspy.org/" class="logo-text"><i class="fa fa-database"></i> SchemaSpy 6.1.0</a></strong>
+                </div>
+                <!-- /.container -->
+            </footer>
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- jQuery 2.2.3 -->
+        <script src="bower/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <script src="bower/admin-lte/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Bootstrap 3.3.5 -->
+        <script src="bower/admin-lte/bootstrap/js/bootstrap.min.js"></script>
+        <!-- DataTables -->
+        <script src="bower/datatables.net/jquery.dataTables.min.js"></script>
+        <script src="bower/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script src="bower/datatables.net-buttons/dataTables.buttons.min.js"></script>
+        <script src="bower/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+        <script src="bower/datatables.net-buttons/buttons.html5.min.js"></script>
+        <script src="bower/datatables.net-buttons/buttons.print.min.js"></script>
+        <script src="bower/datatables.net-buttons/buttons.colVis.min.js"></script>
+        <!-- SheetJS -->
+        <script src="bower/js-xlsx/xlsx.full.min.js"></script>
+        <!-- pdfmake -->
+        <script src="bower/pdfmake/pdfmake.min.js"></script>
+        <script src="bower/pdfmake/vfs_fonts.js"></script>
+        <!-- SlimScroll -->
+        <script src="bower/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <!-- FastClick -->
+        <script src="bower/admin-lte/plugins/fastclick/fastclick.js"></script>
+        <!-- Salvattore -->
+        <script src="bower/salvattore/salvattore.min.js"></script>
+        <!-- AnchorJS -->
+        <script src="bower/anchor-js/anchor.min.js"></script>
+        <!-- CodeMirror -->
+        <script src="bower/codemirror/codemirror.js"></script>
+        <script src="bower/codemirror/sql.js"></script>
+        <!-- AdminLTE App -->
+        <script src="bower/admin-lte/dist/js/app.min.js"></script>
+        <script src="column.js"></script>
+        <script src="schemaSpy.js"></script>
+    </body>
+</html>
