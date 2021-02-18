@@ -1,24 +1,27 @@
-# For the GIS administrator
+# GIS administrator
 
 ## Installation
 
 ### Database
 
-1. The plugin is using a schema in PostgreSQL.
-    * If you just installed the plugin in a new organization, you must use the 
-      [install database structure](../processing/README.md#installation-of-the-database-structure)
-    * If the `pgmetadata` schema is already existing in your database, you may need to upgrade it after a 
-      plugin upgrade using the [upgrade database structure](../processing/README.md#upgrade-the-database-structure)
+The plugin is using a schema in PostgreSQL.
+
+* If you just installed the plugin in a new organization, you must use the
+  [install database structure](../processing/README.md#installation-of-the-database-structure)
+* If the `pgmetadata` schema is already existing in your database, you may need to upgrade it after a
+  plugin upgrade using the [upgrade database structure](../processing/README.md#upgrade-the-database-structure)
 
 ### Administration project
 
-1. The GIS administrator can generate a QGIS project using 
+The GIS administrator can generate a QGIS project using
 [create metadata project](../processing/README.md#create-metadata-administration-project). You need to open
 the generated project and use the normal QGIS editing tools.
-1. In the group called `Information Warnings` :
-    * `Orphan metadata` displays table not existing in the database itself, but the metadata exists in the 
-      `dataset` table.
-    * `Orphan tables` is the reverse. It displays tables existing in the database but in the `dataset` table.
+
+In the group called `Information Warnings` :
+
+* `Orphan metadata` displays table not existing in the database itself, but the metadata exists in the
+  `dataset` table.
+* `Orphan tables` is the reverse. It displays tables existing in the database but in the `dataset` table.
 
 ## Editing metadata
 

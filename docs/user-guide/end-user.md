@@ -1,8 +1,8 @@
-# For end users
+# End user
 
 ## Locator
 
-Type `ctrl+k` in QGIS to open the locator widget. You can start type `meta` then you should see layers in the
+Type ++ctrl+k++ in QGIS to open the locator widget. You can start type `meta` then you should see layers in the
 list.
 
 ![Locator](../img/locator.gif)

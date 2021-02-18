@@ -3,7 +3,10 @@ __pycache__/
 *.pyc
 venv/
 .venv/
+
+# Mkdocs
 build/
+docs/CHANGELOG.md
 
 # OS
 .DS_Store

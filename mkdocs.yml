@@ -13,13 +13,13 @@ nav:
     - Home: index.md
     - User guide:
         - 'Installation': 'user-guide/installation.md'
-        - 'End users': 'user-guide/end-user.md'
-        - 'GIS admins': 'user-guide/gis-admin.md'
-        - 'Sys admins': 'user-guide/sys-admin.md'
+        - 'End user': 'user-guide/end-user.md'
+        - 'GIS admin': 'user-guide/gis-admin.md'
+        - 'Sys admin': 'user-guide/sys-admin.md'
+    - Lizmap: lizmap.md
     - Processing: processing/README.md
     - Database: database/index.html
     - Changelog: changelog.md
-    - Lizmap: lizmap.md
 
 markdown_extensions:
   # - git-revision-date:
@@ -32,6 +32,9 @@ markdown_extensions:
   - pymdownx.superfences:
   - pymdownx.tabbed:
   - pymdownx.magiclink:
+  - pymdownx.tasklist:
+  - pymdownx.snippets:
+  - pymdownx.keys:
 
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
