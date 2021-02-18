@@ -20,6 +20,10 @@
      <lastmod>2021-02-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/lizmap/</loc>
+     <lastmod>2021-02-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/processing/</loc>
      <lastmod>2021-02-18</lastmod>
      <changefreq>daily</changefreq>
@@ -29,10 +33,6 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/changelog/</loc>
-     <lastmod>2021-02-18</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/lizmap/</loc>
      <lastmod>2021-02-18</lastmod>
      <changefreq>daily</changefreq>
     </url>

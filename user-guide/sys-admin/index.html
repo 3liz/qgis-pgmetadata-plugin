@@ -20,7 +20,7 @@
     
     
       
-        <title>Sys admins - PgMetadata</title>
+        <title>Sys admin - PgMetadata</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#deploying-within-an-organization" class="md-skip">
+        <a href="#sys-admin" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Sys admins
+              Sys admin
             
           </span>
         </div>
@@ -209,6 +209,18 @@
 
 
   <li class="md-tabs__item">
+    <a href="../../lizmap/" class="md-tabs__link">
+      Lizmap
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
     <a href="../../processing/" class="md-tabs__link">
       Processing
     </a>
@@ -235,18 +247,6 @@
   <li class="md-tabs__item">
     <a href="../../changelog/" class="md-tabs__link">
       Changelog
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../../lizmap/" class="md-tabs__link">
-      Lizmap
     </a>
   </li>
 
@@ -371,7 +371,7 @@
   
     <li class="md-nav__item">
       <a href="../end-user/" class="md-nav__link">
-        End users
+        End user
       </a>
     </li>
   
@@ -383,7 +383,7 @@
   
     <li class="md-nav__item">
       <a href="../gis-admin/" class="md-nav__link">
-        GIS admins
+        GIS admin
       </a>
     </li>
   
@@ -402,9 +402,38 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Sys admin
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        Sys admins
+        Sys admin
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-within-an-organization" class="md-nav__link">
+    Deploying within an organization
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -412,6 +441,21 @@
           
         </ul>
       </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lizmap/" class="md-nav__link">
+        Lizmap
+      </a>
     </li>
   
 
@@ -461,21 +505,6 @@
   
 
     
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../lizmap/" class="md-nav__link">
-        Lizmap
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -494,6 +523,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-within-an-organization" class="md-nav__link">
+    Deploying within an organization
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -509,11 +553,13 @@
                   </a>
                 
                 
-                <h1 id="deploying-within-an-organization">Deploying within an organization<a class="headerlink" href="#deploying-within-an-organization" title="Permanent link">#</a></h1>
-<p>The system administrator can hide PgMetadata Processing algorithms from normal users by adding an environment
-variable <code>QGIS_PGMETADATA_END_USER_ONLY</code>. If this variable exists, Processing algorithms won't be displayed.
-It's possible to use the <code>QGIS3.ini</code> file instead with <code>end_user_only</code>.</p>
-<p>In the <code>QGIS3.ini</code> file within an organisation, you may want some hardcoded configuration :</p>
+                <h1 id="sys-admin">Sys admin<a class="headerlink" href="#sys-admin" title="Permanent link">#</a></h1>
+<h2 id="deploying-within-an-organization">Deploying within an organization<a class="headerlink" href="#deploying-within-an-organization" title="Permanent link">#</a></h2>
+<p>When <a href="https://docs.qgis.org/testing/en/docs/user_manual/introduction/qgis_configuration.html?highlight=organization#deploying-qgis-within-an-organization">QGIS is deployed within an organization</a>,
+the system administrator can hide administration Processing tools from normal users and also set the default
+path where PgMetadata is installed.</p>
+<p>Example of a <code>QGIS3.ini</code> file which activates the plugin automatically and set 3 connections where PgMetadata is
+installed :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
@@ -556,19 +602,19 @@ It's possible to use the <code>QGIS3.ini</code> file instead with <code>end_user
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                GIS admins
+                GIS admin
               </div>
             </div>
           </a>
         
         
-          <a href="../../processing/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../lizmap/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Processing
+                Lizmap
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

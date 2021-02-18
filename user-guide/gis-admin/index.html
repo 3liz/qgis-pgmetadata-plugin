@@ -20,7 +20,7 @@
     
     
       
-        <title>GIS admins - PgMetadata</title>
+        <title>GIS admin - PgMetadata</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#for-the-gis-administrator" class="md-skip">
+        <a href="#gis-administrator" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              GIS admins
+              GIS admin
             
           </span>
         </div>
@@ -209,6 +209,18 @@
 
 
   <li class="md-tabs__item">
+    <a href="../../lizmap/" class="md-tabs__link">
+      Lizmap
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
     <a href="../../processing/" class="md-tabs__link">
       Processing
     </a>
@@ -235,18 +247,6 @@
   <li class="md-tabs__item">
     <a href="../../changelog/" class="md-tabs__link">
       Changelog
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../../lizmap/" class="md-tabs__link">
-      Lizmap
     </a>
   </li>
 
@@ -371,7 +371,7 @@
   
     <li class="md-nav__item">
       <a href="../end-user/" class="md-nav__link">
-        End users
+        End user
       </a>
     </li>
   
@@ -391,12 +391,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          GIS admins
+          GIS admin
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        GIS admins
+        GIS admin
       </a>
       
         
@@ -467,7 +467,7 @@
   
     <li class="md-nav__item">
       <a href="../sys-admin/" class="md-nav__link">
-        Sys admins
+        Sys admin
       </a>
     </li>
   
@@ -475,6 +475,21 @@
           
         </ul>
       </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lizmap/" class="md-nav__link">
+        Lizmap
+      </a>
     </li>
   
 
@@ -519,21 +534,6 @@
     <li class="md-nav__item">
       <a href="../../changelog/" class="md-nav__link">
         Changelog
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../lizmap/" class="md-nav__link">
-        Lizmap
       </a>
     </li>
   
@@ -621,30 +621,26 @@
                   </a>
                 
                 
-                <h1 id="for-the-gis-administrator">For the GIS administrator<a class="headerlink" href="#for-the-gis-administrator" title="Permanent link">#</a></h1>
+                <h1 id="gis-administrator">GIS administrator<a class="headerlink" href="#gis-administrator" title="Permanent link">#</a></h1>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h2>
 <h3 id="database">Database<a class="headerlink" href="#database" title="Permanent link">#</a></h3>
-<ol>
-<li>The plugin is using a schema in PostgreSQL.<ul>
-<li>If you just installed the plugin in a new organization, you must use the 
+<p>The plugin is using a schema in PostgreSQL.</p>
+<ul>
+<li>If you just installed the plugin in a new organization, you must use the
   <a href="../../processing/#installation-of-the-database-structure">install database structure</a></li>
-<li>If the <code>pgmetadata</code> schema is already existing in your database, you may need to upgrade it after a 
+<li>If the <code>pgmetadata</code> schema is already existing in your database, you may need to upgrade it after a
   plugin upgrade using the <a href="../../processing/#upgrade-the-database-structure">upgrade database structure</a></li>
 </ul>
-</li>
-</ol>
 <h3 id="administration-project">Administration project<a class="headerlink" href="#administration-project" title="Permanent link">#</a></h3>
-<ol>
-<li>The GIS administrator can generate a QGIS project using 
+<p>The GIS administrator can generate a QGIS project using
 <a href="../../processing/#create-metadata-administration-project">create metadata project</a>. You need to open
-the generated project and use the normal QGIS editing tools.</li>
-<li>In the group called <code>Information Warnings</code> :<ul>
-<li><code>Orphan metadata</code> displays table not existing in the database itself, but the metadata exists in the 
+the generated project and use the normal QGIS editing tools.</p>
+<p>In the group called <code>Information Warnings</code> :</p>
+<ul>
+<li><code>Orphan metadata</code> displays table not existing in the database itself, but the metadata exists in the
   <code>dataset</code> table.</li>
 <li><code>Orphan tables</code> is the reverse. It displays tables existing in the database but in the <code>dataset</code> table.</li>
 </ul>
-</li>
-</ol>
 <h2 id="editing-metadata">Editing metadata<a class="headerlink" href="#editing-metadata" title="Permanent link">#</a></h2>
 <p>Before creating metadata for your layer/table, you need to implement some table. To edit this table you need
 to open the attribute table, switch on <strong>Edition</strong> mode and add a new row.</p>
@@ -734,7 +730,7 @@ To save:</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                End users
+                End user
               </div>
             </div>
           </a>
@@ -746,7 +742,7 @@ To save:</p>
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Sys admins
+                Sys admin
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
