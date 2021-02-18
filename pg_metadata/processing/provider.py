@@ -5,7 +5,7 @@ __revision__ = "$Format:%H$"
 
 import os
 
-from qgis.core import QgsProcessingProvider
+from qgis.core import QgsProcessingProvider, QgsSettings
 from qgis.PyQt.QtGui import QIcon
 
 from pg_metadata.processing.administration.create_administration_project import (
@@ -29,8 +29,9 @@ class PgMetadataProvider(QgsProcessingProvider):
 
         self.addAlgorithm(SetConnectionDatabase())
 
-        flag = os.environ.get('PGMETADATA_USER', False)
-        if flag:
+        environment = os.environ.get('QGIS_PGMETADATA_END_USER_ONLY', False)
+        ini_file = QgsSettings().value("pgmetadata/end_user_only", False, type=bool)
+        if environment or ini_file:
             return
 
         # Admin
