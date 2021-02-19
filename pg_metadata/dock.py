@@ -14,6 +14,8 @@ from xml.dom.minidom import parseString
 from qgis.core import (
     NULL,
     QgsApplication,
+    QgsDataSourceUri,
+    QgsProject,
     QgsProviderConnectionException,
     QgsProviderRegistry,
     QgsSettings,
@@ -27,6 +29,7 @@ from qgis.PyQt.QtWidgets import (
     QAction,
     QDockWidget,
     QFileDialog,
+    QInputDialog,
     QMenu,
     QToolButton,
 )
@@ -74,12 +77,19 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.current_datasource_uri = None
         self.current_connection = None
 
+        self.viewer.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
+        self.viewer.page().linkClicked.connect(self.open_link)
+
+        # Help button
         self.external_help.setText('')
         self.external_help.setIcon(QIcon(QgsApplication.iconPath('mActionHelpContents.svg')))
         self.external_help.clicked.connect(self.open_external_help)
 
-        self.viewer.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
-        self.viewer.page().linkClicked.connect(self.open_link)
+        # Flat table button
+        self.flatten_dataset_table.setText('')
+        self.flatten_dataset_table.setToolTip(tr("Add the catalog table"))
+        self.flatten_dataset_table.setIcon(QgsApplication.getThemeIcon("/mActionAddHtml.svg"))
+        self.flatten_dataset_table.clicked.connect(self.add_flatten_dataset_table)
 
         # Settings menu
         self.config.setAutoRaise(True)
@@ -288,6 +298,38 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 tr('The layer {origin} {schema}.{table} is missing metadata.').format(
                     origin=origin, schema=uri.schema(), table=uri.table())
             )
+
+    def add_flatten_dataset_table(self):
+        """ Add a flatten dataset table with all links and contacts. """
+        connections, message = connections_list()
+        if not connections:
+            LOGGER.critical(message)
+            self.set_html_content('PgMetadata', message)
+            return
+
+        if len(connections) > 1:
+            dialog = QInputDialog()
+            dialog.setComboBoxItems(connections)
+            dialog.setWindowTitle(tr("Database"))
+            dialog.setLabelText(tr("Choose the database to add the catalog"))
+            if not dialog.exec_():
+                return
+            connection_name = dialog.textValue()
+        else:
+            connection_name = connections[0]
+
+        metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
+        connection = metadata.findConnection(connection_name)
+
+        locale = QgsSettings().value("locale/userLocale", QLocale().name())
+        locale = locale.split('_')[0].lower()
+
+        uri = QgsDataSourceUri(connection.uri())
+        uri.setTable(f'(SELECT * FROM pgmetadata.export_datasets_as_flat_table(\'{locale}\'))')
+        uri.setKeyColumn('uid')
+
+        layer = QgsVectorLayer(uri.uri(), '{} - {}'.format(tr("Catalog"), connection_name), 'postgres')
+        QgsProject.instance().addMapLayer(layer)
 
     @staticmethod
     def open_external_help():
