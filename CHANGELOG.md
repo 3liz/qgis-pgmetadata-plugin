@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.5.0 - 2021-02-19
+
+* Review the full online documentation using a proper website
+* Add a link to the plugin online help in the QGIS help menu
+* Add a button to open the dock from the QGIS plugin menu
+* Add a layer flattening the "dataset" table containing all links and contacts, easier to export all the catalog
+* Improve the deployment of the plugin within an organization to hide and setup some tools in PgMetadata
+
 ## 0.4.0 - 2021-01-21
 
 * Improve documentation user guide and schemaspy
