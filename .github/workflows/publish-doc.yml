@@ -39,8 +39,10 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install -r requirements-doc.txt
 
-    - name: Copy CHANGELOG.md
-      run: cp CHANGELOG.md docs/
+    - name: Copy CHANGELOG.md and CONTRIBUTING.md
+      run: |
+        cp CHANGELOG.md docs/
+        cp CONTRIBUTING.md docs/
 
     - name: Deploy to Github Pages
       run: |

@@ -20,6 +20,7 @@ nav:
     - Processing: processing/README.md
     - References: references.md
     - Changelog: changelog.md
+    - Contributing: contributing.md
     - Database: database/index.html
 
 markdown_extensions:
@@ -36,6 +37,7 @@ markdown_extensions:
   - pymdownx.tasklist:
   - pymdownx.snippets:
   - pymdownx.keys:
+  - attr_list:
 
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js

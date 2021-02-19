@@ -7,6 +7,7 @@ venv/
 # Mkdocs
 build/
 docs/CHANGELOG.md
+docs/CONTRIBUTING.md
 
 # OS
 .DS_Store
