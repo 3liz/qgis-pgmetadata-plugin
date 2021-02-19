@@ -5,13 +5,18 @@ __email__ = "info@3liz.org"
 
 from qgis.core import QgsApplication
 from qgis.PyQt.QtCore import QCoreApplication, Qt, QTranslator
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction
 
 from pg_metadata.dock import PgMetadataDock
 from pg_metadata.locator import LocatorFilter
 from pg_metadata.processing.provider import PgMetadataProvider
 from pg_metadata.qgis_plugin_tools.tools.custom_logging import setup_logger
 from pg_metadata.qgis_plugin_tools.tools.i18n import setup_translation
-from pg_metadata.qgis_plugin_tools.tools.resources import plugin_path
+from pg_metadata.qgis_plugin_tools.tools.resources import (
+    plugin_path,
+    resources_path,
+)
 
 
 class PgMetadata:
@@ -20,6 +25,7 @@ class PgMetadata:
         self.dock = None
         self.provider = None
         self.locator_filter = None
+        self.main_action = None
 
         setup_logger('pg_metadata')
 
@@ -47,6 +53,16 @@ class PgMetadata:
             self.locator_filter = LocatorFilter(self.iface)
             self.iface.registerLocatorFilter(self.locator_filter)
 
+        icon = QIcon(resources_path('icons', 'icon.png'))
+        self.main_action = QAction(icon, 'PgMetadata', self.iface.mainWindow())
+        self.iface.pluginMenu().addAction(self.main_action)
+        self.main_action.triggered.connect(self.open_dock)
+
+    def open_dock(self):
+        """ Open the dock. """
+        self.dock.show()
+        self.dock.raise_()
+
     def unload(self):
         if self.dock:
             self.iface.removeDockWidget(self.dock)
@@ -57,6 +73,9 @@ class PgMetadata:
 
         if self.locator_filter:
             self.iface.deregisterLocatorFilter(self.locator_filter)
+
+        if self.main_action:
+            self.iface.pluginMenu().removeAction(self.main_action)
 
     @staticmethod
     def run_tests(pattern='test_*.py', package=None):
