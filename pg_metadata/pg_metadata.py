@@ -4,8 +4,8 @@ __email__ = "info@3liz.org"
 
 
 from qgis.core import QgsApplication
-from qgis.PyQt.QtCore import QCoreApplication, Qt, QTranslator
-from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtCore import QCoreApplication, Qt, QTranslator, QUrl
+from qgis.PyQt.QtGui import QDesktopServices, QIcon
 from qgis.PyQt.QtWidgets import QAction
 
 from pg_metadata.dock import PgMetadataDock
@@ -25,7 +25,8 @@ class PgMetadata:
         self.dock = None
         self.provider = None
         self.locator_filter = None
-        self.main_action = None
+        self.dock_action = None
+        self.help_action = None
 
         setup_logger('pg_metadata')
 
@@ -54,9 +55,18 @@ class PgMetadata:
             self.iface.registerLocatorFilter(self.locator_filter)
 
         icon = QIcon(resources_path('icons', 'icon.png'))
-        self.main_action = QAction(icon, 'PgMetadata', self.iface.mainWindow())
-        self.iface.pluginMenu().addAction(self.main_action)
-        self.main_action.triggered.connect(self.open_dock)
+        self.dock_action = QAction(icon, 'PgMetadata', self.iface.mainWindow())
+        self.iface.pluginMenu().addAction(self.dock_action)
+        self.dock_action.triggered.connect(self.open_dock)
+
+        self.help_action = QAction(icon, 'PgMetadata', self.iface.mainWindow())
+        self.iface.pluginHelpMenu().addAction(self.dock_action)
+        self.dock_action.triggered.connect(self.open_help)
+
+    @staticmethod
+    def open_help():
+        """ Open the online help. """
+        QDesktopServices.openUrl(QUrl('https://docs.3liz.org/qgis-pgmetadata-plugin/'))
 
     def open_dock(self):
         """ Open the dock. """
@@ -70,12 +80,19 @@ class PgMetadata:
 
         if self.provider:
             QgsApplication.processingRegistry().removeProvider(self.provider)
+            del self.provider
 
         if self.locator_filter:
             self.iface.deregisterLocatorFilter(self.locator_filter)
+            del self.locator_filter
 
-        if self.main_action:
-            self.iface.pluginMenu().removeAction(self.main_action)
+        if self.dock_action:
+            self.iface.pluginMenu().removeAction(self.dock_action)
+            del self.dock_action
+
+        if self.help_action:
+            self.iface.pluginHelpMenu().removeAction(self.help_action)
+            del self.help_action
 
     @staticmethod
     def run_tests(pattern='test_*.py', package=None):
