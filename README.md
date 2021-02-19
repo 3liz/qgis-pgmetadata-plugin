@@ -15,12 +15,3 @@ Store metadata in a PostgreSQL database and manage it from QGIS.
 Presentation, user guide, installation, Lizmap Web Client, everything is there.
 
 https://docs.3liz.org/qgis-pgmetadata-plugin/
-
-## Running migrations
-
-Environment variable
-
-```python
-import os
-os.environ['TEST_DATABASE_INSTALL_PGMETADATA'] = '0.0.1'
-```
