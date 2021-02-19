@@ -602,6 +602,14 @@ make tests
 make test_migration
 </code></pre></div>
 </td></tr></table>
+<p>On a new database, if you want to install the database by using migrations :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TEST_DATABASE_INSTALL_PGMETADATA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0.0.1&#39;</span>  <span class="c1"># Enable</span>
+<span class="k">del</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TEST_DATABASE_INSTALL_PGMETADATA&#39;</span><span class="p">]</span>  <span class="c1"># Disable</span>
+</code></pre></div>
+</td></tr></table>
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">#</a></h2>
 <p>The documentation is using <a href="https://www.mkdocs.org/">MkDocs</a> with <a href="https://squidfunk.github.io/mkdocs-material/">Material</a> :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
