@@ -18,8 +18,9 @@ nav:
         - 'Sys admin': 'user-guide/sys-admin.md'
     - Lizmap: lizmap.md
     - Processing: processing/README.md
-    - Database: database/index.html
+    - References: references.md
     - Changelog: changelog.md
+    - Database: database/index.html
 
 markdown_extensions:
   # - git-revision-date:
