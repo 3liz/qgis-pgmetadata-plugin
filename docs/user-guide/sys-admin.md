@@ -18,3 +18,9 @@ connection_names=Connection 1;Connection 2;Connection 3
 [Plugins]
 pg_metadata=true
 ```
+
+* `end_user_only` is designed to hide Processing algorithms which are designed for PgMetadata administrator.
+* `connection_names` is a list of connections separated by `;` so PgMetadata knows where to look for metadata.
+
+The last section `Plugins` showed above is to automatically load the plugin if the plugin folder is installed
+by a deployment tool.

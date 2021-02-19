@@ -12,7 +12,8 @@ Some key features for final users :
 
 * a [locator](./user-guide/end-user.md#locator) to easy search and add layers
 * a [dock](./user-guide/end-user.md#panel) to display metadata
-* [some exports](./user-guide/end-user.md#export) to PDF, HTML DCAT, CSV
+* Export a [single](./user-guide/end-user.md#export-a-single-metadata) sheet to PDF, HTML DCAT
+* Export the full [catalog](./user-guide/end-user.md#export-the-catalog)
 
 Some features for the GIS administrator :
 
