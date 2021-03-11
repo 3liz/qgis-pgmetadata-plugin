@@ -12,10 +12,10 @@ nav:
     - docs.3liz.org: '../'
     - Home: index.md
     - User guide:
-        - 'Installation': 'user-guide/installation.md'
         - 'End user': 'user-guide/end-user.md'
         - 'GIS admin': 'user-guide/gis-admin.md'
         - 'Sys admin': 'user-guide/sys-admin.md'
+        - 'Installation': 'user-guide/installation.md'
     - Lizmap: lizmap.md
     - Processing: processing/README.md
     - References: references.md

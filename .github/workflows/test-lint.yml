@@ -1,12 +1,12 @@
-name: Flake8 🎳
+name: Flake8 🧹
 
 on:
   push:
-#    paths:
-#      - '**.py'
+    paths:
+      - 'pg_metadata/**'
   pull_request:
-#    paths:
-#      - '**.py'
+    paths:
+      - 'pg_metadata/**'
 
 jobs:
   flake8:
@@ -24,12 +24,12 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements/*.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements/requirements-dev.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
       - name: Install Python requirements
-        run: pip install -r requirements-dev.txt
+        run: pip install -r requirements/requirements-dev.txt
 
       - name: Run flake8
         run: flake8
