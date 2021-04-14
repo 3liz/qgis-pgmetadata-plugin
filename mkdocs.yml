@@ -32,15 +32,22 @@ markdown_extensions:
       linenums: true
       linenums_style: pymdownx.inline
   - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
   - pymdownx.tabbed:
   - pymdownx.magiclink:
   - pymdownx.tasklist:
   - pymdownx.snippets:
   - pymdownx.keys:
   - attr_list:
+  - admonition:
+  - pymdownx.details:
 
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
+  - https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js
 extra_css:
   - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css
 
@@ -55,10 +62,11 @@ theme:
   palette:
     accent: deep-orange
     primary: green
-    scheme: preference
+    scheme: default
   features:
     - navigation.tabs
     - navigation.tabs.sticky
+    - navigation.top
 
 extra:
   social:
