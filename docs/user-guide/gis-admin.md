@@ -11,6 +11,13 @@ The plugin is using a schema in PostgreSQL.
 * If the `pgmetadata` schema is already existing in your database, you may need to upgrade it after a
   plugin upgrade using the [upgrade database structure](../processing/README.md#upgrade-the-database-structure)
 
+!!! warning
+    With the [administration project](#administration-project), it's only possible to add metadata for tables
+    which are stored in the **same** PostgreSQL database. For now, it's not possible to reference tables which
+    are stored in another database. The use of the 
+    [foreign schema](https://www.postgresql.org/docs/12/sql-importforeignschema.html) might work but has not
+    been tested yet.
+
 ### Administration project
 
 The GIS administrator can generate a QGIS project using
