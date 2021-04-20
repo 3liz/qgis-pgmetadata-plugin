@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://docs.3liz.org/qgis-pgmetadata-plugin/">
       
       <link rel="icon" href="icon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.9299cb39.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.6f955dcd.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ef6f36e2.min.css">
@@ -347,12 +347,50 @@
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
+      
         
       
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="." class="md-nav__link md-nav__link--active">
         Home
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#short-introduction" class="md-nav__link">
+    Short introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -543,8 +581,31 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
     
   
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#short-introduction" class="md-nav__link">
+    Short introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -562,6 +623,7 @@
                 
                 
                 <h1 id="pgmetadata">PgMetadata<a class="headerlink" href="#pgmetadata" title="Permanent link">#</a></h1>
+<h2 id="short-introduction">Short introduction<a class="headerlink" href="#short-introduction" title="Permanent link">#</a></h2>
 <p>It's a QGIS plugin to store some metadata for PostgreSQL layers inside a PostgreSQL database 🐘.</p>
 <p>Some key features for final users :</p>
 <ul>
@@ -577,6 +639,33 @@
 <li><a href="user-guide/gis-admin/#html-template">Customization</a> of the HTML template</li>
 </ul>
 <p><img alt="Overview of PgMetadata" src="img/dock_qgis.png" /></p>
+<h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">#</a></h2>
+<p><strong>PgMetadata</strong> is made for people using <strong>QGIS</strong> as their main GIS application, and <strong>PostgreSQL</strong> 🐘 as their main vector data storage.</p>
+<p>The metadata of layers are stored inside your PostgreSQL database, in a dedicated schema. Classical fields are supported, such as the <code>title</code>, <code>description</code>, <code>categories</code>, <code>themes</code>, <code>links</code>, and the spatial properties of your data: <code>extent</code>, <code>projection</code>, etc.</p>
+<p>PgMetadata is not designed as a catalog application which lets you search among datasets and then download the data. It is designed to <strong>ease the use of the metadata inside QGIS</strong>, allowing to search for a data and open the corresponding layer, or to view the metadata of the already loaded PostgreSQL layers.</p>
+<p>By storing the metadata of the vector tables inside the database:</p>
+<ul>
+<li>QGIS can read the metadata easily by using the layer PostgreSQL connection: a <a href="user-guide/end-user/#panel">dock</a> shows the metadata for the active layer when the plugin detects metadata exists for this QGIS layer.</li>
+<li>QGIS can run SQL queries: you can use the <a href="user-guide/end-user/#locator">QGIS locator search bar</a> to search for a layer, and load it easily in your project.</li>
+</ul>
+<p>The <strong>administrator</strong> in charge of editing the metadata will also benefit from the PostgreSQL storage:</p>
+<ul>
+<li>PostgreSQL/PostGIS functions are used to automatically update some fields based on the table data (the layer extent, geometry type, feature count, projection, etc.).</li>
+<li>The metadata is saved with your data anytime you backup the database.</li>
+<li>You do not need to share XML files across the network or install a new catalog application to manage your metadata and allow the users to get it. Only PostgreSQL is needed.</li>
+</ul>
+<p>The plugin contains some <a href="./processing/">processing algorithms</a> to help the administrator. For example:</p>
+<ul>
+<li>a script helps to <a href="./processing/#database">create or update</a> the needed <code>pgmetadata</code> PostgreSQL schema and tables in your database.</li>
+<li>a algorithm <a href="./processing/#create-metadata-administration-project">creates a QGIS project</a> suitable for the metadata editing. This project uses the power of QGIS to create a rich user interface allowing to edit your metadata easily (forms, relations). Why use another interface when QGIS rocks ?</li>
+</ul>
+<p>More PgMetadata features:</p>
+<ul>
+<li><a href="user-guide/gis-admin/#html-template">Modification of the HTML template</a> to tune the displayed metadata</li>
+<li><a href="user-guide/end-user/#export-a-single-metadata">Export a metadata sheet</a> to PDF, HTML or DCAT</li>
+<li>Publish the metadata as a DCAT catalog with the <a href="https://docs.3liz.org/qgis-pgmetadata-plugin/">Lizmap Web Client module for PgMetadata</a>. It can then be harvested by external applications (Geonetwork, CKAN)</li>
+<li>The data model is very close to the QGIS metadata storage and the DCAT vocabulary for compatibility.</li>
+</ul>
                 
                   
                 
@@ -684,7 +773,7 @@
     <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.7353b375.min.js"></script>
+      <script src="assets/javascripts/bundle.4ea5477f.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
       
