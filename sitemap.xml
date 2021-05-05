@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/user-guide/end-user/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/user-guide/gis-admin/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/user-guide/sys-admin/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/user-guide/installation/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/lizmap/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/processing/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/references/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/changelog/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/contributing/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.3liz.org/qgis-pgmetadata-plugin/database/</loc>
-     <lastmod>2021-04-20</lastmod>
+     <lastmod>2021-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
