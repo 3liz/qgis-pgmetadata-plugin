@@ -10,6 +10,17 @@ hide:
 
 It's a QGIS plugin to store some metadata for PostgreSQL layers inside a PostgreSQL database 🐘.
 
+Metadata for a PostgreSQL table includes :
+
+* a title
+* an abstract
+* keywords  
+* categories and themes  
+* spatial properties such as extent, feature count, projection, scales
+* 0 or many contacts with a role  
+* 0 or many links
+* …
+
 Some key features for final users :
 
 * a [locator](./user-guide/end-user.md#locator) to easy search and add layers
