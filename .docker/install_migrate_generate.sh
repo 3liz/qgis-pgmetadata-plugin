@@ -29,7 +29,12 @@ for sql_file in `ls -v ../${PLUGIN_NAME}/test/data/install/sql/${SCHEMA}/*.sql`;
 echo 'Run migrations'
 for migration in `ls -v ../${PLUGIN_NAME}/install/sql/upgrade/*.sql`; do
   echo "${migration}"
-  docker exec postgis bash -c "psql service=test -f /tests_directory/${PLUGIN_NAME}/${migration}" > /dev/null;
+  docker exec postgis bash -c "psql service=test -v 'ON_ERROR_STOP=1' -f /tests_directory/${PLUGIN_NAME}/${migration}" > /dev/null;
+  if [ $? -ne 0 ]
+  then
+    echo "Migration ${migration} is incorrect"
+    exit 1;
+  fi
   done;
 
 echo 'Generate doc'
