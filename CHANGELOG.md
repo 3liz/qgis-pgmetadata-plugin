@@ -1,4 +1,9 @@
-# CHANGELOG
+# Changelog
+
+## Unreleased
+
+* Release on plugins.qgis.org
+* Update documentation
 
 ## 0.5.0 - 2021-02-19
 
