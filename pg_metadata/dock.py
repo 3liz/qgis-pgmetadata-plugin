@@ -7,7 +7,8 @@ __email__ = 'info@3liz.org'
 import logging
 import os
 
-from enum import Enum, unique
+from collections import namedtuple
+from enum import Enum
 from functools import partial
 from xml.dom.minidom import parseString
 
@@ -38,6 +39,7 @@ from qgis.utils import iface
 from pg_metadata.connection_manager import (
     check_pgmetadata_is_installed,
     connections_list,
+    settings_connections_names,
 )
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 from pg_metadata.qgis_plugin_tools.tools.resources import (
@@ -49,21 +51,16 @@ DOCK_CLASS = load_ui('dock.ui')
 LOGGER = logging.getLogger('pg_metadata')
 
 
-@unique
-class OutputFormats(Enum):
+class Format(namedtuple('Format', ['label', 'ext'])):
+    """ Format available for exporting metadata. """
+    pass
+
+
+class OutputFormats(Format, Enum):
     """ Output format for a metadata sheet. """
-    Pdf = {
-        'label': 'PDF',
-        'ext': 'pdf',
-    }
-    Html = {
-        'label': 'HTML',
-        'ext': 'html',
-    }
-    Dcat = {
-        'label': 'DCAT',
-        'ext': 'xml',
-    }
+    PDF = Format(label='PDF', ext='pdf')
+    HTML = Format(label='HTML', ext='html')
+    DCAT = Format(label='DCAT', ext='xml')
 
 
 class PgMetadataDock(QDockWidget, DOCK_CLASS):
@@ -118,17 +115,17 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.save_as_pdf = QAction(
             tr('Save as PDF') + '…',
             iface.mainWindow())
-        self.save_as_pdf.triggered.connect(partial(self.export_dock_content, OutputFormats.Pdf))
+        self.save_as_pdf.triggered.connect(partial(self.export_dock_content, OutputFormats.PDF))
 
         self.save_as_html = QAction(
             tr('Save as HTML') + '…',
             iface.mainWindow())
-        self.save_as_html.triggered.connect(partial(self.export_dock_content, OutputFormats.Html))
+        self.save_as_html.triggered.connect(partial(self.export_dock_content, OutputFormats.HTML))
 
         self.save_as_dcat = QAction(
             tr('Save as DCAT') + '…',
             iface.mainWindow())
-        self.save_as_dcat.triggered.connect(partial(self.export_dock_content, OutputFormats.Dcat))
+        self.save_as_dcat.triggered.connect(partial(self.export_dock_content, OutputFormats.DCAT))
 
         self.menu_save = QMenu()
         self.menu_save.addAction(self.save_as_pdf)
@@ -139,7 +136,11 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
 
         self.metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
-        self.default_html_content()
+        # Display message in the dock
+        if not settings_connections_names():
+            self.default_html_content_not_installed()
+        else:
+            self.default_html_content_not_pg_layer()
 
         iface.layerTreeView().currentLayerChanged.connect(self.layer_changed)
 
@@ -149,15 +150,15 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
 
         file_path = os.path.join(
             self.settings.value("UI/lastFileNameWidgetDir"),
-            '{name}.{ext}'.format(name=layer_name, ext=output_format.value['ext'])
+            '{name}.{ext}'.format(name=layer_name, ext=output_format.ext)
         )
         output_file = QFileDialog.getSaveFileName(
             self,
-            tr("Save File as {format}").format(format=output_format.value['label']),
+            tr("Save File as {format}").format(format=output_format.label),
             file_path,
             "{label} (*.{ext})".format(
-                label=output_format.value['label'],
-                ext=output_format.value['ext'],
+                label=output_format.label,
+                ext=output_format.ext,
             )
         )
         if output_file[0] == '':
@@ -165,7 +166,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
 
         self.settings.setValue("UI/lastFileNameWidgetDir", os.path.dirname(output_file[0]))
 
-        if output_format == OutputFormats.Pdf:
+        if output_format == OutputFormats.PDF:
             printer = QPrinter()
             printer.setOutputFormat(QPrinter.PdfFormat)
             printer.setPageMargins(20, 20, 20, 20, QPrinter.Millimeter)
@@ -176,12 +177,12 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 tr("The metadata has been exported as PDF successfully")
             )
 
-        elif output_format in [OutputFormats.Html, OutputFormats.Dcat]:
-            if output_format == OutputFormats.Html:
+        elif output_format in [OutputFormats.HTML, OutputFormats.DCAT]:
+            if output_format == OutputFormats.HTML:
                 data_str = self.viewer.page().currentFrame().toHtml()
             else:
                 sql = self.sql_for_layer(
-                    self.current_datasource_uri, output_format=OutputFormats.Dcat)
+                    self.current_datasource_uri, output_format=OutputFormats.DCAT)
                 data = self.current_connection.executeSql(sql)
                 with open(resources_path('xml', 'dcat.xml')) as xml_file:
                     xml_template = xml_file.read()
@@ -196,9 +197,9 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             file_writer.write(data_str)
             file_writer.close()
             iface.messageBar().pushSuccess(
-                tr("Export") + ' ' + output_format.value['label'],
+                tr("Export") + ' ' + output_format.label,
                 tr("The metadata has been exported as {format} successfully").format(
-                    format=output_format.value['label'])
+                    format=output_format.label)
             )
 
     def save_auto_open_dock(self):
@@ -211,11 +212,11 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         locale = QgsSettings().value("locale/userLocale", QLocale().name())
         locale = locale.split('_')[0].lower()
 
-        if output_format == OutputFormats.Html:
+        if output_format == OutputFormats.HTML:
             sql = (
                 "SELECT pgmetadata.get_dataset_item_html_content('{schema}', '{table}', '{locale}');"
             ).format(schema=uri.schema(), table=uri.table(), locale=locale)
-        elif output_format == OutputFormats.Dcat:
+        elif output_format == OutputFormats.DCAT:
             sql = (
                 "SELECT dataset FROM pgmetadata.get_datasets_as_dcat_xml("
                 "    '{locale}',"
@@ -239,13 +240,17 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         self.current_datasource_uri = None
         self.current_connection = None
 
+        if not settings_connections_names():
+            self.default_html_content_not_installed()
+            return
+
         if not isinstance(layer, QgsVectorLayer):
-            self.default_html_content()
+            self.default_html_content_not_pg_layer()
             return
 
         uri = layer.dataProvider().uri()
         if not uri.schema() or not uri.table():
-            self.default_html_content()
+            self.default_html_content_not_pg_layer()
             return
 
         connections, message = connections_list()
@@ -261,20 +266,20 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             connection = self.metadata.findConnection(connection_name)
             if not connection:
                 LOGGER.critical("The global variable pgmetadata_connection_names is not correct.")
-                self.default_html_content()
+                self.default_html_content_not_installed()
                 continue
 
             if not check_pgmetadata_is_installed(connection_name):
                 LOGGER.critical(tr('PgMetadata is not installed on {}').format(connection_name))
                 continue
 
-            sql = self.sql_for_layer(uri, output_format=OutputFormats.Html)
+            sql = self.sql_for_layer(uri, output_format=OutputFormats.HTML)
 
             try:
                 data = connection.executeSql(sql)
             except QgsProviderConnectionException as e:
                 LOGGER.critical(tr('Error when querying the database : ') + str(e))
-                self.default_html_content()
+                self.default_html_content_not_installed()
                 return
 
             if not data:
@@ -360,6 +365,27 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         base_url = QUrl.fromLocalFile(resources_path('images', 'must_be_a_file.png'))
         self.viewer.setHtml(html, base_url)
 
-    def default_html_content(self):
+    def default_html_content_not_installed(self):
+        """ When PgMetadata is not installed correctly or not at all. """
+        message = "<p>"
+        message += tr("PgMetadata is not installed or configured on this QGIS.")
+        message += "</p>"
+        message += "<p>"
+        message += tr(
+            "Either install PgMetadata on a database (Processing → Database → Installation of the "
+            "database structure) or make the link to an existing PgMetadata database (Processing → "
+            "Administration → Set connections to database)."
+        )
+        message += "</p>"
+        message += "<p>"
+        message += tr(
+            "Visit the documentation on <a href=\"https://docs.3liz.org/qgis-pgmetadata-plugin/\">"
+            "docs.3liz.org</a> to check how to setup PgMetadata."
+        )
+        message += "</p>"
+        self.set_html_content('PgMetadata', message)
+
+    def default_html_content_not_pg_layer(self):
+        """ When it's not a PostgreSQL layer. """
         self.set_html_content(
             'PgMetadata', tr('You should click on a layer in the legend which is stored in PostgreSQL.'))

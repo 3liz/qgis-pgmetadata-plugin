@@ -61,13 +61,18 @@ def migrate_from_global_variables_to_pgmetadata_section():
     QgsExpressionContextUtils.removeGlobalVariable("pgmetadata_connection_names")
 
 
+def settings_connections_names() -> tuple:
+    """ Fetch in the QGIS Settings for the list of connections. """
+    return QgsSettings().value("pgmetadata/connection_names", "", type=str)
+
+
 def connections_list() -> tuple:
     """ List of available connections to PostgreSQL database. """
     migrate_from_global_variables_to_pgmetadata_section()
 
     metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
-    connection_names = QgsSettings().value("pgmetadata/connection_names", "", type=str)
+    connection_names = settings_connections_names()
     if not connection_names:
         message = tr(
             "You must use the 'Set Connections' algorithm in the Processing toolbox. The plugin must be "
