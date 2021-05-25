@@ -41,7 +41,7 @@ reformat_sql:
 
 flake8:
 	@echo 'Running flake8'
-	@docker run --rm -w /plugin -v $(shell pwd):/plugin etrimaille/flake8:3.8.2
+	@flake8
 
 processing-doc:
 	cd .docker && ./processing_doc.sh
