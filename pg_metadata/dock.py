@@ -368,7 +368,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
     def default_html_content_not_installed(self):
         """ When PgMetadata is not installed correctly or not at all. """
         message = "<p>"
-        message += tr("The PgMetadata schema is not installed or configured on this QGIS.")
+        message += tr("The 'pgmetadata' schema is not installed or configured.")
         message += "</p>"
         message += "<p>"
         message += tr(
