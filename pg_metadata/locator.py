@@ -119,8 +119,23 @@ class LocatorFilter(QgsLocatorFilter):
         uri.setSchema(schema_name)
         uri.setTable(table_name)
         uri.setGeometryColumn(table.geometryColumn())
+        geom_types = table.geometryColumnTypes()
+        if geom_types:
+            # Take the first one
+            uri.setWkbType(geom_types[0].wkbType)
+        # crs = table.crsList()
+        # if crs:
+        #     # Hack
+        #     crs = crs[0].authid()
+        #     crs = crs.replace('EPSG:', '')
+        #     uri.setSrid(crs)
+        pk = table.primaryKeyColumns()
+        if pk:
+            uri.setKeyColumn(pk[0])
 
         layer = QgsVectorLayer(uri.uri(), result.userData['name'], 'postgres')
+        # Maybe there is a default style, you should load it
+        layer.loadDefaultStyle()
         QgsProject.instance().addMapLayer(layer)
 
         auto_open_dock = QgsSettings().value("pgmetadata/auto_open_dock", True, type=bool)
