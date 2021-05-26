@@ -123,12 +123,7 @@ class LocatorFilter(QgsLocatorFilter):
         if geom_types:
             # Take the first one
             uri.setWkbType(geom_types[0].wkbType)
-        # crs = table.crsList()
-        # if crs:
-        #     # Hack
-        #     crs = crs[0].authid()
-        #     crs = crs.replace('EPSG:', '')
-        #     uri.setSrid(crs)
+        # TODO, we should try table.crsList() and uri.setSrid()
         pk = table.primaryKeyColumns()
         if pk:
             uri.setKeyColumn(pk[0])
