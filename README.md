@@ -1,7 +1,7 @@
 # PgMetadata
 
 [![📖 Documentation](https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/publish-doc.yml/badge.svg)](https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/publish-doc.yml)
-[![📖 Documentation](https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/publish-doc.yml/badge.svg)](https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/publish-doc.yml)
+[![🗺 Transifex](https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/transifex.yml/badge.svg)](https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/transifex.yml)
 [![🧪 Tests](https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/ci.yml)
 
 
