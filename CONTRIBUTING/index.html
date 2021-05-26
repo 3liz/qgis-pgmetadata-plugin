@@ -193,7 +193,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../user-guide/end-user/" class="md-tabs__link">
+      <a href="../user-guide/" class="md-tabs__link">
         User guide
       </a>
     </li>
@@ -256,6 +256,18 @@
   <li class="md-tabs__item">
     <a href="../contributing/" class="md-tabs__link">
       Contributing
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../roadmap/" class="md-tabs__link">
+      Roadmap
     </a>
   </li>
 
@@ -374,6 +386,18 @@
   
   
     <li class="md-nav__item">
+      <a href="../user-guide/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../user-guide/end-user/" class="md-nav__link">
         End user
       </a>
@@ -410,8 +434,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../user-guide/installation/" class="md-nav__link">
-        Installation
+      <a href="../user-guide/tutorial/" class="md-nav__link">
+        Tutorial
       </a>
     </li>
   
@@ -506,6 +530,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../roadmap/" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../database/" class="md-nav__link">
         Database
       </a>
@@ -580,20 +619,21 @@
 <p>This project is hosted on GitHub.</p>
 <p><a class="md-button md-button--primary" href="https://github.com/3liz/qgis-pgmetadata-plugin/">Visit GitHub</a></p>
 <h2 id="translation">Translation<a class="headerlink" href="#translation" title="Permanent link">#</a></h2>
+<p><a href="https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/transifex.yml"><img alt="🗺 Transifex" src="https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/transifex.yml/badge.svg" /></a></p>
 <p>The UI is available on <a href="https://www.transifex.com/3liz-1/pgmetadata/dashboard/">Transifex</a>, no development
-knowledge is required. <a href="https://github.com/3liz/qgis-pgmetadata-plugin/actions?query=workflow%3A%22Transifex+%F0%9F%97%BA%22+branch%3Amaster"><img alt="Transifex 🗺" src="https://github.com/3liz/qgis-pgmetadata-plugin/workflows/Transifex%20%F0%9F%97%BA/badge.svg" /></a></p>
+knowledge is required. You need to create an account, request the language if your language is not available by default (we will happily accept) and start to translate strings.</p>
 <p>To translate the metadata glossary, the
 <a href="https://github.com/3liz/qgis-pgmetadata-plugin/blob/master/pg_metadata/install/sql/pgmetadata/90_GLOSSARY.sql">SQL file</a>
-needs to be edited.</p>
+needs to be edited. You can submit a 
+<a href="https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">PR</a>
+on GitHub or feel free to contact us for any assistance. There are some languages available already.</p>
 <h2 id="code">Code<a class="headerlink" href="#code" title="Permanent link">#</a></h2>
+<p><a href="https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/ci.yml"><img alt="🧪 Tests" src="https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/ci.yml/badge.svg" /></a></p>
 <p>SQL and Python are covered by unittests with Docker.</p>
-<p><a href="https://github.com/3liz/qgis-pgmetadata-plugin/actions?query=workflow%3A%22Tests+%F0%9F%8E%B3%22+branch%3Amaster"><img alt="Tests 🎳" src="https://github.com/3liz/qgis-pgmetadata-plugin/workflows/Tests%20%F0%9F%8E%B3/badge.svg" /></a>
-<a href="https://github.com/3liz/qgis-pgmetadata-plugin/actions?query=workflow%3A%22Flake8+%F0%9F%8E%B3%22+branch%3Amaster"><img alt="Flake8 🎳" src="https://github.com/3liz/qgis-pgmetadata-plugin/workflows/Flake8%20%F0%9F%8E%B3/badge.svg" /></a>
-<a href="https://github.com/3liz/qgis-pgmetadata-plugin/actions?query=workflow%3A%22Migration+%F0%9F%97%82%22+branch%3Amaster"><img alt="Migration 🗂" src="https://github.com/3liz/qgis-pgmetadata-plugin/workflows/Migration%20%F0%9F%97%82/badge.svg" /></a></p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>pip install -r requirements-dev.txt
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>pip install -r requirements/dev.txt
 flake8
 make tests
 make test_migration
@@ -608,9 +648,10 @@ make test_migration
 </code></pre></div>
 </td></tr></table>
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">#</a></h2>
-<p>The documentation is using <a href="https://www.mkdocs.org/">MkDocs</a> with <a href="https://squidfunk.github.io/mkdocs-material/">Material</a> :</p>
+<p><a href="https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/publish-doc.yml"><img alt="📖 Documentation" src="https://github.com/3liz/qgis-pgmetadata-plugin/actions/workflows/publish-doc.yml/badge.svg" /></a></p>
+<p>The documentation is using <a href="https://www.mkdocs.org/">MkDocs</a> with <a href="https://squidfunk.github.io/mkdocs-material/">Material</a>.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>pip install -r requirements-doc.txt
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>pip install -r requirements/doc.txt
 mkdocs serve
 </code></pre></div>
 </td></tr></table>
