@@ -1017,7 +1017,7 @@ def my_form_open(dialog, layer, feature):
         <alias field="table_name" index="2" name="Table"></alias>
         <alias field="schema_name" index="3" name="Schema"></alias>
         <alias field="title" index="4" name="Title"></alias>
-        <alias field="abstract" index="5" name="Abtract"></alias>
+        <alias field="abstract" index="5" name="Abstract"></alias>
         <alias field="categories" index="6" name="Categories"></alias>
         <alias field="keywords" index="7" name="Keywords, separated by ,"></alias>
         <alias field="spatial_level" index="8" name="Spatial level"></alias>
