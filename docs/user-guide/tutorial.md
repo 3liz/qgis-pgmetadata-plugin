@@ -28,12 +28,16 @@ In this video, we are explaining :
 
 ## Edition
 
-* First metadata sheet
-  * Contact
-  * Links
-  * Themes
-  * Locale
-* HTML template
+In this video, we are explaining how to edit metadata with the administration project :
+
+* Contacts
+* Links
+* Metadata
+* HTML templates
+* Themes
+* PostgreSQL views for orphan tables or orphan metadata sheets
+
+<iframe width="800" height="450" src="https://www.youtube.com/embed/IvoSMAlfCWA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## End users, search
 
