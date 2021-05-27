@@ -16,7 +16,8 @@ nav:
         - 'End user': 'user-guide/end-user.md'
         - 'GIS admin': 'user-guide/gis-admin.md'
         - 'Sys admin': 'user-guide/sys-admin.md'
-        - 'Tutorial': 'user-guide/tutorial.md'
+        - 'Advanced': 'user-guide/advanced.md'
+        - 'Video tutorials': 'user-guide/tutorials.md'
     - Lizmap: lizmap.md
     - Processing: processing/README.md
     - References: references.md
