@@ -10,6 +10,7 @@ import os
 from collections import namedtuple
 from enum import Enum
 from functools import partial
+from pathlib import Path
 from xml.dom.minidom import parseString
 
 from qgis.core import (
@@ -166,15 +167,20 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
 
         self.settings.setValue("UI/lastFileNameWidgetDir", os.path.dirname(output_file[0]))
 
+        output_file_path = output_file[0]
+        parent_folder = str(Path(output_file_path).parent)
+
         if output_format == OutputFormats.PDF:
             printer = QPrinter()
             printer.setOutputFormat(QPrinter.PdfFormat)
             printer.setPageMargins(20, 20, 20, 20, QPrinter.Millimeter)
-            printer.setOutputFileName(output_file[0])
+            printer.setOutputFileName(output_file_path)
             self.viewer.print(printer)
             iface.messageBar().pushSuccess(
                 tr("Export PDF"),
-                tr("The metadata has been exported as PDF successfully")
+                tr(
+                    "The metadata has been exported as PDF successfully in "
+                    "<a href=\"{}\">{}</a>").format(parent_folder, output_file_path)
             )
 
         elif output_format in [OutputFormats.HTML, OutputFormats.DCAT]:
@@ -193,13 +199,14 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 xml = parseString(xml_template.format(locale=locale, content=data[0][0]))
                 data_str = xml.toprettyxml()
 
-            file_writer = open(output_file[0], "w")
-            file_writer.write(data_str)
-            file_writer.close()
+            with open(output_file[0], "w") as file_writer:
+                file_writer.write(data_str)
             iface.messageBar().pushSuccess(
                 tr("Export") + ' ' + output_format.label,
-                tr("The metadata has been exported as {format} successfully").format(
-                    format=output_format.label)
+                tr(
+                    "The metadata has been exported as {format} successfully in "
+                    "<a href=\"{folder}\">{path}</a>").format(
+                    format=output_format.label, folder=parent_folder, path=output_file_path)
             )
 
     def save_auto_open_dock(self):
