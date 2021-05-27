@@ -39,12 +39,22 @@ In this video, we are explaining how to edit metadata with the administration pr
 
 <iframe width="800" height="450" src="https://www.youtube.com/embed/IvoSMAlfCWA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## End users, search
+## Search in the catalog from QGIS
 
-* Dock, locator
-* Export PDF/HTML
+In this video, we are explaining how to re-use the metadata in QGIS Desktop :
+
+* Without the PgMetadata plugin with the QGIS data source manager
+* With the plugin using the locator bar
+* Exporting a single layer metadata as PDF, HTML or PDF
+* Exporting the whole catalog
+
+<iframe width="800" height="450" src="https://www.youtube.com/embed/pXzFt--L2hc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## For Web users with Lizmap
 
-* Lizmap module
-* DCAT Catalog
+In this video, we are explaining how to re-use the metadata on the web :
+
+* With [PgMetadata module](https://github.com/3liz/lizmap-pgmetadata-module) for [Lizmap](https://github.com/3liz/lizmap-web-client/)
+* Write your own wrapper to extract DCAT information
+
+<iframe width="800" height="450" src="https://www.youtube.com/embed/hVVU9xNqjaU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
