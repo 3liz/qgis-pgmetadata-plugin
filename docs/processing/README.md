@@ -1,12 +1,9 @@
 ---
-Title: PgMetadata
-Favicon: ../icon.png
-Up: True
-...
+hide:
+  - navigation
+---
 
-[TOC]
-
-# PgMetadata
+# Processing
 
 ## Administration
 
@@ -43,6 +40,32 @@ PROJECT_FILE|QGIS project file to create|File||
 ***
 
 
+### Set connections to databases
+
+This algorithm will enable different databases where to look for metadata.
+
+DATABASES : PgMetadata can be installed on different databases.
+
+
+
+![algo_id](./pg_metadata-set_connections.png)
+
+#### Parameters
+
+| ID | Description | Type | Info | Required | Advanced | Option |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+DATABASES|List of databases to look for metadata|Enum|PgMetadata can be installed on different databases.|✓||Values:  <br>|
+
+
+#### Outputs
+
+| ID | Description | Type | Info |
+|:-:|:-:|:-:|:-:|
+No output
+
+***
+
+
 ## Database
 
 
@@ -74,6 +97,64 @@ OVERRIDE|Erase the schema pgmetadata ?|Boolean|** Be careful ** This will remove
 |:-:|:-:|:-:|:-:|
 DATABASE_VERSION|Database version|String||
 
+
+***
+
+
+### Recompute values in the dataset table
+
+Recalculate spatial related fields for all dataset item
+
+CONNECTION_NAME : The database where the schema 'pgmetadata' has been installed.
+
+RESET : ** Be careful ** This will recompute default values.
+
+
+
+![algo_id](./pg_metadata-recompute_values_dataset.png)
+
+#### Parameters
+
+| ID | Description | Type | Info | Required | Advanced | Option |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+CONNECTION_NAME|Connection to the PostgreSQL database|String|The database where the schema 'pgmetadata' has been installed.|✓|||
+RESET|Recompute values in the dataset table|Boolean|** Be careful ** This will recompute default values.|✓|||
+
+
+#### Outputs
+
+| ID | Description | Type | Info |
+|:-:|:-:|:-:|:-:|
+No output
+
+***
+
+
+### Reset HTML templates in the database
+
+Reset HTML templates in the database
+
+CONNECTION_NAME : The database where the schema 'pgmetadata' has been installed.
+
+RESET : ** Be careful ** This will reset existing HTML templates !
+
+
+
+![algo_id](./pg_metadata-reset_html_templates.png)
+
+#### Parameters
+
+| ID | Description | Type | Info | Required | Advanced | Option |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+CONNECTION_NAME|Connection to the PostgreSQL database|String|The database where the schema 'pgmetadata' has been installed.|✓|||
+RESET|Reset HTML templates|Boolean|** Be careful ** This will reset existing HTML templates !|✓|||
+
+
+#### Outputs
+
+| ID | Description | Type | Info |
+|:-:|:-:|:-:|:-:|
+No output
 
 ***
 

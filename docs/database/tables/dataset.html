@@ -244,7 +244,7 @@
                                 </tr>
                                 <tr>
                                     <td><span id="keywords">keywords</span></td>
-                                    <td>_text</td>
+                                    <td>text</td>
                                     <td>2147483647</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
@@ -257,7 +257,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>List of keywords</p></td>
+                                    <td><p>List of keywords separated by comma. Ex: environment, paris, trees</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="spatial_level">spatial_level</span></td>
@@ -514,6 +514,40 @@
                                     </td>
                                     <td><p>Geometry defining the extent of the data. Can be any polygon.</p></td>
                                 </tr>
+                                <tr>
+                                    <td><span id="data_last_update">data_last_update</span></td>
+                                    <td>timestamp</td>
+                                    <td>29,6</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>Date of the last modification of the target data (not on the dataset item line)</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="themes">themes</span></td>
+                                    <td>_text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>List of themes</p></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -586,7 +620,7 @@
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="dataset_contact.html" target="_top" title="dataset_contact" alt="" coords="475,5,683,187">
-<area shape="rect" id="node2" href="dataset.html" target="_top" title="dataset" alt="" coords="5,145,431,889">
+<area shape="rect" id="node2" href="dataset.html" target="_top" title="dataset" alt="" coords="5,145,431,948">
 <area shape="rect" id="node3" href="link.html" target="_top" title="link" alt="" coords="502,204,655,351">
 </map>
                                         <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/dataset.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
@@ -595,7 +629,7 @@
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
 <area shape="rect" id="node1" href="dataset_contact.html" target="_top" title="dataset_contact" alt="" coords="475,5,683,187">
 <area shape="rect" id="node2" href="contact.html" target="_top" title="contact" alt="" coords="146,37,290,125">
-<area shape="rect" id="node3" href="dataset.html" target="_top" title="dataset" alt="" coords="5,187,431,931">
+<area shape="rect" id="node3" href="dataset.html" target="_top" title="dataset" alt="" coords="5,187,431,989">
 <area shape="rect" id="node4" href="link.html" target="_top" title="link" alt="" coords="502,204,655,351">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/dataset.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>

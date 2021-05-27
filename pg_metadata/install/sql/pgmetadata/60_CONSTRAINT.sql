@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.14 (Debian 10.14-1.pgdg100+1)
--- Dumped by pg_dump version 10.14 (Debian 10.14-1.pgdg100+1)
+-- Dumped from database version 10.15 (Debian 10.15-1.pgdg100+1)
+-- Dumped by pg_dump version 10.15 (Debian 10.15-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -48,6 +48,16 @@ ALTER TABLE ONLY pgmetadata.dataset
     ADD CONSTRAINT dataset_uid_key UNIQUE (uid);
 
 
+-- glossary glossary_field_code_key
+ALTER TABLE ONLY pgmetadata.glossary
+    ADD CONSTRAINT glossary_field_code_key UNIQUE (field, code);
+
+
+-- glossary glossary_pkey
+ALTER TABLE ONLY pgmetadata.glossary
+    ADD CONSTRAINT glossary_pkey PRIMARY KEY (id);
+
+
 -- html_template html_template_pkey
 ALTER TABLE ONLY pgmetadata.html_template
     ADD CONSTRAINT html_template_pkey PRIMARY KEY (id);
@@ -61,6 +71,21 @@ ALTER TABLE ONLY pgmetadata.html_template
 -- link link_pkey
 ALTER TABLE ONLY pgmetadata.link
     ADD CONSTRAINT link_pkey PRIMARY KEY (id);
+
+
+-- theme theme_code_key
+ALTER TABLE ONLY pgmetadata.theme
+    ADD CONSTRAINT theme_code_key UNIQUE (code);
+
+
+-- theme theme_label_key
+ALTER TABLE ONLY pgmetadata.theme
+    ADD CONSTRAINT theme_label_key UNIQUE (label);
+
+
+-- theme theme_pkey
+ALTER TABLE ONLY pgmetadata.theme
+    ADD CONSTRAINT theme_pkey PRIMARY KEY (id);
 
 
 -- dataset_contact dataset_contact_fk_id_contact_fkey

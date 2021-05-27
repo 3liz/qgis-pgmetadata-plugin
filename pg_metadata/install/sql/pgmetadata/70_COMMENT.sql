@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.14 (Debian 10.14-1.pgdg100+1)
--- Dumped by pg_dump version 10.14 (Debian 10.14-1.pgdg100+1)
+-- Dumped from database version 10.15 (Debian 10.15-1.pgdg100+1)
+-- Dumped by pg_dump version 10.15 (Debian 10.15-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -20,8 +20,36 @@ SET row_security = off;
 COMMENT ON SCHEMA pgmetadata IS 'PgMetadata - contains tables for the QGIS plugin pg_metadata';
 
 
--- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text)
-COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _template_section text) IS 'Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.';
+-- FUNCTION calculate_fields_from_data()
+COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fields content when updating or inserting a line in pgmetadata.dataset table.';
+
+
+-- FUNCTION export_datasets_as_flat_table(_locale text)
+COMMENT ON FUNCTION pgmetadata.export_datasets_as_flat_table(_locale text) IS 'Generate a flat representation of the datasets for a given locale.';
+
+
+-- FUNCTION generate_html_from_json(_json_data json, _template_section text)
+COMMENT ON FUNCTION pgmetadata.generate_html_from_json(_json_data json, _template_section text) IS 'Generate HTML content for the given JSON representation of a record and a given section, based on the template stored in the pgmetadata.html_template table. Template section controlled values are "main", "contact" and "link". If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned.';
+
+
+-- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text)
+COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text) IS 'Generate the metadata HTML content in English for the given table or NULL if no templates are stored in the pgmetadata.html_template table.';
+
+
+-- FUNCTION get_dataset_item_html_content(_table_schema text, _table_name text, _locale text)
+COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _locale text) IS 'Generate the metadata HTML content for the given table and given language or NULL if no templates are stored in the pgmetadata.html_template table.';
+
+
+-- FUNCTION get_datasets_as_dcat_xml(_locale text)
+COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text) IS 'Get the datasets records as XML DCAT datasets for the given locale. All datasets are returned';
+
+
+-- FUNCTION get_datasets_as_dcat_xml(_locale text, uids uuid[])
+COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text, uids uuid[]) IS 'Get the datasets records as XML DCAT datasets for the given locale. Datasets are filtered by the given array of uids. IF uids is NULL, no filter is used and all datasets are returned';
+
+
+-- FUNCTION refresh_dataset_calculated_fields()
+COMMENT ON FUNCTION pgmetadata.refresh_dataset_calculated_fields() IS 'Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data';
 
 
 -- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text)
@@ -102,7 +130,7 @@ COMMENT ON COLUMN pgmetadata.dataset.categories IS 'List of categories';
 
 
 -- dataset.keywords
-COMMENT ON COLUMN pgmetadata.dataset.keywords IS 'List of keywords';
+COMMENT ON COLUMN pgmetadata.dataset.keywords IS 'List of keywords separated by comma. Ex: environment, paris, trees';
 
 
 -- dataset.spatial_level
@@ -165,6 +193,14 @@ COMMENT ON COLUMN pgmetadata.dataset.update_date IS 'Date of update of the datas
 COMMENT ON COLUMN pgmetadata.dataset.geom IS 'Geometry defining the extent of the data. Can be any polygon.';
 
 
+-- dataset.data_last_update
+COMMENT ON COLUMN pgmetadata.dataset.data_last_update IS 'Date of the last modification of the target data (not on the dataset item line)';
+
+
+-- dataset.themes
+COMMENT ON COLUMN pgmetadata.dataset.themes IS 'List of themes';
+
+
 -- dataset_contact
 COMMENT ON TABLE pgmetadata.dataset_contact IS 'Pivot table between dataset and contacts.';
 
@@ -201,12 +237,12 @@ COMMENT ON COLUMN pgmetadata.glossary.field IS 'Field name';
 COMMENT ON COLUMN pgmetadata.glossary.code IS 'Item code';
 
 
--- glossary.label
-COMMENT ON COLUMN pgmetadata.glossary.label IS 'Item label';
+-- glossary.label_en
+COMMENT ON COLUMN pgmetadata.glossary.label_en IS 'Item label';
 
 
--- glossary.description
-COMMENT ON COLUMN pgmetadata.glossary.description IS 'Description';
+-- glossary.description_en
+COMMENT ON COLUMN pgmetadata.glossary.description_en IS 'Description';
 
 
 -- glossary.item_order
@@ -261,8 +297,76 @@ COMMENT ON COLUMN pgmetadata.link.fk_id_dataset IS 'Id of the dataset item';
 COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
 
 
+-- theme
+COMMENT ON TABLE pgmetadata.theme IS 'List of themes related to the published datasets.';
+
+
+-- theme.id
+COMMENT ON COLUMN pgmetadata.theme.id IS 'Internal automatic integer ID';
+
+
+-- theme.code
+COMMENT ON COLUMN pgmetadata.theme.code IS 'Code Of the theme';
+
+
+-- theme.label
+COMMENT ON COLUMN pgmetadata.theme.label IS 'Label of the theme';
+
+
+-- theme.description
+COMMENT ON COLUMN pgmetadata.theme.description IS 'Description of the theme';
+
+
+-- VIEW v_glossary
+COMMENT ON VIEW pgmetadata.v_glossary IS 'View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION "pgmetadata.locale" = ''fr''; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict->''contact.contact_role''->''OW''->''label''->''fr'')::text AS label FROM glossary;';
+
+
+-- VIEW v_contact
+COMMENT ON VIEW pgmetadata.v_contact IS 'Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting ''pgmetadata.locale''. For example with: SET SESSION "pgmetadata.locale" = ''fr''; ';
+
+
+-- VIEW v_dataset
+COMMENT ON VIEW pgmetadata.v_dataset IS 'Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+
+
+-- VIEW v_dataset_as_dcat
+COMMENT ON VIEW pgmetadata.v_dataset_as_dcat IS 'DCAT - View which formats the datasets AS DCAT XML record objects';
+
+
+-- VIEW v_link
+COMMENT ON VIEW pgmetadata.v_link IS 'Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content.';
+
+
+-- VIEW v_export_table
+COMMENT ON VIEW pgmetadata.v_export_table IS 'Generate a flat representation of the datasets. Links and contacts are grouped in one column each';
+
+
+-- VIEW v_locales
+COMMENT ON VIEW pgmetadata.v_locales IS 'Lists the locales available in the glossary, by listing the columns label_xx of the table pgmetadata.glossary';
+
+
+-- VIEW v_orphan_dataset_items
+COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables referenced in dataset but not existing in the database itself.';
+
+
+-- VIEW v_orphan_tables
+COMMENT ON VIEW pgmetadata.v_orphan_tables IS 'View containing the existing tables but not referenced in dataset';
+
+
+-- VIEW v_schema_list
+COMMENT ON VIEW pgmetadata.v_schema_list IS 'View containing list of all schema in this database';
+
+
 -- VIEW v_table_comment_from_metadata
-COMMENT ON VIEW pgmetadata.v_table_comment_from_metadata IS 'View containing the desired formated comment for the tables listed in the pgmetadata.dataset table. This view is used by the trigger to update the table comment when the dataset item is added or modified';
+COMMENT ON VIEW pgmetadata.v_table_comment_from_metadata IS 'View containing the desired formatted comment for the tables listed in the pgmetadata.dataset table. This view is used by the trigger to update the table comment when the dataset item is added or modified';
+
+
+-- VIEW v_table_list
+COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables in this database with schema name';
+
+
+-- VIEW v_valid_dataset
+COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables.';
 
 
 --

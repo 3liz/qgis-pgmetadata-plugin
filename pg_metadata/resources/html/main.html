@@ -1,0 +1,119 @@
+<div>
+    <h3>Identification</h3>
+    <table class="table table-condensed">
+        <tr>
+            <th>Title</th><td>[% title %]</td>
+        </tr>
+        <tr>
+            <th>Abstract</th><td>[% abstract %]</td>
+        </tr>
+        <tr>
+            <th>Categories</th><td>[% categories %]</td>
+        </tr>
+        <tr>
+            <th>Themes</th><td>[% themes %]</td>
+        </tr>
+        <tr>
+            <th>Keywords</th><td>[% keywords %]</td>
+        </tr>
+        <tr>
+            <th>Data last update</th><td>[% data_last_update %]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <h3>Spatial properties</h3>
+    <table class="table table-condensed">
+        <tr>
+            <th>Level</th><td>[% spatial_level %]</td>
+        </tr>
+        <tr>
+            <th>Minimum scale</th><td>[% minimum_optimal_scale %]</td>
+        </tr>
+        <tr>
+            <th>Maximum scale</th><td>[% maximum_optimal_scale %]</td>
+        </tr>
+        <tr>
+            <th>Feature count</th><td>[% feature_count %]</td>
+        </tr>
+        <tr>
+            <th>Geometry</th><td>[% geometry_type %]</td>
+        </tr>
+        <tr>
+            <th>Extent</th><td>[% spatial_extent %]</td>
+        </tr>
+        <tr>
+            <th>Projection name</th><td>[% projection_name %]</td>
+        </tr>
+        <tr>
+            <th>Projection ID</th><td>[% projection_authid %]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <h3>Publication</h3>
+    <table class="table table-condensed">
+        <tr>
+            <th>Date</th><td>[% publication_date %]</td>
+        </tr>
+        <tr>
+            <th>Frequency</th><td>[% publication_frequency %]</td>
+        </tr>
+        <tr>
+            <th>License</th><td>[% license %]</td>
+        </tr>
+        <tr>
+            <th>Confidentiality</th><td>[% confidentiality %]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <h3>Links</h3>
+    <table class="table table-condensed table-striped table-bordered">
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>MIME</th>
+            <th>Format</th>
+            <th>Size</th>
+        </tr>
+        [% meta_links %]
+    </table>
+</div>
+
+<div>
+    <h3>Contacts</h3>
+    <table class="table table-condensed table-striped table-bordered">
+        <tr>
+            <th>Role</th>
+            <th>Name</th>
+            <th>Organisation</th>
+            <th>Email</th>
+        </tr>
+        [% meta_contacts %]
+    </table>
+</div>
+
+<div>
+    <h3>Metadata</h3>
+    <table class="table table-condensed">
+        <tr>
+            <th>Table</th><td>[% table_name %]</td>
+        </tr>
+        <tr>
+            <th>Schema</th><td>[% schema_name %]</td>
+        </tr>
+        <tr>
+            <th>Creation</th><td>[% creation_date %]</td>
+        </tr>
+        <tr>
+            <th>Update</th><td>[% update_date %]</td>
+        </tr>
+        <tr>
+            <th>UUID</th><td>[% uid %]</td>
+        </tr>
+    </table>
+</div>

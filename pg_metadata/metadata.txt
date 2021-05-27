@@ -1,18 +1,18 @@
 [general]
 name=PgMetadata
 qgisMinimumVersion=3.10
-description=Metadata manager stored in PostgreSQL
+description=Store some metadata about layers which are stored in PostgreSQL. It's possible to define title, abstract, links, contacts etc. It also provides some search tool, in the QGIS Locator bar for instance.
 author=3Liz
 email=info@3liz.com
-about=Metadata manager stored in PostgreSQL
+about=Store some metadata about layers which are stored in PostgreSQL. It's possible to define title, abstract, links, contacts etc. It also provides some search tool, in the QGIS Locator bar for instance.
 
 version=master
 
-tracker=https://github.com/3liz/qgis-pgmetadata-plugin
+tracker=https://github.com/3liz/qgis-pgmetadata-plugin/issues
 repository=https://github.com/3liz/qgis-pgmetadata-plugin
+homepage=https://docs.3liz.org/qgis-pgmetadata-plugin/
 hasProcessingProvider=yes
-tags=metadata,postgresql,qgis,metadonnees
-homepage=https://github.com/3liz/qgis-pgmetadata-plugin
+tags=metadata,postgresql,qgis,metadonnees,dcat,xml,csv
 category=Analysis
 icon=resources/icons/icon.png
 experimental=False

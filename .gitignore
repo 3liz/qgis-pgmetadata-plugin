@@ -1,6 +1,13 @@
 # Python
 __pycache__/
 *.pyc
+venv/
+.venv/
+
+# Mkdocs
+build/
+docs/CHANGELOG.md
+docs/CONTRIBUTING.md
 
 # OS
 .DS_Store
@@ -17,3 +24,6 @@ pg_metadata/i18n/*.qm
 # Temp files
 *~
 *.bak
+*.gpkg-wal
+*.gpkg-shm
+.~lock.*

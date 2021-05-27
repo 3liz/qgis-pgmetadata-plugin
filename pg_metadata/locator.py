@@ -5,18 +5,22 @@ __email__ = "info@3liz.org"
 from qgis.core import (
     Qgis,
     QgsDataSourceUri,
-    QgsExpressionContextUtils,
     QgsLocatorFilter,
     QgsLocatorResult,
     QgsProject,
-    QgsProviderRegistry,
     QgsProviderConnectionException,
+    QgsProviderRegistry,
+    QgsSettings,
     QgsVectorLayer,
 )
-from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QDockWidget
 
+from pg_metadata.connection_manager import (
+    check_pgmetadata_is_installed,
+    connections_list,
+)
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
-from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
+from pg_metadata.tools import icon_for_geometry_type
 
 SCHEMA = 'pgmetadata'
 
@@ -25,6 +29,7 @@ class LocatorFilter(QgsLocatorFilter):
 
     def __init__(self, iface):
         self.iface = iface
+        self.metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
         super(QgsLocatorFilter, self).__init__()
 
     def name(self):
@@ -39,59 +44,58 @@ class LocatorFilter(QgsLocatorFilter):
     def prefix(self):
         return 'meta'
 
-    def query(self, connection_name, sql) -> list:
-        """
-        Runs a query on PostgreSQL connection and returns data
-        """
-        metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
-        connection = metadata.findConnection(connection_name)
-        if not connection:
-            return
-
-        try:
-            data = self.query(connection_name, sql)
-        except QgsProviderConnectionException as e:
-            self.logMessage(str(e), Qgis.Critical)
-            return
-
-        return data
-
     def fetchResults(self, search, context, feedback):
-
-        connection_name = QgsExpressionContextUtils.globalScope().variable(
-            "{}_connection_name".format(SCHEMA)
-        )
-        if not connection_name:
-            self.logMessage(
-                tr(
-                    "One algorithm from PgMetadata must be used before. The plugin will be aware about the "
-                    "database to use."
-                ),
-                Qgis.Critical
-            )
 
         if len(search) < 3:
             # Let's limit the number of request sent to the server
             return
 
+        connections, message = connections_list()
+        if not connections:
+            self.logMessage(message, Qgis.Critical)
+
+        for connection in connections:
+
+            if not check_pgmetadata_is_installed(connection):
+                self.logMessage(tr('PgMetadata is not installed on {}').format(connection), Qgis.Critical)
+                continue
+
+            self.fetch_result_single_database(search, connection)
+
+    def fetch_result_single_database(self, search: str, connection_name: str):
+        """ Fetch tables in the given database for a search. """
+        connection = self.metadata.findConnection(connection_name)
+        if not connection:
+            self.logMessage(
+                tr("The global variable {}_connection_name is not correct.").format(SCHEMA),
+                Qgis.Critical
+            )
+
         # Search items from pgmetadata.dataset
-        sql = " SELECT concat(title, ' (', table_name, '.', schema_name, ')') AS displayString,"
-        sql += " schema_name, table_name"
-        sql += " FROM pgmetadata.dataset"
-        sql += " WHERE concat(title, ' ', abstract, ' ', table_name) ILIKE '%{}%'".format(search)
+        sql = "  SELECT concat(d.title, ' (', d.table_name, '.', d.schema_name, ')') AS displayString,"
+        sql += " d.schema_name, d.table_name, d.geometry_type, title"
+        sql += " FROM pgmetadata.dataset d"
+        sql += " INNER JOIN pgmetadata.v_valid_dataset v"
+        sql += " ON concat(v.table_name, '.', v.schema_name) = concat(d.table_name, '.', d.schema_name)"
+        sql += " WHERE concat(d.title, ' ', d.abstract, ' ', d.table_name) ILIKE '%{}%'".format(search)
         sql += " LIMIT 100"
 
-        data = self.query('pgmetadata', sql)
+        try:
+            data = connection.executeSql(sql)
+        except QgsProviderConnectionException as e:
+            self.logMessage(str(e), Qgis.Critical)
+            return
+
         if not data:
             return
 
         for item in data:
             result = QgsLocatorResult()
             result.filter = self
-            result.displayString = '{}'.format(item[0])
-            result.icon = QIcon(resources_path('icons', 'icon.png'))
+            result.displayString = item[0]
+            result.icon = icon_for_geometry_type(item[3])
             result.userData = {
-                'name': item[0],
+                'name': item[4],
                 'connection': connection_name,
                 'schema': item[1],
                 'table': item[2],
@@ -103,13 +107,37 @@ class LocatorFilter(QgsLocatorFilter):
         metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
         connection = metadata.findConnection(result.userData['connection'])
 
+        schema_name = result.userData['schema']
+        table_name = result.userData['table']
+
+        if Qgis.QGIS_VERSION_INT < 31200:
+            table = [t for t in connection.tables(schema_name) if t.tableName() == table_name][0]
+        else:
+            table = connection.table(schema_name, table_name)
+
         uri = QgsDataSourceUri(connection.uri())
-        uri.setSchema(result.userData['schema'])
-        uri.setTable(result.userData['table'])
-        uri.setGeometryColumn('geom')  # Fixme change this
+        uri.setSchema(schema_name)
+        uri.setTable(table_name)
+        uri.setGeometryColumn(table.geometryColumn())
+        geom_types = table.geometryColumnTypes()
+        if geom_types:
+            # Take the first one
+            uri.setWkbType(geom_types[0].wkbType)
+        # TODO, we should try table.crsList() and uri.setSrid()
+        pk = table.primaryKeyColumns()
+        if pk:
+            uri.setKeyColumn(pk[0])
 
         layer = QgsVectorLayer(uri.uri(), result.userData['name'], 'postgres')
+        # Maybe there is a default style, you should load it
+        layer.loadDefaultStyle()
         QgsProject.instance().addMapLayer(layer)
+
+        auto_open_dock = QgsSettings().value("pgmetadata/auto_open_dock", True, type=bool)
+        if auto_open_dock:
+            pgmetadata_dock = self.iface.mainWindow().findChildren(QDockWidget, "pgmetadata_dock")[0]
+            pgmetadata_dock.show()
+            pgmetadata_dock.raise_()
 
         self.iface.messageBar().pushSuccess(
             "PgMetadata",

@@ -5,18 +5,20 @@ __revision__ = "$Format:%H$"
 
 from qgis.core import (
     Qgis,
-    QgsExpressionContextUtils,
-    QgsProcessingParameterString,
     QgsProcessingParameterFileDestination,
+    QgsProcessingParameterString,
     QgsProviderRegistry,
 )
+
 if Qgis.QGIS_VERSION_INT >= 31400:
     from qgis.core import QgsProcessingParameterProviderConnection
 
+from pg_metadata.connection_manager import add_connection, connections_list
+from pg_metadata.qgis_plugin_tools.tools.algorithm_processing import (
+    BaseProcessingAlgorithm,
+)
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
-from pg_metadata.qgis_plugin_tools.tools.algorithm_processing import BaseProcessingAlgorithm
 from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
-
 
 SCHEMA = 'pgmetadata'
 
@@ -39,7 +41,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         return tr('Administration')
 
     def groupId(self):
-        return 'pg_metadata_administration'
+        return 'administration'
 
     def shortHelpString(self):
         short_help = tr(
@@ -53,9 +55,12 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         return short_help
 
     def initAlgorithm(self, config):
-        connection_name = QgsExpressionContextUtils.globalScope().variable(
-            "{}_connection_name".format(SCHEMA)
-        )
+        connections, _ = connections_list()
+        if connections:
+            connection_name = connections[0]
+        else:
+            connection_name = ''
+
         label = tr("Connection to the PostgreSQL database")
         tooltip = tr("The database where the schema '{}' is installed.").format(SCHEMA)
         if Qgis.QGIS_VERSION_INT >= 31400:
@@ -92,7 +97,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             tr('QGIS project file to create'),
             defaultValue='',
             optional=False,
-            fileFilter='qgs',
+            fileFilter='QGS project (*.qgs)',
         )
         tooltip = tr("The destination file where to create the QGIS project.").format(SCHEMA)
         if Qgis.QGIS_VERSION_INT >= 31600:
@@ -136,7 +141,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         with open(project_file, 'w') as fout:
             fout.write(file_data)
 
-        QgsExpressionContextUtils.setGlobalVariable("{}_connection_name".format(SCHEMA), connection_name)
+        add_connection(connection_name)
 
         msg = tr('QGIS Administration project has been successfully created from the database connection')
         msg += ': {}'.format(connection_name)

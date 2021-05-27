@@ -1,0 +1,92 @@
+site_name: PgMetadata
+site_author: 3Liz
+site_description: PgMetadata
+site_url: https://docs.3liz.org/qgis-pgmetadata-plugin/
+repo_url: https://github.com/3liz/qgis-pgmetadata-plugin/
+copyright: '<span class="copyleft">&copy;</span> 3Liz'
+
+docs_dir: docs
+site_dir: build
+
+nav:
+    - docs.3liz.org: '../'
+    - Home: index.md
+    - User guide:
+        - 'Index': 'user-guide/index.md'
+        - 'End user': 'user-guide/end-user.md'
+        - 'GIS admin': 'user-guide/gis-admin.md'
+        - 'Sys admin': 'user-guide/sys-admin.md'
+        - 'Tutorial': 'user-guide/tutorial.md'
+    - Lizmap: lizmap.md
+    - Processing: processing/README.md
+    - References: references.md
+    - Changelog: changelog.md
+    - Contributing: contributing.md
+    - Roadmap: roadmap.md
+    - Database: database/index.html
+
+plugins:
+  - search
+  - git-revision-date-localized
+
+markdown_extensions:
+  # - git-revision-date:
+  - toc:
+      permalink: "#"
+  - meta:
+  - pymdownx.highlight:
+      linenums: true
+      linenums_style: pymdownx.inline
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - pymdownx.tabbed:
+  - pymdownx.magiclink:
+  - pymdownx.tasklist:
+  - pymdownx.snippets:
+  - pymdownx.keys:
+  - attr_list:
+  - admonition:
+  - pymdownx.details:
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
+  - https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css
+
+theme:
+  name: material
+  font: false
+  icon:
+    repo: fontawesome/brands/github-alt
+  language: 'en'
+  logo: icon.png
+  favicon: icon.png
+  palette:
+    accent: deep-orange
+    primary: green
+    scheme: default
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/3LIZ_news
+
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/3liz
+
+    - icon: fontawesome/brands/github
+      link: https://github.com/3liz/
+
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/u/3liz
+
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/channel/UCYYW2CTWR_84kB6pt2zCWbQ

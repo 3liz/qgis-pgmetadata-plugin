@@ -7,6 +7,7 @@
       <sequence increment="1" name="glossary_id_seq" startValue="1"/>
       <sequence increment="1" name="html_template_id_seq" startValue="1"/>
       <sequence increment="1" name="link_id_seq" startValue="1"/>
+      <sequence increment="1" name="theme_id_seq" startValue="1"/>
    </sequences>
    <tables>
       <table name="contact" numRows="0" remarks="List of contacts related to the published datasets." schema="pgmetadata" type="TABLE">
@@ -33,7 +34,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="title" nullable="false" remarks="Title of the data" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="abstract" nullable="false" remarks="Full description of the data" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="categories" nullable="true" remarks="List of categories" size="2147483647" type="_text" typeCode="2003"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="keywords" nullable="true" remarks="List of keywords" size="2147483647" type="_text" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="keywords" nullable="true" remarks="List of keywords separated by comma. Ex: environment, paris, trees" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="spatial_level" nullable="true" remarks="Spatial level of the data. E.g. city, country, street" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="minimum_optimal_scale" nullable="true" remarks="Minimum optimal scale denominator to view the data. E.g. 100000 for 1/100000. Most &quot;zoomed out&quot;." size="10" type="int4" typeCode="4"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="maximum_optimal_scale" nullable="true" remarks="Maximum optimal scale denominator to view the data. E.g. 2000 for 1/2000. Most &quot;zoomed in&quot;." size="10" type="int4" typeCode="4"/>
@@ -49,6 +50,8 @@
          <column autoUpdated="false" defaultValue="now()" digits="6" id="20" name="creation_date" nullable="false" remarks="Date of creation of the dataset item" size="29" type="timestamp" typeCode="93"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="21" name="update_date" nullable="true" remarks="Date of update of the dataset item" size="29" type="timestamp" typeCode="93"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="22" name="geom" nullable="true" remarks="Geometry defining the extent of the data. Can be any polygon." size="2147483647" type="geometry" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="23" name="data_last_update" nullable="true" remarks="Date of the last modification of the target data (not on the dataset item line)" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="24" name="themes" nullable="true" remarks="List of themes" size="2147483647" type="_text" typeCode="2003"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="dataset_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -83,13 +86,29 @@
             <column ascending="true" name="contact_role"/>
          </index>
       </table>
-      <table name="glossary" numRows="120" remarks="List of labels and words used as labels for stored data" schema="pgmetadata" type="TABLE">
+      <table name="glossary" numRows="129" remarks="List of labels and words used as labels for stored data" schema="pgmetadata" type="TABLE">
          <column autoUpdated="true" defaultValue="nextval('pgmetadata.glossary_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="Internal automatic integer ID" size="10" type="serial" typeCode="4"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="field" nullable="false" remarks="Field name" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="code" nullable="false" remarks="Item code" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="label" nullable="false" remarks="Item label" size="2147483647" type="text" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description" nullable="true" remarks="Description" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="label_en" nullable="false" remarks="Item label" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description_en" nullable="true" remarks="Description" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="item_order" nullable="true" remarks="Display order" size="5" type="int2" typeCode="5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="label_fr" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="description_fr" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="label_it" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="description_it" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="label_es" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="description_es" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="label_de" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="description_de" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="glossary_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="glossary_field_code_key" unique="true">
+            <column ascending="true" name="field"/>
+            <column ascending="true" name="code"/>
+         </index>
          <index name="glossary_id_idx" unique="false">
             <column ascending="true" name="id"/>
          </index>
@@ -105,7 +124,7 @@
          <index name="html_template_section_key" unique="true">
             <column ascending="true" name="section"/>
          </index>
-         <checkConstraint constraint="((section = ANY (ARRAY['main'::text, 'contacts'::text, 'links'::text])))" name="html_template_section_check"/>
+         <checkConstraint constraint="((section = ANY (ARRAY['main'::text, 'contact'::text, 'link'::text])))" name="html_template_section_check"/>
       </table>
       <table name="link" numRows="0" remarks="List of links related to the published datasets." schema="pgmetadata" type="TABLE">
          <column autoUpdated="true" defaultValue="nextval('pgmetadata.link_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="Internal automatic integer ID" size="10" type="serial" typeCode="4"/>
@@ -133,31 +152,229 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="v_table_comment_from_metadata" numRows="0" remarks="View containing the desired formated comment for the tables listed in the pgmetadata.dataset table. This view is used by the trigger to update the table comment when the dataset item is added or modified" schema="pgmetadata" type="VIEW" viewSql=" SELECT d.schema_name AS table_schema,&#10;    d.table_name,&#10;    concat(d.title, ' - ', d.abstract, ' (', array_to_string(d.categories, ', '::text), ')') AS table_comment&#10;   FROM pgmetadata.dataset d;">
+      <table name="theme" numRows="0" remarks="List of themes related to the published datasets." schema="pgmetadata" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('pgmetadata.theme_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="Internal automatic integer ID" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="code" nullable="false" remarks="Code Of the theme" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="label" nullable="false" remarks="Label of the theme" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="description" nullable="true" remarks="Description of the theme" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="theme_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="theme_code_key" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+         <index name="theme_label_key" unique="true">
+            <column ascending="true" name="label"/>
+         </index>
+      </table>
+      <table name="v_contact" numRows="0" remarks="Formatted version of contact data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content. The localized version of labels and descriptions are taken considering the session setting 'pgmetadata.locale'. For example with: SET SESSION &quot;pgmetadata.locale&quot; = 'fr';" schema="pgmetadata" type="VIEW" viewSql=" WITH glossary AS (&#10;         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT d.table_name,&#10;    d.schema_name,&#10;    c.name,&#10;    c.organisation_name,&#10;    c.organisation_unit,&#10;    ((((glossary.dict -&gt; 'contact.contact_role'::text) -&gt; dc.contact_role) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS contact_role,&#10;    dc.contact_role AS contact_role_code,&#10;    c.email&#10;   FROM glossary,&#10;    ((pgmetadata.dataset_contact dc&#10;     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))&#10;     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))&#10;  WHERE true&#10;  ORDER BY dc.id;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="organisation_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="organisation_unit" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="contact_role" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="contact_role_code" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="email" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+      </table>
+      <table name="v_dataset" numRows="0" remarks="Formatted version of dataset data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content." schema="pgmetadata" type="VIEW" viewSql=" WITH glossary AS (&#10;         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        ), s AS (&#10;         SELECT d.id,&#10;            d.uid,&#10;            d.table_name,&#10;            d.schema_name,&#10;            d.title,&#10;            d.abstract,&#10;            d.categories,&#10;            d.themes,&#10;            d.keywords,&#10;            d.spatial_level,&#10;            d.minimum_optimal_scale,&#10;            d.maximum_optimal_scale,&#10;            d.publication_date,&#10;            d.publication_frequency,&#10;            d.license,&#10;            d.confidentiality,&#10;            d.feature_count,&#10;            d.geometry_type,&#10;            d.projection_name,&#10;            d.projection_authid,&#10;            d.spatial_extent,&#10;            d.creation_date,&#10;            d.update_date,&#10;            d.data_last_update,&#10;            d.geom,&#10;            cat.cat,&#10;            theme.theme&#10;           FROM ((pgmetadata.dataset d&#10;             LEFT JOIN LATERAL unnest(d.categories) cat(cat) ON (true))&#10;             LEFT JOIN LATERAL unnest(d.themes) theme(theme) ON (true))&#10;          WHERE true&#10;          ORDER BY d.id&#10;        ), ss AS (&#10;         SELECT s.id,&#10;            s.uid,&#10;            s.table_name,&#10;            s.schema_name,&#10;            s.title,&#10;            s.abstract,&#10;            ((((glossary.dict -&gt; 'dataset.categories'::text) -&gt; s.cat) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS cat,&#10;            gtheme.label AS theme,&#10;            s.keywords,&#10;            s.spatial_level,&#10;            ('1/'::text || s.minimum_optimal_scale) AS minimum_optimal_scale,&#10;            ('1/'::text || s.maximum_optimal_scale) AS maximum_optimal_scale,&#10;            s.publication_date,&#10;            ((((glossary.dict -&gt; 'dataset.publication_frequency'::text) -&gt; s.publication_frequency) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS publication_frequency,&#10;            ((((glossary.dict -&gt; 'dataset.license'::text) -&gt; s.license) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS license,&#10;            ((((glossary.dict -&gt; 'dataset.confidentiality'::text) -&gt; s.confidentiality) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS confidentiality,&#10;            s.feature_count,&#10;            s.geometry_type,&#10;            (regexp_split_to_array((rs.srtext)::text, '&quot;'::text))[2] AS projection_name,&#10;            s.projection_authid,&#10;            s.spatial_extent,&#10;            s.creation_date,&#10;            s.update_date,&#10;            s.data_last_update&#10;           FROM glossary,&#10;            ((s&#10;             LEFT JOIN pgmetadata.theme gtheme ON ((gtheme.code = s.theme)))&#10;             LEFT JOIN spatial_ref_sys rs ON ((concat(rs.auth_name, ':', rs.auth_srid) = s.projection_authid)))&#10;        )&#10; SELECT ss.id,&#10;    ss.uid,&#10;    ss.table_name,&#10;    ss.schema_name,&#10;    ss.title,&#10;    ss.abstract,&#10;    string_agg(DISTINCT ss.cat, ', '::text ORDER BY ss.cat) AS categories,&#10;    string_agg(DISTINCT ss.theme, ', '::text ORDER BY ss.theme) AS themes,&#10;    ss.keywords,&#10;    ss.spatial_level,&#10;    ss.minimum_optimal_scale,&#10;    ss.maximum_optimal_scale,&#10;    ss.publication_date,&#10;    ss.publication_frequency,&#10;    ss.license,&#10;    ss.confidentiality,&#10;    ss.feature_count,&#10;    ss.geometry_type,&#10;    ss.projection_name,&#10;    ss.projection_authid,&#10;    ss.spatial_extent,&#10;    ss.creation_date,&#10;    ss.update_date,&#10;    ss.data_last_update&#10;   FROM ss&#10;  GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date, ss.data_last_update;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="uid" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="title" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="abstract" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="categories" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="themes" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="keywords" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="spatial_level" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="minimum_optimal_scale" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="maximum_optimal_scale" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="12" name="publication_date" nullable="true" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="publication_frequency" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="license" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="confidentiality" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="16" name="feature_count" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="17" name="geometry_type" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="18" name="projection_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="projection_authid" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="spatial_extent" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="21" name="creation_date" nullable="true" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="22" name="update_date" nullable="true" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="23" name="data_last_update" nullable="true" remarks="" size="29" type="timestamp" typeCode="93"/>
+      </table>
+      <table name="v_dataset_as_dcat" numRows="0" remarks="DCAT - View which formats the datasets AS DCAT XML record objects" schema="pgmetadata" type="VIEW" viewSql=" WITH glossary AS (&#10;         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT d.schema_name,&#10;    d.table_name,&#10;    d.uid,&#10;    XMLELEMENT(NAME &quot;dcat:dataset&quot;, XMLELEMENT(NAME &quot;dcat:Dataset&quot;, XMLFOREST(d.uid AS &quot;dct:identifier&quot;, d.title AS &quot;dct:title&quot;, d.abstract AS &quot;dct:description&quot;, COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS &quot;dct:language&quot;, ((((glossary.dict -&gt; 'dataset.license'::text) -&gt; d.license) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS &quot;dct:license&quot;, ((((glossary.dict -&gt; 'dataset.confidentiality'::text) -&gt; d.confidentiality) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS &quot;dct:rights&quot;, ((((glossary.dict -&gt; 'dataset.publication_frequency'::text) -&gt; d.publication_frequency) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS &quot;dct:accrualPeriodicity&quot;, st_asgeojson(d.geom) AS &quot;dct:spatial&quot;), XMLELEMENT(NAME &quot;dct:created&quot;, XMLATTRIBUTES('http://www.w3.org/2001/XMLSchema#dateTime' AS &quot;rdf:datatype&quot;), d.creation_date), XMLELEMENT(NAME &quot;dct:issued&quot;, XMLATTRIBUTES('http://www.w3.org/2001/XMLSchema#dateTime' AS &quot;rdf:datatype&quot;), d.publication_date), XMLELEMENT(NAME &quot;dct:modified&quot;, XMLATTRIBUTES('http://www.w3.org/2001/XMLSchema#dateTime' AS &quot;rdf:datatype&quot;), d.update_date), ( SELECT xmlagg(XMLCONCAT(XMLELEMENT(NAME &quot;dcat:contactPoint&quot;, XMLELEMENT(NAME &quot;vcard:Organization&quot;, XMLELEMENT(NAME &quot;vcard:fn&quot;, btrim(concat(c.name, ' - ', c.organisation_name, ((' ('::text || c.organisation_unit) || ')'::text)))), XMLELEMENT(NAME &quot;vcard:hasEmail&quot;, XMLATTRIBUTES(c.email AS &quot;rdf:resource&quot;), c.email))), XMLELEMENT(NAME &quot;dct:creator&quot;, XMLELEMENT(NAME &quot;foaf:Organization&quot;, XMLELEMENT(NAME &quot;foaf:name&quot;, btrim(concat(c.name, ' - ', c.organisation_name, ((' ('::text || c.organisation_unit) || ')'::text)))), XMLELEMENT(NAME &quot;foaf:mbox&quot;, c.email))))) AS xmlagg&#10;           FROM (pgmetadata.contact c&#10;             JOIN pgmetadata.dataset_contact dc ON (((dc.contact_role = 'OW'::text) AND (dc.fk_id_dataset = d.id) AND (dc.fk_id_contact = c.id))))), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dct:publisher&quot;, XMLELEMENT(NAME &quot;foaf:Organization&quot;, XMLELEMENT(NAME &quot;foaf:name&quot;, btrim(concat(c.name, ' - ', c.organisation_name, ((' ('::text || c.organisation_unit) || ')'::text)))), XMLELEMENT(NAME &quot;foaf:mbox&quot;, c.email)))) AS xmlagg&#10;           FROM (pgmetadata.contact c&#10;             JOIN pgmetadata.dataset_contact dc ON (((dc.contact_role = 'DI'::text) AND (dc.fk_id_dataset = d.id) AND (dc.fk_id_contact = c.id))))), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dcat:distribution&quot;, XMLELEMENT(NAME &quot;dcat:Distribution&quot;, XMLFOREST(l.name AS &quot;dct:title&quot;, l.description AS &quot;dct:description&quot;, l.url AS &quot;dcat:downloadURL&quot;, ((((glossary.dict -&gt; 'link.mime'::text) -&gt; l.mime) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS &quot;dcat:mediaType&quot;, COALESCE(l.format, ((((glossary.dict -&gt; 'link.type'::text) -&gt; l.type) -&gt; 'label'::text) -&gt;&gt; glossary.locale)) AS &quot;dct:format&quot;, l.size AS &quot;dct:bytesize&quot;)))) AS xmlagg&#10;           FROM pgmetadata.link l&#10;          WHERE (l.fk_id_dataset = d.id)), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dcat:keyword&quot;, btrim(kw.kw))) AS xmlagg&#10;           FROM unnest(regexp_split_to_array(d.keywords, ','::text)) kw(kw)), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dcat:theme&quot;, th.label)) AS xmlagg&#10;           FROM pgmetadata.theme th,&#10;            unnest(d.themes) cat(cat)&#10;          WHERE (th.code = cat.cat)), ( SELECT xmlagg(XMLELEMENT(NAME &quot;dcat:theme&quot;, ((((glossary.dict -&gt; 'dataset.categories'::text) -&gt; cat.cat) -&gt; 'label'::text) -&gt;&gt; glossary.locale))) AS xmlagg&#10;           FROM unnest(d.categories) cat(cat)))) AS dataset&#10;   FROM glossary,&#10;    pgmetadata.dataset d;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="uid" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="dataset" nullable="true" remarks="" size="2147483647" type="xml" typeCode="2009"/>
+      </table>
+      <table name="v_glossary" numRows="0" remarks="View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION &quot;pgmetadata.locale&quot; = 'fr'; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict-&gt;'contact.contact_role'-&gt;'OW'-&gt;'label'-&gt;'fr')::text AS label FROM glossary;" schema="pgmetadata" type="VIEW" viewSql=" WITH one AS (&#10;         SELECT glossary.field,&#10;            glossary.code,&#10;            json_build_object('label', json_build_object('en', glossary.label_en, 'fr', COALESCE(NULLIF(glossary.label_fr, ''::text), glossary.label_en, ''::text), 'it', COALESCE(NULLIF(glossary.label_it, ''::text), glossary.label_en, ''::text), 'es', COALESCE(NULLIF(glossary.label_es, ''::text), glossary.label_en, ''::text), 'de', COALESCE(NULLIF(glossary.label_de, ''::text), glossary.label_en, ''::text)), 'description', json_build_object('en', glossary.description_en, 'fr', COALESCE(NULLIF(glossary.description_fr, ''::text), glossary.description_en, ''::text), 'it', COALESCE(NULLIF(glossary.description_it, ''::text), glossary.description_en, ''::text), 'es', COALESCE(NULLIF(glossary.description_es, ''::text), glossary.description_en, ''::text), 'de', COALESCE(NULLIF(glossary.description_de, ''::text), glossary.description_en, ''::text))) AS dict&#10;           FROM pgmetadata.glossary&#10;        ), two AS (&#10;         SELECT one.field,&#10;            json_object_agg(one.code, one.dict) AS dict&#10;           FROM one&#10;          GROUP BY one.field&#10;        )&#10; SELECT json_object_agg(two.field, two.dict) AS dict&#10;   FROM two;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="dict" nullable="true" remarks="" size="2147483647" type="json" typeCode="1111"/>
+      </table>
+      <table name="v_link" numRows="0" remarks="Formatted version of link data, with all the codes replaced by corresponding labels taken from pgmetadata.glossary. Used in the function in charge of building the HTML metadata content." schema="pgmetadata" type="VIEW" viewSql=" WITH glossary AS (&#10;         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,&#10;            v_glossary.dict&#10;           FROM pgmetadata.v_glossary&#10;        )&#10; SELECT l.id,&#10;    d.table_name,&#10;    d.schema_name,&#10;    l.name,&#10;    l.type,&#10;    ((((glossary.dict -&gt; 'link.type'::text) -&gt; l.type) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS type_label,&#10;    l.url,&#10;    l.description,&#10;    l.format,&#10;    l.mime,&#10;    ((((glossary.dict -&gt; 'link.mime'::text) -&gt; l.mime) -&gt; 'label'::text) -&gt;&gt; glossary.locale) AS mime_label,&#10;    l.size&#10;   FROM glossary,&#10;    (pgmetadata.link l&#10;     JOIN pgmetadata.dataset d ON ((d.id = l.fk_id_dataset)))&#10;  WHERE true&#10;  ORDER BY l.id;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="type" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="type_label" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="url" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="description" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="format" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="mime" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="mime_label" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="size" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+      </table>
+      <table name="v_locales" numRows="0" remarks="Lists the locales available in the glossary, by listing the columns label_xx of the table pgmetadata.glossary" schema="pgmetadata" type="VIEW" viewSql=" SELECT 'en'::text AS locale&#10;UNION&#10; SELECT replace((columns.column_name)::text, 'label_'::text, ''::text) AS locale&#10;   FROM information_schema.columns&#10;  WHERE (((columns.table_schema)::text = 'pgmetadata'::text) AND ((columns.table_name)::text = 'glossary'::text) AND ((columns.column_name)::text ~~ 'label_%'::text))&#10;  ORDER BY 1;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="locale" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+      </table>
+      <table name="v_orphan_dataset_items" numRows="0" remarks="View containing the tables referenced in dataset but not existing in the database itself." schema="pgmetadata" type="VIEW" viewSql=" SELECT row_number() OVER () AS id,&#10;    d.schema_name,&#10;    d.table_name&#10;   FROM (pgmetadata.dataset d&#10;     LEFT JOIN pg_tables t ON (((d.schema_name = (t.schemaname)::text) AND (d.table_name = (t.tablename)::text))))&#10;  WHERE (t.tablename IS NULL)&#10;  ORDER BY d.schema_name, d.table_name;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="true" remarks="" size="19" type="int8" typeCode="-5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+      </table>
+      <table name="v_orphan_tables" numRows="0" remarks="View containing the existing tables but not referenced in dataset" schema="pgmetadata" type="VIEW" viewSql=" SELECT row_number() OVER () AS id,&#10;    (pg_tables.schemaname)::text AS schemaname,&#10;    (pg_tables.tablename)::text AS tablename&#10;   FROM pg_tables&#10;  WHERE ((NOT (concat(pg_tables.schemaname, '.', pg_tables.tablename) IN ( SELECT concat(dataset.schema_name, '.', dataset.table_name) AS concat&#10;           FROM pgmetadata.dataset))) AND (pg_tables.schemaname &lt;&gt; ALL (ARRAY['pg_catalog'::name, 'information_schema'::name])))&#10;  ORDER BY ((pg_tables.schemaname)::text), ((pg_tables.tablename)::text);">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="true" remarks="" size="19" type="int8" typeCode="-5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="schemaname" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="tablename" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+      </table>
+      <table name="v_schema_list" numRows="0" remarks="View containing list of all schema in this database" schema="pgmetadata" type="VIEW" viewSql=" SELECT row_number() OVER () AS id,&#10;    (schemata.schema_name)::text AS schema_name&#10;   FROM information_schema.schemata&#10;  WHERE ((schemata.schema_name)::text &lt;&gt; ALL (ARRAY[('pg_toast'::character varying)::text, ('pg_temp_1'::character varying)::text, ('pg_toast_temp_1'::character varying)::text, ('pg_catalog'::character varying)::text, ('information_schema'::character varying)::text]))&#10;  ORDER BY (schemata.schema_name)::text;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="true" remarks="" size="19" type="int8" typeCode="-5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+      </table>
+      <table name="v_table_comment_from_metadata" numRows="0" remarks="View containing the desired formatted comment for the tables listed in the pgmetadata.dataset table. This view is used by the trigger to update the table comment when the dataset item is added or modified" schema="pgmetadata" type="VIEW" viewSql=" SELECT d.schema_name AS table_schema,&#10;    d.table_name,&#10;    concat(d.title, ' - ', d.abstract, ' (', array_to_string(d.categories, ', '::text), ')') AS table_comment&#10;   FROM pgmetadata.dataset d;">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="table_schema" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="table_comment" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
       </table>
+      <table name="v_table_list" numRows="0" remarks="View containing list of all tables in this database with schema name" schema="pgmetadata" type="VIEW" viewSql=" SELECT row_number() OVER () AS id,&#10;    (tables.table_schema)::text AS schema_name,&#10;    (tables.table_name)::text AS table_name&#10;   FROM information_schema.tables&#10;  WHERE ((tables.table_schema)::text &lt;&gt; ALL (ARRAY[('pg_toast'::character varying)::text, ('pg_temp_1'::character varying)::text, ('pg_toast_temp_1'::character varying)::text, ('pg_catalog'::character varying)::text, ('information_schema'::character varying)::text]))&#10;  ORDER BY tables.table_schema, (tables.table_name)::text;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="true" remarks="" size="19" type="int8" typeCode="-5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+      </table>
+      <table name="v_valid_dataset" numRows="0" remarks="Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables." schema="pgmetadata" type="VIEW" viewSql=" SELECT d.schema_name,&#10;    d.table_name&#10;   FROM (pgmetadata.dataset d&#10;     LEFT JOIN pg_tables t ON (((d.schema_name = (t.schemaname)::text) AND (d.table_name = (t.tablename)::text))))&#10;  WHERE (t.tablename IS NOT NULL)&#10;  ORDER BY d.schema_name, d.table_name;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="schema_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="table_name" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+      </table>
    </tables>
    <routines>
-      <routine dataAccess="MODIFIES" deterministic="false" name="get_dataset_item_html_content" returnType="text" securityType="INVOKER" type="FUNCTION">
-         <comment><![CDATA[Generate the HTML content for the given table, based on the template stored in the pgmetadata.html_template table.]]></comment>
+      <routine dataAccess="MODIFIES" deterministic="false" name="calculate_fields_from_data" returnType="trigger" securityType="INVOKER" type="FUNCTION">
+         <comment><![CDATA[Update some fields content when updating or inserting a line in pgmetadata.dataset table.]]></comment>
+         <definition language="PLPGSQL"><![CDATA[
+DECLARE
+    test_target_table regclass;
+    target_table text;
+    test_geom_column record;
+    geom_envelop geometry;
+geom_column_name text;
+BEGIN
+
+    -- table
+    target_table = quote_ident(NEW.schema_name) || '.' || quote_ident(NEW.table_name);
+    IF target_table IS NULL THEN
+        RETURN NEW;
+    END IF;
+
+    -- Check if table exists
+    EXECUTE 'SELECT to_regclass(' || quote_literal(target_table) ||')'
+    INTO test_target_table
+    ;
+    IF test_target_table IS NULL THEN
+        RAISE NOTICE 'pgmetadata - table does not exists: %', target_table;
+        RETURN NEW;
+    END IF;
+
+-- Get table feature count
+    EXECUTE 'SELECT COUNT(*) FROM ' || target_table
+    INTO NEW.feature_count;
+    -- RAISE NOTICE 'pgmetadata - % feature_count: %', target_table, NEW.feature_count;
+
+-- Check geometry properties: get data from geometry_columns
+    EXECUTE
+    ' SELECT *' ||
+    ' FROM geometry_columns' ||
+    ' WHERE f_table_schema=' || quote_literal(NEW.schema_name) ||
+    ' AND f_table_name=' || quote_literal(NEW.table_name) ||
+    ' LIMIT 1'
+    INTO test_geom_column;
+
+-- If the table has a geometry column, calculate field values
+    IF test_geom_column IS NOT NULL THEN
+
+        -- column name
+        geom_column_name = test_geom_column.f_geometry_column;
+        RAISE NOTICE 'pgmetadata - table % has a geometry column: %', target_table, geom_column_name;
+
+        -- spatial_extent
+        EXECUTE '
+            SELECT CONCAT(
+                min(ST_xmin("' || geom_column_name || '"))::text, '', '',
+                max(ST_xmax("' || geom_column_name || '"))::text, '', '',
+                min(ST_ymin("' || geom_column_name || '"))::text, '', '',
+                max(ST_ymax("' || geom_column_name || '"))::text)
+            FROM ' || target_table
+        INTO NEW.spatial_extent;
+
+        -- geom: convexhull from target table
+        EXECUTE '
+            SELECT ST_Transform(ST_ConvexHull(st_collect(ST_Force2d("' || geom_column_name || '"))), 4326)
+            FROM ' || target_table
+        INTO geom_envelop;
+
+        -- Test if it's not a point or a line
+        IF GeometryType(geom_envelop) != 'POLYGON' THEN
+            EXECUTE '
+                SELECT ST_SetSRID(ST_Buffer(ST_GeomFromText(''' || ST_ASTEXT(geom_envelop) || '''), 0.0001), 4326)'
+            INTO NEW.geom;
+        ELSE
+            NEW.GEOM = geom_envelop;
+        END IF;
+
+        -- projection_authid
+        EXECUTE '
+            SELECT CONCAT(s.auth_name, '':'', ST_SRID(m."' || geom_column_name || '")::text)
+            FROM ' || target_table || ' m, spatial_ref_sys s
+            WHERE s.auth_srid = ST_SRID(m."' || geom_column_name || '")
+            LIMIT 1'
+        INTO NEW.projection_authid;
+
+        -- projection_name
+        -- TODO
+
+        -- geometry_type
+        NEW.geometry_type = test_geom_column.type;
+
+    ELSE
+    -- No geometry column found: we need to erase values
+            NEW.geom = NULL;
+            NEW.projection_authid = NULL;
+            NEW.geometry_type = NULL;
+            NEW.spatial_extent = NULL;
+    END IF;
+
+    RETURN NEW;
+END;
+]]></definition>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="generate_html_from_json" returnType="text" securityType="INVOKER" type="FUNCTION">
+         <comment><![CDATA[Generate HTML content for the given JSON representation of a record and a given section, based on the template stored in the pgmetadata.html_template table. Template section controlled values are "main", "contact" and "link". If the corresponding line is not found in the pgmetadata.html_template table, NULL is returned.]]></comment>
          <definition language="PLPGSQL"><![CDATA[
 DECLARE
     item record;
     html text;
 BEGIN
 
-    -- Get main HTML template
+    -- Get HTML template from html_template table
     SELECT content
     FROM pgmetadata.html_template AS h
     WHERE True
     AND section = _template_section
     INTO html
     ;
-
     IF html IS NULL THEN
-        RETURN 'No HTML template found';
+        RETURN NULL;
     END IF;
 
     -- Get dataset item
@@ -171,11 +388,7 @@ BEGIN
     FOR item IN
         SELECT (line.d).key AS col, Coalesce((line.d).value, '') AS val
         FROM (
-            SELECT json_each_text(row_to_json(d.*)) d
-            FROM pgmetadata.dataset AS d
-            WHERE True
-            AND d.schema_name = _table_schema
-            AND d.table_name = _table_name
+            SELECT json_each_text(_json_data) d
         ) AS line
     LOOP
         -- replace QGIS style field [% "my_field" %] by field value
@@ -193,6 +406,64 @@ BEGIN
 
 END;
 ]]></definition>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="get_dataset_item_html_content" returnType="text" securityType="INVOKER" type="FUNCTION">
+         <comment><![CDATA[Generate the metadata HTML content for the given table and given language or NULL if no templates are stored in the pgmetadata.html_template table.]]></comment>
+         <definition language="PLPGSQL"><![CDATA[
+DECLARE
+    html text;
+BEGIN
+    -- Call the new function with locale set to en
+    SELECT pgmetadata.get_dataset_item_html_content(_table_schema, _table_name, 'en')
+    INTO html;
+
+    RETURN html;
+
+END;
+]]></definition>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="get_datasets_as_dcat_xml" returnType="SETOF record" securityType="INVOKER" type="FUNCTION">
+         <comment><![CDATA[Get the datasets records as XML DCAT datasets for the given locale.]]></comment>
+         <definition language="PLPGSQL"><![CDATA[
+DECLARE
+    locale_exists boolean;
+    item record;
+    dataset_rec record;
+    sql_text text;
+    json_data json;
+    html text;
+    html_contact text;
+    html_link text;
+    html_main text;
+BEGIN
+
+    -- Check if the _locale parameter corresponds to the available locales
+    _locale = lower(_locale);
+    SELECT _locale IN (SELECT locale FROM pgmetadata.v_locales)
+    INTO locale_exists
+    ;
+    IF NOT locale_exists THEN
+        _locale = 'en';
+    END IF;
+
+    -- Set locale
+    -- We must use EXECUTE in order to have _locale to be correctly interpreted
+    sql_text = concat('SET SESSION "pgmetadata.locale" = ', quote_literal(_locale));
+    EXECUTE sql_text;
+
+    -- Return content
+    RETURN QUERY
+    SELECT
+    *
+    FROM pgmetadata.v_dataset_as_dcat
+    ;
+
+END;
+]]></definition>
+      </routine>
+      <routine dataAccess="MODIFIES" deterministic="false" name="refresh_dataset_calculated_fields" returnType="void" securityType="INVOKER" type="FUNCTION">
+         <comment><![CDATA[Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data]]></comment>
+         <definition language="PLPGSQL"><![CDATA[ BEGIN 	UPDATE pgmetadata.dataset SET geom = NULL; END; ]]></definition>
       </routine>
       <routine dataAccess="MODIFIES" deterministic="false" name="update_postgresql_table_comment" returnType="boolean" securityType="INVOKER" type="FUNCTION">
          <comment><![CDATA[Update the PostgreSQL comment of a table by giving table schema, name and comment

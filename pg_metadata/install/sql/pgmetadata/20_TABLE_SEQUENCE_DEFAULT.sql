@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.14 (Debian 10.14-1.pgdg100+1)
--- Dumped by pg_dump version 10.14 (Debian 10.14-1.pgdg100+1)
+-- Dumped from database version 10.15 (Debian 10.15-1.pgdg100+1)
+-- Dumped by pg_dump version 10.15 (Debian 10.15-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -56,7 +56,7 @@ CREATE TABLE pgmetadata.dataset (
     title text NOT NULL,
     abstract text NOT NULL,
     categories text[],
-    keywords text[],
+    keywords text,
     spatial_level text,
     minimum_optimal_scale integer,
     maximum_optimal_scale integer,
@@ -71,7 +71,9 @@ CREATE TABLE pgmetadata.dataset (
     spatial_extent text,
     creation_date timestamp without time zone DEFAULT now() NOT NULL,
     update_date timestamp without time zone DEFAULT now(),
-    geom public.geometry(Polygon,4326)
+    geom public.geometry(Polygon,4326),
+    data_last_update timestamp without time zone,
+    themes text[]
 );
 
 
@@ -123,9 +125,17 @@ CREATE TABLE pgmetadata.glossary (
     id integer NOT NULL,
     field text NOT NULL,
     code text NOT NULL,
-    label text NOT NULL,
-    description text,
-    item_order smallint
+    label_en text NOT NULL,
+    description_en text,
+    item_order smallint,
+    label_fr text,
+    description_fr text,
+    label_it text,
+    description_it text,
+    label_es text,
+    description_es text,
+    label_de text,
+    description_de text
 );
 
 
@@ -151,7 +161,7 @@ CREATE TABLE pgmetadata.html_template (
     id integer NOT NULL,
     section text NOT NULL,
     content text,
-    CONSTRAINT html_template_section_check CHECK ((section = ANY (ARRAY['main'::text, 'contacts'::text, 'links'::text])))
+    CONSTRAINT html_template_section_check CHECK ((section = ANY (ARRAY['main'::text, 'contact'::text, 'link'::text])))
 );
 
 
@@ -161,7 +171,7 @@ COMMENT ON TABLE pgmetadata.html_template IS 'This table contains the HTML templ
 
 -- html_template_id_seq
 CREATE SEQUENCE pgmetadata.html_template_id_seq
-    AS integer
+
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -217,6 +227,32 @@ CREATE TABLE pgmetadata.qgis_plugin (
 COMMENT ON TABLE pgmetadata.qgis_plugin IS 'Version and date of the database structure. Useful for database structure and glossary data migrations between the plugin versions by the QGIS plugin pg_metadata';
 
 
+-- theme
+CREATE TABLE pgmetadata.theme (
+    id integer NOT NULL,
+    code text NOT NULL,
+    label text NOT NULL,
+    description text
+);
+
+
+-- theme
+COMMENT ON TABLE pgmetadata.theme IS 'List of themes related to the published datasets.';
+
+
+-- theme_id_seq
+CREATE SEQUENCE pgmetadata.theme_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+-- theme_id_seq
+ALTER SEQUENCE pgmetadata.theme_id_seq OWNED BY pgmetadata.theme.id;
+
+
 -- contact id
 ALTER TABLE ONLY pgmetadata.contact ALTER COLUMN id SET DEFAULT nextval('pgmetadata.contact_id_seq'::regclass);
 
@@ -239,6 +275,10 @@ ALTER TABLE ONLY pgmetadata.html_template ALTER COLUMN id SET DEFAULT nextval('p
 
 -- link id
 ALTER TABLE ONLY pgmetadata.link ALTER COLUMN id SET DEFAULT nextval('pgmetadata.link_id_seq'::regclass);
+
+
+-- theme id
+ALTER TABLE ONLY pgmetadata.theme ALTER COLUMN id SET DEFAULT nextval('pgmetadata.theme_id_seq'::regclass);
 
 
 --

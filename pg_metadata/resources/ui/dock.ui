@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>pgmetadata_dock</class>
+ <widget class="QDockWidget" name="pgmetadata_dock">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>329</width>
+    <height>531</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PgMetadata</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QToolButton" name="save_button">
+        <property name="text">
+         <string notr="true">...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="config">
+        <property name="text">
+         <string notr="true">...</string>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="flatten_dataset_table">
+        <property name="text">
+         <string notr="true">...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="external_help">
+        <property name="text">
+         <string notr="true">help</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QWebView" name="viewer">
+      <property name="url">
+       <url>
+        <string>about:blank</string>
+       </url>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebKitWidgets/QWebView</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

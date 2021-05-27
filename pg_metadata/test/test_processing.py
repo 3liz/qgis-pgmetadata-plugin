@@ -7,7 +7,7 @@ import tempfile
 import processing
 
 from pg_metadata.qgis_plugin_tools.tools.resources import resources_path
-from pg_metadata.test.base_test_processing import BaseTestProcessing
+from pg_metadata.test.base import BaseTestProcessing
 
 
 class TestProcessing(BaseTestProcessing):
@@ -18,6 +18,8 @@ class TestProcessing(BaseTestProcessing):
         template_file = resources_path('projects', 'pg_metadata_administration.qgs')
         with open(template_file, 'r') as fin:
             file_data = fin.read()
+
+        self.assertGreater(file_data.count("estimatedmetadata=true"), 20)
 
         self.assertIn("service='pgmetadata'", file_data)
         self.assertNotIn("host=db", file_data)
