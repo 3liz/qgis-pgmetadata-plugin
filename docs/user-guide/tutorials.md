@@ -50,11 +50,11 @@ In this video, we are explaining how to re-use the metadata in QGIS Desktop :
 
 <iframe width="800" height="450" src="https://www.youtube.com/embed/pXzFt--L2hc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## For Web users with Lizmap
+## Publish metadata on the web
 
-In this video, we are explaining how to re-use the metadata on the web :
+In this video, we are explaining how to re-use the metadata outside of QGIS Desktop :
 
 * With [PgMetadata module](https://github.com/3liz/lizmap-pgmetadata-module) for [Lizmap](https://github.com/3liz/lizmap-web-client/)
-* Write your own wrapper to extract DCAT information
+* Write your [own wrapper](./advanced.md) to extract DCAT information
 
 <iframe width="800" height="450" src="https://www.youtube.com/embed/hVVU9xNqjaU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
