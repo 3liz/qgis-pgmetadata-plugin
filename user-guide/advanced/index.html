@@ -13,14 +13,14 @@
         <meta name="author" content="3Liz">
       
       
-        <link rel="canonical" href="https://docs.3liz.org/qgis-pgmetadata-plugin/user-guide/tutorial/">
+        <link rel="canonical" href="https://docs.3liz.org/qgis-pgmetadata-plugin/user-guide/advanced/">
       
       <link rel="icon" href="../../icon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
     
     
       
-        <title>Tutorial - PgMetadata</title>
+        <title>Advanced - PgMetadata</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tutorials" class="md-skip">
+        <a href="#advanced" class="md-skip">
           Skip to content
         </a>
       
@@ -95,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tutorial
+              Advanced
             
           </span>
         </div>
@@ -447,68 +447,22 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Tutorial
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
-        Tutorial
+        Advanced
       </a>
       
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+    </li>
+  
+
+          
+            
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
-    Introduction
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#edition" class="md-nav__link">
-    Edition
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#end-users-search" class="md-nav__link">
-    End users, search
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#for-web-users-with-lizmap" class="md-nav__link">
-    For Web users with Lizmap
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
+    <li class="md-nav__item">
+      <a href="../tutorials/" class="md-nav__link">
+        Video tutorials
+      </a>
     </li>
   
 
@@ -643,49 +597,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
-    Introduction
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#edition" class="md-nav__link">
-    Edition
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#end-users-search" class="md-nav__link">
-    End users, search
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#for-web-users-with-lizmap" class="md-nav__link">
-    For Web users with Lizmap
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -696,55 +607,34 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/3liz/qgis-pgmetadata-plugin/edit/master/docs/user-guide/tutorial.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/3liz/qgis-pgmetadata-plugin/edit/master/docs/user-guide/advanced.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="tutorials">Tutorials<a class="headerlink" href="#tutorials" title="Permanent link">#</a></h1>
-<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">#</a></h2>
-<p>In these videos, we will cover how to set up and use PgMetadata, for both the 
-GIS Administrator (installation of the database schema, create metadata…) and the final 
-user GIS technician (searching for a specific layer, exporting as HTML…).</p>
-<p>We will use the <a href="../../media/example.gpkg">geopackage file provided</a>. In QGIS, 
-<code>Project</code> ➡ <code>Open From…</code> ➡ <code>Geopackage</code>, there is a single project called <code>project</code>.
-This dataset is a subset of the Corsica island in France from <a href="https://www.openstreetmap.org">OpenStreetMap</a>.</p>
-<details class="info" open="open"><summary>Info</summary><p>OpenStreetMap® is open data, licensed under the Open Data Commons Open Database License (ODbL)
-by the OpenStreetMap Foundation (OSMF). We must use the credit "© OpenStreetMap contributors".
-<a href="https://www.openstreetmap.org/copyright/en">https://www.openstreetmap.org/copyright/en</a></p>
-</details>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h2>
-<p>In this video, we are explaining :</p>
-<ul>
-<li>the online documentation</li>
-<li>the database schema</li>
-<li>how to install and or upgrade the schema</li>
-<li>how to generate the QGIS project for metadata editing</li>
-</ul>
-<iframe width="800" height="450" src="https://www.youtube.com/embed/IaIIGHuogwM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-<h2 id="edition">Edition<a class="headerlink" href="#edition" title="Permanent link">#</a></h2>
-<p>In this video, we are explaining how to edit metadata with the administration project :</p>
-<ul>
-<li>Contacts</li>
-<li>Links</li>
-<li>Metadata</li>
-<li>HTML templates</li>
-<li>Themes</li>
-<li>PostgreSQL views for orphan tables or orphan metadata sheets</li>
-</ul>
-<iframe width="800" height="450" src="https://www.youtube.com/embed/IvoSMAlfCWA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-<h2 id="end-users-search">End users, search<a class="headerlink" href="#end-users-search" title="Permanent link">#</a></h2>
-<ul>
-<li>Dock, locator</li>
-<li>Export PDF/HTML</li>
-</ul>
-<h2 id="for-web-users-with-lizmap">For Web users with Lizmap<a class="headerlink" href="#for-web-users-with-lizmap" title="Permanent link">#</a></h2>
-<ul>
-<li>Lizmap module</li>
-<li>DCAT Catalog</li>
-</ul>
+                <h1 id="advanced">Advanced<a class="headerlink" href="#advanced" title="Permanent link">#</a></h1>
+<p>As described in <a href="../end-user/">the end user guide</a>, it's possible to export a single dataset
+or the full catalog as XML DCAT or as HTML. All this logic is generated in the database itself.</p>
+<p>The QGIS PgMetadata dock or <a href="../../lizmap/">Lizmap Web Client</a> are taking advantage of this to publish the DCAT
+catalog on the web, by calling the SQL query to generate the XML DCAT catalog on the database.</p>
+<p>If you are not using Lizmap to publish your QGIS projects on the web, you can easily write your own wrapper
+(using <a href="https://flask.palletsprojects.com">Flask</a> or any other WEB framework) to call these SQL queries.</p>
+<p>To generate the HTML for a given dataset :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">pgmetadata</span><span class="p">.</span><span class="n">get_dataset_item_html_content</span><span class="p">(</span><span class="s1">&#39;{schema}&#39;</span><span class="p">,</span> <span class="s1">&#39;{table}&#39;</span><span class="p">,</span> <span class="s1">&#39;{locale}&#39;</span><span class="p">);</span>
+</code></pre></div>
+</td></tr></table>
+<p>To generate the DCAT XML for a one or many datasets :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
+    <span class="n">dataset</span>
+<span class="k">FROM</span>
+    <span class="n">pgmetadata</span><span class="p">.</span><span class="n">get_datasets_as_dcat_xml</span><span class="p">(</span><span class="s1">&#39;{locale}&#39;</span><span class="p">,</span><span class="s1">&#39;[{uuid}]&#39;</span><span class="p">);</span>
+</code></pre></div>
+</td></tr></table>
+<p>If you are building your own wrapper around PgMetadata to reuse DCAT catalog, feel free to contact us or to
+submit a PR with a reference to your source code ♥</p>
                 
                   
                     
@@ -753,7 +643,7 @@ by the OpenStreetMap Foundation (OSMF). We must use the credit "© OpenStreetMap
 <div class="md-source-date">
   <small>
     
-      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 26, 2021</span>
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 27, 2021</span>
       
     
   </small>
@@ -796,13 +686,13 @@ by the OpenStreetMap Foundation (OSMF). We must use the credit "© OpenStreetMap
         </a>
       
       
-        <a href="../../lizmap/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../tutorials/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Lizmap
+              Video tutorials
             </div>
           </div>
           <div class="md-footer__button md-icon">
