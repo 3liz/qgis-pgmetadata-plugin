@@ -2,8 +2,10 @@
 
 ## Unreleased
 
-* Release on plugins.qgis.org
-* Update documentation
+* Add links to the file browser after exporting to PDF, HTML or XML
+* Fix an issue when loading a layer from the locator bar, the style wasn't loaded before
+* Update documentation https://docs.3liz.org/qgis-pgmetadata-plugin/
+* Release on https://plugins.qgis.org
 
 ## 0.5.0 - 2021-02-19
 
