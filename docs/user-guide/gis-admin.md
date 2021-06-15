@@ -96,8 +96,32 @@ To leave the edit mode you need to click on the same button that to enter the ed
 
 ## HTML Template
 
-You can customize the HTML template.
+### Principle
+
+The metadata panel is showing all information using HTML templates. These are stored in the database itself.
+The layer named [html_template](../database/tables/html_template.html) is displayed in the legend in the
+administration project.
+
+There are 3 rows in the table :
+
+* One template for the metadata sheet without contacts and links.
+* One template for a single link.
+* One template for a single contact.
+
+These last two templates will be generated many times for each link and incorporated in the first template.
+
+### Edit or translate these templates
+
+You can customize the HTML template by opening the attribute table of that layer and switching editing mode.
+Either you might want to translate some hardcoded strings in the HTML or you want to change the HTML layout.
 
 * Use `[% "name_of_field" %]` to display a specific field, eg `abstract`.
 * use `[% meta_contacts %]` to display all contacts related. It's using the template called `contact`.
 * use `[% meta_links %]` to display all links related. It's using the template called `link`.
+
+!!! tip
+    If you want to reset to default the HTML templates, you can use the Processing algorithm
+    [in the toolbox](../processing/README.md#reset-html-templates-in-the-database).
+
+!!! tip
+    Check the [video tutorial](./tutorials.md#edition) at 13 minutes 05 secondes covering the HTML templates.
