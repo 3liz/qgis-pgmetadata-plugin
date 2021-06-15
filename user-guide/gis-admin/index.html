@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://docs.3liz.org/qgis-pgmetadata-plugin/user-guide/gis-admin/">
       
       <link rel="icon" href="../../icon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.8">
     
     
       
@@ -24,10 +24,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.bde7dde4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ca7ac06f.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.f1a3b89f.min.css">
         
           
           
@@ -45,6 +45,8 @@
     
     
       
+
+
     
     
   </head>
@@ -166,7 +168,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../" class="md-tabs__link">
+    <a href="../../" class="md-tabs__link">
       docs.3liz.org
     </a>
   </li>
@@ -337,7 +339,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         docs.3liz.org
       </a>
     </li>
@@ -484,6 +486,26 @@
   <a href="#html-template" class="md-nav__link">
     HTML Template
   </a>
+  
+    <nav class="md-nav" aria-label="HTML Template">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principle" class="md-nav__link">
+    Principle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-or-translate-these-templates" class="md-nav__link">
+    Edit or translate these templates
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -706,6 +728,26 @@
     HTML Template
   </a>
   
+    <nav class="md-nav" aria-label="HTML Template">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principle" class="md-nav__link">
+    Principle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-or-translate-these-templates" class="md-nav__link">
+    Edit or translate these templates
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -809,12 +851,34 @@ To save:</p>
 <p><img alt="Attribute table" src="../../media/attribute_table_save.png" /></p>
 <p>To leave the edit mode you need to click on the same button that to enter the edit mode.</p>
 <h2 id="html-template">HTML Template<a class="headerlink" href="#html-template" title="Permanent link">#</a></h2>
-<p>You can customize the HTML template.</p>
+<h3 id="principle">Principle<a class="headerlink" href="#principle" title="Permanent link">#</a></h3>
+<p>The metadata panel is showing all information using HTML templates. These are stored in the database itself.
+The layer named <a href="../../database/tables/html_template.html">html_template</a> is displayed in the legend in the
+administration project.</p>
+<p>There are 3 rows in the table :</p>
+<ul>
+<li>One template for the metadata sheet without contacts and links.</li>
+<li>One template for a single link.</li>
+<li>One template for a single contact.</li>
+</ul>
+<p>These last two templates will be generated many times for each link and incorporated in the first template.</p>
+<h3 id="edit-or-translate-these-templates">Edit or translate these templates<a class="headerlink" href="#edit-or-translate-these-templates" title="Permanent link">#</a></h3>
+<p>You can customize the HTML template by opening the attribute table of that layer and switching editing mode.
+Either you might want to translate some hardcoded strings in the HTML or you want to change the HTML layout.</p>
 <ul>
 <li>Use <code>[% "name_of_field" %]</code> to display a specific field, eg <code>abstract</code>.</li>
 <li>use <code>[% meta_contacts %]</code> to display all contacts related. It's using the template called <code>contact</code>.</li>
 <li>use <code>[% meta_links %]</code> to display all links related. It's using the template called <code>link</code>.</li>
 </ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you want to reset to default the HTML templates, you can use the Processing algorithm
+<a href="../../processing/#reset-html-templates-in-the-database">in the toolbox</a>.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Check the <a href="../tutorials/#edition">video tutorial</a> at 13 minutes 05 secondes covering the HTML templates.</p>
+</div>
                 
                   
                     
@@ -823,7 +887,7 @@ To save:</p>
 <div class="md-source-date">
   <small>
     
-      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 25, 2021</span>
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">June 15, 2021</span>
       
     
   </small>
@@ -851,7 +915,8 @@ To save:</p>
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../end-user/" class="md-footer__link md-footer__link--prev" rel="prev">
+        
+        <a href="../end-user/" class="md-footer__link md-footer__link--prev" aria-label="Previous: End user" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -866,7 +931,8 @@ To save:</p>
         </a>
       
       
-        <a href="../sys-admin/" class="md-footer__link md-footer__link--next" rel="next">
+        
+        <a href="../sys-admin/" class="md-footer__link md-footer__link--next" aria-label="Next: Sys admin" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
@@ -954,10 +1020,10 @@ To save:</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.a1609d9a.min.js"></script>
+      <script src="../../assets/javascripts/bundle.76f349be.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
       
