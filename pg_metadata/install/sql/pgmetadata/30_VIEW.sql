@@ -283,8 +283,8 @@ CREATE VIEW pgmetadata.v_orphan_dataset_items AS
     d.schema_name,
     d.table_name
    FROM (pgmetadata.dataset d
-     LEFT JOIN pg_tables t ON (((d.schema_name = (t.schemaname)::text) AND (d.table_name = (t.tablename)::text))))
-  WHERE (t.tablename IS NULL)
+     LEFT JOIN information_schema.tables t ON (((d.schema_name = (t.table_schema)::text) AND (d.table_name = (t.table_name)::text))))
+  WHERE (t.table_name IS NULL)
   ORDER BY d.schema_name, d.table_name;
 
 
@@ -295,12 +295,12 @@ COMMENT ON VIEW pgmetadata.v_orphan_dataset_items IS 'View containing the tables
 -- v_orphan_tables
 CREATE VIEW pgmetadata.v_orphan_tables AS
  SELECT row_number() OVER () AS id,
-    (pg_tables.schemaname)::text AS schemaname,
-    (pg_tables.tablename)::text AS tablename
-   FROM pg_tables
-  WHERE ((NOT (concat(pg_tables.schemaname, '.', pg_tables.tablename) IN ( SELECT concat(dataset.schema_name, '.', dataset.table_name) AS concat
-           FROM pgmetadata.dataset))) AND (pg_tables.schemaname <> ALL (ARRAY['pg_catalog'::name, 'information_schema'::name])))
-  ORDER BY ((pg_tables.schemaname)::text), ((pg_tables.tablename)::text);
+    (tables.table_schema)::text AS schemaname,
+    (tables.table_name)::text AS tablename
+   FROM information_schema.tables
+  WHERE ((NOT (concat(tables.table_schema, '.', tables.table_name) IN ( SELECT concat(dataset.schema_name, '.', dataset.table_name) AS concat
+           FROM pgmetadata.dataset))) AND ((tables.table_schema)::name <> ALL (ARRAY['pg_catalog'::name, 'information_schema'::name])))
+  ORDER BY (tables.table_schema)::text, (tables.table_name)::text;
 
 
 -- VIEW v_orphan_tables
@@ -322,10 +322,17 @@ COMMENT ON VIEW pgmetadata.v_schema_list IS 'View containing list of all schema 
 
 -- v_table_comment_from_metadata
 CREATE VIEW pgmetadata.v_table_comment_from_metadata AS
- SELECT d.schema_name AS table_schema,
+ SELECT row_number() OVER () AS id,
+    d.schema_name AS table_schema,
     d.table_name,
-    concat(d.title, ' - ', d.abstract, ' (', array_to_string(d.categories, ', '::text), ')') AS table_comment
-   FROM pgmetadata.dataset d;
+    concat(d.title, ' - ', d.abstract, ' (', array_to_string(d.categories, ', '::text), ')') AS table_comment,
+        CASE
+            WHEN ((t.table_type)::text = 'BASE TABLE'::text) THEN 'TABLE'::text
+            WHEN ((t.table_type)::text ~~ 'FOREIGN%'::text) THEN 'FOREIGN TABLE'::text
+            ELSE (t.table_type)::text
+        END AS table_type
+   FROM (pgmetadata.dataset d
+     LEFT JOIN information_schema.tables t ON (((d.schema_name = (t.table_schema)::text) AND (d.table_name = (t.table_name)::text))));
 
 
 -- VIEW v_table_comment_from_metadata
@@ -348,16 +355,17 @@ COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables i
 
 -- v_valid_dataset
 CREATE VIEW pgmetadata.v_valid_dataset AS
- SELECT d.schema_name,
+ SELECT row_number() OVER () AS id,
+    d.schema_name,
     d.table_name
    FROM (pgmetadata.dataset d
-     LEFT JOIN pg_tables t ON (((d.schema_name = (t.schemaname)::text) AND (d.table_name = (t.tablename)::text))))
-  WHERE (t.tablename IS NOT NULL)
+     LEFT JOIN information_schema.tables t ON (((d.schema_name = (t.table_schema)::text) AND (d.table_name = (t.table_name)::text))))
+  WHERE (t.table_name IS NOT NULL)
   ORDER BY d.schema_name, d.table_name;
 
 
 -- VIEW v_valid_dataset
-COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables.';
+COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables and views.';
 
 
 --
