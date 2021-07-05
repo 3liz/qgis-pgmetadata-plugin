@@ -448,8 +448,8 @@ CREATE FUNCTION pgmetadata.refresh_dataset_calculated_fields() RETURNS void
 COMMENT ON FUNCTION pgmetadata.refresh_dataset_calculated_fields() IS 'Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data';
 
 
--- update_postgresql_table_comment(text, text, text)
-CREATE FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text) RETURNS boolean
+-- update_postgresql_table_comment(text, text, text, text)
+CREATE FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text) RETURNS boolean
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -457,7 +457,7 @@ DECLARE
 BEGIN
 
     BEGIN
-        sql_text = 'COMMENT ON TABLE ' || quote_ident(table_schema) || '.' || quote_ident(table_name) || ' IS ' || quote_literal(table_comment) ;
+        sql_text = 'COMMENT ON ' || replace(quote_literal(table_type), '''', '') || ' ' || quote_ident(table_schema) || '.' || quote_ident(table_name) || ' IS ' || quote_literal(table_comment) ;
         EXECUTE sql_text;
         RAISE NOTICE 'Comment updated for %s', quote_ident(table_schema) || '.' || quote_ident(table_name) ;
         RETURN True;
@@ -471,8 +471,8 @@ END;
 $$;
 
 
--- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text)
-COMMENT ON FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text) IS 'Update the PostgreSQL comment of a table by giving table schema, name and comment
+-- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text)
+COMMENT ON FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text) IS 'Update the PostgreSQL comment of a table by giving table schema, name and comment
 Example: if you need to update the comments for all the items listed by pgmetadata.v_table_comment_from_metadata:
 
     SELECT
@@ -481,7 +481,8 @@ Example: if you need to update the comments for all the items listed by pgmetada
     pgmetadata.update_postgresql_table_comment(
         v.table_schema,
         v.table_name,
-        v.table_comment
+        v.table_comment,
+        v.table_type
     ) AS comment_updated
     FROM pgmetadata.v_table_comment_from_metadata AS v
 
@@ -498,7 +499,8 @@ BEGIN
     SELECT pgmetadata.update_postgresql_table_comment(
         v.table_schema,
         v.table_name,
-        v.table_comment
+        v.table_comment,
+        v.table_type
     )
     FROM pgmetadata.v_table_comment_from_metadata AS v
     WHERE True

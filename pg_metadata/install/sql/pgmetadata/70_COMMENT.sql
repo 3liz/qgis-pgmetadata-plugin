@@ -52,8 +52,8 @@ COMMENT ON FUNCTION pgmetadata.get_datasets_as_dcat_xml(_locale text, uids uuid[
 COMMENT ON FUNCTION pgmetadata.refresh_dataset_calculated_fields() IS 'Force the calculation of spatial related fields in dataset table by updating all lines, which will trigger the function calculate_fields_from_data';
 
 
--- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text)
-COMMENT ON FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text) IS 'Update the PostgreSQL comment of a table by giving table schema, name and comment
+-- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text)
+COMMENT ON FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text) IS 'Update the PostgreSQL comment of a table by giving table schema, name and comment
 Example: if you need to update the comments for all the items listed by pgmetadata.v_table_comment_from_metadata:
 
     SELECT
@@ -62,7 +62,8 @@ Example: if you need to update the comments for all the items listed by pgmetada
     pgmetadata.update_postgresql_table_comment(
         v.table_schema,
         v.table_name,
-        v.table_comment
+        v.table_comment,
+        v.table_type
     ) AS comment_updated
     FROM pgmetadata.v_table_comment_from_metadata AS v
 
@@ -366,7 +367,7 @@ COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables i
 
 
 -- VIEW v_valid_dataset
-COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables.';
+COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables and views.';
 
 
 --
