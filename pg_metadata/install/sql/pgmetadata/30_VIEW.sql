@@ -299,8 +299,8 @@ CREATE VIEW pgmetadata.v_orphan_tables AS
     (tables.table_name)::text AS tablename
    FROM information_schema.tables
   WHERE ((NOT (concat(tables.table_schema, '.', tables.table_name) IN ( SELECT concat(dataset.schema_name, '.', dataset.table_name) AS concat
-           FROM pgmetadata.dataset))) AND (tables.table_schema <> ALL (ARRAY['pg_catalog'::name, 'information_schema'::name])))
-  ORDER BY ((tables.table_schema)::text), ((tables.table_name)::text);
+           FROM pgmetadata.dataset))) AND ((tables.table_schema)::name <> ALL (ARRAY['pg_catalog'::name, 'information_schema'::name])))
+  ORDER BY (tables.table_schema)::text, (tables.table_name)::text;
 
 
 -- VIEW v_orphan_tables

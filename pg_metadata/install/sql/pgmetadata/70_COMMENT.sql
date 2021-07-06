@@ -366,7 +366,7 @@ COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables i
 
 
 -- VIEW v_valid_dataset
-COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables.';
+COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmetadata.dataset with corresponding (existing) tables and views.';
 
 
 --
