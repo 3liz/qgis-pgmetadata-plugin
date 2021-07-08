@@ -109,11 +109,8 @@ $$;
 COMMENT ON FUNCTION pgmetadata.update_table_comment_from_dataset() IS 'Update the PostgreSQL table comment when updating or inserting a line in pgmetadata.dataset table. Comment is taken from the view pgmetadata.v_table_comment_from_metadata.';
 
 -- restore trigger
-CREATE TRIGGER trg_update_table_comment_from_dataset
-    AFTER INSERT OR UPDATE 
-    ON pgmetadata.dataset
-    FOR EACH ROW
-    EXECUTE FUNCTION pgmetadata.update_table_comment_from_dataset();
+CREATE TRIGGER trg_update_table_comment_from_dataset AFTER INSERT OR UPDATE ON pgmetadata.dataset FOR EACH ROW EXECUTE PROCEDURE pgmetadata.update_table_comment_from_dataset();
+
 
 COMMIT;
 
