@@ -325,8 +325,14 @@ CREATE VIEW pgmetadata.v_table_comment_from_metadata AS
  SELECT row_number() OVER () AS id,
     d.schema_name AS table_schema,
     d.table_name,
-    concat(d.title, ' - ', d.abstract, ' (', array_to_string(d.categories, ', '::text), ')') AS table_comment
-   FROM pgmetadata.dataset d;
+    concat(d.title, ' - ', d.abstract, ' (', array_to_string(d.categories, ', '::text), ')') AS table_comment,
+        CASE
+            WHEN t.table_type::text = 'BASE TABLE'::text THEN 'TABLE'::text
+            WHEN t.table_type::text ~~ 'FOREIGN%'::text THEN 'FOREIGN TABLE'::text
+            ELSE t.table_type::text
+        END AS table_type
+   FROM pgmetadata.dataset d
+      LEFT JOIN information_schema.tables t ON d.schema_name = t.table_schema::text AND d.table_name = t.table_name::text;
 
 
 -- VIEW v_table_comment_from_metadata
