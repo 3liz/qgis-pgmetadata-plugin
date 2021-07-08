@@ -34,3 +34,86 @@ CREATE VIEW pgmetadata.v_table_comment_from_metadata AS
 
 -- VIEW v_table_comment_from_metadata
 COMMENT ON VIEW pgmetadata.v_table_comment_from_metadata IS 'View containing the desired formatted comment for the tables listed in the pgmetadata.dataset table. This view is used by the trigger to update the table comment when the dataset item is added or modified';
+
+
+--extend function update_postgresql_table_comment(text, text, text) for working on all sorts of table types
+DROP FUNCTION pgmetadata.update_postgresql_table_comment(text, text, text);
+
+-- update_postgresql_table_comment(text, text, text, text)
+-- extending the sql_text with adapted table_types from v_table_comment_from_metadata.
+CREATE FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    sql_text text;
+BEGIN
+
+    BEGIN
+        sql_text = 'COMMENT ON ' || replace(quote_literal(table_type), '''', '') || ' ' || quote_ident(table_schema) || '.' || quote_ident(table_name) || ' IS ' || quote_literal(table_comment) ;
+        EXECUTE sql_text;
+        RAISE NOTICE 'Comment updated for %s', quote_ident(table_schema) || '.' || quote_ident(table_name) ;
+        RETURN True;
+    EXCEPTION WHEN OTHERS THEN
+        RAISE NOTICE 'ERROR - Failed updated comment for table %s', quote_ident(table_schema) || '.' || quote_ident(table_name);
+        RETURN False;
+    END;
+
+    RETURN True;
+END;
+$$;
+
+
+-- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text)
+COMMENT ON FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text) IS 'Update the PostgreSQL comment of a table by giving table schema, name and comment
+Example: if you need to update the comments for all the items listed by pgmetadata.v_table_comment_from_metadata:
+    SELECT
+    v.table_schema,
+    v.table_name,
+    pgmetadata.update_postgresql_table_comment(
+        v.table_schema,
+        v.table_name,
+        v.table_comment,
+        v.table_type
+    ) AS comment_updated
+    FROM pgmetadata.v_table_comment_from_metadata AS v
+    ';
+
+
+-- update_table_comment_from_dataset()
+DROP FUNCTION pgmetadata.update_table_comment_from_dataset() CASCADE;
+CREATE FUNCTION pgmetadata.update_table_comment_from_dataset() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    is_updated bool;
+BEGIN
+    SELECT pgmetadata.update_postgresql_table_comment(
+        v.table_schema,
+        v.table_name,
+        v.table_comment,
+        v.table_type
+    )
+    FROM pgmetadata.v_table_comment_from_metadata AS v
+    WHERE True
+    AND v.table_schema = NEW.schema_name
+    AND v.table_name = NEW.table_name
+    INTO is_updated
+    ;
+
+    RETURN NEW;
+END;
+$$;
+
+
+-- FUNCTION update_table_comment_from_dataset()
+COMMENT ON FUNCTION pgmetadata.update_table_comment_from_dataset() IS 'Update the PostgreSQL table comment when updating or inserting a line in pgmetadata.dataset table. Comment is taken from the view pgmetadata.v_table_comment_from_metadata.';
+
+-- restore trigger
+CREATE TRIGGER trg_update_table_comment_from_dataset
+    AFTER INSERT OR UPDATE 
+    ON pgmetadata.dataset
+    FOR EACH ROW
+    EXECUTE FUNCTION pgmetadata.update_table_comment_from_dataset();
+
+COMMIT;
+
