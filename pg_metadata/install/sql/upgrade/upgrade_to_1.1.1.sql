@@ -77,7 +77,7 @@ Example: if you need to update the comments for all the items listed by pgmetada
         v.table_type
     ) AS comment_updated
     FROM pgmetadata.v_table_comment_from_metadata AS v
-    
+
     ';
 
 
