@@ -322,7 +322,8 @@ COMMENT ON VIEW pgmetadata.v_schema_list IS 'View containing list of all schema 
 
 -- v_table_comment_from_metadata
 CREATE VIEW pgmetadata.v_table_comment_from_metadata AS
- SELECT d.schema_name AS table_schema,
+ SELECT row_number() OVER () AS id,
+    d.schema_name AS table_schema,
     d.table_name,
     concat(d.title, ' - ', d.abstract, ' (', array_to_string(d.categories, ', '::text), ')') AS table_comment
    FROM pgmetadata.dataset d;
@@ -348,7 +349,8 @@ COMMENT ON VIEW pgmetadata.v_table_list IS 'View containing list of all tables i
 
 -- v_valid_dataset
 CREATE VIEW pgmetadata.v_valid_dataset AS
- SELECT d.schema_name,
+ SELECT row_number() OVER () AS id,
+    d.schema_name,
     d.table_name
    FROM (pgmetadata.dataset d
      LEFT JOIN information_schema.tables t ON (((d.schema_name = (t.table_schema)::text) AND (d.table_name = (t.table_name)::text))))
