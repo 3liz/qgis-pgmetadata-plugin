@@ -332,7 +332,7 @@ CREATE VIEW pgmetadata.v_table_comment_from_metadata AS
             ELSE (t.table_type)::text
         END AS table_type
    FROM (pgmetadata.dataset d
-      LEFT JOIN information_schema.tables t ON (((d.schema_name = (t.table_schema)::text) AND (d.table_name = (t.table_name)::text))));
+     LEFT JOIN information_schema.tables t ON (((d.schema_name = (t.table_schema)::text) AND (d.table_name = (t.table_name)::text))));
 
 
 -- VIEW v_table_comment_from_metadata
