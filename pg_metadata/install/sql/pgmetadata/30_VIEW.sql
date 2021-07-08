@@ -328,7 +328,7 @@ CREATE VIEW pgmetadata.v_table_comment_from_metadata AS
     concat(d.title, ' - ', d.abstract, ' (', array_to_string(d.categories, ', '::text), ')') AS table_comment,
         CASE
             WHEN ((t.table_type)::text = 'BASE TABLE'::text) THEN 'TABLE'::text
-            WHEN ((t.table_type)::text ~~ 'FOREIGN%'::text THEN) 'FOREIGN TABLE'::text
+            WHEN ((t.table_type)::text ~~ 'FOREIGN%'::text) THEN 'FOREIGN TABLE'::text
             ELSE (t.table_type)::text
         END AS table_type
    FROM (pgmetadata.dataset d
