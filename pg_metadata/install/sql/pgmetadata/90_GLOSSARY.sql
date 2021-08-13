@@ -121,6 +121,8 @@ INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (128, 'dataset.license', 'LO-2.0', 'Licence Ouverte Version 2.0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (129, 'dataset.license', 'LO-2.1', 'Licence Ouverte Version 2.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (130, 'dataset.license', 'dl-de/by-2-0', 'Data licence Germany – attribution – version 2.0', NULL, 80, NULL, NULL, NULL, NULL, NULL, NULL, 'Datenlizenz Deutschland – Namensnennung – Version 2.0', NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (131, 'dataset.license', 'proj', 'restricted use for project-related work', NULL, 90, NULL, NULL, NULL, NULL, NULL, NULL, 'nur für Projektbeartbeitung', NULL);
+
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (93, 'contact.contact_role', 'CU', 'Custodian', NULL, 10, 'Dépositaire', NULL, NULL, NULL, NULL, NULL, 'Verwalter', 'Person oder Stelle, welche die Zuständigkeit und Verantwortlichkeit für einen Datensatz übernommen hat und seine sachgerechte Pflege und Wartung sichert');
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (94, 'contact.contact_role', 'DI', 'Distributor', NULL, 20, 'Distributeur', NULL, NULL, NULL, NULL, NULL, 'Vertrieb', 'Person oder Stelle für den Vertrieb');
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (95, 'contact.contact_role', 'OW', 'Owner', NULL, 30, 'Propriétaire', NULL, NULL, NULL, NULL, NULL, 'Eigentümer', 'Eigentümer der Ressource');
@@ -156,7 +158,7 @@ INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item
 -- Name: glossary_id_seq; Type: SEQUENCE SET; Schema: pgmetadata; Owner: -
 --
 
-SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 130, true);
+SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 131, true);
 
 
 --
