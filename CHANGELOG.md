@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Add support for PostgreSQL views (contribution from @tschuettenberg QGIS Germany)
+* Add translations from Transifex for the German language (contribution from Florian Jenn)
 
 ## 1.0.0 - 2021-05-27
 
