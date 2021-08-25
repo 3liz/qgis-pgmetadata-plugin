@@ -335,6 +335,33 @@ class TestSql(DatabaseTestCase):
             result[0]
         )
 
+    def test_sql_view(self):
+        """ Basic test on a SQL view. """
+        sql = "CREATE VIEW pgmetadata.test_view AS SELECT 1 AS id, 'test' AS label;"
+        self._sql(sql)
+        dataset_feature = {
+            'table_name': "'test_view'",
+            'schema_name': "'pgmetadata'",
+            'title': "'Test title SQL view'",
+            'abstract': "'Test abstract SQL view.'",
+        }
+        self._insert(dataset_feature, 'dataset')
+        sql = (
+            "SELECT geometry_type, projection_authid, spatial_extent, geom, feature_count "
+            "FROM pgmetadata.dataset "
+            "WHERE table_name = 'test_view'"
+        )
+        result = self._sql(sql)
+        self.assertEqual([NULL, NULL, NULL, NULL, 1], result[0])
+
+        sql = (
+            "SELECT table_comment "
+            "FROM pgmetadata.v_table_comment_from_metadata "
+            "WHERE table_name = 'test_view'"
+        )
+        result = self._sql(sql)
+        self.assertEqual(["Test title SQL view - Test abstract SQL view. ()"], result[0])
+
     def test_trigger_calculate_fields_when_removing_geom(self):
         """ Test the trigger on an existing table where we remove the geometry. """
 
