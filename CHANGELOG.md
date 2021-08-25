@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Add support for PostgreSQL views (contribution from @tschuettenberg QGIS Germany)
+
 ## 1.0.0 - 2021-05-27
 
 * Add links to the file browser after exporting to PDF, HTML or XML
