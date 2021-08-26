@@ -137,4 +137,36 @@ COMMENT ON FUNCTION pgmetadata.update_table_comment_from_dataset() IS 'Update th
 CREATE TRIGGER trg_update_table_comment_from_dataset AFTER INSERT OR UPDATE ON pgmetadata.dataset FOR EACH ROW EXECUTE PROCEDURE pgmetadata.update_table_comment_from_dataset();
 
 
+-- GLOSSARY
+
+-- German translations
+
+CREATE TABLE pgmetadata.t_glossary (field text, code text, label_de text, description_de text);
+INSERT INTO pgmetadata.t_glossary (field, code, label_de, description_de)
+VALUES
+('dataset.license', 'CC0', 'Creative Commons Zero', NULL),
+('dataset.license', 'CC-BY-4.0', 'Creative Commons Namensnennung – Version 4.0', NULL),
+('dataset.license', 'CC-BY-SA-4.0', 'Creative Commons  Namensnennung – Weitergabe unter gleichen Bedingungen – Version 4.0', NULL),
+('dataset.license', 'ODC-BY', 'Open Data Commons Namensnennung', NULL)
+ON CONFLICT DO NOTHING;
+
+UPDATE pgmetadata.glossary AS g
+SET (label_de, description_de)
+= (t.label_de, t.description_de)
+FROM pgmetadata.t_glossary AS t
+WHERE g.field = t.field AND g.code = t.code;
+
+DROP TABLE pgmetadata.t_glossary;
+
+
+-- new terms
+
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES
+(130, 'dataset.license', 'dl-de/by-2-0', 'Data licence Germany – attribution – version 2.0', NULL, 80, NULL, NULL, NULL, NULL, NULL, NULL, 'Datenlizenz Deutschland – Namensnennung – Version 2.0', NULL),
+(131, 'dataset.license', 'proj', 'restricted use for project-related work', NULL, 90, NULL, NULL, NULL, NULL, NULL, NULL, 'nur für Projektbearbeitung', NULL)
+ON CONFLICT DO NOTHING;
+
+SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 131, true);
+
+
 COMMIT;
