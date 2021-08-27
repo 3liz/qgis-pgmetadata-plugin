@@ -42,10 +42,6 @@ docker exec postgis bash -c "apt-get install -y rename" > /dev/null
 docker exec postgis bash -c "cd /tests_directory/${PLUGIN_NAME}/install/sql/ && ./export_database_structure_to_SQL.sh test ${SCHEMA}"
 docker exec postgis bash -c "cd /tests_directory/${PLUGIN_NAME}/install/sql/${SCHEMA} && chmod 777 *.sql"
 
-echo "cat GLOSSARY:"
-cat ../pg_metadata/install/sql/pgmetadata/90_GLOSSARY.sql
-echo "__end__"
-
 git diff
 [[ -z $(git status --porcelain -uno) ]]
 exit $?
