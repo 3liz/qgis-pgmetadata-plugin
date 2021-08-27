@@ -214,13 +214,15 @@ INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item
 description_de) VALUES (132, 'dataset.publication_frequency', 'BIA', 'Biannually', 'Update data twice each year', 3, NULL, NULL, NULL, NULL, NULL, NULL, 'halbjährlich', 'Daten werden halbjährlich aktualisiert');
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (133, 'dataset.publication_frequency', 'IRR', 'Irregular', 'Data is updated in intervals that are uneven in duration', 7, NULL, NULL, NULL, NULL, NULL, NULL, 'unregelmäßig', 'Daten werden unregelmäßig aktualisiert');
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (134, 'dataset.publication_frequency', 'NOP', 'Not planned', 'There are no plans to update the data', 8, NULL, NULL, NULL, NULL, NULL, NULL, 'nicht geplant', 'eine Aktualisierung der Daten ist nicht geplant');
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (135, 'contact.contact_role', 'OR', 'Originator', 'Party who created the resource', 40, NULL, NULL, NULL, NULL, NULL, NULL, 'Urheber', 'Erzeuger der Ressource');
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (136, 'contact.contact_role', 'PR', 'Processor', 'Party who has processed the data in a manner such that the resource has been modified', 50, NULL, NULL, NULL, NULL, NULL, NULL, 'Bearbeiter', 'Person oder Stelle, die die Ressource in einem Arbeitsschritt verändert hat');
 
 -- update item order of existing frequencies; FIXME: is this robust? (i.e. can this upgrade script execute several times?)
 update pgmetadata.glossary set item_order = item_order + 1
 where field = 'dataset.publication_frequency' and code in ('DAY', 'WEE', 'MON');
 
 
-SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 134, true);
+SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 136, true);
 
 
 COMMIT;
