@@ -221,7 +221,7 @@ update pgmetadata.glossary set item_order = item_order + 1
 where field = 'dataset.publication_frequency' and code in ('DAY', 'WEE', 'MON');
 
 
-SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 131, true);
+SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 134, true);
 
 
 COMMIT;
