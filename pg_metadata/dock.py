@@ -306,7 +306,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         else:
             origin = uri.database() if uri.database() else uri.service()
             self.set_html_content(
-                'Missing metadata',
+                tr('Missing metadata'),
                 tr('The layer {origin} {schema}.{table} is missing metadata.').format(
                     origin=origin, schema=uri.schema(), table=uri.table())
             )
