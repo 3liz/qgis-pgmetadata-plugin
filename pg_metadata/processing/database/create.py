@@ -204,6 +204,7 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
                 try:
                     connection.executeSql(sql)
                 except QgsProviderConnectionException as e:
+                    connection.executeSql("ROLLBACK;")
                     raise QgsProcessingException(str(e))
                 feedback.pushInfo("  Success !")
 
@@ -228,6 +229,7 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
         try:
             connection.executeSql(sql)
         except QgsProviderConnectionException as e:
+            connection.executeSql("ROLLBACK;")
             raise QgsProcessingException(str(e))
         feedback.pushInfo("Database version '{}'.".format(metadata_version))
 

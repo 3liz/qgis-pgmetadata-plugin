@@ -1,3 +1,4 @@
+BEGIN;
 --
 -- PostgreSQL database dump
 --
@@ -18,7 +19,7 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+;
 
 -- contact
 CREATE TABLE pgmetadata.contact (
@@ -171,7 +172,6 @@ COMMENT ON TABLE pgmetadata.html_template IS 'This table contains the HTML templ
 
 -- html_template_id_seq
 CREATE SEQUENCE pgmetadata.html_template_id_seq
-
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -285,3 +285,5 @@ ALTER TABLE ONLY pgmetadata.theme ALTER COLUMN id SET DEFAULT nextval('pgmetadat
 -- PostgreSQL database dump complete
 --
 
+
+COMMIT;

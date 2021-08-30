@@ -1,3 +1,4 @@
+BEGIN;
 --
 -- PostgreSQL database dump
 --
@@ -107,3 +108,5 @@ ALTER TABLE ONLY pgmetadata.link
 -- PostgreSQL database dump complete
 --
 
+
+COMMIT;

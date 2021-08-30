@@ -1,3 +1,4 @@
+BEGIN;
 --
 -- PostgreSQL database dump
 --
@@ -372,3 +373,5 @@ COMMENT ON VIEW pgmetadata.v_valid_dataset IS 'Gives a list of lines from pgmeta
 -- PostgreSQL database dump complete
 --
 
+
+COMMIT;

@@ -1,3 +1,4 @@
+BEGIN;
 --
 -- PostgreSQL database dump
 --
@@ -522,3 +523,5 @@ COMMENT ON FUNCTION pgmetadata.update_table_comment_from_dataset() IS 'Update th
 -- PostgreSQL database dump complete
 --
 
+
+COMMIT;

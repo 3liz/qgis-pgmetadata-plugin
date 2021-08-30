@@ -1,3 +1,4 @@
+BEGIN;
 --
 -- PostgreSQL database dump
 --
@@ -34,3 +35,5 @@ CREATE INDEX qgis_plugin_id_idx ON pgmetadata.qgis_plugin USING btree (id);
 -- PostgreSQL database dump complete
 --
 
+
+COMMIT;

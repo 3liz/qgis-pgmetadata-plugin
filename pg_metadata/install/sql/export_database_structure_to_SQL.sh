@@ -43,6 +43,9 @@ for ITEM in FUNCTION "TABLE|SEQUENCE|DEFAULT" VIEW INDEX TRIGGER CONSTRAINT COMM
     rm "$OUTDIR/$ITEM";
     # Simplify comments inside SQL files
     perl -i -0pe 's/\n--\n-- Name: (TABLE )?(COLUMN )?(.+); Type:.+\n--\n\n/\n-- $3\n/g' "$OUTDIR"/"$I"_"$ITEM".sql;
+    # Add BEGIN and COMMIT
+    echo '\nCOMMIT;' >> "$OUTDIR"/"$I"_"$ITEM".sql;
+    sed -i '1s/^/BEGIN;\n/' "$OUTDIR"/"$I"_"$ITEM".sql;
     # Remove audit trigger (added afterwards)
     if [ $ITEM = 'TRIGGER' ]
     then

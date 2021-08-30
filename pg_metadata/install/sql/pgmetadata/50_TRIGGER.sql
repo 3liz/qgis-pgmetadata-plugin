@@ -1,3 +1,4 @@
+BEGIN;
 --
 -- PostgreSQL database dump
 --
@@ -28,3 +29,5 @@ CREATE TRIGGER trg_update_table_comment_from_dataset AFTER INSERT OR UPDATE ON p
 -- PostgreSQL database dump complete
 --
 
+
+COMMIT;

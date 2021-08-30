@@ -202,6 +202,7 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
             try:
                 connection.executeSql(sql)
             except QgsProviderConnectionException as e:
+                connection.executeSql("ROLLBACK;")
                 raise QgsProcessingException(str(e))
 
             new_db_version = (sf.replace("upgrade_to_", "").replace(".sql", "").strip())
