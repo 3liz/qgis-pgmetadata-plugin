@@ -16,6 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - name: Debug
+      run: |
+        echo "${{ secrets.BOT_NAME }}"
+        echo "${{ secrets.BOT_MAIL }}"
+
     - name: Get source code
       uses: actions/checkout@v2
       with:

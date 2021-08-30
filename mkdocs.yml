@@ -31,7 +31,6 @@ plugins:
   - git-revision-date-localized
 
 markdown_extensions:
-  # - git-revision-date:
   - toc:
       permalink: "#"
   - meta:
