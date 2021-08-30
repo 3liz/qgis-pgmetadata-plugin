@@ -71,7 +71,13 @@ rm "$OUTDIR/dump"
 echo "GLOSSARY"
 if [ $SCHEMA = 'pgmetadata' ]
 then
+    # This is fragile, the pg_dump doesn't make an ordered list of INSERT INTO
+    # It might cause issues for the migration test
     pg_dump service=$SERVICE --data-only --inserts --column-inserts -n $SCHEMA --no-acl --no-owner --table "pgmetadata.glossary" -f "$OUTDIR"/90_GLOSSARY.sql
     sed -i "s#SET idle_in_transaction_session_timeout = 0;##g" "$OUTDIR"/"90_GLOSSARY.sql"
     sed -i "s#SELECT pg_catalog.set_config('search_path', '', false);##g" "$OUTDIR"/"90_GLOSSARY.sql"
+    sed -i -E "s#--(.*)##g" "$OUTDIR"/"90_GLOSSARY.sql"
+    sed -i -E "s#SET(.*)##g" "$OUTDIR"/"90_GLOSSARY.sql"
+    sed -i '/^$/d' "$OUTDIR"/"90_GLOSSARY.sql"
+    sort -o "$OUTDIR"/"90_GLOSSARY.sql" "$OUTDIR"/"90_GLOSSARY.sql"
 fi

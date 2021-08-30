@@ -77,7 +77,7 @@ INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (55, 'link.type', 'UNIDATA:CdmrFeature', 'Common Data Model coordinate subsetting', 'Link is endpoint URL that provides coordinate subsetting on UNIDATA Common Data Model (CDM) datasets, using ncstream as the on-the-wire protocol. Client requests are of the form endpoint?query, and the specification defines a vocabulary of valid query parameters.', NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (56, 'link.type', 'UNIDATA:THREDDS', 'THREDDS Catalog', 'Link is a THREDDS Catalog URL that provides the XML for traversing programmatically. Can be used for datasets and collections of datasets.', NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (57, 'link.type', 'OGC:GML', 'OGC Geography Markup Language', 'Example', NULL);
-INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (58, 'link.type', 'WWW:LINK', 'Web Address (URL)', 'Indicates that XLINK properties are encoded as key-value pairs in content of a dct:references element to provide a machine actionable link. ', NULL);
+INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (58, 'link.type', 'WWW:LINK', 'Web Address (URL)', 'Indicates that XLINK properties are encoded as key-value pairs in content of a dct:references element to provide a machine actionable link.', NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (59, 'link.type', 'WWW:WSDL', 'Web Service Description Language XML document describing service operation', '', NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (60, 'link.type', 'WWW:SPARQL:1.1', 'SPARQL protocol for HTTP', 'SPARQL Protocol specifies a means for conveying SPARQL queries and updates to a SPARQL processing service and returning the results via HTTP to the entity that requested them', NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label, description, item_order) VALUES (61, 'link.type', 'OpenSearch1.1', 'OpenSearch template', 'use to indicate link is a template conforming to the OpenSearch specification', NULL);
@@ -152,4 +152,3 @@ SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 120, true);
 --
 -- PostgreSQL database dump complete
 --
-
