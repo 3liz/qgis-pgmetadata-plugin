@@ -207,7 +207,7 @@ DROP TABLE pgmetadata.t_glossary;
 
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES
 (130, 'dataset.license', 'dl-de/by-2-0', 'Data licence Germany – attribution – version 2.0', NULL, 80, NULL, NULL, NULL, NULL, NULL, NULL, 'Datenlizenz Deutschland – Namensnennung – Version 2.0', NULL),
-(131, 'dataset.license', 'proj', 'restricted use for project-related work', NULL, 90, NULL, NULL, NULL, NULL, NULL, NULL, 'nur für Projektbearbeitung', NULL)
+(131, 'dataset.license', 'proj', 'Restricted use for project-related work', NULL, 90, NULL, NULL, NULL, NULL, NULL, NULL, 'nur für Projektbearbeitung', NULL)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de,
