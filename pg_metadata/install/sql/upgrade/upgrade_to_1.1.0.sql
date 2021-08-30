@@ -221,7 +221,6 @@ INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item
 update pgmetadata.glossary set item_order = item_order + 1
 where field = 'dataset.publication_frequency' and code in ('DAY', 'WEE', 'MON');
 
-
 SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 136, true);
 
 -- Issue #75, also update "update_date"
@@ -329,5 +328,111 @@ BEGIN
     RETURN NEW;
 END;
 $$;
+
+
+-- DATASET
+
+-- new fields 
+ALTER TABLE pgmetadata.dataset ADD COLUMN IF NOT EXISTS license_attribution text;
+
+
+CREATE OR REPLACE VIEW pgmetadata.v_dataset AS
+ WITH glossary AS (
+         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,
+            v_glossary.dict
+           FROM pgmetadata.v_glossary
+        ), s AS (
+         SELECT d.id,
+            d.uid,
+            d.table_name,
+            d.schema_name,
+            d.title,
+            d.abstract,
+            d.categories,
+            d.themes,
+            d.keywords,
+            d.spatial_level,
+            d.minimum_optimal_scale,
+            d.maximum_optimal_scale,
+            d.publication_date,
+            d.publication_frequency,
+            d.license,
+            d.license_attribution,
+            d.confidentiality,
+            d.feature_count,
+            d.geometry_type,
+            d.projection_name,
+            d.projection_authid,
+            d.spatial_extent,
+            d.creation_date,
+            d.update_date,
+            d.data_last_update,
+            d.geom,
+            cat.cat,
+            theme.theme
+           FROM ((pgmetadata.dataset d
+             LEFT JOIN LATERAL unnest(d.categories) cat(cat) ON (true))
+             LEFT JOIN LATERAL unnest(d.themes) theme(theme) ON (true))
+          WHERE true
+          ORDER BY d.id
+        ), ss AS (
+         SELECT s.id,
+            s.uid,
+            s.table_name,
+            s.schema_name,
+            s.title,
+            s.abstract,
+            ((((glossary.dict -> 'dataset.categories'::text) -> s.cat) -> 'label'::text) ->> glossary.locale) AS cat,
+            gtheme.label AS theme,
+            s.keywords,
+            s.spatial_level,
+            ('1/'::text || s.minimum_optimal_scale) AS minimum_optimal_scale,
+            ('1/'::text || s.maximum_optimal_scale) AS maximum_optimal_scale,
+            s.publication_date,
+            ((((glossary.dict -> 'dataset.publication_frequency'::text) -> s.publication_frequency) -> 'label'::text) ->> glossary.locale) AS publication_frequency,
+            ((((glossary.dict -> 'dataset.license'::text) -> s.license) -> 'label'::text) ->> glossary.locale) AS license,
+            s.license_attribution,
+            ((((glossary.dict -> 'dataset.confidentiality'::text) -> s.confidentiality) -> 'label'::text) ->> glossary.locale) AS confidentiality,
+            s.feature_count,
+            s.geometry_type,
+            (regexp_split_to_array((rs.srtext)::text, '"'::text))[2] AS projection_name,
+            s.projection_authid,
+            s.spatial_extent,
+            s.creation_date,
+            s.update_date,
+            s.data_last_update
+           FROM glossary,
+            ((s
+             LEFT JOIN pgmetadata.theme gtheme ON ((gtheme.code = s.theme)))
+             LEFT JOIN public.spatial_ref_sys rs ON ((concat(rs.auth_name, ':', rs.auth_srid) = s.projection_authid)))
+        )
+ SELECT ss.id,
+    ss.uid,
+    ss.table_name,
+    ss.schema_name,
+    ss.title,
+    ss.abstract,
+    string_agg(DISTINCT ss.cat, ', '::text ORDER BY ss.cat) AS categories,
+    string_agg(DISTINCT ss.theme, ', '::text ORDER BY ss.theme) AS themes,
+    ss.keywords,
+    ss.spatial_level,
+    ss.minimum_optimal_scale,
+    ss.maximum_optimal_scale,
+    ss.publication_date,
+    ss.publication_frequency,
+    ss.license,
+    ss.confidentiality,
+    ss.feature_count,
+    ss.geometry_type,
+    ss.projection_name,
+    ss.projection_authid,
+    ss.spatial_extent,
+    ss.creation_date,
+    ss.update_date,
+    ss.data_last_update,
+    ss.license_attribution
+   FROM ss
+  GROUP BY ss.id, ss.uid, ss.table_name, ss.schema_name, ss.title, ss.abstract, ss.keywords, ss.spatial_level, ss.minimum_optimal_scale, ss.maximum_optimal_scale, ss.publication_date, ss.publication_frequency, ss.license, ss.license_attribution, ss.confidentiality, ss.feature_count, ss.geometry_type, ss.projection_name, ss.projection_authid, ss.spatial_extent, ss.creation_date, ss.update_date, ss.data_last_update;
+
 
 COMMIT;
