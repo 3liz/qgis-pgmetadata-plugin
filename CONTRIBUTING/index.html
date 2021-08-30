@@ -642,7 +642,42 @@
 knowledge is required. You need to create an account, request the language if your language is not available by default (we will happily accept) and start to translate strings.</p>
 <p>To translate the metadata glossary, the
 <a href="https://github.com/3liz/qgis-pgmetadata-plugin/blob/master/pg_metadata/install/sql/pgmetadata/90_GLOSSARY.sql">SQL file</a>
-needs to be edited. You can submit a 
+needs to be edited.</p>
+<p>If you change an SQL file, you need to add a migration file, located in <code>pg_metadata/install/sql/upgrade/</code>.
+These files are run according to the current version of the database to be sure that an <strong>existing</strong> database
+can also be upgraded to a newer version of the plugin.</p>
+<p>SQL files located in <code>pg_metadata/install/sql/pgmetadata</code> are run <strong>only</strong> on a new database.</p>
+<p>Example of a migration file to update the glossary with German language :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">pgmetadata</span><span class="p">.</span><span class="n">t_glossary</span> <span class="p">(</span><span class="n">field</span> <span class="nb">text</span><span class="p">,</span> <span class="n">code</span> <span class="nb">text</span><span class="p">,</span> <span class="n">label_de</span> <span class="nb">text</span><span class="p">,</span> <span class="n">description_de</span> <span class="nb">text</span><span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">pgmetadata</span><span class="p">.</span><span class="n">t_glossary</span> <span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">label_de</span><span class="p">,</span> <span class="n">description_de</span><span class="p">)</span>
+<span class="k">VALUES</span>
+<span class="p">(</span><span class="s1">&#39;dataset.publication_frequency&#39;</span><span class="p">,</span> <span class="s1">&#39;WEE&#39;</span><span class="p">,</span> <span class="s1">&#39;wöchentlich&#39;</span><span class="p">,</span> <span class="s1">&#39;Daten werden wöchentlich aktualisiert&#39;</span><span class="p">)</span>
+<span class="k">ON</span> <span class="n">CONFLICT</span> <span class="k">DO</span> <span class="k">NOTHING</span><span class="p">;</span>
+
+<span class="k">UPDATE</span> <span class="n">pgmetadata</span><span class="p">.</span><span class="n">glossary</span> <span class="k">AS</span> <span class="k">g</span>
+<span class="k">SET</span> <span class="p">(</span><span class="n">label_de</span><span class="p">,</span> <span class="n">description_de</span><span class="p">)</span>
+<span class="o">=</span> <span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">label_de</span><span class="p">,</span> <span class="n">t</span><span class="p">.</span><span class="n">description_de</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="n">pgmetadata</span><span class="p">.</span><span class="n">t_glossary</span> <span class="k">AS</span> <span class="n">t</span>
+<span class="k">WHERE</span> <span class="k">g</span><span class="p">.</span><span class="n">field</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">field</span> <span class="k">AND</span> <span class="k">g</span><span class="p">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">code</span><span class="p">;</span>
+
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">pgmetadata</span><span class="p">.</span><span class="n">t_glossary</span><span class="p">;</span>
+</code></pre></div>
+</td></tr></table>
+<p>You can submit a 
 <a href="https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">PR</a>
 on GitHub or feel free to contact us for any assistance. There are some languages available already.</p>
 <h2 id="code">Code<a class="headerlink" href="#code" title="Permanent link">#</a></h2>
@@ -681,7 +716,7 @@ mkdocs serve
 <div class="md-source-date">
   <small>
     
-      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">August 25, 2021</span>
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">August 30, 2021</span>
       
     
   </small>
