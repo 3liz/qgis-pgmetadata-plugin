@@ -44,6 +44,12 @@ BEGIN
         RETURN NEW;
     END IF;
 
+    -- Date fields
+    NEW.update_date = now();
+    IF TG_OP = 'INSERT' THEN
+        NEW.creation_date = now();
+    END IF;
+
 -- Get table feature count
     EXECUTE 'SELECT COUNT(*) FROM ' || target_table
     INTO NEW.feature_count;
