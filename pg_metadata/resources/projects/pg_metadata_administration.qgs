@@ -1060,8 +1060,8 @@ def my_form_open(dialog, layer, feature):
         <default applyOnUpdate="0" expression="" field="projection_name"></default>
         <default applyOnUpdate="0" expression="" field="projection_authid"></default>
         <default applyOnUpdate="0" expression="" field="spatial_extent"></default>
-        <default applyOnUpdate="0" expression="" field="creation_date"></default>
-        <default applyOnUpdate="0" expression="" field="update_date"></default>
+        <default applyOnUpdate="0" expression="now()" field="creation_date"></default>
+        <default applyOnUpdate="1" expression="now()" field="update_date"></default>
         <default applyOnUpdate="0" expression="" field="data_last_update"></default>
         <default applyOnUpdate="0" expression="" field="themes"></default>
       </defaults>

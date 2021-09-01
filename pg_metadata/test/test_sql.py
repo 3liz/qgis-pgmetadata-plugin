@@ -1,3 +1,5 @@
+import re
+
 from xml.dom.minidom import parseString
 
 from qgis.core import QgsDataSourceUri, QgsVectorLayer
@@ -158,8 +160,6 @@ class TestSql(DatabaseTestCase):
             'publication_frequency': "'YEA'",
             'license': "'LO-2.1'",
             'publication_date': "'2020-12-31T09:16:16.980258'",
-            'creation_date': "'2020-12-31T09:16:16.980258'",
-            'update_date': "'2020-12-31T09:16:16.980258'",
         }
         return_value = self._insert(dataset_feature, 'dataset', 'id, uid')
 
@@ -232,13 +232,13 @@ class TestSql(DatabaseTestCase):
             '<dct:spatial>{polygon}</dct:spatial>'
 
             '<dct:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">'
-            '2020-12-31T09:16:16.980258'
+            'XXX'
             '</dct:created>'
             '<dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">'
-            '2020-12-31T09:16:16.980258'
+            'XXX'
             '</dct:issued>'
             '<dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">'
-            '2020-12-31T09:16:16.980258'
+            'XXX'
             '</dct:modified>'
 
             '<dcat:contactPoint><vcard:Organization><vcard:fn>Jane Doe - Acme (GIS)</vcard:fn>'
@@ -272,14 +272,19 @@ class TestSql(DatabaseTestCase):
             ),
             uid=return_value[0][1]
         )
-        self.assertEqual(expected, result[0][3])
+        result = re.sub(r"(dateTime\">)([0-9\-T:.]*)(</dct)", r'\1XXX\3', result[0][3])
+        self.assertEqual(
+            expected,
+            result,
+            '\nTest expected\n{}\nbut got\n{}\nare different'.format(expected, result)
+        )
 
         # Test XML validity
         with open(resources_path('xml', 'dcat.xml'), encoding='utf8') as xml_file:
             xml_template = xml_file.read()
 
         # An exception is raised if the validity is not correct
-        parseString(xml_template.format(locale='fr', content=result[0][3]))
+        parseString(xml_template.format(locale='fr', content=result))
 
     def test_export_catalog_as_flat_table(self):
         """ Test to export the catalog as a flat table. """
@@ -325,6 +330,11 @@ class TestSql(DatabaseTestCase):
         result = self._sql(sql)
         self.assertEqual(['LINESTRING', 'EPSG:4326', '3.854, 3.897, 43.5786, 43.622'], result[0])
 
+        # Test date, creation_date is equal to update_date
+        sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"
+        result = self._sql(sql)
+        self.assertEqual(result[0][0], result[0][1])
+
         # Test update
         sql = "UPDATE pgmetadata.dataset SET title = 'test lines title' WHERE table_name = 'lines'"
         self._sql(sql)
@@ -334,6 +344,11 @@ class TestSql(DatabaseTestCase):
             ['test lines title', 'LINESTRING', 'EPSG:4326', '3.854, 3.897, 43.5786, 43.622'],
             result[0]
         )
+
+        # Test date, creation_date is not equal to update_date
+        sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"
+        result = self._sql(sql)
+        self.assertNotEqual(result[0][0], result[0][1])
 
     def test_sql_view(self):
         """ Basic test on a SQL view. """
