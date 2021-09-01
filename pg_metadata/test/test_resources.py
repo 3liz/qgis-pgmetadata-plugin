@@ -20,7 +20,7 @@ class TestResources(unittest.TestCase):
 
         # Test the QGIS project
         qgis_project = resources_path('projects', 'pg_metadata_administration.qgs')
-        with open(qgis_project) as f:
+        with open(qgis_project, encoding='utf8') as f:
             first_line = f.readline()
             self.assertTrue(
                 'version="{}'.format(expected_qgis_version) in first_line, 'The QGIS project is wrong.')

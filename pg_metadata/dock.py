@@ -190,7 +190,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 sql = self.sql_for_layer(
                     self.current_datasource_uri, output_format=OutputFormats.DCAT)
                 data = self.current_connection.executeSql(sql)
-                with open(resources_path('xml', 'dcat.xml')) as xml_file:
+                with open(resources_path('xml', 'dcat.xml'), encoding='utf8') as xml_file:
                     xml_template = xml_file.read()
 
                 locale = QgsSettings().value("locale/userLocale", QLocale().name())
@@ -199,7 +199,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
                 xml = parseString(xml_template.format(locale=locale, content=data[0][0]))
                 data_str = xml.toprettyxml()
 
-            with open(output_file[0], "w") as file_writer:
+            with open(output_file[0], "w", encoding='utf8') as file_writer:
                 file_writer.write(data_str)
             iface.messageBar().pushSuccess(
                 tr("Export") + ' ' + output_format.label,
@@ -355,7 +355,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         """ Set the content in the dock. """
 
         css_file = resources_path('css', 'dock.css')
-        with open(css_file, 'r') as f:
+        with open(css_file, 'r', encoding='utf8') as f:
             css = f.read()
 
         html = '<html><head><style>{css}</style></head><body>'.format(css=css)

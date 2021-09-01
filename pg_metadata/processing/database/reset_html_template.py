@@ -138,7 +138,7 @@ class ResetHtmlTemplate(BaseDatabaseAlgorithm):
                 feedback.reportError(str(e))
 
             html_file = resources_path("html", "{}.html".format(template))
-            with open(html_file, "r") as f:
+            with open(html_file, "r", encoding='utf8') as f:
                 sql = (
                     "INSERT INTO pgmetadata.html_template (section, content) "
                     "VALUES ('{section}', '{value}');".format(section=template, value=f.read())

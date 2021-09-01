@@ -20,7 +20,7 @@ class TestMigration(unittest.TestCase):
 
             with self.subTest(test_file=migration):
                 sql_file = plugin_path("install", "sql", "upgrade", "{}".format(migration))
-                with open(sql_file, "r") as f:
+                with open(sql_file, "r", encoding='utf8') as f:
                     sql = f.readlines()
 
                 self.assertEqual(

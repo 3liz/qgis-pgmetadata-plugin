@@ -7,6 +7,7 @@
 * Add new contact role "originator" and "processor"
 * Add new frequencies for data update "biannually", "irregular" and "not planned"
 * Add new German licenses
+* Fix encoding issues in some situations, always set UTF-8 when opening files
 
 ## 1.0.0 - 2021-05-27
 

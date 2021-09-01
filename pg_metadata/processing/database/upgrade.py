@@ -193,7 +193,7 @@ class UpgradeDatabaseStructure(BaseDatabaseAlgorithm):
         # Loop sql files and run SQL code
         for sf in sql_files:
             sql_file = os.path.join(plugin_path(), "install/sql/upgrade/{}".format(sf))
-            with open(sql_file, "r") as f:
+            with open(sql_file, "r", encoding='utf8') as f:
                 sql = f.read()
             if len(sql.strip()) == 0:
                 feedback.pushInfo("* " + sf + " -- " + tr("SKIPPING, EMPTY FILE"))

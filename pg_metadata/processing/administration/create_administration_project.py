@@ -132,13 +132,13 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
 
         # Read in the template file
         template_file = resources_path('projects', 'pg_metadata_administration.qgs')
-        with open(template_file, 'r') as fin:
+        with open(template_file, 'r', encoding='utf8') as fin:
             file_data = fin.read()
 
         # Replace the database connection information
         file_data = file_data.replace("service='pgmetadata'", connection.uri())
 
-        with open(project_file, 'w') as fout:
+        with open(project_file, 'w', encoding='utf8') as fout:
             fout.write(file_data)
 
         add_connection(connection_name)

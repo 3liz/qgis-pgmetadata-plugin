@@ -195,7 +195,7 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
         for sql_file in sql_files:
             feedback.pushInfo(sql_file)
             sql_file = os.path.join(plugin_dir, "install/sql/{}".format(sql_file))
-            with open(sql_file, "r") as f:
+            with open(sql_file, "r", encoding='utf8') as f:
                 sql = f.read()
                 if len(sql.strip()) == 0:
                     feedback.pushInfo("  Skipped (empty file)")

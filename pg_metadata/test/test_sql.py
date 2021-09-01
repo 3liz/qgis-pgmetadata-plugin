@@ -275,7 +275,7 @@ class TestSql(DatabaseTestCase):
         self.assertEqual(expected, result[0][3])
 
         # Test XML validity
-        with open(resources_path('xml', 'dcat.xml')) as xml_file:
+        with open(resources_path('xml', 'dcat.xml'), encoding='utf8') as xml_file:
             xml_template = xml_file.read()
 
         # An exception is raised if the validity is not correct

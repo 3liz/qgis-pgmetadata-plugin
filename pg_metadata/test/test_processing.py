@@ -16,7 +16,7 @@ class TestProcessing(BaseTestProcessing):
         """ Test generating the QGIS admin project. """
 
         template_file = resources_path('projects', 'pg_metadata_administration.qgs')
-        with open(template_file, 'r') as fin:
+        with open(template_file, 'r', encoding='utf8') as fin:
             file_data = fin.read()
 
         self.assertGreater(file_data.count("estimatedmetadata=true"), 20)
@@ -34,7 +34,7 @@ class TestProcessing(BaseTestProcessing):
         }
         processing.run("pg_metadata:create_administration_project", params)
 
-        with open(qgs_file, 'r') as fin:
+        with open(qgs_file, 'r', encoding='utf8') as fin:
             file_data = fin.read()
 
         self.assertNotIn("service='pgmetadata'", file_data)
