@@ -50,7 +50,7 @@ class SetConnectionDatabase(BaseProcessingAlgorithm):
 
         param = QgsProcessingParameterEnum(
             self.DATABASES,
-            'List of databases to look for metadata',
+            tr('List of databases to look for metadata'),
             options=names,
             defaultValue=existing_connections,
         )
