@@ -14,13 +14,13 @@ def icon_for_geometry_type(geometry_type: str) -> QIcon():
     if geometry_type == NULL:
         return QgsLayerItem.iconTable()
 
-    elif geometry_type == 'POINT':
+    elif geometry_type in ('POINT', 'MULTIPOINT'):
         return QgsLayerItem.iconPoint()
 
-    elif geometry_type == 'LINESTRING':
+    elif geometry_type in ('LINESTRING', 'MULTILINESTRING'):
         return QgsLayerItem.iconLine()
 
-    elif geometry_type == 'MULTIPOLYGON':
+    elif geometry_type in ('POLYGON', 'MULTIPOLYGON'):
         return QgsLayerItem.iconPolygon()
 
     # Default icon
