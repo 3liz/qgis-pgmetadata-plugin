@@ -141,5 +141,5 @@ class LocatorFilter(QgsLocatorFilter):
 
         self.iface.messageBar().pushSuccess(
             "PgMetadata",
-            "Layer {} has been loaded.".format(result.displayString),
+            tr("Layer {} has been loaded.").format(result.displayString),
         )
