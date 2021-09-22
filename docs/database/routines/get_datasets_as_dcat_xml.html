@@ -85,7 +85,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p><p>Get the datasets records as XML DCAT datasets for the given locale.</p></p>
+                            <p><p>Get the datasets records as XML DCAT datasets for the given locale. Datasets are filtered by the given array of uids. IF uids is NULL, no filter is used and all datasets are returned</p></p>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -136,6 +136,36 @@
                                     <td>xml</td>
                                     <td>OUT</td>
                                 </tr>
+                                <tr>
+                                    <td>_locale</td>
+                                    <td>text</td>
+                                    <td>IN</td>
+                                </tr>
+                                <tr>
+                                    <td>uids</td>
+                                    <td>ARRAY</td>
+                                    <td>IN</td>
+                                </tr>
+                                <tr>
+                                    <td>schema_name</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>table_name</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>uid</td>
+                                    <td>uuid</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>dataset</td>
+                                    <td>xml</td>
+                                    <td>OUT</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -150,7 +180,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    locale_exists boolean;&#10;    item record;&#10;    dataset_rec record;&#10;    sql_text text;&#10;    json_data json;&#10;    html text;&#10;    html_contact text;&#10;    html_link text;&#10;    html_main text;&#10;BEGIN&#10;&#10;    -- Check if the _locale parameter corresponds to the available locales&#10;    _locale = lower(_locale);&#10;    SELECT _locale IN (SELECT locale FROM pgmetadata.v_locales)&#10;    INTO locale_exists&#10;    ;&#10;    IF NOT locale_exists THEN&#10;        _locale = &#39;en&#39;;&#10;    END IF;&#10;&#10;    -- Set locale&#10;    -- We must use EXECUTE in order to have _locale to be correctly interpreted&#10;    sql_text = concat(&#39;SET SESSION &quot;pgmetadata.locale&quot; = &#39;, quote_literal(_locale));&#10;    EXECUTE sql_text;&#10;&#10;    -- Return content&#10;    RETURN QUERY&#10;    SELECT&#10;    *&#10;    FROM pgmetadata.v_dataset_as_dcat&#10;    ;&#10;&#10;END;&#10;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;BEGIN&#10;    -- Call the new function&#10;    RETURN QUERY&#10;    SELECT&#10;    *&#10;    FROM pgmetadata.get_datasets_as_dcat_xml(&#10;        _locale,&#10;        -- passing NULL means no filter&#10;        NULL&#10;    )&#10;    ;&#10;&#10;END;&#10;</textarea>
                         </div>
                     </div>
                 </section>

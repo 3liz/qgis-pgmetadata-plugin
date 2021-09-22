@@ -180,7 +180,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">SELECT row_number() OVER () AS id,&#10;    d.schema_name,&#10;    d.table_name&#10;   FROM (pgmetadata.dataset d&#10;     LEFT JOIN pg_tables t ON (((d.schema_name = (t.schemaname)::text) AND (d.table_name = (t.tablename)::text))))&#10;  WHERE (t.tablename IS NULL)&#10;  ORDER BY d.schema_name, d.table_name;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">SELECT row_number() OVER () AS id,&#10;    d.schema_name,&#10;    d.table_name&#10;   FROM (pgmetadata.dataset d&#10;     LEFT JOIN information_schema.tables t ON (((d.schema_name = (t.table_schema)::text) AND (d.table_name = (t.table_name)::text))))&#10;  WHERE (t.table_name IS NULL)&#10;  ORDER BY d.schema_name, d.table_name;</textarea>
                             <div style="padding-top: 5px;"><hr></div>
                             <div class="box box-solid">
                                 <div class="box-header with-border">

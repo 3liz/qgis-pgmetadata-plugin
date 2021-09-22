@@ -97,6 +97,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td><a href="routines/export_datasets_as_flat_table.html">export_datasets_as_flat_table</a></td>
+                                        <td>FUNCTION</td>
+                                        <td>PLPGSQL</td>
+                                        <td>false</td>
+                                        <td>SETOF record</td>
+                                        <td>INVOKER</td>
+                                        <td><p>Generate a flat representation of the datasets for a given locale.</p></td>
+                                    </tr>
+                                    <tr>
                                         <td><a href="routines/generate_html_from_json.html">generate_html_from_json</a></td>
                                         <td>FUNCTION</td>
                                         <td>PLPGSQL</td>
@@ -129,7 +138,8 @@ v.table_name,
 pgmetadata.update_postgresql_table_comment(
     v.table_schema,
     v.table_name,
-    v.table_comment
+    v.table_comment,
+    v.table_type
 ) AS comment_updated
 FROM pgmetadata.v_table_comment_from_metadata AS v
 </code></pre></td>
@@ -141,7 +151,7 @@ FROM pgmetadata.v_table_comment_from_metadata AS v
                                         <td>false</td>
                                         <td>SETOF record</td>
                                         <td>INVOKER</td>
-                                        <td><p>Get the datasets records as XML DCAT datasets for the given locale.</p></td>
+                                        <td><p>Get the datasets records as XML DCAT datasets for the given locale. Datasets are filtered by the given array of uids. IF uids is NULL, no filter is used and all datasets are returned</p></td>
                                     </tr>
                                     <tr>
                                         <td><a href="routines/refresh_dataset_calculated_fields.html">refresh_dataset_calculated_fields</a></td>

@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>update_table_comment_from_dataset</h1><br />
+                    <h1>export_datasets_as_flat_table</h1><br />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="fa fa-file-text-o"></i>
@@ -85,7 +85,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p><p>Update the PostgreSQL table comment when updating or inserting a line in pgmetadata.dataset table. Comment is taken from the view pgmetadata.v_table_comment_from_metadata.</p></p>
+                            <p><p>Generate a flat representation of the datasets for a given locale.</p></p>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -111,6 +111,136 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <tr>
+                                    <td>_locale</td>
+                                    <td>text</td>
+                                    <td>IN</td>
+                                </tr>
+                                <tr>
+                                    <td>uid</td>
+                                    <td>uuid</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>table_name</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>schema_name</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>title</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>abstract</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>categories</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>themes</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>keywords</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>spatial_level</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>minimum_optimal_scale</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>maximum_optimal_scale</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>publication_date</td>
+                                    <td>timestamp without time zone</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>publication_frequency</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>license</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>confidentiality</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>feature_count</td>
+                                    <td>integer</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>geometry_type</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>projection_name</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>projection_authid</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>spatial_extent</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>creation_date</td>
+                                    <td>timestamp without time zone</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>update_date</td>
+                                    <td>timestamp without time zone</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>data_last_update</td>
+                                    <td>timestamp without time zone</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>links</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
+                                <tr>
+                                    <td>contacts</td>
+                                    <td>text</td>
+                                    <td>OUT</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -125,7 +255,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    is_updated bool;&#10;BEGIN&#10;    SELECT pgmetadata.update_postgresql_table_comment(&#10;        v.table_schema,&#10;        v.table_name,&#10;        v.table_comment,&#10;        v.table_type&#10;    )&#10;    FROM pgmetadata.v_table_comment_from_metadata AS v&#10;    WHERE True&#10;    AND v.table_schema = NEW.schema_name&#10;    AND v.table_name = NEW.table_name&#10;    INTO is_updated&#10;    ;&#10;&#10;    RETURN NEW;&#10;END;&#10;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    locale_exists boolean;&#10;    sql_text text;&#10;BEGIN&#10;&#10;    -- Check if the _locale parameter corresponds to the available locales&#10;    _locale = lower(_locale);&#10;    SELECT _locale IN (SELECT locale FROM pgmetadata.v_locales)&#10;    INTO locale_exists&#10;    ;&#10;    IF NOT locale_exists THEN&#10;        _locale = &#39;en&#39;;&#10;    END IF;&#10;&#10;    -- Set locale&#10;    -- We must use EXECUTE in order to have _locale to be correctly interpreted&#10;    sql_text = concat(&#39;SET SESSION &quot;pgmetadata.locale&quot; = &#39;, quote_literal(_locale));&#10;    EXECUTE sql_text;&#10;&#10;    -- Return content&#10;    RETURN QUERY&#10;    SELECT&#10;    *&#10;    FROM pgmetadata.v_export_table&#10;    ;&#10;&#10;END;&#10;</textarea>
                         </div>
                     </div>
                 </section>

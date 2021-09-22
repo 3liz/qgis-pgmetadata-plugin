@@ -93,7 +93,8 @@ v.table_name,
 pgmetadata.update_postgresql_table_comment(
     v.table_schema,
     v.table_name,
-    v.table_comment
+    v.table_comment,
+    v.table_type
 ) AS comment_updated
 FROM pgmetadata.v_table_comment_from_metadata AS v
 </code></pre></p>
@@ -137,6 +138,11 @@ FROM pgmetadata.v_table_comment_from_metadata AS v
                                     <td>text</td>
                                     <td>IN</td>
                                 </tr>
+                                <tr>
+                                    <td>table_type</td>
+                                    <td>text</td>
+                                    <td>IN</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -151,7 +157,7 @@ FROM pgmetadata.v_table_comment_from_metadata AS v
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    sql_text text;&#10;BEGIN&#10;&#10;    BEGIN&#10;        sql_text = &#39;COMMENT ON TABLE &#39; || quote_ident(table_schema) || &#39;.&#39; || quote_ident(table_name) || &#39; IS &#39; || quote_literal(table_comment) ;&#10;        EXECUTE sql_text;&#10;        RAISE NOTICE &#39;Comment updated for %s&#39;, quote_ident(table_schema) || &#39;.&#39; || quote_ident(table_name) ;&#10;        RETURN True;&#10;    EXCEPTION WHEN OTHERS THEN&#10;        RAISE NOTICE &#39;ERROR - Failed updated comment for table %s&#39;, quote_ident(table_schema) || &#39;.&#39; || quote_ident(table_name);&#10;        RETURN False;&#10;    END;&#10;&#10;    RETURN True;&#10;END;&#10;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">&#10;DECLARE&#10;    sql_text text;&#10;BEGIN&#10;&#10;    BEGIN&#10;        sql_text = &#39;COMMENT ON &#39; || replace(quote_literal(table_type), &#39;&#39;&#39;&#39;, &#39;&#39;) || &#39; &#39; || quote_ident(table_schema) || &#39;.&#39; || quote_ident(table_name) || &#39; IS &#39; || quote_literal(table_comment) ;&#10;        EXECUTE sql_text;&#10;        RAISE NOTICE &#39;Comment updated for %s&#39;, quote_ident(table_schema) || &#39;.&#39; || quote_ident(table_name) ;&#10;        RETURN True;&#10;    EXCEPTION WHEN OTHERS THEN&#10;        RAISE NOTICE &#39;ERROR - Failed updated comment for table %s&#39;, quote_ident(table_schema) || &#39;.&#39; || quote_ident(table_name);&#10;        RETURN False;&#10;    END;&#10;&#10;    RETURN True;&#10;END;&#10;</textarea>
                         </div>
                     </div>
                 </section>
