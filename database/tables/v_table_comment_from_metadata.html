@@ -116,6 +116,23 @@
                                 </thead>
                                 <tbody>
                                 <tr>
+                                    <td><span id="id">id</span></td>
+                                    <td>int8</td>
+                                    <td>19</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
                                     <td><span id="table_schema">table_schema</span></td>
                                     <td>text</td>
                                     <td>2147483647</td>
@@ -166,6 +183,23 @@
                                     </td>
                                     <td></td>
                                 </tr>
+                                <tr>
+                                    <td><span id="table_type">table_type</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -180,7 +214,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">SELECT d.schema_name AS table_schema,&#10;    d.table_name,&#10;    concat(d.title, &#39; - &#39;, d.abstract, &#39; (&#39;, array_to_string(d.categories, &#39;, &#39;::text), &#39;)&#39;) AS table_comment&#10;   FROM pgmetadata.dataset d;</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">SELECT row_number() OVER () AS id,&#10;    d.schema_name AS table_schema,&#10;    d.table_name,&#10;    concat(d.title, &#39; - &#39;, d.abstract, &#39; (&#39;, array_to_string(d.categories, &#39;, &#39;::text), &#39;)&#39;) AS table_comment,&#10;        CASE&#10;            WHEN ((t.table_type)::text = &#39;BASE TABLE&#39;::text) THEN &#39;TABLE&#39;::text&#10;            WHEN ((t.table_type)::text ~~ &#39;FOREIGN%&#39;::text) THEN &#39;FOREIGN TABLE&#39;::text&#10;            ELSE (t.table_type)::text&#10;        END AS table_type&#10;   FROM (pgmetadata.dataset d&#10;     LEFT JOIN information_schema.tables t ON (((d.schema_name = (t.table_schema)::text) AND (d.table_name = (t.table_name)::text))));</textarea>
                             <div style="padding-top: 5px;"><hr></div>
                             <div class="box box-solid">
                                 <div class="box-header with-border">

@@ -180,7 +180,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">SELECT row_number() OVER () AS id,&#10;    (pg_tables.schemaname)::text AS schemaname,&#10;    (pg_tables.tablename)::text AS tablename&#10;   FROM pg_tables&#10;  WHERE ((NOT (concat(pg_tables.schemaname, &#39;.&#39;, pg_tables.tablename) IN ( SELECT concat(dataset.schema_name, &#39;.&#39;, dataset.table_name) AS concat&#10;           FROM pgmetadata.dataset))) AND (pg_tables.schemaname &lt;&gt; ALL (ARRAY[&#39;pg_catalog&#39;::name, &#39;information_schema&#39;::name])))&#10;  ORDER BY ((pg_tables.schemaname)::text), ((pg_tables.tablename)::text);</textarea>
+                            <textarea id="sql-script-codemirror" name="sql-script-codemirror" rows="" style="display: none;">SELECT row_number() OVER () AS id,&#10;    (tables.table_schema)::text AS schemaname,&#10;    (tables.table_name)::text AS tablename&#10;   FROM information_schema.tables&#10;  WHERE ((NOT (concat(tables.table_schema, &#39;.&#39;, tables.table_name) IN ( SELECT concat(dataset.schema_name, &#39;.&#39;, dataset.table_name) AS concat&#10;           FROM pgmetadata.dataset))) AND ((tables.table_schema)::name &lt;&gt; ALL (ARRAY[&#39;pg_catalog&#39;::name, &#39;information_schema&#39;::name])))&#10;  ORDER BY (tables.table_schema)::text, (tables.table_name)::text;</textarea>
                             <div style="padding-top: 5px;"><hr></div>
                             <div class="box box-solid">
                                 <div class="box-header with-border">
