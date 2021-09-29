@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.1.0 - 2021-09-29
+
 * Add support for PostgreSQL views (contribution from @tschuettenberg QGIS Germany)
 * Add translations for the German language (contribution from @effjot)
 * Add new contact role "originator" and "processor" (contribution from @effjot)
