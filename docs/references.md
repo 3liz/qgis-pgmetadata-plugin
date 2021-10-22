@@ -60,8 +60,14 @@ Thanks to the [French Gard province](https://www.gard.fr) for funding this proje
 
 ## Conference
 
-### QGIS-French day
+### QGIS-French day 2020
 
 A presentation in French at the [QGIS-Day](http://conf.qgis.osgeo.fr/) in December 2020 :
 
 <iframe width="800" height="450" src="https://www.youtube.com/embed/o47w7zf40nw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+### FOSS4G 2021 Buenos Aires
+
+A presentation in English during the FOSS4G 2021 :
+
+<iframe width="800" height="450" src="https://www.youtube.com/embed/CjZZwKlzYGc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
