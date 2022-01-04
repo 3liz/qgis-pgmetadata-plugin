@@ -651,17 +651,17 @@ catalog on the web, by calling the SQL query to generate the XML DCAT catalog on
 <p>If you are not using Lizmap to publish your QGIS projects on the web, you can easily write your own wrapper
 (using <a href="https://flask.palletsprojects.com">Flask</a> or any other WEB framework) to call these SQL queries.</p>
 <p>To generate the HTML for a given dataset :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">pgmetadata</span><span class="p">.</span><span class="n">get_dataset_item_html_content</span><span class="p">(</span><span class="s1">&#39;{schema}&#39;</span><span class="p">,</span> <span class="s1">&#39;{table}&#39;</span><span class="p">,</span> <span class="s1">&#39;{locale}&#39;</span><span class="p">);</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">pgmetadata</span><span class="p">.</span><span class="n">get_dataset_item_html_content</span><span class="p">(</span><span class="s1">&#39;{schema}&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;{table}&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;{locale}&#39;</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table>
 <p>To generate the DCAT XML for a one or many datasets :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-    <span class="n">dataset</span>
-<span class="k">FROM</span>
-    <span class="n">pgmetadata</span><span class="p">.</span><span class="n">get_datasets_as_dcat_xml</span><span class="p">(</span><span class="s1">&#39;{locale}&#39;</span><span class="p">,</span><span class="s1">&#39;[{uuid}]&#39;</span><span class="p">);</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="n">dataset</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"></span>
+<span class="w">    </span><span class="n">pgmetadata</span><span class="p">.</span><span class="n">get_datasets_as_dcat_xml</span><span class="p">(</span><span class="s1">&#39;{locale}&#39;</span><span class="p">,</span><span class="s1">&#39;[{uuid}]&#39;</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table>
 <p>If you are building your own wrapper around PgMetadata to reuse DCAT catalog, feel free to contact us or to
