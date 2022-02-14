@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Fix an error when PgMetadata database is not temporary reachable
+
 ## 1.1.0 - 2021-09-29
 
 * Add support for PostgreSQL views (contribution from @tschuettenberg QGIS Germany)

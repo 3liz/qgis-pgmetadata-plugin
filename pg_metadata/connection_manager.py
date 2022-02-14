@@ -25,7 +25,11 @@ def check_pgmetadata_is_installed(connection_name: str) -> bool:
     if not connection:
         return False
 
-    if 'pgmetadata' not in connection.schemas():
+    try:
+        if 'pgmetadata' not in connection.schemas():
+            return False
+    except QgsProviderConnectionException:
+        # The connection is registered in QGIS but the server is currently not reachable
         return False
 
     if len([t for t in connection.tables('pgmetadata') if t.tableName() == 'dataset']) < 1:
