@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Fix an error when PgMetadata database is not temporary reachable
+* Check that PostgreSQL is minimum 9.6 when installing the schema
 
 ## 1.1.0 - 2021-09-29
 

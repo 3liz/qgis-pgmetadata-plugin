@@ -9,6 +9,7 @@ import processing
 
 from qgis.core import (
     Qgis,
+    QgsAbstractDatabaseProviderConnection,
     QgsProcessingException,
     QgsProcessingOutputString,
     QgsProcessingParameterBoolean,
@@ -148,6 +149,8 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
         if not connection:
             raise QgsProcessingException(tr("The connection {} does not exist.").format(connection_name))
 
+        self.check_pg_version(connection)
+
         # Drop schema if needed
         override = self.parameterAsBool(parameters, self.OVERRIDE, context)
         if override and SCHEMA in connection.schemas():
@@ -245,6 +248,17 @@ class CreateDatabaseStructure(BaseDatabaseAlgorithm):
             self.DATABASE_VERSION: metadata_version,
         }
         return results
+
+    @staticmethod
+    def check_pg_version(connection: QgsAbstractDatabaseProviderConnection):
+        """ Check PG minimum version. """
+        try:
+            result = connection.executeSql("SELECT current_setting('server_version_num');")
+        except QgsProviderConnectionException as e:
+            raise QgsProcessingException(str(e))
+
+        if int(result[0][0]) <= 90600:
+            raise QgsProcessingException(tr("PostgreSQL 9.6 minimum is required."))
 
     @staticmethod
     def install_html_templates(feedback, connection_name, context):
