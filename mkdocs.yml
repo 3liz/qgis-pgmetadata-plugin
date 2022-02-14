@@ -43,6 +43,7 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_div_format
   - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.magiclink:
   - pymdownx.tasklist:
   - pymdownx.snippets:
