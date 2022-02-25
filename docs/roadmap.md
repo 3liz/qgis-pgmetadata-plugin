@@ -10,7 +10,7 @@ We have a few ideas how we can improve PgMetadata :
 * Export to spreadsheet format
 * Inspire
 * Translation
-* Support views or raster stored in PostgreSQL
+* Support raster stored in PostgreSQL
 * Support remote database
 * More integration with the
   [QGIS native metadata editor](https://docs.qgis.org/latest/en/docs/user_manual/working_with_vector/vector_properties.html?highlight=metadata#metadata-properties)
