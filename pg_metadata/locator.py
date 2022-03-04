@@ -12,6 +12,7 @@ from qgis.core import (
     QgsProviderRegistry,
     QgsSettings,
     QgsVectorLayer,
+    QgsRasterLayer,
 )
 from qgis.PyQt.QtCore import QLocale
 from qgis.PyQt.QtWidgets import QDockWidget
@@ -103,11 +104,13 @@ class LocatorFilter(QgsLocatorFilter):
                 'connection': connection_name,
                 'schema': item[1],
                 'table': item[2],
-            }
+                'geometry_type': item[3]
+            }    
             self.resultFetched.emit(result)
 
     def triggerResult(self, result):
-
+        """ Add the layer selected by the user """
+        
         metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
         connection = metadata.findConnection(result.userData['connection'])
 
@@ -123,18 +126,25 @@ class LocatorFilter(QgsLocatorFilter):
         uri.setSchema(schema_name)
         uri.setTable(table_name)
         uri.setGeometryColumn(table.geometryColumn())
-        geom_types = table.geometryColumnTypes()
-        if geom_types:
-            # Take the first one
-            uri.setWkbType(geom_types[0].wkbType)
-        # TODO, we should try table.crsList() and uri.setSrid()
         pk = table.primaryKeyColumns()
         if pk:
             uri.setKeyColumn(pk[0])
 
-        layer = QgsVectorLayer(uri.uri(), result.userData['name'], 'postgres')
-        # Maybe there is a default style, you should load it
-        layer.loadDefaultStyle()
+        if result.userData['geometry_type'] != 'RASTER':
+            geom_types = table.geometryColumnTypes()
+            if geom_types:
+                # Take the first one
+                uri.setWkbType(geom_types[0].wkbType)
+            # TODO, we should try table.crsList() and uri.setSrid()
+    
+            layer = QgsVectorLayer(uri.uri(), result.userData['name'], 'postgres')
+            # Maybe there is a default style, you should load it
+            layer.loadDefaultStyle()            
+            
+        else:       
+            layer = QgsRasterLayer(uri.uri(), result.userData['name'], 'postgresraster')
+            # NOTE: raster styles cannot be stored in database yet
+        
         QgsProject.instance().addMapLayer(layer)
 
         auto_open_dock = QgsSettings().value("pgmetadata/auto_open_dock", True, type=bool)
