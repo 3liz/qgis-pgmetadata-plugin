@@ -25,8 +25,10 @@ DECLARE
     test_target_table regclass;
     target_table text;
     test_geom_column record;
+    test_rast_column record;
     geom_envelop geometry;
-geom_column_name text;
+    geom_column_name text;
+    rast_column_name text;
 BEGIN
 
     -- table
@@ -55,7 +57,7 @@ BEGIN
     INTO NEW.feature_count;
     -- RAISE NOTICE 'pgmetadata - % feature_count: %', target_table, NEW.feature_count;
 
--- Check geometry properties: get data from geometry_columns
+-- Check geometry properties: get data from geometry_columns and raster_columns
     EXECUTE
     ' SELECT *' ||
     ' FROM geometry_columns' ||
@@ -63,6 +65,14 @@ BEGIN
     ' AND f_table_name=' || quote_literal(NEW.table_name) ||
     ' LIMIT 1'
     INTO test_geom_column;
+
+    EXECUTE
+    ' SELECT *' ||
+    ' FROM raster_columns' ||
+    ' WHERE r_table_schema=' || quote_literal(NEW.schema_name) ||
+    ' AND r_table_name=' || quote_literal(NEW.table_name) ||
+    ' LIMIT 1'
+    INTO test_rast_column;
 
 -- If the table has a geometry column, calculate field values
     IF test_geom_column IS NOT NULL THEN
@@ -110,6 +120,50 @@ BEGIN
         -- geometry_type
         NEW.geometry_type = test_geom_column.type;
 
+    ELSIF test_rast_column is not null THEN
+    
+        -- column name
+        rast_column_name = test_rast_column.r_raster_column;
+        RAISE NOTICE 'pgmetadata - table % has a raster column: %', target_table, rast_column_name;
+
+        -- TODO: is this the best way to get the raster extent? Could we use ST_xmin etc. on test_rast_column.extent?
+        EXECUTE '
+            SELECT CONCAT(
+                min(ST_xmin(extent))::text, '', '',
+                max(ST_xmax(extent))::text, '', '',
+                min(ST_ymin(extent))::text, '', '',
+                max(ST_ymax(extent))::text)
+            FROM raster_columns
+            WHERE r_table_schema=' || quote_literal(NEW.schema_name) ||
+              'AND r_table_name=' || quote_literal(NEW.table_name)
+        INTO NEW.spatial_extent;
+        
+        -- convexhull from target table
+        EXECUTE '
+            SELECT ST_Transform(ST_ConvexHull("' || rast_column_name || '"), 4326)
+            FROM ' || target_table
+        INTO geom_envelop;
+
+        -- Test if it's not a point or a line
+        IF GeometryType(geom_envelop) != 'POLYGON' THEN
+            EXECUTE '
+                SELECT ST_SetSRID(ST_Buffer(ST_GeomFromText(''' || ST_ASTEXT(geom_envelop) || '''), 0.0001), 4326)'
+            INTO NEW.geom;
+        ELSE
+            NEW.GEOM = geom_envelop;
+        END IF;
+
+        -- projection_authid
+        EXECUTE '
+            SELECT CONCAT(s.auth_name, '':'', ST_SRID(m."' || rast_column_name || '")::text)
+            FROM ' || target_table || ' m, spatial_ref_sys s
+            WHERE s.auth_srid = ST_SRID(m."' || rast_column_name || '")
+            LIMIT 1'
+        INTO NEW.projection_authid;
+
+        -- geometry_type
+        NEW.geometry_type = 'RASTER';
+    
     ELSE
     -- No geometry column found: we need to erase values
             NEW.geom = NULL;
