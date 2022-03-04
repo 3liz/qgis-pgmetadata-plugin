@@ -22,6 +22,8 @@ from qgis.core import (
     QgsProviderRegistry,
     QgsSettings,
     QgsVectorLayer,
+    QgsRasterLayer,
+    QgsMessageLog
 )
 from qgis.PyQt.QtCore import QLocale, QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
@@ -251,7 +253,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             self.default_html_content_not_installed()
             return
 
-        if not isinstance(layer, QgsVectorLayer):
+        if not isinstance(layer, (QgsVectorLayer, QgsRasterLayer)):
             self.default_html_content_not_pg_layer()
             return
 
