@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Add raster support
+
 ## 1.1.1 - 2022-02-14
 
 * Fix an error when PgMetadata database is not temporary reachable
