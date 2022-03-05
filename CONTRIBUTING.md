@@ -52,7 +52,10 @@ SQL and Python are covered by unittests with Docker.
 
 ```bash
 pip install -r requirements/dev.txt
+# Check errors
 flake8
+# Sort imports
+isort .
 make tests
 make test_migration
 ```
