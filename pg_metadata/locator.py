@@ -10,9 +10,9 @@ from qgis.core import (
     QgsProject,
     QgsProviderConnectionException,
     QgsProviderRegistry,
+    QgsRasterLayer,
     QgsSettings,
     QgsVectorLayer,
-    QgsRasterLayer,
 )
 from qgis.PyQt.QtCore import QLocale
 from qgis.PyQt.QtWidgets import QDockWidget
@@ -105,12 +105,12 @@ class LocatorFilter(QgsLocatorFilter):
                 'schema': item[1],
                 'table': item[2],
                 'geometry_type': item[3]
-            }    
+            }
             self.resultFetched.emit(result)
 
     def triggerResult(self, result):
         """ Add the layer selected by the user """
-        
+
         metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
         connection = metadata.findConnection(result.userData['connection'])
 
@@ -136,15 +136,15 @@ class LocatorFilter(QgsLocatorFilter):
                 # Take the first one
                 uri.setWkbType(geom_types[0].wkbType)
             # TODO, we should try table.crsList() and uri.setSrid()
-    
+
             layer = QgsVectorLayer(uri.uri(), result.userData['name'], 'postgres')
             # Maybe there is a default style, you should load it
-            layer.loadDefaultStyle()            
-            
-        else:       
+            layer.loadDefaultStyle()
+
+        else:
             layer = QgsRasterLayer(uri.uri(), result.userData['name'], 'postgresraster')
             # NOTE: raster styles cannot be stored in database yet
-        
+
         QgsProject.instance().addMapLayer(layer)
 
         auto_open_dock = QgsSettings().value("pgmetadata/auto_open_dock", True, type=bool)

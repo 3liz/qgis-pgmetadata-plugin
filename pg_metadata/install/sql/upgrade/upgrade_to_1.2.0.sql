@@ -30,12 +30,18 @@ BEGIN
         RETURN NEW;
     END IF;
 
--- Get table feature count
+    -- Date fields
+    NEW.update_date = now();
+    IF TG_OP = 'INSERT' THEN
+        NEW.creation_date = now();
+    END IF;
+
+    -- Get table feature count
     EXECUTE 'SELECT COUNT(*) FROM ' || target_table
     INTO NEW.feature_count;
     -- RAISE NOTICE 'pgmetadata - % feature_count: %', target_table, NEW.feature_count;
 
--- Check geometry properties: get data from geometry_columns and raster_columns
+    -- Check geometry properties: get data from geometry_columns and raster_columns
     EXECUTE
     ' SELECT *' ||
     ' FROM geometry_columns' ||
@@ -52,7 +58,7 @@ BEGIN
     ' LIMIT 1'
     INTO test_rast_column;
 
--- If the table has a geometry column, calculate field values
+    -- If the table has a geometry column, calculate field values
     IF test_geom_column IS NOT NULL THEN
 
         -- column name
@@ -99,7 +105,7 @@ BEGIN
         NEW.geometry_type = test_geom_column.type;
 
     ELSIF test_rast_column is not null THEN
-    
+
         -- column name
         rast_column_name = test_rast_column.r_raster_column;
         RAISE NOTICE 'pgmetadata - table % has a raster column: %', target_table, rast_column_name;
@@ -115,7 +121,7 @@ BEGIN
             WHERE r_table_schema=' || quote_literal(NEW.schema_name) ||
               'AND r_table_name=' || quote_literal(NEW.table_name)
         INTO NEW.spatial_extent;
-        
+
         -- convexhull from target table
         EXECUTE '
             SELECT ST_Transform(ST_ConvexHull("' || rast_column_name || '"), 4326)
@@ -141,7 +147,7 @@ BEGIN
 
         -- geometry_type
         NEW.geometry_type = 'RASTER';
-    
+
     ELSE
     -- No geometry column found: we need to erase values
             NEW.geom = NULL;

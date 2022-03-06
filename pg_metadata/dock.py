@@ -20,10 +20,9 @@ from qgis.core import (
     QgsProject,
     QgsProviderConnectionException,
     QgsProviderRegistry,
+    QgsRasterLayer,
     QgsSettings,
     QgsVectorLayer,
-    QgsRasterLayer,
-    QgsMessageLog
 )
 from qgis.PyQt.QtCore import QLocale, QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon

@@ -22,7 +22,7 @@ def icon_for_geometry_type(geometry_type: str) -> QIcon():
 
     elif geometry_type in ('POLYGON', 'MULTIPOLYGON'):
         return QgsLayerItem.iconPolygon()
-    
+
     elif geometry_type == 'RASTER':
         return QgsLayerItem.iconRaster()
 
