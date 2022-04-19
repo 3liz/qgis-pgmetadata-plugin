@@ -50,13 +50,17 @@ BEGIN
     ' LIMIT 1'
     INTO test_geom_column;
 
-    EXECUTE
-    ' SELECT *' ||
-    ' FROM raster_columns' ||
-    ' WHERE r_table_schema=' || quote_literal(NEW.schema_name) ||
-    ' AND r_table_name=' || quote_literal(NEW.table_name) ||
-    ' LIMIT 1'
-    INTO test_rast_column;
+    IF to_regclass('raster_columns') is not null THEN
+        EXECUTE
+        ' SELECT *' ||
+        ' FROM raster_columns' ||
+        ' WHERE r_table_schema=' || quote_literal(NEW.schema_name) ||
+        ' AND r_table_name=' || quote_literal(NEW.table_name) ||
+        ' LIMIT 1'
+        INTO test_rast_column;
+    ELSE
+        select null into test_rast_column;
+    END IF;
 
     -- If the table has a geometry column, calculate field values
     IF test_geom_column IS NOT NULL THEN
