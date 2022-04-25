@@ -16,6 +16,7 @@ services:
       - POSTGRES_DBNAME=gis
       # Uncomment to expose the postgis database on the network
       # - ALLOW_IP_RANGE= 0.0.0.0/0
+      #- POSTGRES_MULTIPLE_EXTENSIONS=postgis,postgis_raster
     volumes:
       - ../${PLUGIN_NAME}:/tests_directory/${PLUGIN_NAME}
     # Uncomment to use the postgis database from outside the docker network

@@ -58,7 +58,7 @@ class DatabaseTestCase(BaseTestProcessing):
             "{}:create_database_structure".format(self.provider.id()), params, feedback=None,
         )
 
-        # Insert a layer with geometry
+        # Insert a layer with vector geometry
         layer = QgsVectorLayer(plugin_test_data_path('lines.geojson'), 'lines', 'ogr')
 
         uri = QgsDataSourceUri(self.connection.uri())
@@ -75,6 +75,11 @@ class DatabaseTestCase(BaseTestProcessing):
         if result[0] != 0:
             raise Exception('Layer exported did not work')
 
+        # Insert a layer with raster geometry
+        with open(plugin_test_data_path('raster.sql')) as f:
+            for line in f:
+                self.connection.executeSql(line)
+        
         # Insert a layer without geometry
         layer = QgsVectorLayer(
             'None?field=id:integer&field=name:string(20)&index=yes', 'tabular', 'memory')
@@ -96,7 +101,7 @@ class DatabaseTestCase(BaseTestProcessing):
         if result[0] != 0:
             raise Exception('Layer exported did not work')
 
-        for table_name in ['tabular', 'lines']:
+        for table_name in ['tabular', 'lines', 'raster']:
             # When QGIS >= 3.12, use table()
             table = [t for t in self.connection.tables(SCHEMA) if t.tableName() == table_name]
             self.assertEqual(len(table), 1)
