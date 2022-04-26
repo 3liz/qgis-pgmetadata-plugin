@@ -441,3 +441,40 @@ class TestSql(DatabaseTestCase):
         )
         result = self._sql(sql)
         self.assertListEqual(['POINT', 'EPSG:4326', '0, 0, 0, 0'], result[0])
+
+    def test_trigger_calculate_fields_raster(self):
+        """ Test if fields are correctly calculated on a raster layer (having a rast column). """
+
+        # Adding data
+        dataset_feature = {
+            'table_name': "'raster'",
+            'schema_name': "'pgmetadata'",
+            'title': "'Test title'",
+            'abstract': "'Test abstract.'",
+        }
+        self._insert(dataset_feature, 'dataset')
+
+        # Test insert
+        sql = "SELECT geometry_type, projection_authid, spatial_extent FROM pgmetadata.dataset"
+        result = self._sql(sql)
+        self.assertEqual(['RASTER', 'EPSG:25833', '300000, 300800, 5700000, 5700800'], result[0])
+
+        # Test date, creation_date is equal to update_date
+        sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"
+        result = self._sql(sql)
+        self.assertEqual(result[0][0], result[0][1])
+
+        # Test update
+        # sql = "UPDATE pgmetadata.dataset SET title = 'test lines title' WHERE table_name = 'lines'"
+        # self._sql(sql)
+        # sql = "SELECT title, geometry_type, projection_authid, spatial_extent FROM pgmetadata.dataset"
+        # result = self._sql(sql)
+        # self.assertEqual(
+        #     ['test lines title', 'LINESTRING', 'EPSG:4326', '3.854, 3.897, 43.5786, 43.622'],
+        #     result[0]
+        # )
+
+        # # Test date, creation_date is not equal to update_date
+        # sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"
+        # result = self._sql(sql)
+        # self.assertNotEqual(result[0][0], result[0][1])
