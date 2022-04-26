@@ -465,16 +465,16 @@ class TestSql(DatabaseTestCase):
         self.assertEqual(result[0][0], result[0][1])
 
         # Test update
-        # sql = "UPDATE pgmetadata.dataset SET title = 'test lines title' WHERE table_name = 'lines'"
-        # self._sql(sql)
-        # sql = "SELECT title, geometry_type, projection_authid, spatial_extent FROM pgmetadata.dataset"
-        # result = self._sql(sql)
-        # self.assertEqual(
-        #     ['test lines title', 'LINESTRING', 'EPSG:4326', '3.854, 3.897, 43.5786, 43.622'],
-        #     result[0]
-        # )
+        sql = "UPDATE pgmetadata.dataset SET title = 'test raster title' WHERE table_name = 'raster'"
+        self._sql(sql)
+        sql = "SELECT title, geometry_type, projection_authid, spatial_extent FROM pgmetadata.dataset"
+        result = self._sql(sql)
+        self.assertEqual(
+            ['test raster title', 'RASTER', 'EPSG:25833', '300000, 300800, 5700000, 5700800'],
+            result[0]
+        )
 
-        # # Test date, creation_date is not equal to update_date
-        # sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"
-        # result = self._sql(sql)
-        # self.assertNotEqual(result[0][0], result[0][1])
+        # Test date, creation_date is not equal to update_date
+        sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"
+        result = self._sql(sql)
+        self.assertNotEqual(result[0][0], result[0][1])
