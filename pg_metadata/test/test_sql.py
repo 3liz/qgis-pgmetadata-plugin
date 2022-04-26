@@ -378,7 +378,7 @@ class TestSql(DatabaseTestCase):
         self.assertEqual(["Test title SQL view - Test abstract SQL view. ()"], result[0])
 
     def test_trigger_calculate_fields_when_removing_geom(self):
-        """ Test the trigger on an existing table where we remove the geometry. """
+        """ Test the trigger on an existing vector table where we remove the geometry. """
 
         # Adding data
         dataset_feature = {
@@ -478,3 +478,24 @@ class TestSql(DatabaseTestCase):
         sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"
         result = self._sql(sql)
         self.assertNotEqual(result[0][0], result[0][1])
+
+    def test_trigger_calculate_fields_when_removing_rast(self):
+        """ Test the trigger on an existing raster table where we remove the geometry. """
+
+        # Adding data
+        dataset_feature = {
+            'table_name': "'raster'",
+            'schema_name': "'pgmetadata'",
+            'title': "'Test title'",
+            'abstract': "'Test abstract.'",
+        }
+        self._insert(dataset_feature, 'dataset')
+
+        # Test with removing the rast column
+        sql = "ALTER TABLE pgmetadata.raster DROP COLUMN rast"
+        self._sql(sql)
+        sql = "UPDATE pgmetadata.dataset SET title = 'test after drop rast column'"
+        self._sql(sql)
+        sql = "SELECT title, geometry_type, projection_authid, spatial_extent, geom FROM pgmetadata.dataset"
+        result = self._sql(sql)
+        self.assertEqual(['test after drop rast column', NULL, NULL, NULL, NULL], result[0])

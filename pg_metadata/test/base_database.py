@@ -79,7 +79,7 @@ class DatabaseTestCase(BaseTestProcessing):
         with open(plugin_test_data_path('raster.sql')) as f:
             for line in f:
                 self.connection.executeSql(line)
-        
+
         # Insert a layer without geometry
         layer = QgsVectorLayer(
             'None?field=id:integer&field=name:string(20)&index=yes', 'tabular', 'memory')
