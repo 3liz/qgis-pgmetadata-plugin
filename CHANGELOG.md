@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* Add raster support
+* Add raster support (contribution from @effjot Florian Jenn)
 
 ## 1.1.1 - 2022-02-14
 
