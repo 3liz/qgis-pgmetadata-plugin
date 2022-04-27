@@ -130,23 +130,17 @@ BEGIN
         rast_column_name = test_rast_column.r_raster_column;
         RAISE NOTICE 'pgmetadata - table % has a raster column: %', target_table, rast_column_name;
 
-        -- TODO: is this the best way to get the raster extent? Could we use ST_xmin etc. on test_rast_column.extent?
-        EXECUTE '
-            SELECT CONCAT(
-                min(ST_xmin(extent))::text, '', '',
-                max(ST_xmax(extent))::text, '', '',
-                min(ST_ymin(extent))::text, '', '',
-                max(ST_ymax(extent))::text)
-            FROM raster_columns
-            WHERE r_table_schema=' || quote_literal(NEW.schema_name) ||
-              'AND r_table_name=' || quote_literal(NEW.table_name)
-        INTO NEW.spatial_extent;
+        -- spatial_extent
+        EXECUTE 'SELECT CONCAT(ST_xmin($1)::text, '', '', ST_xmax($1)::text, '', '',
+                               ST_ymin($1)::text, '', '', ST_ymax($1)::text)'
+        INTO NEW.spatial_extent
+        USING test_rast_column.extent;
 
-        -- convexhull from target table
-        EXECUTE '
-            SELECT ST_Transform(ST_ConvexHull("' || rast_column_name || '"), 4326)
-            FROM ' || target_table
-        INTO geom_envelop;
+        -- use extent (of whole table) from raster_columns catalog as envelope
+        -- (union of convexhull of all rasters (tiles) in target table is too slow for big tables)
+        EXECUTE 'SELECT ST_Transform($1, 4326)'
+        INTO geom_envelop
+        USING test_rast_column.extent;
 
         -- Test if it's not a point or a line
         IF GeometryType(geom_envelop) != 'POLYGON' THEN
@@ -157,13 +151,10 @@ BEGIN
             NEW.GEOM = geom_envelop;
         END IF;
 
-        -- projection_authid
-        EXECUTE '
-            SELECT CONCAT(s.auth_name, '':'', ST_SRID(m."' || rast_column_name || '")::text)
-            FROM ' || target_table || ' m, spatial_ref_sys s
-            WHERE s.auth_srid = ST_SRID(m."' || rast_column_name || '")
-            LIMIT 1'
-        INTO NEW.projection_authid;
+        -- projection_authid (use test_rast_column because querying table similar to vector layer is very slow)
+        EXECUTE 'SELECT CONCAT(auth_name, '':'', $1) FROM spatial_ref_sys WHERE auth_srid = $1'
+        INTO NEW.projection_authid
+        USING test_rast_column.srid;
 
         -- geometry_type
         NEW.geometry_type = 'RASTER';
