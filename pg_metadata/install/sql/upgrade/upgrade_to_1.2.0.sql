@@ -4,7 +4,7 @@ BEGIN;
 DROP FUNCTION pgmetadata.calculate_fields_from_data() CASCADE;
 CREATE FUNCTION pgmetadata.calculate_fields_from_data() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 DECLARE
     test_target_table regclass;
     target_table text;
@@ -153,7 +153,7 @@ BEGIN
 
     RETURN NEW;
 END;
-$$;
+$_$;
 
 -- FUNCTION calculate_fields_from_data()
 COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fields content when updating or inserting a line in pgmetadata.dataset table.';

@@ -20,7 +20,7 @@ SET row_security = off;
 -- calculate_fields_from_data()
 CREATE FUNCTION pgmetadata.calculate_fields_from_data() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 DECLARE
     test_target_table regclass;
     target_table text;
@@ -169,7 +169,7 @@ BEGIN
 
     RETURN NEW;
 END;
-$$;
+$_$;
 
 
 -- FUNCTION calculate_fields_from_data()
