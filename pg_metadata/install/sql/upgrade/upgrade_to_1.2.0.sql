@@ -162,4 +162,45 @@ COMMENT ON FUNCTION pgmetadata.calculate_fields_from_data() IS 'Update some fiel
 CREATE TRIGGER trg_calculate_fields_from_data BEFORE INSERT OR UPDATE ON pgmetadata.dataset FOR EACH ROW EXECUTE PROCEDURE pgmetadata.calculate_fields_from_data();
 
 
+
+DROP FUNCTION pgmetadata.update_postgresql_table_comment() CASCADE;
+CREATE FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    sql_text text;
+BEGIN
+
+    BEGIN
+        sql_text = 'COMMENT ON ' || replace(quote_literal(table_type), '''', '') || ' ' || quote_ident(table_schema) || '.' || quote_ident(table_name) || ' IS ' || quote_literal(table_comment) ;
+        EXECUTE sql_text;
+        RAISE NOTICE 'Comment updated for %', quote_ident(table_schema) || '.' || quote_ident(table_name) ;
+        RETURN True;
+    EXCEPTION WHEN OTHERS THEN
+        RAISE NOTICE 'ERROR - Failed updated comment for table %', quote_ident(table_schema) || '.' || quote_ident(table_name);
+        RETURN False;
+    END;
+
+    RETURN True;
+END;
+$$;
+
+
+-- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text)
+COMMENT ON FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text) IS 'Update the PostgreSQL comment of a table by giving table schema, name and comment
+Example: if you need to update the comments for all the items listed by pgmetadata.v_table_comment_from_metadata:
+
+    SELECT
+    v.table_schema,
+    v.table_name,
+    pgmetadata.update_postgresql_table_comment(
+        v.table_schema,
+        v.table_name,
+        v.table_comment,
+        v.table_type
+    ) AS comment_updated
+    FROM pgmetadata.v_table_comment_from_metadata AS v
+
+    ';
+
 COMMIT;
