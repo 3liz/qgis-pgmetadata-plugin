@@ -163,7 +163,7 @@ CREATE TRIGGER trg_calculate_fields_from_data BEFORE INSERT OR UPDATE ON pgmetad
 
 
 
-DROP FUNCTION pgmetadata.update_postgresql_table_comment() CASCADE;
+DROP FUNCTION pgmetadata.update_postgresql_table_comment(text, text, text, text);
 CREATE FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text) RETURNS boolean
     LANGUAGE plpgsql
     AS $$
