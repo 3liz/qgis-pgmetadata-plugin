@@ -227,7 +227,7 @@ BEGIN
         html = regexp_replace(
             html,
             concat('\[% *"?', item.col, '"? *%\]'),
-            replace(item.val, '\', '\\'), -- escape backslashes in substitution string (\1...\9 refer to subexpressions)
+            replace(item.val, $quote$\$quote$, $quote$\\$quote$), -- escape backslashes in substitution string (\1...\9 refer to subexpressions)
             'g'
         )
         ;
@@ -355,7 +355,7 @@ BEGIN
     html = regexp_replace(
         html,
         concat('\[% *"?meta_contacts"? *%\]'),
-        coalesce(replace(html_contact, '\', '\\'), ''), -- escape backslashes in substitution string (\1...\9 refer to subexpressions)
+        coalesce(replace(html_contact, $quote$\$quote$, $quote$\\$quote$), ''), -- escape backslashes in substitution string (\1...\9 refer to subexpressions)
         'g'
     );
 
@@ -363,7 +363,7 @@ BEGIN
     html = regexp_replace(
         html,
         concat('\[% *"?meta_links"? *%\]'),
-        coalesce(replace(html_link, '\', '\\'), ''), -- escape backslashes in substitution string (\1...\9 refer to subexpressions)
+        coalesce(replace(html_link, $quote$\$quote$, $quote$\\$quote$), ''), -- escape backslashes in substitution string (\1...\9 refer to subexpressions)
         'g'
     );
 
