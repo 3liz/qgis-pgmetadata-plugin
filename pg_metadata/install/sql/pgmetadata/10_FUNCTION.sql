@@ -251,7 +251,7 @@ BEGIN
         -- replace QGIS style field [% "my_field" %] by field value
         html = regexp_replace(
             html,
-            concat('\[%( )*?(")*', item.col ,'(")*( )*%\]'),
+            concat('\[% *"?', item.col, '"? *%\]'),
             replace(item.val, '\', '\\'), -- escape backslashes in substitution string (\1...\9 refer to subexpressions)
             'g'
         )
@@ -400,15 +400,15 @@ BEGIN
     -- add contacts: [% "meta_contacts" %]
     html = regexp_replace(
         html,
-        concat('\[%( )*?(")*meta_contacts(")*( )*%\]'),
-        coalesce(html_contact, ''),
+        concat('\[% *"?meta_contacts"? *%\]'),
+        coalesce(replace(html_contact, '\', '\\'), ''), -- escape backslashes in substitution string (\1...\9 refer to subexpressions)
         'g'
     );
 
     -- add links [% "meta_links" %]
     html = regexp_replace(
         html,
-        concat('\[%( )*?(")*meta_links(")*( )*%\]'),
+        concat('\[% *"?meta_links"? *%\]'),
         coalesce(replace(html_link, '\', '\\'), ''), -- escape backslashes in substitution string (\1...\9 refer to subexpressions)
         'g'
     );
