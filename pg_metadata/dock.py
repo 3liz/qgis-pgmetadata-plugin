@@ -20,6 +20,7 @@ from qgis.core import (
     QgsProject,
     QgsProviderConnectionException,
     QgsProviderRegistry,
+    QgsRasterLayer,
     QgsSettings,
     QgsVectorLayer,
 )
@@ -251,7 +252,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             self.default_html_content_not_installed()
             return
 
-        if not isinstance(layer, QgsVectorLayer):
+        if not isinstance(layer, (QgsVectorLayer, QgsRasterLayer)):
             self.default_html_content_not_pg_layer()
             return
 

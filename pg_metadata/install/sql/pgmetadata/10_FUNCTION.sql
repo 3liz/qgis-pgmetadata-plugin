@@ -20,13 +20,15 @@ SET row_security = off;
 -- calculate_fields_from_data()
 CREATE FUNCTION pgmetadata.calculate_fields_from_data() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 DECLARE
     test_target_table regclass;
     target_table text;
     test_geom_column record;
+    test_rast_column record;
     geom_envelop geometry;
-geom_column_name text;
+    geom_column_name text;
+    rast_column_name text;
 BEGIN
 
     -- table
@@ -50,12 +52,12 @@ BEGIN
         NEW.creation_date = now();
     END IF;
 
--- Get table feature count
+    -- Get table feature count
     EXECUTE 'SELECT COUNT(*) FROM ' || target_table
     INTO NEW.feature_count;
     -- RAISE NOTICE 'pgmetadata - % feature_count: %', target_table, NEW.feature_count;
 
--- Check geometry properties: get data from geometry_columns
+    -- Check geometry properties: get data from geometry_columns and raster_columns
     EXECUTE
     ' SELECT *' ||
     ' FROM geometry_columns' ||
@@ -64,7 +66,19 @@ BEGIN
     ' LIMIT 1'
     INTO test_geom_column;
 
--- If the table has a geometry column, calculate field values
+    IF to_regclass('raster_columns') is not null THEN
+        EXECUTE
+        ' SELECT *' ||
+        ' FROM raster_columns' ||
+        ' WHERE r_table_schema=' || quote_literal(NEW.schema_name) ||
+        ' AND r_table_name=' || quote_literal(NEW.table_name) ||
+        ' LIMIT 1'
+        INTO test_rast_column;
+    ELSE
+        select null into test_rast_column;
+    END IF;
+
+    -- If the table has a geometry column, calculate field values
     IF test_geom_column IS NOT NULL THEN
 
         -- column name
@@ -110,6 +124,41 @@ BEGIN
         -- geometry_type
         NEW.geometry_type = test_geom_column.type;
 
+    ELSIF test_rast_column is not null THEN
+
+        -- column name
+        rast_column_name = test_rast_column.r_raster_column;
+        RAISE NOTICE 'pgmetadata - table % has a raster column: %', target_table, rast_column_name;
+
+        -- spatial_extent
+        EXECUTE 'SELECT CONCAT(ST_xmin($1)::text, '', '', ST_xmax($1)::text, '', '',
+                               ST_ymin($1)::text, '', '', ST_ymax($1)::text)'
+        INTO NEW.spatial_extent
+        USING test_rast_column.extent;
+
+        -- use extent (of whole table) from raster_columns catalog as envelope
+        -- (union of convexhull of all rasters (tiles) in target table is too slow for big tables)
+        EXECUTE 'SELECT ST_Transform($1, 4326)'
+        INTO geom_envelop
+        USING test_rast_column.extent;
+
+        -- Test if it's not a point or a line
+        IF GeometryType(geom_envelop) != 'POLYGON' THEN
+            EXECUTE '
+                SELECT ST_SetSRID(ST_Buffer(ST_GeomFromText(''' || ST_ASTEXT(geom_envelop) || '''), 0.0001), 4326)'
+            INTO NEW.geom;
+        ELSE
+            NEW.GEOM = geom_envelop;
+        END IF;
+
+        -- projection_authid (use test_rast_column because querying table similar to vector layer is very slow)
+        EXECUTE 'SELECT CONCAT(auth_name, '':'', $1) FROM spatial_ref_sys WHERE auth_srid = $1'
+        INTO NEW.projection_authid
+        USING test_rast_column.srid;
+
+        -- geometry_type
+        NEW.geometry_type = 'RASTER';
+
     ELSE
     -- No geometry column found: we need to erase values
             NEW.geom = NULL;
@@ -120,7 +169,7 @@ BEGIN
 
     RETURN NEW;
 END;
-$$;
+$_$;
 
 
 -- FUNCTION calculate_fields_from_data()
@@ -466,10 +515,10 @@ BEGIN
     BEGIN
         sql_text = 'COMMENT ON ' || replace(quote_literal(table_type), '''', '') || ' ' || quote_ident(table_schema) || '.' || quote_ident(table_name) || ' IS ' || quote_literal(table_comment) ;
         EXECUTE sql_text;
-        RAISE NOTICE 'Comment updated for %s', quote_ident(table_schema) || '.' || quote_ident(table_name) ;
+        RAISE NOTICE 'Comment updated for %', quote_ident(table_schema) || '.' || quote_ident(table_name) ;
         RETURN True;
     EXCEPTION WHEN OTHERS THEN
-        RAISE NOTICE 'ERROR - Failed updated comment for table %s', quote_ident(table_schema) || '.' || quote_ident(table_name);
+        RAISE NOTICE 'ERROR - Failed updated comment for table %', quote_ident(table_schema) || '.' || quote_ident(table_name);
         RETURN False;
     END;
 
