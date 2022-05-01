@@ -185,6 +185,23 @@ BEGIN
 END;
 $$;
 
+-- FUNCTION update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text)
+COMMENT ON FUNCTION pgmetadata.update_postgresql_table_comment(table_schema text, table_name text, table_comment text, table_type text) IS 'Update the PostgreSQL comment of a table by giving table schema, name and comment
+Example: if you need to update the comments for all the items listed by pgmetadata.v_table_comment_from_metadata:
+
+    SELECT
+    v.table_schema,
+    v.table_name,
+    pgmetadata.update_postgresql_table_comment(
+        v.table_schema,
+        v.table_name,
+        v.table_comment,
+        v.table_type
+    ) AS comment_updated
+    FROM pgmetadata.v_table_comment_from_metadata AS v
+
+    ';
+
 
 -- Issue #115 (fix backslashes in regexp substition for HTML templates)
 
