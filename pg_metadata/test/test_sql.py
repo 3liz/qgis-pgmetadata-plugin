@@ -174,8 +174,8 @@ class TestSql(DatabaseTestCase):
         }
         return_value = self._insert(dataset_feature, 'dataset', 'id, uid')
 
-        link_feature = {
-            'name': "'test link'",
+        web_link_feature = {
+            'name': "'test web link'",
             'type': "'file'",
             'mime': "'pdf'",
             'url': "'https://metadata.is.good'",
@@ -183,8 +183,17 @@ class TestSql(DatabaseTestCase):
             'size': "590",
             'fk_id_dataset': "{}".format(return_value[0][0]),
         }
-        self._insert(link_feature, 'link')
-
+        self._insert(web_link_feature, 'link')
+        file_link_feature = {
+            'name': "'test file link'",
+            'type': "'file'",
+            'mime': "'plain'",
+            'url': r"'file:///C:\Users\test\1file.txt'",
+            'description': "'File description'",
+            'size': "590",
+            'fk_id_dataset': "{}".format(return_value[0][0]),
+        }
+        self._insert(file_link_feature, 'link')
         contact_feature = {
             'name': "'Jane Doe'",
             'organisation_name': "'Acme'",
@@ -265,10 +274,17 @@ class TestSql(DatabaseTestCase):
             '<foaf:mbox>bob.bob@corp.spa</foaf:mbox>'
             '</foaf:Organization></dct:publisher>'
 
-            '<dcat:distribution><dcat:Distribution><dct:title>test link</dct:title>'
+            '<dcat:distribution><dcat:Distribution><dct:title>test web link</dct:title>'
             '<dct:description>Link description</dct:description>'
             '<dcat:downloadURL>https://metadata.is.good</dcat:downloadURL>'
             '<dcat:mediaType>application/pdf</dcat:mediaType><dct:format>a file</dct:format>'
+            '<dct:bytesize>590</dct:bytesize>'
+            '<dct:license>Licence Ouverte Version 2.1</dct:license>'
+            '</dcat:Distribution></dcat:distribution>'
+            '<dcat:distribution><dcat:Distribution><dct:title>test file link</dct:title>'
+            '<dct:description>File description</dct:description>'
+            r'<dcat:downloadURL>file:///C:\Users\test\1file.txt</dcat:downloadURL>'
+            '<dcat:mediaType>text/plain</dcat:mediaType><dct:format>a file</dct:format>'
             '<dct:bytesize>590</dct:bytesize>'
             '<dct:license>Licence Ouverte Version 2.1</dct:license>'
             '</dcat:Distribution></dcat:distribution>'
