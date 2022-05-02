@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Add raster support (contribution from @effjot Florian Jenn)
+* Fix handling of backslashes in file:// links to Windows files (contribution from @effjot Florian Jenn)
 
 ## 1.1.1 - 2022-02-14
 
