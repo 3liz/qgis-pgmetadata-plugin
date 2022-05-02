@@ -96,15 +96,24 @@ class TestSql(DatabaseTestCase):
             'data_last_update': "'2020-12-25T20:35:59'::timestamp",
         }
         return_value = self._insert(dataset_feature, 'dataset', 'id')
-        link_feature = {
-            'name': "'test link'",
+        web_link_feature = {
+            'name': "'test web link'",
             'type': "'file'",
             'url': "'https://metadata.is.good'",
             'description': "''",
             'size': "0.5",
             'fk_id_dataset': "{}".format(return_value[0][0]),
         }
-        self._insert(link_feature, 'link')
+        self._insert(web_link_feature, 'link')
+        file_link_feature = {
+            'name': "'test file link'",
+            'type': "'file'",
+            'url': r"'file:///C:\Users\test\1file.txt'",
+            'description': "''",
+            'size': "0.5",
+            'fk_id_dataset': "{}".format(return_value[0][0]),
+        }
+        self._insert(file_link_feature, 'link')
 
         # Remove previous template to have a smaller one
         sql = "DELETE FROM pgmetadata.html_template WHERE section IN ('main', 'link');"
@@ -124,7 +133,7 @@ class TestSql(DatabaseTestCase):
         self._insert(html_feature, 'html_template')
         html_feature = {
             'section': "'link'",
-            'content': "'<p>[% \"name\" %] [% \"description\" %]</p><p>[% \"size\" %]</p>'",
+            'content': "'<p>[% \"name\" %] [% \"description\" %]</p><p>[% url %] [% \"size\" %]</p>'",
         }
         self._insert(html_feature, 'html_template')
 
@@ -133,7 +142,9 @@ class TestSql(DatabaseTestCase):
         )
         expected = (
             '<p>Test title</p><b>Test abstract.</b><p>2020-12-25T20:35:59</p><p>\n'
-            '            <p>test link </p><p>1</p></p><p>New test theme, test theme</p>'
+            '            <p>test web link </p><p>https://metadata.is.good 1</p>\n'
+            r'            <p>test file link </p><p>file:///C:\Users\test\1file.txt 1</p>'
+            '</p><p>New test theme, test theme</p>'
         )
         self.assertEqual(expected, result[0][0])
 
