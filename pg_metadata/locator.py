@@ -53,7 +53,7 @@ class LocatorFilter(QgsLocatorFilter):
             return
 
         connections, message = connections_list()
-        if not connections:
+        if message or not connections:  # FIXME: log if there are messages or only when no connections?
             self.logMessage(message, Qgis.Critical)
 
         for connection in connections:

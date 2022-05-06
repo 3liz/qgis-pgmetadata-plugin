@@ -3,15 +3,20 @@ __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
+#import logging
+
 from qgis.core import (
+    Qgis,
     QgsExpressionContextUtils,
     QgsProviderConnectionException,
     QgsProviderRegistry,
     QgsSettings,
 )
+from qgis.utils import iface
 
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 
+#LOGGER = logging.getLogger('pg_metadata')
 
 def check_pgmetadata_is_installed(connection_name: str) -> bool:
     """ Test if a given connection has PgMetadata installed. """
@@ -85,14 +90,27 @@ def connections_list() -> tuple:
         return (), message
 
     connections = list()
-
+    messages = list()
     for name in connection_names.split(';'):
         try:
-            metadata.findConnection(name)
+            connection = metadata.findConnection(name)
         except QgsProviderConnectionException:
             # Todo, we must log something
-            pass
+            # TODO suggestion:
+            mess = f'QgsProviderConnectionException when looking for connection {name}.'
+            iface.messageBar().pushMessage(mess, level=Qgis.Critical)  # FIXME: show message bar here or just return message to higher level?
+            messages.append(mess)
         else:
-            connections.append(name)
+            if connection:
+                connections.append(name)
+            else:
+                mess = f'Unknown database connection {name} in PgMetadata settings.'
+                iface.messageBar().pushMessage(mess, level=Qgis.Warning)  # FIXME: show message bar here or just return message to higher level?
+                messages.append(mess)
+    if messages:
+        message = '\n'.join(messages)
+    else:
+        message = None
+    #LOGGER.info(f'connections_list() -> ({connections}, {message})')
 
-    return connections, None
+    return connections, message
