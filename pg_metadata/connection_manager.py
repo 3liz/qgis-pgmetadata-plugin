@@ -75,6 +75,29 @@ def settings_connections_names() -> tuple:
     return QgsSettings().value("pgmetadata/connection_names", "", type=str)
 
 
+def validate_connections_names() -> tuple:
+    migrate_from_global_variables_to_pgmetadata_section()
+    metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
+
+    connection_names = settings_connections_names()
+    if not connection_names:
+        return  # no connections is a valid situation
+
+    valid = []
+    invalid = []
+    for name in connection_names.split(';'):
+        try:
+            connection = metadata.findConnection(name)
+        except QgsProviderConnectionException:
+            invalid.append(name)
+        else:
+            if connection:
+                valid.append(name)
+            else:
+                invalid.append(name)
+    return valid, invalid
+
+
 def connections_list() -> tuple:
     """ List of available connections to PostgreSQL database. """
     migrate_from_global_variables_to_pgmetadata_section()
