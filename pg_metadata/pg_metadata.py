@@ -9,7 +9,7 @@ from qgis.PyQt.QtGui import QDesktopServices, QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
 from qgis.utils import iface
 
-from pg_metadata.connection_manager import validate_connections_names
+from pg_metadata.connection_manager import validate_connections_names, store_connections
 from pg_metadata.dock import PgMetadataDock
 from pg_metadata.locator import LocatorFilter
 from pg_metadata.processing.provider import PgMetadataProvider
@@ -89,9 +89,8 @@ class PgMetadata:
         clicked = msg.exec()
 
         if clicked == QMessageBox.Yes:
-            QgsSettings().setValue('pgmetadata/connection_names',
-                                   ';'.join(valid))
             iface.messageBar().pushSuccess(f'PgMetadata', '{n_invalid} invalid connection(s) removed.')
+            store_connections(valid)
         if clicked == QMessageBox.No:
             iface.messageBar().pushInfo('PgMetadata', f'Keeping {n_invalid} invalid connections.')
 

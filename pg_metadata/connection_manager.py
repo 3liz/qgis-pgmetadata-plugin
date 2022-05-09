@@ -60,6 +60,14 @@ def add_connection(connection_name: str) -> None:
         settings.setValue("pgmetadata/connection_names", new_string)
 
 
+def store_connections(connection_names: list[str]) -> None:
+    """ Store a list of connection names in the QGIS configuration,
+        overwriting existing connections """
+    reset_connections()
+    for name in connection_names:
+        add_connection(name)
+
+
 def migrate_from_global_variables_to_pgmetadata_section():
     """ Let's migrate from global variables to pgmetadata section in INI file. """
     connection_names = QgsExpressionContextUtils.globalScope().variable("pgmetadata_connection_names")
