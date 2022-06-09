@@ -27,7 +27,8 @@ CREATE TABLE pgmetadata.contact (
     name text NOT NULL,
     organisation_name text NOT NULL,
     organisation_unit text,
-    email text
+    email text,
+    phone text
 );
 
 
