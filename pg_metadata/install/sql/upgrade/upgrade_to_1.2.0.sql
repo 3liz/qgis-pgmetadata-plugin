@@ -419,4 +419,36 @@ $$;
 COMMENT ON FUNCTION pgmetadata.get_dataset_item_html_content(_table_schema text, _table_name text, _locale text) IS 'Generate the metadata HTML content for the given table and given language or NULL if no templates are stored in the pgmetadata.html_template table.';
 
 
+-- capitalise existing German translations
+
+CREATE TABLE pgmetadata.t_glossary (field text, code text, label_de text, description_de text);
+INSERT INTO pgmetadata.t_glossary (field, code, label_de, description_de)
+VALUES
+('dataset.categories', 'BOU', 'Grenzen', 'Gesetzlich festgelegte Grenzen'),
+('dataset.categories', 'STR', 'Bauwerke', 'Anthropogene Bauten'),
+('dataset.categories', 'GEO', 'Geowissenschaften', 'Geowissenschaftliche Informationen'),
+('dataset.categories', 'SOC', 'Gesellschaft', 'Kulturelle und gesellschaftliche Merkmale'),
+('dataset.categories', 'ECO', 'Wirtschaft', 'Wirtschaftliche Aktivitäten, Verhältnisse und Beschäftigung'),
+('link.type', 'file', 'Eine Datei', 'CKAN Metadata Vocabulary, um die Typattribute einer CKAN-Ressource zu füllen; zeigt an, dass ein http:GET dieses URL einen Bitstream liefern sollte'),
+('dataset.confidentiality', 'OPE', 'Offen', 'Keine Einschränkungen des Zugriffs auf diese Daten'),
+('dataset.confidentiality', 'RES', 'Eingeschränkt', 'Der Zugriff auf die Daten ist auf ausgewählte Nutzer beschränkt'),
+('dataset.publication_frequency', 'DAY', 'Täglich', 'Daten werden täglich aktualisiert'),
+('dataset.publication_frequency', 'MON', 'Monatlich', 'Daten werden monatlich aktualisiert'),
+('dataset.publication_frequency', 'YEA', 'Jährlich', 'Daten werden jährlich aktualisiert'),
+('dataset.publication_frequency', 'NEC', 'Bei Bedarf', 'Daten werden bei Bedarf aktualisiert'),
+('dataset.publication_frequency', 'WEE', 'Wöchentlich', 'Daten werden wöchentlich aktualisiert'),
+('dataset.publication_frequency', 'BIA', 'Halbjährlich', 'Daten werden halbjährlich aktualisiert'),
+('dataset.publication_frequency', 'IRR', 'Unregelmäßig', 'Daten werden unregelmäßig aktualisiert'),
+('dataset.publication_frequency', 'NOP', 'Nicht geplant', 'Eine Aktualisierung der Daten ist nicht geplant'),
+('dataset.license', 'proj', 'Nur für Projektbearbeitung', NULL)
+ON CONFLICT DO NOTHING;
+
+UPDATE pgmetadata.glossary AS g
+SET (label_de, description_de) = (t.label_de, t.description_de)
+FROM pgmetadata.t_glossary AS t
+WHERE g.field = t.field AND g.code = t.code;
+
+DROP TABLE pgmetadata.t_glossary;
+
+
 COMMIT;
