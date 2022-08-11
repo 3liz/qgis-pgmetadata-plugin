@@ -267,9 +267,10 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             self.set_html_content('PgMetadata', message)
             return
         elif message:
-            LOGGER.critical(message)   # FIXME: Return from here? In case of stale/invalid
-                                       # connection_names we could continue. Invalid connection_names
-                                       # are now removed by connections_list()
+            LOGGER.critical(message)
+            # FIXME: Return from here? In case of stale/invalid
+            # connection_names we could continue. Invalid connection_names
+            # are now removed by connections_list()
 
         # TODO, find the correct connection to query according to the datasource
         # The metadata HTML is wrong if there are many pgmetadata in different databases

@@ -85,8 +85,8 @@ def validate_connections_names() -> tuple:
     metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
     connection_names = settings_connections_names()
-    if not connection_names:
-        return  # no connections is a valid situation
+    if not connection_names:  # no connections is a valid situation
+        return [], []
 
     valid = []
     invalid = []
