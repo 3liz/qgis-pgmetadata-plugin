@@ -3,13 +3,16 @@ __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 
 
-from qgis.core import QgsApplication, QgsSettings
+from qgis.core import QgsApplication
 from qgis.PyQt.QtCore import QCoreApplication, Qt, QTranslator, QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
 from qgis.utils import iface
 
-from pg_metadata.connection_manager import validate_connections_names, store_connections
+from pg_metadata.connection_manager import (
+    store_connections,
+    validate_connections_names,
+)
 from pg_metadata.dock import PgMetadataDock
 from pg_metadata.locator import LocatorFilter
 from pg_metadata.processing.provider import PgMetadataProvider
@@ -83,8 +86,12 @@ class PgMetadata:
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Warning)
         msg.setWindowTitle(tr('PgMetadata: Database connection(s) not available'))
-        msg.setText(tr(f'{n_invalid} connection(s) listed in PgMetadata’s settings are invalid or no longer available: {invalid_text}'))
-        msg.setInformativeText(tr('Do you want to remove these connection(s) from the PgMetadata settings? (You can also do this later with the ”Set Connections” tool.)'))
+        msg.setText(tr(f'{n_invalid} connection(s) listed in PgMetadata’s settings are invalid or '
+                       f'no longer available: {invalid_text}'))
+        # FIXME: inserted linebreak because Flake8 failed, but will this mess with Transifex?
+        msg.setInformativeText(tr('Do you want to remove these connection(s) from the PgMetadata settings? '
+                                  '(You can also do this later with the “Set Connections” tool.)'))
+        # FIXME: inserted linebreak because Flake8 failed, but will this mess with Transifex?
         msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         clicked = msg.exec()
 

@@ -3,8 +3,6 @@ __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
-#import logging
-
 from qgis.core import (
     Qgis,
     QgsExpressionContextUtils,
@@ -16,7 +14,6 @@ from qgis.utils import iface
 
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 
-#LOGGER = logging.getLogger('pg_metadata')
 
 def check_pgmetadata_is_installed(connection_name: str) -> bool:
     """ Test if a given connection has PgMetadata installed. """
@@ -60,7 +57,7 @@ def add_connection(connection_name: str) -> None:
         settings.setValue("pgmetadata/connection_names", new_string)
 
 
-def store_connections(connection_names: list[str]) -> None:
+def store_connections(connection_names: list) -> None:  # connection_names: list[str]
     """ Store a list of connection names in the QGIS configuration,
         overwriting existing connections """
     reset_connections()
@@ -129,19 +126,20 @@ def connections_list() -> tuple:
             # Todo, we must log something
             # TODO suggestion:
             mess = f'QgsProviderConnectionException when looking for connection {name}.'
-            iface.messageBar().pushMessage(mess, level=Qgis.Critical)  # FIXME: show message bar here or just return message to higher level?
+            iface.messageBar().pushMessage(mess, level=Qgis.Critical)
+            # FIXME: show message bar here or just return message to higher level?
             messages.append(mess)
         else:
             if connection:
                 connections.append(name)
             else:
                 mess = f'Unknown database connection {name} in PgMetadata settings.'
-                iface.messageBar().pushMessage(mess, level=Qgis.Warning)  # FIXME: show message bar here or just return message to higher level?
+                iface.messageBar().pushMessage(mess, level=Qgis.Warning)
+                # FIXME: show message bar here or just return message to higher level?
                 messages.append(mess)
     if messages:
         message = '\n'.join(messages)
     else:
         message = None
-    #LOGGER.info(f'connections_list() -> ({connections}, {message})')
 
     return connections, message
