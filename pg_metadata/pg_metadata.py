@@ -14,7 +14,7 @@ from pg_metadata.dock import PgMetadataDock
 from pg_metadata.locator import LocatorFilter
 from pg_metadata.processing.provider import PgMetadataProvider
 from pg_metadata.qgis_plugin_tools.tools.custom_logging import setup_logger
-from pg_metadata.qgis_plugin_tools.tools.i18n import setup_translation
+from pg_metadata.qgis_plugin_tools.tools.i18n import setup_translation, tr
 from pg_metadata.qgis_plugin_tools.tools.resources import (
     plugin_path,
     resources_path,
@@ -82,17 +82,17 @@ class PgMetadata:
         invalid_text = ', '.join(invalid)
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Warning)
-        msg.setWindowTitle('PgMetadata: Database connection(s) not available')
-        msg.setText(f'{n_invalid} connection(s) listed in PgMetadata’s settings are invalid or no longer available: {invalid_text}')
-        msg.setInformativeText('Do you want to remove these connections from the PgMetadata settings? (You can also do this later with the ”Set Connections” tool.)')
+        msg.setWindowTitle(tr('PgMetadata: Database connection(s) not available'))
+        msg.setText(tr(f'{n_invalid} connection(s) listed in PgMetadata’s settings are invalid or no longer available: {invalid_text}'))
+        msg.setInformativeText(tr('Do you want to remove these connection(s) from the PgMetadata settings? (You can also do this later with the ”Set Connections” tool.)'))
         msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         clicked = msg.exec()
 
         if clicked == QMessageBox.Yes:
-            iface.messageBar().pushSuccess(f'PgMetadata', '{n_invalid} invalid connection(s) removed.')
+            iface.messageBar().pushSuccess('PgMetadata', tr(f'{n_invalid} invalid connection(s) removed.'))
             store_connections(valid)
         if clicked == QMessageBox.No:
-            iface.messageBar().pushInfo('PgMetadata', f'Keeping {n_invalid} invalid connections.')
+            iface.messageBar().pushInfo('PgMetadata', tr(f'Keeping {n_invalid} invalid connections.'))
 
     @staticmethod
     def open_help():
