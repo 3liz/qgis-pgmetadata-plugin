@@ -80,10 +80,6 @@ class TestProcessing(unittest.TestCase):
         alg = "{}:upgrade_database_structure".format(provider.id())
         with self.assertRaises(QgsProcessingException):
             processing.run(alg, params, feedback=self.feedback)
-        self.assertIn(
-            "The table pgmetadata.qgis_plugin does not exist. You must first create the database structure.",
-            self.feedback.history
-        )
 
     def test_install_database(self):
         """ Test we can install the database. """

@@ -1,6 +1,6 @@
 [general]
 name=PgMetadata
-qgisMinimumVersion=3.10
+qgisMinimumVersion=3.16
 description=Store some metadata about layers which are stored in PostgreSQL. It's possible to define title, abstract, links, contacts etc. It also provides some search tool, in the QGIS Locator bar for instance.
 author=3Liz
 email=info@3liz.com

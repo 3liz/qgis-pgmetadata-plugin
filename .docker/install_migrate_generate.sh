@@ -38,7 +38,7 @@ for migration in `ls -v ../${PLUGIN_NAME}/install/sql/upgrade/*.sql`; do
   done;
 
 echo 'Generate doc'
-docker exec postgis bash -c "apt-get install -y rename" > /dev/null
+docker exec postgis bash -c "apt-get update && apt-get install -y rename" > /dev/null
 docker exec postgis bash -c "cd /tests_directory/${PLUGIN_NAME}/install/sql/ && ./export_database_structure_to_SQL.sh test ${SCHEMA}"
 docker exec postgis bash -c "cd /tests_directory/${PLUGIN_NAME}/install/sql/${SCHEMA} && chmod 777 *.sql"
 
