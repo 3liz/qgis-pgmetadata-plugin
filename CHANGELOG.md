@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* License - Release PgMetadata under the [GNU General Public License v2.0](./LICENSE.md).
 * Raise the QGIS minimum version to 3.16
 * Add raster support (contribution from @effjot Florian Jenn)
 * Fix handling of backslashes in file:// links to Windows files (contribution from @effjot Florian Jenn)

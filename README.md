@@ -9,6 +9,10 @@
 
 Store metadata in a PostgreSQL database and manage it from QGIS.
 
+## License
+
+**PgMetadata** is released under [GNU General Public License v2.0](./LICENSE.md) or any later version.
+
 ## Documentation
 
 Presentation, user guide, installation, Lizmap Web Client, everything is there.
