@@ -6,6 +6,7 @@
 * Add raster support (contribution from @effjot Florian Jenn)
 * Fix handling of backslashes in file:// links to Windows files (contribution from @effjot Florian Jenn)
 * Add phone number field (contribution from @effjot Florian Jenn)
+* Email links are now clickable
 
 ## 1.1.1 - 2022-02-14
 
