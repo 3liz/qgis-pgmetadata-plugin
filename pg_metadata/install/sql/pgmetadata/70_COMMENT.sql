@@ -99,6 +99,10 @@ COMMENT ON COLUMN pgmetadata.contact.organisation_unit IS 'Organisation unit nam
 COMMENT ON COLUMN pgmetadata.contact.email IS 'Email address';
 
 
+-- contact.phone
+COMMENT ON COLUMN pgmetadata.contact.phone IS 'Phone number';
+
+
 -- dataset
 COMMENT ON TABLE pgmetadata.dataset IS 'Main table for storing dataset about PostgreSQL vector layers.';
 

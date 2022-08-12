@@ -1,5 +1,32 @@
 BEGIN;
 
+-- CONTACT PHONE NUMBER
+
+ALTER TABLE pgmetadata.contact ADD COLUMN IF NOT EXISTS phone text;
+COMMENT ON COLUMN pgmetadata.contact.phone IS 'Phone number';
+
+CREATE OR REPLACE VIEW pgmetadata.v_contact AS
+ WITH glossary AS (
+         SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,
+            v_glossary.dict
+           FROM pgmetadata.v_glossary
+        )
+ SELECT d.table_name,
+    d.schema_name,
+    c.name,
+    c.organisation_name,
+    c.organisation_unit,
+    ((((glossary.dict -> 'contact.contact_role'::text) -> dc.contact_role) -> 'label'::text) ->> glossary.locale) AS contact_role,
+    dc.contact_role AS contact_role_code,
+    c.email,
+    c.phone
+   FROM glossary,
+    ((pgmetadata.dataset_contact dc
+     JOIN pgmetadata.dataset d ON ((d.id = dc.fk_id_dataset)))
+     JOIN pgmetadata.contact c ON ((dc.fk_id_contact = c.id)))
+  WHERE true
+  ORDER BY dc.id;
+
 
 DROP FUNCTION pgmetadata.calculate_fields_from_data() CASCADE;
 CREATE FUNCTION pgmetadata.calculate_fields_from_data() RETURNS trigger
