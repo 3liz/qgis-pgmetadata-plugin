@@ -4,14 +4,10 @@ __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFileDestination,
-    QgsProcessingParameterString,
+    QgsProcessingParameterProviderConnection,
     QgsProviderRegistry,
 )
-
-if Qgis.QGIS_VERSION_INT >= 31400:
-    from qgis.core import QgsProcessingParameterProviderConnection
 
 from pg_metadata.connection_manager import add_connection, connections_list
 from pg_metadata.qgis_plugin_tools.tools.algorithm_processing import (
@@ -61,34 +57,14 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         else:
             connection_name = ''
 
-        label = tr("Connection to the PostgreSQL database")
-        tooltip = tr("The database where the schema '{}' is installed.").format(SCHEMA)
-        if Qgis.QGIS_VERSION_INT >= 31400:
-            param = QgsProcessingParameterProviderConnection(
-                self.CONNECTION_NAME,
-                label,
-                "postgres",
-                defaultValue=connection_name,
-                optional=False,
-            )
-        else:
-            param = QgsProcessingParameterString(
-                self.CONNECTION_NAME,
-                label,
-                defaultValue=connection_name,
-                optional=False,
-            )
-            param.setMetadata(
-                {
-                    "widget_wrapper": {
-                        "class": "processing.gui.wrappers_postgis.ConnectionWidgetWrapper"
-                    }
-                }
-            )
-        if Qgis.QGIS_VERSION_INT >= 31600:
-            param.setHelp(tooltip)
-        else:
-            param.tooltip_3liz = tooltip
+        param = QgsProcessingParameterProviderConnection(
+            self.CONNECTION_NAME,
+            tr("Connection to the PostgreSQL database"),
+            "postgres",
+            defaultValue=connection_name,
+            optional=False,
+        )
+        param.setHelp(tr("The database where the schema '{}' is installed.").format(SCHEMA))
         self.addParameter(param)
 
         # target project file
@@ -99,11 +75,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             optional=False,
             fileFilter='QGS project (*.qgs)',
         )
-        tooltip = tr("The destination file where to create the QGIS project.").format(SCHEMA)
-        if Qgis.QGIS_VERSION_INT >= 31600:
-            param.setHelp(tooltip)
-        else:
-            param.tooltip_3liz = tooltip
+        param.setHelp(tr("The destination file where to create the QGIS project.").format(SCHEMA))
         self.addParameter(param)
 
     def checkParameterValues(self, parameters, context):
@@ -117,12 +89,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
 
     def processAlgorithm(self, parameters, context, feedback):
 
-        if Qgis.QGIS_VERSION_INT >= 31400:
-            connection_name = self.parameterAsConnectionName(
-                parameters, self.CONNECTION_NAME, context)
-        else:
-            connection_name = self.parameterAsString(
-                parameters, self.CONNECTION_NAME, context)
+        connection_name = self.parameterAsConnectionName(parameters, self.CONNECTION_NAME, context)
 
         # Write the file out again
         project_file = self.parameterAsString(parameters, self.PROJECT_FILE, context)

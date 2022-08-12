@@ -4,12 +4,12 @@ export $(grep -v '^#' .env | xargs)
 WITH_QGIS=${1:-noqgis}
 
 if [ "$WITH_QGIS" = with-qgis ]; then
-  FILE="docker-compose-qgis.yml"
+  PROFILE="qgis"
 else
-  FILE="docker-compose-base.yml"
+  PROFILE="db"
 fi
 
-docker-compose -f ${FILE} up -d --force-recreate --remove-orphans
+docker compose --profile ${PROFILE} up -d --force-recreate --remove-orphans
 echo "Wait 10 seconds"
 sleep 10
 if [ "$WITH_QGIS" = with-qgis ]; then

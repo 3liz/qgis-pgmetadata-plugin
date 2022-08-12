@@ -3,7 +3,7 @@ __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
-from qgis.core import Qgis, QgsProcessingParameterEnum, QgsProviderRegistry
+from qgis.core import QgsProcessingParameterEnum, QgsProviderRegistry
 
 from pg_metadata.connection_manager import (
     add_connection,
@@ -55,12 +55,7 @@ class SetConnectionDatabase(BaseProcessingAlgorithm):
             defaultValue=existing_connections,
         )
         param.setAllowMultiple(True)
-
-        tooltip = tr("PgMetadata can be installed on different databases.")
-        if Qgis.QGIS_VERSION_INT >= 31600:
-            param.setHelp(tooltip)
-        else:
-            param.tooltip_3liz = tooltip
+        param.setHelp(tr("PgMetadata can be installed on different databases."))
         self.addParameter(param)
 
     def processAlgorithm(self, parameters, context, feedback):

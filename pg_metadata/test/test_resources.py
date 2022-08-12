@@ -16,11 +16,12 @@ class TestResources(unittest.TestCase):
 
     def test_qgis_version(self):
         """ Test QGIS versions are correct in metadata and provided QGIS version. """
-        expected_qgis_version = "3.10"
+        expected_qgis_version = "3.16"
 
         # Test the QGIS project
         qgis_project = resources_path('projects', 'pg_metadata_administration.qgs')
         with open(qgis_project, encoding='utf8') as f:
+            f.readline()
             first_line = f.readline()
             self.assertTrue(
                 'version="{}'.format(expected_qgis_version) in first_line, 'The QGIS project is wrong.')

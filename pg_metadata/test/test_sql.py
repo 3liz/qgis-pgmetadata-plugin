@@ -354,8 +354,11 @@ class TestSql(DatabaseTestCase):
 
         # Test insert
         sql = "SELECT geometry_type, projection_authid, spatial_extent FROM pgmetadata.dataset"
-        result = self._sql(sql)
-        self.assertEqual(['LINESTRING', 'EPSG:4326', '3.854, 3.897, 43.5786, 43.622'], result[0])
+        result = self._sql(sql)[0]
+        self.assertEqual('LINESTRING', result[0])
+        self.assertEqual('EPSG:4326', result[1])
+        coordinates = [f.strip()[0:6] for f in result[2].split(',')]
+        self.assertListEqual(['3.8540', '3.8969', '43.578', '43.621'], coordinates)
 
         # Test date, creation_date is equal to update_date
         sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"
@@ -366,11 +369,12 @@ class TestSql(DatabaseTestCase):
         sql = "UPDATE pgmetadata.dataset SET title = 'test lines title' WHERE table_name = 'lines'"
         self._sql(sql)
         sql = "SELECT title, geometry_type, projection_authid, spatial_extent FROM pgmetadata.dataset"
-        result = self._sql(sql)
-        self.assertEqual(
-            ['test lines title', 'LINESTRING', 'EPSG:4326', '3.854, 3.897, 43.5786, 43.622'],
-            result[0]
-        )
+        result = self._sql(sql)[0]
+        self.assertEqual('test lines title', result[0])
+        self.assertEqual('LINESTRING', result[1])
+        self.assertEqual('EPSG:4326', result[2])
+        coordinates = [f.strip()[0:6] for f in result[3].split(',')]
+        self.assertListEqual(['3.8540', '3.8969', '43.578', '43.621'], coordinates)
 
         # Test date, creation_date is not equal to update_date
         sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"

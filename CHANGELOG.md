@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Raise the QGIS minimum version to 3.16
 * Add raster support (contribution from @effjot Florian Jenn)
 * Fix handling of backslashes in file:// links to Windows files (contribution from @effjot Florian Jenn)
 * Add phone number field (contribution from @effjot Florian Jenn)
