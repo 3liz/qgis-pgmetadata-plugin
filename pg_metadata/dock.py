@@ -278,8 +278,9 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         for connection_name in connections:
             connection = self.metadata.findConnection(connection_name)
             if not connection:  # FIXME: Can this still happen (see above)?
-                LOGGER.critical("The configuration setting or global variable "
-                                "pgmetadata_connection_names is not correct.")
+                LOGGER.critical(
+                    "The configuration setting or global variable "
+                    "pgmetadata_connection_names is not correct.")
                 self.default_html_content_not_installed()
                 continue
 
