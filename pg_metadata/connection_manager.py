@@ -14,6 +14,8 @@ from qgis.utils import iface
 
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 
+CON_SEPARATOR = '!!::!!'  # separate connection names in settings string; same as in QGIS core
+
 
 def check_pgmetadata_is_installed(connection_name: str) -> bool:
     """ Test if a given connection has PgMetadata installed. """
@@ -50,10 +52,16 @@ def add_connection(connection_name: str) -> None:
     settings = QgsSettings()
     existing_names = settings.value("pgmetadata/connection_names", "", type=str)
     if not existing_names:
-        settings.setValue("pgmetadata/connection_names", connection_name)
+        settings.setValue("pgmetadata/connection_names",
+                          f'{CON_SEPARATOR}{connection_name}')
+        # FIXME: Adding the separator at the beginning is an ugly hack to tell new
+        #        and old strings apart. Otherwise, migrate_connection_name_separator()
+        #        wouldn’t know if a string with semicolon but without new separator
+        #        is a single connection in the new style or two in the old style.
+        #        Are there better ways to do this?
 
-    elif connection_name not in existing_names.split(';'):
-        new_string = f'{existing_names};{connection_name}'
+    elif connection_name not in existing_names.split(CON_SEPARATOR):
+        new_string = f'{existing_names}{CON_SEPARATOR}{connection_name}'
         settings.setValue("pgmetadata/connection_names", new_string)
 
 
@@ -75,6 +83,15 @@ def migrate_from_global_variables_to_pgmetadata_section():
     QgsExpressionContextUtils.removeGlobalVariable("pgmetadata_connection_names")
 
 
+def migrate_connection_name_separator():
+    """ Migrate from semicolon to CON_SEPARATOR = '!!::!!' as separator for connection names """
+    settings_string = settings_connections_names()
+    iface.messageBar().pushMessage(f'migrating {settings_string}', level=Qgis.Info)
+
+    if ';' in settings_string and CON_SEPARATOR not in settings_string:
+        store_connections(settings_string.split(';'))
+
+
 def settings_connections_names() -> tuple:
     """ Fetch in the QGIS Settings for the list of connections. """
     return QgsSettings().value("pgmetadata/connection_names", "", type=str)
@@ -90,7 +107,7 @@ def validate_connections_names() -> tuple:
 
     valid = []
     invalid = []
-    for name in connection_names.split(';'):
+    for name in connection_names.split(CON_SEPARATOR):
         try:
             connection = metadata.findConnection(name)
         except QgsProviderConnectionException:
@@ -106,6 +123,7 @@ def validate_connections_names() -> tuple:
 def connections_list() -> tuple:
     """ List of available connections to PostgreSQL database. """
     migrate_from_global_variables_to_pgmetadata_section()
+    migrate_connection_name_separator()
 
     metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
@@ -119,7 +137,7 @@ def connections_list() -> tuple:
 
     connections = list()
     messages = list()
-    for name in connection_names.split(';'):
+    for name in connection_names.split(CON_SEPARATOR):
         try:
             connection = metadata.findConnection(name)
         except QgsProviderConnectionException:
