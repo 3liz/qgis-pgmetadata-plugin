@@ -266,19 +266,27 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             LOGGER.critical(message)
             self.set_html_content('PgMetadata', message)
             return
+        elif message:
+            LOGGER.critical(message)
+            # FIXME: Return from here? In case of stale/invalid
+            # connection_names we could continue. Invalid connection_names
+            # are now removed by connections_list()
 
         # TODO, find the correct connection to query according to the datasource
         # The metadata HTML is wrong if there are many pgmetadata in different databases
 
         for connection_name in connections:
             connection = self.metadata.findConnection(connection_name)
-            if not connection:
-                LOGGER.critical("The global variable pgmetadata_connection_names is not correct.")
+            if not connection:  # FIXME: Can this still happen (see above)?
+                LOGGER.critical(
+                    "The configuration setting or global variable "
+                    "pgmetadata_connection_names is not correct.")
                 self.default_html_content_not_installed()
                 continue
 
             if not check_pgmetadata_is_installed(connection_name):
                 LOGGER.critical(tr('PgMetadata is not installed on {}').format(connection_name))
+                # FIXME: Is this really critical, or just a warning or info?
                 continue
 
             sql = self.sql_for_layer(uri, output_format=OutputFormats.HTML)
