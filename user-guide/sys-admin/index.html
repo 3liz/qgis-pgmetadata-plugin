@@ -701,11 +701,12 @@ installed :</p>
 <span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[pgmetadata]</span><span class="w"></span>
 <span class="na">auto_open_dock</span><span class="o">=</span><span class="s">true</span><span class="w"></span>
 <span class="na">end_user_only</span><span class="o">=</span><span class="s">true</span><span class="w"></span>
-<span class="na">connection_names</span><span class="o">=</span><span class="s">Connection 1;Connection 2;Connection 3</span><span class="w"></span>
+<span class="na">connection_names</span><span class="o">=</span><span class="s">Connection 1!!::!!Connection 2!!::!!Connection 3</span><span class="w"></span>
 
 <span class="k">[Plugins]</span><span class="w"></span>
 <span class="na">pg_metadata</span><span class="o">=</span><span class="s">true</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
+<p>The string <code>!!::!!</code> is used to split different connection names.</p>
 <ul>
 <li><code>end_user_only</code> is designed to hide Processing algorithms which are designed for PgMetadata administrator.</li>
 <li><code>connection_names</code> is a list of connections separated by <code>;</code> so PgMetadata knows where to look for metadata.</li>
@@ -718,7 +719,7 @@ by a deployment tool.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 19, 2021</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 5, 2022</span>
       
     
   </small>
