@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.2.0 - 2022-09-05
+
 * License - Release PgMetadata under the GNU General Public License v2.0.
 * Raise the QGIS minimum version to 3.16
 * Add raster support (contribution from @effjot Florian Jenn)
