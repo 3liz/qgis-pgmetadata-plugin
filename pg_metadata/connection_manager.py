@@ -3,6 +3,10 @@ __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 __revision__ = "$Format:%H$"
 
+import logging
+
+from typing import List
+
 from qgis.core import (
     Qgis,
     QgsExpressionContextUtils,
@@ -14,6 +18,7 @@ from qgis.utils import iface
 
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
 
+LOGGER = logging.getLogger('pg_metadata')
 CON_SEPARATOR = '!!::!!'  # separate connection names in settings string; same as in QGIS core
 
 
@@ -52,22 +57,23 @@ def add_connection(connection_name: str) -> None:
     settings = QgsSettings()
     existing_names = settings.value("pgmetadata/connection_names", "", type=str)
     if not existing_names:
-        settings.setValue("pgmetadata/connection_names",
-                          f'{CON_SEPARATOR}{connection_name}')
-        # FIXME: Adding the separator at the beginning is an ugly hack to tell new
-        #        and old strings apart. Otherwise, migrate_connection_name_separator()
-        #        wouldn’t know if a string with semicolon but without new separator
-        #        is a single connection in the new style or two in the old style.
-        #        Are there better ways to do this?
+        # Adding the separator at the beginning is an ugly hack to tell new
+        # and old strings apart.
+        # Otherwise, migrate_connection_name_separator() would not know if a string
+        # with semicolon but without new separator is a single connection in the
+        # new style or two in the old style.
+        settings.setValue("pgmetadata/connection_names", f'{CON_SEPARATOR}{connection_name}')
 
     elif connection_name not in existing_names.split(CON_SEPARATOR):
         new_string = f'{existing_names}{CON_SEPARATOR}{connection_name}'
         settings.setValue("pgmetadata/connection_names", new_string)
 
 
-def store_connections(connection_names: list) -> None:  # connection_names: list[str]
-    """ Store a list of connection names in the QGIS configuration,
-        overwriting existing connections """
+def store_connections(connection_names: List[str]) -> None:
+    """ Store a list of connection names in the QGIS configuration.
+
+    It overwrites existing connections.
+    """
     reset_connections()
     for name in connection_names:
         add_connection(name)
@@ -86,13 +92,12 @@ def migrate_from_global_variables_to_pgmetadata_section():
 def migrate_connection_name_separator():
     """ Migrate from semicolon to CON_SEPARATOR = '!!::!!' as separator for connection names """
     settings_string = settings_connections_names()
-    iface.messageBar().pushMessage(f'migrating {settings_string}', level=Qgis.Info)
-
     if ';' in settings_string and CON_SEPARATOR not in settings_string:
+        LOGGER.info(f'Migrating {settings_string} from ";" to "{CON_SEPARATOR}"')
         store_connections(settings_string.split(';'))
 
 
-def settings_connections_names() -> tuple:
+def settings_connections_names() -> str:
     """ Fetch in the QGIS Settings for the list of connections. """
     return QgsSettings().value("pgmetadata/connection_names", "", type=str)
 
@@ -102,7 +107,7 @@ def validate_connections_names() -> tuple:
     metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
     connection_names = settings_connections_names()
-    if not connection_names:  # no connections is a valid situation
+    if not connection_names:  # no connection is a valid situation
         return [], []
 
     valid = []
