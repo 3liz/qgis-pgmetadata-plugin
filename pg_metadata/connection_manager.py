@@ -104,7 +104,7 @@ def settings_connections_names() -> str:
 def validate_connections_names() -> tuple:
     migrate_from_global_variables_to_pgmetadata_section()
     migrate_connection_name_separator()
-    
+
     metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
 
     connection_names = settings_connections_names()
@@ -113,7 +113,8 @@ def validate_connections_names() -> tuple:
 
     valid = []
     invalid = []
-    for name in connection_names.split(CON_SEPARATOR)[1:]:  # first element is empty, see comment in add_connection()
+    # First element of splitted string is empty, see comment in add_connection()
+    for name in connection_names.split(CON_SEPARATOR)[1:]:
         try:
             connection = metadata.findConnection(name)
         except QgsProviderConnectionException:
@@ -128,7 +129,7 @@ def validate_connections_names() -> tuple:
 
 def connections_list() -> tuple:
     """ List of available connections to PostgreSQL database.
-    
+
     Returns a tuple:
         * list of connections
         * list of connection error messages
@@ -148,7 +149,8 @@ def connections_list() -> tuple:
 
     connections = list()
     messages = list()
-    for name in connection_names.split(CON_SEPARATOR)[1:]:  # first element is empty, see comment in add_connection()
+    # First element of splitted string is empty, see comment in add_connection()
+    for name in connection_names.split(CON_SEPARATOR)[1:]:
         try:
             connection = metadata.findConnection(name)
         except QgsProviderConnectionException:
