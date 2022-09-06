@@ -10,7 +10,7 @@
 * Fix handling of backslashes in file:// links to Windows files (contribution from @effjot Florian Jenn)
 * Add phone number field (contribution from @effjot Florian Jenn)
 * Email links are now clickable
-* Connection names are now separated by `!!::!!` so that semicolons (former separator) can be usd in connection nmes
+* Connection names are now separated by `!!::!!` so that semicolons (former separator) can be used in connection names
 
 ## 1.1.1 - 2022-02-14
 
