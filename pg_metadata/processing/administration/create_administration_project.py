@@ -2,7 +2,8 @@ __copyright__ = "Copyright 2020, 3Liz"
 __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 
-from shutil import copyfile
+import os
+import shutil
 
 from qgis.core import (
     QgsProcessingParameterFileDestination,
@@ -116,7 +117,11 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         feedback.pushInfo(f'locale = {locale}')
         translation_src = template_file.replace('.qgs', f'_{locale}.qm')
         translation_dst = project_file.replace('.qgs', f'_{locale}.qm')
-        copyfile(translation_src, translation_dst)
+        if locale and os.path.isfile(translation_src):
+            feedback.pushInfo(tr(f'Providing translation for user locale “{locale}”'))
+            shutil.copyfile(translation_src, translation_dst)
+        else:
+            feedback.pushInfo(tr(f'No translation available for user locale “{locale}”'))
         
         add_connection(connection_name)
 
