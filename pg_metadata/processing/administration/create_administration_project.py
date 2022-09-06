@@ -8,7 +8,9 @@ from qgis.core import (
     QgsProcessingParameterFileDestination,
     QgsProcessingParameterProviderConnection,
     QgsProviderRegistry,
+    QgsSettings
 )
+from qgis.PyQt.QtCore import QLocale
 
 from pg_metadata.connection_manager import add_connection, connections_list
 from pg_metadata.qgis_plugin_tools.tools.algorithm_processing import (
@@ -110,9 +112,10 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             fout.write(file_data)
 
         # Copy the translation file
-        lang = 'de'
-        translation_src = template_file.replace('.qgs', f'_{lang}.qm')
-        translation_dst = project_file.replace('.qgs', f'_{lang}.qm')
+        locale = QgsSettings().value("locale/userLocale", QLocale().name())
+        feedback.pushInfo(f'locale = {locale}')
+        translation_src = template_file.replace('.qgs', f'_{locale}.qm')
+        translation_dst = project_file.replace('.qgs', f'_{locale}.qm')
         copyfile(translation_src, translation_dst)
         
         add_connection(connection_name)
