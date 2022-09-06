@@ -89,11 +89,9 @@ class PgMetadata:
         msg.setText(tr(
             f'{n_invalid} connection(s) listed in PgMetadata’s settings are invalid or '
             f'no longer available: {invalid_text}'))
-        # FIXME: inserted linebreak because Flake8 failed, but will this mess with Transifex?
         msg.setInformativeText(tr(
             'Do you want to remove these connection(s) from the PgMetadata settings? '
             '(You can also do this later with the “Set Connections” tool.)'))
-        # FIXME: inserted linebreak because Flake8 failed, but will this mess with Transifex?
         msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         clicked = msg.exec()
 
