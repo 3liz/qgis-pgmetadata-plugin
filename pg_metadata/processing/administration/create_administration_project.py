@@ -2,6 +2,8 @@ __copyright__ = "Copyright 2020, 3Liz"
 __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 
+from shutil import copyfile
+
 from qgis.core import (
     QgsProcessingParameterFileDestination,
     QgsProcessingParameterProviderConnection,
@@ -107,6 +109,12 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         with open(project_file, 'w', encoding='utf8') as fout:
             fout.write(file_data)
 
+        # Copy the translation file
+        lang = 'de'
+        translation_src = template_file.replace('.qgs', f'_{lang}.qm')
+        translation_dst = project_file.replace('.qgs', f'_{lang}.qm')
+        copyfile(translation_src, translation_dst)
+        
         add_connection(connection_name)
 
         msg = tr('QGIS Administration project has been successfully created from the database connection')
