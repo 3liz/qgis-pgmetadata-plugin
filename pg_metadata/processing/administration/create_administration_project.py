@@ -6,13 +6,11 @@ import os
 import shutil
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterEnum,
     QgsProcessingParameterFileDestination,
     QgsProcessingParameterProviderConnection,
-    QgsProcessingParameterString,
     QgsProviderRegistry,
-    QgsSettings
+    QgsSettings,
 )
 from qgis.PyQt.QtCore import QLocale
 
@@ -31,12 +29,10 @@ LANGUAGES = [tr('English'), tr('French'), tr('German'), tr('Italian'), tr('Spani
 
 
 class CreateAdministrationProject(BaseProcessingAlgorithm):
-
     CONNECTION_NAME = 'CONNECTION_NAME'
     PROJECT_FILE = 'PROJECT_FILE'
-    
     PROJECT_LANG = 'PROJECT_LANG'
-    
+
     OUTPUT_STATUS = 'OUTPUT_STATUS'
     OUTPUT_STRING = 'OUTPUT_STRING'
 
@@ -91,7 +87,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         param.setHelp(tr("The destination file where to create the QGIS project.").format(SCHEMA))
         # FIXME: is the .format(SCHEMA) necessary?
         self.addParameter(param)
-        
+
         # target project language, selection defaults to user’s locale if available
         locale = QgsSettings().value("locale/userLocale", QLocale().name())
         if locale and locale in LANG_CODES:
@@ -104,7 +100,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             options=LANGUAGES,
             defaultValue=default_lang, optional=False)
         param.setHelp(tr('The language for the metadata terms (glossary).'))
-        self.addParameter(param)        
+        self.addParameter(param)
 
     def checkParameterValues(self, parameters, context):
 
@@ -147,7 +143,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             else:
                 feedback.pushInfo(tr(f'No translation available for language “{lang}”'))
                 lang = ''  # indicate missing translation in algorithm result
-        
+
         add_connection(connection_name)
 
         msg = tr('QGIS Administration project has been successfully created from the database connection')
