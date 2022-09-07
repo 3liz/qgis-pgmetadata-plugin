@@ -410,6 +410,16 @@
             </config>
           </editWidget>
         </field>
+         <field name="phone" configurationFlags="None">
+          <editWidget type="TextEdit">
+            <config>
+              <Option type="Map">
+                <Option type="bool" value="false" name="IsMultiline"/>
+                <Option type="bool" value="false" name="UseHtml"/>
+              </Option>
+            </config>
+          </editWidget>
+        </field>
       </fieldConfiguration>
       <aliases>
         <alias field="id" name="Id" index="0"/>
@@ -417,6 +427,7 @@
         <alias field="organisation_name" name="Organisation" index="2"/>
         <alias field="organisation_unit" name="Organisation unit" index="3"/>
         <alias field="email" name="Email" index="4"/>
+        <alias field="phone" name="Phone" index="5"/>
       </aliases>
       <defaults>
         <default expression="" field="id" applyOnUpdate="0"/>
@@ -424,6 +435,7 @@
         <default expression="" field="organisation_name" applyOnUpdate="0"/>
         <default expression="" field="organisation_unit" applyOnUpdate="0"/>
         <default expression="" field="email" applyOnUpdate="0"/>
+        <default expression="" field="phone" applyOnUpdate="0"/>
       </defaults>
       <constraints>
         <constraint unique_strength="1" constraints="3" field="id" exp_strength="0" notnull_strength="1"/>
@@ -431,6 +443,7 @@
         <constraint unique_strength="0" constraints="1" field="organisation_name" exp_strength="0" notnull_strength="1"/>
         <constraint unique_strength="0" constraints="0" field="organisation_unit" exp_strength="0" notnull_strength="0"/>
         <constraint unique_strength="0" constraints="0" field="email" exp_strength="0" notnull_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="phone" exp_strength="0" notnull_strength="0"/>
       </constraints>
       <constraintExpressions>
         <constraint field="id" desc="" exp=""/>
@@ -438,6 +451,7 @@
         <constraint field="organisation_name" desc="" exp=""/>
         <constraint field="organisation_unit" desc="" exp=""/>
         <constraint field="email" desc="" exp=""/>
+        <constraint field="phone" desc="" exp=""/>
       </constraintExpressions>
       <expressionfields/>
       <attributeactions>
@@ -450,6 +464,7 @@
           <column type="field" name="organisation_name" width="-1" hidden="0"/>
           <column type="field" name="organisation_unit" width="-1" hidden="0"/>
           <column type="field" name="email" width="-1" hidden="0"/>
+          <column type="field" name="phone" width="-1" hidden="0"/>
           <column type="actions" width="-1" hidden="1"/>
         </columns>
       </attributetableconfig>
@@ -486,6 +501,7 @@ def my_form_open(dialog, layer, feature):
         <attributeEditorField name="organisation_name" index="2" showLabel="1"/>
         <attributeEditorField name="organisation_unit" index="3" showLabel="1"/>
         <attributeEditorField name="email" index="4" showLabel="1"/>
+        <attributeEditorField name="phone" index="4" showLabel="1"/>
       </attributeEditorForm>
       <editable>
         <field editable="1" name="email"/>
@@ -493,6 +509,7 @@ def my_form_open(dialog, layer, feature):
         <field editable="1" name="name"/>
         <field editable="1" name="organisation_name"/>
         <field editable="1" name="organisation_unit"/>
+        <field editable="1" name="phone"/>
       </editable>
       <labelOnTop>
         <field name="email" labelOnTop="0"/>
@@ -500,6 +517,7 @@ def my_form_open(dialog, layer, feature):
         <field name="name" labelOnTop="0"/>
         <field name="organisation_name" labelOnTop="0"/>
         <field name="organisation_unit" labelOnTop="0"/>
+        <field name="phone" labelOnTop="0"/>
       </labelOnTop>
       <dataDefinedFieldProperties/>
       <widgets>
