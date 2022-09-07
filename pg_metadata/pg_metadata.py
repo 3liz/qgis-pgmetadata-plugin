@@ -43,12 +43,14 @@ class PgMetadata:
             # noinspection PyCallByClass,PyArgumentList
             QCoreApplication.installTranslator(self.translator)
 
+    # noinspection PyPep8Naming
     def initProcessing(self):
         """ Add the QGIS Processing provider. """
         if not self.provider:
             self.provider = PgMetadataProvider()
             QgsApplication.processingRegistry().addProvider(self.provider)
 
+    # noinspection PyPep8Naming
     def initGui(self):
         """ Build the plugin GUI. """
         self.initProcessing()
@@ -75,7 +77,9 @@ class PgMetadata:
             self.locator_filter = LocatorFilter(iface)
             iface.registerLocatorFilter(self.locator_filter)
 
-    def check_invalid_connection_names(self):
+    @staticmethod
+    def check_invalid_connection_names():
+        """ Check for invalid connection names in the QgsSettings. """
         valid, invalid = validate_connections_names()
         n_invalid = len(invalid)
 

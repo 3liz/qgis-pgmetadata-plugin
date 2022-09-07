@@ -1,10 +1,10 @@
-__copyright__ = "Copyright 2020, 3Liz"
+__copyright__ = "Copyright 2022, 3Liz"
 __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 
 import logging
 
-from typing import List
+from typing import List, Tuple
 
 from qgis.core import (
     Qgis,
@@ -78,7 +78,7 @@ def store_connections(connection_names: List[str]) -> None:
         add_connection(name)
 
 
-def migrate_from_global_variables_to_pgmetadata_section():
+def migrate_from_global_variables_to_pgmetadata_section() -> None:
     """ Let's migrate from global variables to pgmetadata section in INI file. """
     connection_names = QgsExpressionContextUtils.globalScope().variable("pgmetadata_connection_names")
     if not connection_names:
@@ -88,8 +88,8 @@ def migrate_from_global_variables_to_pgmetadata_section():
     QgsExpressionContextUtils.removeGlobalVariable("pgmetadata_connection_names")
 
 
-def migrate_connection_name_separator():
-    """ Migrate from semicolon to CON_SEPARATOR = '!!::!!' as separator for connection names """
+def migrate_connection_name_separator() -> None:
+    """ Migrate from semicolon to CON_SEPARATOR = '!!::!!' as separator for connection names. """
     settings_string = settings_connections_names()
     if ';' in settings_string and CON_SEPARATOR not in settings_string:
         LOGGER.info(f'Migrating {settings_string} from ";" to "{CON_SEPARATOR}"')
@@ -101,7 +101,10 @@ def settings_connections_names() -> str:
     return QgsSettings().value("pgmetadata/connection_names", "", type=str)
 
 
-def validate_connections_names() -> tuple:
+def validate_connections_names() -> Tuple[List[str], List[str]]:
+    """Check all connections if the database is valid or not. """
+
+    # Do some legacy migrations first
     migrate_from_global_variables_to_pgmetadata_section()
     migrate_connection_name_separator()
 
@@ -113,7 +116,7 @@ def validate_connections_names() -> tuple:
 
     valid = []
     invalid = []
-    # First element of splitted string is empty, see comment in add_connection()
+    # First element of split string is empty, see comment in add_connection()
     for name in connection_names.split(CON_SEPARATOR)[1:]:
         try:
             connection = metadata.findConnection(name)
@@ -127,7 +130,7 @@ def validate_connections_names() -> tuple:
     return valid, invalid
 
 
-def connections_list() -> tuple:
+def connections_list() -> Tuple[Tuple, str]:
     """ List of available connections to PostgreSQL database.
 
     Returns a tuple:
@@ -145,11 +148,11 @@ def connections_list() -> tuple:
             "You must use the 'Set Connections' algorithm in the Processing toolbox. The plugin must be "
             "aware about the database to use. Multiple databases can be set."
         )
-        return (), message
+        return tuple(), message
 
     connections = list()
     messages = list()
-    # First element of splitted string is empty, see comment in add_connection()
+    # First element of split string is empty, see comment in add_connection()
     for name in connection_names.split(CON_SEPARATOR)[1:]:
         try:
             connection = metadata.findConnection(name)
@@ -173,4 +176,4 @@ def connections_list() -> tuple:
     else:
         message = None
 
-    return connections, message
+    return tuple(connections), message
