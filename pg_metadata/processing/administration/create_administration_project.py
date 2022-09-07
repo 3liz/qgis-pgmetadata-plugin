@@ -6,8 +6,11 @@ import os
 import shutil
 
 from qgis.core import (
+    Qgis,
+    QgsProcessingParameterEnum,
     QgsProcessingParameterFileDestination,
     QgsProcessingParameterProviderConnection,
+    QgsProcessingParameterString,
     QgsProviderRegistry,
     QgsSettings
 )
@@ -27,7 +30,11 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
 
     CONNECTION_NAME = 'CONNECTION_NAME'
     PROJECT_FILE = 'PROJECT_FILE'
-
+    
+    PROJECT_LANG = 'PROJECT_LANG'
+    LANG_CODES = ['en', 'fr', 'it', 'es', 'de']
+    LANGUAGES = [tr('English'), tr('French'), tr('Italian'), tr('Spanish'), tr('German')]
+    
     OUTPUT_STATUS = 'OUTPUT_STATUS'
     OUTPUT_STRING = 'OUTPUT_STRING'
 
@@ -80,7 +87,17 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             fileFilter='QGS project (*.qgs)',
         )
         param.setHelp(tr("The destination file where to create the QGIS project.").format(SCHEMA))
+        # FIXME: is the .format(SCHEMA) necessary?
         self.addParameter(param)
+        
+        # target project language
+        param = QgsProcessingParameterEnum(
+            self.PROJECT_LANG,
+            tr('Language for the admin project and the metadata terms (glossary)'),
+            options=self.LANGUAGES,
+            defaultValue=0, optional=False)
+        param.setHelp(tr('The language for the metadata terms (glossary).'))
+        self.addParameter(param)        
 
     def checkParameterValues(self, parameters, context):
 
@@ -114,14 +131,15 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
 
         # Copy the translation file
         locale = QgsSettings().value("locale/userLocale", QLocale().name())
-        feedback.pushInfo(f'locale = {locale}')
-        translation_src = template_file.replace('.qgs', f'_{locale}.qm')
-        translation_dst = project_file.replace('.qgs', f'_{locale}.qm')
-        if locale and os.path.isfile(translation_src):
-            feedback.pushInfo(tr(f'Providing translation for user locale “{locale}”'))
+        lang = self.LANG_CODES[self.parameterAsEnum(parameters, self.PROJECT_LANG, context)]
+        feedback.pushInfo(f'locale = {locale}, lang = {lang}')
+        translation_src = template_file.replace('.qgs', f'_{lang}.qm')
+        translation_dst = project_file.replace('.qgs', f'_{lang}.qm')
+        if lang and os.path.isfile(translation_src):
+            feedback.pushInfo(tr(f'Providing translation for language “{lang}”'))
             shutil.copyfile(translation_src, translation_dst)
         else:
-            feedback.pushInfo(tr(f'No translation available for user locale “{locale}”'))
+            feedback.pushInfo(tr(f'No translation available for language “{lang}”'))
         
         add_connection(connection_name)
 
