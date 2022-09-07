@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 1.2.1 - 2022-09-07
+
+* Fix a warning about invalid database
+* Add the phone field to "Contacts" in the administration project
+
 ## 1.2.0 - 2022-09-05
 
 * License - Release PgMetadata under the GNU General Public License v2.0.
