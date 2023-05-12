@@ -96,10 +96,20 @@ BEGIN
         INTO NEW.spatial_extent;
 
         -- geom: convexhull from target table
-        EXECUTE '
-            SELECT ST_Transform(ST_ConvexHull(st_collect(ST_Force2d("' || geom_column_name || '"))), 4326)
-            FROM ' || target_table
-        INTO geom_envelop;
+        -- Use extent (bounding box) as envelope; ST_SetSRID to convert Box2D to geometry for very big tables (ST_Collect or ST_ConvexHull cause “array size exceeds maximum” error).
+        -- Limit based on: Corine Land Cover Germany 25ha resolution (169415 features) works, but 5ha resolution (658707 features) didn’t.
+        if NEW.feature_count < 500000 then
+            EXECUTE '
+                SELECT ST_Transform(ST_ConvexHull(ST_Collect(ST_Force2d("' || geom_column_name || '"))), 4326)
+                FROM ' || target_table
+            INTO geom_envelop;
+        else
+            EXECUTE '
+                SELECT ST_Transform(ST_SetSRID(ST_Extent("' || geom_column_name || '"), $1), 4326)
+                FROM ' || target_table
+            INTO geom_envelop
+            USING test_geom_column.srid;
+        end if;
 
         -- Test if it's not a point or a line
         IF GeometryType(geom_envelop) != 'POLYGON' THEN
