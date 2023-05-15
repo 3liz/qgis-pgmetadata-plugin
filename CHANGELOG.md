@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.2.2 - 2023-05-15
+
 * Fix "array exceeds maximum" for layers with many features (contribution from @effjot Florian Jenn)
 
 ## 1.2.1 - 2022-09-07
