@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Fix "array exceeds maximum" for layers with many features (contribution from @effjot Florian Jenn)
+
 ## 1.2.1 - 2022-09-07
 
 * Fix a warning about invalid database

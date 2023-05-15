@@ -25,20 +25,13 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "3.10"
+        cache: "pip"
+        cache-dependency-path: "requirements/doc.txt"
 
     - name: Set up NodeJS (for search index prebuilding)
       uses: actions/setup-node@v3
       with:
         node-version: '12'
-
-    - name: Cache project dependencies (pip)
-      uses: actions/cache@v3.3.1
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements/doc.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-          ${{ runner.os }}-
 
     - name: Install dependencies
       run: |
