@@ -16,8 +16,13 @@ INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (142, 'link.mime', 'directory', 'inode/directory', 'Directory (not an official MIME type)',  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (143, 'link.type', 'ESRI:SHP', 'ESRI Shapefile', 'Vector layer in Shapefile format (.shp)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ESRI Shapefile', 'Vektorlayer im Shapefile-Format (.shp)');
 
+-- codes for unknown license and confidentiality
 
-SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 143, true);
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (144, 'dataset.license', 'NO', 'No or unknown license', 'Dataset has been published explicitly without license or no license conditions have been documented', 100, NULL, NULL, NULL, NULL, NULL, NULL, 'Keine oder unbekannte Lizenz', 'Die Daten wurden explizit ohne Lizenz freigegeben oder die Lizenz ist nicht bekannt') ON CONFLICT DO NOTHING;
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (145, 'dataset.confidentiality', 'UNK', 'Unknown', 'Access restrictions for this dataset are not known', 30, NULL, NULL, NULL, NULL, NULL, NULL, 'Unbekannt', 'Zugriffsbeschränkungen für diese Daten sind nicht bekannt') ON CONFLICT DO NOTHING;
+
+
+SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 145, true);
 
 
 -- new item_order for existing publication frequencies
