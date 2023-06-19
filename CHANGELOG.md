@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Additional glossary terms for publication frequency and link types (contribution from @effjot Florian Jenn)
+* Add remaining INSPIRE contact roles and UK Open Government Licence (contribution from @mixedbredie Ross McDonald)
 
 ## 1.2.2 - 2023-05-15
 
