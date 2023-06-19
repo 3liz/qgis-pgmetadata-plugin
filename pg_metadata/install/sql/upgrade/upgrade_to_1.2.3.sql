@@ -38,7 +38,26 @@ INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item
 INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (152, 'dataset.license', 'OGL-UK-3.0', 'Open Government Licence v3.0', 'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/', 85, NULL, NULL, NULL, NULL, NULL, NULL, 'Open Government Licence v3.0', NULL);
 
 
-SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 152, true);
+-- additional non-ISO publication frequencies longer than 1 year
+
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (153, 'dataset.publication_frequency', 'Y02', 'Every 2 years', 'Update data every two years', 22, NULL, NULL, NULL, NULL, NULL, NULL, 'Alle 2 Jahre', 'Daten werden alle zwei Jahre aktualisiert') ON CONFLICT DO NOTHING;
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (154, 'dataset.publication_frequency', 'Y03', 'Every 3 years', 'Update data every three years', 23, NULL, NULL, NULL, NULL, NULL, NULL, 'Alle 3 Jahre', 'Daten werden alle drei Jahre aktualisiert') ON CONFLICT DO NOTHING;
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (155, 'dataset.publication_frequency', 'Y04', 'Every 4 years', 'Update data every four years', 24, NULL, NULL, NULL, NULL, NULL, NULL, 'Alle 4 Jahre', 'Daten werden alle vier Jahre aktualisiert') ON CONFLICT DO NOTHING;
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (156, 'dataset.publication_frequency', 'Y05', 'Every 5 years', 'Update data every five years', 25, NULL, NULL, NULL, NULL, NULL, NULL, 'Alle 5 Jahre', 'Daten werden alle fünf Jahre aktualisiert') ON CONFLICT DO NOTHING;
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (157, 'dataset.publication_frequency', 'Y06', 'Every 6 years', 'Update data every six years', 26, NULL, NULL, NULL, NULL, NULL, NULL, 'Alle 6 Jahre', 'Daten werden alle sechs Jahre aktualisiert') ON CONFLICT DO NOTHING;
+
+
+-- additional non-standard contact roles used by German governments
+
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (158, 'contact.contact_role', 'WA', 'WMS/WFS Administrator', 'Person or party who can aid with WMS/WFS issues', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'WMS/WFS-Ansprechpartner', 'Person oder Stelle, die bei WMS/WFS-Problemen weiterhelfen kann') ON CONFLICT DO NOTHING;
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (159, 'contact.contact_role', 'GA', 'GIS Administrator', 'Person or party who can aid with GIS-related issues', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GIS-technischer Ansprechpartner', 'Person oder Stelle, die bei GIS-technischen Angelegenheiten weiterhelfen kann') ON CONFLICT DO NOTHING;
+
+-- unspecified license for free use
+
+INSERT INTO pgmetadata.glossary (id, field, code, label_en, description_en, item_order, label_fr, description_fr, label_it, description_it, label_es, description_es, label_de, description_de) VALUES (160, 'dataset.license', 'free_notspec', 'Free use, no detailed license terms specified', NULL, 85, NULL, NULL, NULL, NULL, NULL, NULL, 'Frei nutzbar, keine konkreten Lizenzbedingungen angegeben', NULL);
+
+
+SELECT pg_catalog.setval('pgmetadata.glossary_id_seq', 160 , true);
 
 
 -- new item_order for existing publication frequencies
