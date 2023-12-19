@@ -90,6 +90,7 @@ VALUES
 ('dataset.categories', 'GEO', 'Geowissenschaften', 'Geowissenschaftliche Informationen'),
 ('dataset.categories', 'SOC', 'Gesellschaft', 'Kulturelle und gesellschaftliche Merkmale'),
 ('dataset.categories', 'ECO', 'Wirtschaft', 'Wirtschaftliche Aktivitäten, Verhältnisse und Beschäftigung'),
+('dataset.categories', 'OCE', 'Meere', 'Merkmale und Charakteristika von salzhaltigen Gewässern (außer Binnengewässern)'),
 ('link.type', 'file', 'Eine Datei', 'CKAN Metadata Vocabulary, um die Typattribute einer CKAN-Ressource zu füllen; zeigt an, dass ein http:GET dieses URL einen Bitstream liefern sollte'),
 ('dataset.confidentiality', 'OPE', 'Offen', 'Keine Einschränkungen des Zugriffs auf diese Daten'),
 ('dataset.confidentiality', 'RES', 'Eingeschränkt', 'Der Zugriff auf die Daten ist auf ausgewählte Nutzer beschränkt'),
@@ -101,7 +102,8 @@ VALUES
 ('dataset.publication_frequency', 'BIA', 'Halbjährlich', 'Daten werden halbjährlich aktualisiert'),
 ('dataset.publication_frequency', 'IRR', 'Unregelmäßig', 'Daten werden unregelmäßig aktualisiert'),
 ('dataset.publication_frequency', 'NOP', 'Nicht geplant', 'Eine Aktualisierung der Daten ist nicht geplant'),
-('dataset.license', 'proj', 'Nur für Projektbearbeitung', NULL)
+('dataset.license', 'proj', 'Nur für Projektbearbeitung', 'Daten wurden nur für projektinterne Nutzung freigegeben'),
+('dataset.license', 'CC-BY-SA-4.0', 'Creative Commons Namensnennung – Weitergabe unter gleichen Bedingungen – Version 4.0', NULL)
 ON CONFLICT DO NOTHING;
 
 UPDATE pgmetadata.glossary AS g
