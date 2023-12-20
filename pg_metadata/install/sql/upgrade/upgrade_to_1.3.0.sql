@@ -80,7 +80,7 @@ WHERE g.field = t.field AND g.code = t.code;
 DROP TABLE pgmetadata.t_glossary;
 
 
--- capitalise existing German translations
+-- Update existing German translations (mostly capitalise first letter)
 
 CREATE TABLE pgmetadata.t_glossary (field text, code text, label_de text, description_de text);
 INSERT INTO pgmetadata.t_glossary (field, code, label_de, description_de)
