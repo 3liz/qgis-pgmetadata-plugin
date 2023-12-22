@@ -84,8 +84,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             optional=False,
             fileFilter='QGS project (*.qgs)',
         )
-        param.setHelp(tr("The destination file where to create the QGIS project.").format(SCHEMA))
-        # FIXME: is the .format(SCHEMA) necessary?
+        param.setHelp(tr("The destination file where to create the QGIS project."))
         self.addParameter(param)
 
         # target project language, selection defaults to user’s locale if available
@@ -138,10 +137,12 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
             translation_src = template_file.replace('.qgs', f'_{lang}.qm')
             translation_dst = project_file.replace('.qgs', f'_{lang}.qm')
             if lang and Path(translation_src).is_file():
-                feedback.pushInfo(tr(f'Providing translation file for language “{lang}”'))
+                feedback.pushInfo(
+                    tr('Providing translation file for language “{lang}”').format(lang=lang))
                 shutil.copyfile(translation_src, translation_dst)
             else:
-                feedback.pushInfo(tr(f'No translation available for language “{lang}”'))
+                feedback.pushInfo(
+                    tr(f'No translation available for language “{lang}”').format(lang=lang))
                 lang = ''  # indicate missing translation in algorithm result
 
         add_connection(connection_name)
