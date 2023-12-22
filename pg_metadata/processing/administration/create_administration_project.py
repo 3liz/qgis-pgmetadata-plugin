@@ -2,8 +2,8 @@ __copyright__ = "Copyright 2020, 3Liz"
 __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 
-import os
 import shutil
+from pathlib import Path
 
 from qgis.core import (
     QgsProcessingParameterEnum,
@@ -137,7 +137,7 @@ class CreateAdministrationProject(BaseProcessingAlgorithm):
         if lang != 'en':
             translation_src = template_file.replace('.qgs', f'_{lang}.qm')
             translation_dst = project_file.replace('.qgs', f'_{lang}.qm')
-            if lang and os.path.isfile(translation_src):
+            if lang and Path(translation_src).is_file():
                 feedback.pushInfo(tr(f'Providing translation file for language “{lang}”'))
                 shutil.copyfile(translation_src, translation_dst)
             else:
