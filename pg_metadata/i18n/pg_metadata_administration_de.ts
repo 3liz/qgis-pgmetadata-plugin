@@ -62,13 +62,6 @@
     </message>
 </context>
 <context>
-    <name>project:layers:dataset_contact_ff2bb406_5b18_4ab7_9fc0_3a25c3aa9675:fields:contact_role:valuerelationvalue</name>
-    <message>
-        <source>label_en</source>
-        <translation>label_de</translation>
-    </message>
-</context>
-<context>
     <name>project:layers:dataset_00c9da4d_d717_48cc_a848_0d4544b019fd</name>
     <message>
         <source>Dataset</source>
@@ -192,38 +185,10 @@
     </message>
 </context>
 <context>
-    <name>project:layers:dataset_00c9da4d_d717_48cc_a848_0d4544b019fd:fields:categories:valuerelationvalue</name>
-    <message>
-        <source>label_en</source>
-        <translation>label_de</translation>
-    </message>
-</context>
-<context>
-    <name>project:layers:dataset_00c9da4d_d717_48cc_a848_0d4544b019fd:fields:publication_frequency:valuerelationvalue</name>
-    <message>
-        <source>label_en</source>
-        <translation>label_de</translation>
-    </message>
-</context>
-<context>
-    <name>project:layers:dataset_00c9da4d_d717_48cc_a848_0d4544b019fd:fields:license:valuerelationvalue</name>
-    <message>
-        <source>label_en</source>
-        <translation>label_de</translation>
-    </message>
-</context>
-<context>
-    <name>project:layers:dataset_00c9da4d_d717_48cc_a848_0d4544b019fd:fields:confidentiality:valuerelationvalue</name>
-    <message>
-        <source>label_en</source>
-        <translation>label_de</translation>
-    </message>
-</context>
-<context>
     <name>project:layers:dataset_00c9da4d_d717_48cc_a848_0d4544b019fd:fields:themes:valuerelationvalue</name>
     <message>
         <source>label</source>
-        <translation>label</translation>
+        <translation>Bezeichnung</translation>
     </message>
 </context>
 <context>
@@ -304,20 +269,6 @@
     </message>
 </context>
 <context>
-    <name>project:layers:link_6157b282_9882_44f3_b6a1_c133f5595d2a:fields:type:valuerelationvalue</name>
-    <message>
-        <source>label_en</source>
-        <translation>label_de</translation>
-    </message>
-</context>
-<context>
-    <name>project:layers:link_6157b282_9882_44f3_b6a1_c133f5595d2a:fields:mime:valuerelationvalue</name>
-    <message>
-        <source>label_en</source>
-        <translation>label_de</translation>
-    </message>
-</context>
-<context>
     <name>project:layers:html_template_e9cca240_a640_4a7c_a9d0_a181beb9797e</name>
     <message>
         <source>HTML templates</source>
@@ -347,6 +298,13 @@
     </message>
 </context>
 <context>
+    <name>project:layers:glossary_translations_c282542e_c404_4100_a087_f7ff7d983743</name>
+    <message>
+        <source>Glossary Translations</source>
+        <translation>Glossar-Übersetzungen</translation>
+    </message>
+</context>
+<context>
     <name>project:layers:glossary_7235d2fd_01a3_45dc_8321_ea0dc29e55ab:fieldaliases</name>
     <message>
         <source>id</source>
@@ -354,55 +312,86 @@
     </message>
     <message>
         <source>field</source>
-        <translation type="unfinished"></translation>
+        <translation>Feld</translation>
     </message>
     <message>
         <source>code</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>label_en</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>description_en</source>
-        <translation type="unfinished"></translation>
+        <translation>Code</translation>
     </message>
     <message>
         <source>item_order</source>
+        <translation>Anzeigereihenfolge</translation>
+    </message>
+    <message>
+        <source>label</source>
+        <translation>Bezeichnung</translation>
+    </message>
+    <message>
+        <source>description</source>
+        <translation>Beschreibung</translation>
+    </message>
+    <message>
+        <source>locale</source>
+        <translation>Sprache</translation>
+    </message>
+</context>
+<context>
+    <name>project:layers:glossary_translations_c282542e_c404_4100_a087_f7ff7d983743:fieldaliases</name>
+    <message>
+        <source>id</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>field</source>
+        <translation>Feld</translation>
+    </message>
+    <message>
+        <source>code</source>
+        <translation>Code</translation>
+    </message>
+    <message>
+        <source>label_en</source>
+        <translation>Bezeichnung Englisch</translation>
+    </message>
+    <message>
+        <source>description_en</source>
+        <translation>Beschreibung Englisch</translation>
+    </message>
+    <message>
+        <source>item_order</source>
+        <translation>Anzeigereihenfolge</translation>
     </message>
     <message>
         <source>label_fr</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezeichnung Französisch</translation>
     </message>
     <message>
         <source>description_fr</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung Französisch</translation>
     </message>
     <message>
         <source>label_it</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezeichnung Italienisch</translation>
     </message>
     <message>
         <source>description_it</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung Italienisch</translation>
     </message>
     <message>
         <source>label_es</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezeichnung Spanisch</translation>
     </message>
     <message>
         <source>description_es</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung Spanisch</translation>
     </message>
     <message>
         <source>label_de</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezeichnung Deutsch</translation>
     </message>
     <message>
         <source>description_de</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung Deutsch</translation>
     </message>
 </context>
 <context>

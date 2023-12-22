@@ -38,6 +38,23 @@ CREATE VIEW pgmetadata.v_glossary AS
 COMMENT ON VIEW pgmetadata.v_glossary IS 'View transforming the glossary content into a JSON helping to localize a label or description by fetching directly the corresponding item. Ex: SET SESSION "pgmetadata.locale" = ''fr''; WITH glossary AS (SELECT dict FROM pgmetadata.v_glossary) SELECT (dict->''contact.contact_role''->''OW''->''label''->''fr'')::text AS label FROM glossary;';
 
 
+-- v_glossary_normalised_locale_fallback
+create view pgmetadata.v_glossary_normalised_locale_fallback as
+select id, field, item_order, code, items.*
+from pgmetadata.glossary g
+cross join lateral (
+  values
+    ('en', g.label_en, g.description_en),
+    ('fr', coalesce(g.label_fr, g.label_en), coalesce(g.description_fr, description_en)),
+    ('de', coalesce(g.label_de, g.label_en), coalesce(g.description_de, description_en))
+) as items(locale, label, description)
+order by field, item_order;
+
+
+-- VIEW v_glossary_normalised_locale_fallback
+comment on view pgmetadata.v_glossary_normalised_locale_fallback is 'View transforming glossary into normalised form (unpivoting locales) with English used as fallback for missing translations';
+
+
 -- v_contact
 CREATE VIEW pgmetadata.v_contact AS
  WITH glossary AS (
