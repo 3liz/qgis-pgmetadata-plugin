@@ -120,6 +120,8 @@ DROP TABLE pgmetadata.t_glossary;
 
 ALTER TABLE pgmetadata.dataset ADD COLUMN IF NOT EXISTS license_attribution text;
 
+COMMENT ON COLUMN pgmetadata.dataset.license_attribution IS 'Attribution, e.g. giving credit for CC-by license, name of licensor, or license number';
+
 CREATE OR REPLACE VIEW pgmetadata.v_dataset AS
  WITH glossary AS (
          SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,
