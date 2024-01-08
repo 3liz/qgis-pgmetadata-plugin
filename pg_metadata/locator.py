@@ -98,7 +98,11 @@ class LocatorFilter(QgsLocatorFilter):
             result = QgsLocatorResult()
             result.filter = self
             result.displayString = item[0]
-            result.icon = icon_for_geometry_type(item[3])
+            if Qgis.QGIS_VERSION_INT >= 32200:
+                from qgis.core import QgsIconUtils, QgsWkbTypes
+                result.icon = QgsIconUtils.iconForWkbType(QgsWkbTypes.parseType(item[3]))
+            else:
+                result.icon = icon_for_geometry_type(item[3])
             result.userData = {
                 'name': item[4],
                 'connection': connection_name,
