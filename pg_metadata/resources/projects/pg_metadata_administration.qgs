@@ -995,6 +995,16 @@ def my_form_open(dialog, layer, feature):
             </config>
           </editWidget>
         </field>
+        <field name="license_attribution" configurationFlags="None">
+          <editWidget type="TextEdit">
+            <config>
+              <Option type="Map">
+                <Option name="IsMultiline" type="bool" value="false"></Option>
+                <Option name="UseHtml" type="bool" value="false"></Option>
+              </Option>
+            </config>
+          </editWidget>n
+        </field>
         <field name="confidentiality" configurationFlags="None">
           <editWidget type="ValueRelation">
             <config>
@@ -1150,6 +1160,7 @@ def my_form_open(dialog, layer, feature):
         <alias field="update_date" name="Last updated at" index="21"/>
         <alias field="data_last_update" name="Data last update" index="22"/>
         <alias field="themes" name="Themes" index="23"/>
+        <alias field="license_attribution" name="License attribution" index="24"/>
       </aliases>
       <defaults>
         <default expression="" field="id" applyOnUpdate="0"/>
@@ -1166,6 +1177,7 @@ def my_form_open(dialog, layer, feature):
         <default expression="" field="publication_date" applyOnUpdate="0"/>
         <default expression="" field="publication_frequency" applyOnUpdate="0"/>
         <default expression="" field="license" applyOnUpdate="0"/>
+        <default expression="" field="license_attribution" applyOnUpdate="0"/>
         <default expression="" field="confidentiality" applyOnUpdate="0"/>
         <default expression="" field="feature_count" applyOnUpdate="0"/>
         <default expression="" field="geometry_type" applyOnUpdate="0"/>
@@ -1192,6 +1204,7 @@ def my_form_open(dialog, layer, feature):
         <constraint unique_strength="0" constraints="0" field="publication_date" exp_strength="0" notnull_strength="0"/>
         <constraint unique_strength="0" constraints="0" field="publication_frequency" exp_strength="0" notnull_strength="0"/>
         <constraint unique_strength="0" constraints="0" field="license" exp_strength="0" notnull_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="license_attribution" exp_strength="0" notnull_strength="0"/>
         <constraint unique_strength="0" constraints="0" field="confidentiality" exp_strength="0" notnull_strength="0"/>
         <constraint unique_strength="0" constraints="0" field="feature_count" exp_strength="0" notnull_strength="0"/>
         <constraint unique_strength="0" constraints="0" field="geometry_type" exp_strength="0" notnull_strength="0"/>
@@ -1218,6 +1231,7 @@ def my_form_open(dialog, layer, feature):
         <constraint field="publication_date" desc="" exp=""/>
         <constraint field="publication_frequency" desc="" exp=""/>
         <constraint field="license" desc="" exp=""/>
+        <constraint field="license_attribution" desc="" exp=""/>
         <constraint field="confidentiality" desc="" exp=""/>
         <constraint field="feature_count" desc="" exp=""/>
         <constraint field="geometry_type" desc="" exp=""/>
@@ -1249,6 +1263,7 @@ def my_form_open(dialog, layer, feature):
           <column type="field" name="publication_date" width="-1" hidden="0"/>
           <column type="field" name="publication_frequency" width="-1" hidden="0"/>
           <column type="field" name="license" width="-1" hidden="0"/>
+          <column type="field" name="license_attribution" width="-1" hidden="0"/>
           <column type="field" name="confidentiality" width="-1" hidden="0"/>
           <column type="field" name="feature_count" width="-1" hidden="0"/>
           <column type="field" name="geometry_type" width="-1" hidden="0"/>
@@ -1308,6 +1323,7 @@ def my_form_open(dialog, layer, feature):
             <attributeEditorField name="publication_date" index="11" showLabel="1"/>
             <attributeEditorField name="publication_frequency" index="12" showLabel="1"/>
             <attributeEditorField name="license" index="13" showLabel="1"/>
+            <attributeEditorField name="license_attribution" index="24" showLabel="1"/>
             <attributeEditorField name="confidentiality" index="14" showLabel="1"/>
           </attributeEditorContainer>
           <attributeEditorContainer groupBox="1" name="Spatial properties" visibilityExpressionEnabled="0" showLabel="1" columnCount="1" visibilityExpression="">
@@ -1343,6 +1359,7 @@ def my_form_open(dialog, layer, feature):
         <field editable="0" name="id"/>
         <field editable="1" name="keywords"/>
         <field editable="1" name="license"/>
+        <field editable="1" name="license_attribution"/>
         <field editable="1" name="maximum_optimal_scale"/>
         <field editable="1" name="minimum_optimal_scale"/>
         <field editable="0" name="projection_authid"/>
@@ -1370,6 +1387,7 @@ def my_form_open(dialog, layer, feature):
         <field name="id" labelOnTop="0"/>
         <field name="keywords" labelOnTop="0"/>
         <field name="license" labelOnTop="0"/>
+        <field name="license_attribution" labelOnTop="0"/>
         <field name="maximum_optimal_scale" labelOnTop="0"/>
         <field name="minimum_optimal_scale" labelOnTop="0"/>
         <field name="projection_authid" labelOnTop="0"/>

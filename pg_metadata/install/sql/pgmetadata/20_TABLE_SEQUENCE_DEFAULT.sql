@@ -75,7 +75,8 @@ CREATE TABLE pgmetadata.dataset (
     update_date timestamp without time zone DEFAULT now(),
     geom public.geometry(Polygon,4326),
     data_last_update timestamp without time zone,
-    themes text[]
+    themes text[],
+    license_attribution text
 );
 
 

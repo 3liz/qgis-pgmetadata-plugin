@@ -207,6 +207,10 @@ COMMENT ON COLUMN pgmetadata.dataset.data_last_update IS 'Date of the last modif
 COMMENT ON COLUMN pgmetadata.dataset.themes IS 'List of themes';
 
 
+-- dataset.license_attribution
+COMMENT ON COLUMN pgmetadata.dataset.license_attribution IS 'Attribution, e.g. giving credit for CC-by license, name of licensor, or license number';
+
+
 -- dataset_contact
 COMMENT ON TABLE pgmetadata.dataset_contact IS 'Pivot table between dataset and contacts.';
 
