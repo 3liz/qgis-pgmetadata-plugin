@@ -2,8 +2,15 @@
 
 ## Unreleased
 
+## 1.3.0 - 2024-02-05
+
 * Additional glossary terms for publication frequency and link types (contribution from @effjot Florian Jenn)
+  * Glossary terms for unknown license and confidentiality
+  * Add remaining INSPIRE contact roles and UK Open Government Licence
+  * Add “non-standard” contact roles and publication frequencies
 * Add remaining INSPIRE contact roles and UK Open Government Licence (contribution from @mixedbredie Ross McDonald)
+* Fix icon for layers having M values (linear referencing) (contribution from @effjot Florian Jenn)
+* Review German translations (contribution from @effjot Florian Jenn)
 
 ## 1.2.2 - 2023-05-15
 
