@@ -150,14 +150,15 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         """ Export the current displayed metadata sheet to the given format. """
         layer_name = iface.activeLayer().name()
 
-        file_path = os.path.join(
-            self.settings.value("UI/lastFileNameWidgetDir"),
-            '{name}.{ext}'.format(name=layer_name, ext=output_format.ext)
-        )
+        previous_directory = self.settings.value("UI/lastFileNameWidgetDir", defaultValue="", type=str)
+        if not previous_directory:
+            # Default home directory
+            previous_directory = Path("")
+        file_path = Path(previous_directory).joinpath(f'{layer_name}.{output_format.ext}')
         output_file = QFileDialog.getSaveFileName(
             self,
             tr("Save File as {format}").format(format=output_format.label),
-            file_path,
+            str(file_path),
             "{label} (*.{ext})".format(
                 label=output_format.label,
                 ext=output_format.ext,
