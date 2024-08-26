@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Raise to QGIS 3.22 minimum version
+* Upgrade to PostgreSQL 13 for testing and SQL files
+
 ## 1.3.0 - 2024-02-05
 
 * Additional glossary terms for publication frequency and link types (contribution from @effjot Florian Jenn)

@@ -5,6 +5,7 @@ __email__ = "info@3liz.org"
 from qgis.core import (
     Qgis,
     QgsDataSourceUri,
+    QgsIconUtils,
     QgsLocatorFilter,
     QgsLocatorResult,
     QgsProject,
@@ -13,6 +14,7 @@ from qgis.core import (
     QgsRasterLayer,
     QgsSettings,
     QgsVectorLayer,
+    QgsWkbTypes,
 )
 from qgis.PyQt.QtCore import QLocale
 from qgis.PyQt.QtWidgets import QDockWidget
@@ -22,7 +24,6 @@ from pg_metadata.connection_manager import (
     connections_list,
 )
 from pg_metadata.qgis_plugin_tools.tools.i18n import tr
-from pg_metadata.tools import icon_for_geometry_type
 
 SCHEMA = 'pgmetadata'
 
@@ -98,7 +99,7 @@ class LocatorFilter(QgsLocatorFilter):
             result = QgsLocatorResult()
             result.filter = self
             result.displayString = item[0]
-            result.icon = icon_for_geometry_type(item[3])
+            result.icon = QgsIconUtils.iconForWkbType(QgsWkbTypes.parseType(item[3]))
             result.userData = {
                 'name': item[4],
                 'connection': connection_name,
