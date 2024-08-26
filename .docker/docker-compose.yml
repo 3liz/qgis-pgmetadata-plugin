@@ -6,7 +6,7 @@ services:
     profiles:
       - "qgis"
       - "db"
-    image: kartoza/postgis:11.5-2.5  # Despite the tag, it's a 11.7 version
+    image: kartoza/postgis:13-3
     container_name: postgis
     networks:
       qgis_plugin_network:
@@ -30,7 +30,7 @@ services:
   qgis:
     profiles:
       - "qgis"
-    image: qgis/qgis:release-3_16
+    image: qgis/qgis:release-3_22
     container_name: qgis
     networks:
       qgis_plugin_network:

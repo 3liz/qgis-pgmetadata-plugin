@@ -3,8 +3,8 @@ BEGIN;
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.7 (Debian 11.7-2.pgdg100+1)
--- Dumped by pg_dump version 11.7 (Debian 11.7-2.pgdg100+1)
+-- Dumped from database version 13.4 (Debian 13.4-1.pgdg110+1)
+-- Dumped by pg_dump version 13.4 (Debian 13.4-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -274,7 +274,7 @@ CREATE VIEW pgmetadata.v_locales AS
 UNION
  SELECT replace((columns.column_name)::text, 'label_'::text, ''::text) AS locale
    FROM information_schema.columns
-  WHERE (((columns.table_schema)::text = 'pgmetadata'::text) AND ((columns.table_name)::text = 'glossary'::text) AND ((columns.column_name)::text ~~ 'label_%'::text))
+  WHERE (((columns.table_schema)::name = 'pgmetadata'::name) AND ((columns.table_name)::name = 'glossary'::name) AND ((columns.column_name)::name ~~ 'label_%'::text))
   ORDER BY 1;
 
 
@@ -305,7 +305,7 @@ CREATE VIEW pgmetadata.v_orphan_tables AS
    FROM information_schema.tables
   WHERE ((NOT (concat(tables.table_schema, '.', tables.table_name) IN ( SELECT concat(dataset.schema_name, '.', dataset.table_name) AS concat
            FROM pgmetadata.dataset))) AND ((tables.table_schema)::name <> ALL (ARRAY['pg_catalog'::name, 'information_schema'::name])))
-  ORDER BY (tables.table_schema)::text, (tables.table_name)::text;
+  ORDER BY ((tables.table_schema)::text), ((tables.table_name)::text);
 
 
 -- VIEW v_orphan_tables
@@ -317,8 +317,8 @@ CREATE VIEW pgmetadata.v_schema_list AS
  SELECT row_number() OVER () AS id,
     (schemata.schema_name)::text AS schema_name
    FROM information_schema.schemata
-  WHERE ((schemata.schema_name)::text <> ALL ((ARRAY['pg_toast'::character varying, 'pg_temp_1'::character varying, 'pg_toast_temp_1'::character varying, 'pg_catalog'::character varying, 'information_schema'::character varying])::text[]))
-  ORDER BY (schemata.schema_name)::text;
+  WHERE ((schemata.schema_name)::name <> ALL (ARRAY['pg_toast'::name, 'pg_temp_1'::name, 'pg_toast_temp_1'::name, 'pg_catalog'::name, 'information_schema'::name]))
+  ORDER BY ((schemata.schema_name)::text);
 
 
 -- VIEW v_schema_list
@@ -350,8 +350,8 @@ CREATE VIEW pgmetadata.v_table_list AS
     (tables.table_schema)::text AS schema_name,
     (tables.table_name)::text AS table_name
    FROM information_schema.tables
-  WHERE ((tables.table_schema)::text <> ALL ((ARRAY['pg_toast'::character varying, 'pg_temp_1'::character varying, 'pg_toast_temp_1'::character varying, 'pg_catalog'::character varying, 'information_schema'::character varying])::text[]))
-  ORDER BY tables.table_schema, (tables.table_name)::text;
+  WHERE ((tables.table_schema)::name <> ALL (ARRAY['pg_toast'::name, 'pg_temp_1'::name, 'pg_toast_temp_1'::name, 'pg_catalog'::name, 'information_schema'::name]))
+  ORDER BY tables.table_schema, ((tables.table_name)::text);
 
 
 -- VIEW v_table_list
