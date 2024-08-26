@@ -111,15 +111,6 @@ jobs:
         --osgeo-password ${{ secrets.OSGEO_PASSWORD }}
         --create-plugin-repo
 
-    - name: Tweet
-      uses: mugi111/tweet-trigger-release@v1.2
-      with:
-        consumer_key: ${{ secrets.TWITTER_CONSUMER_KEY }}
-        consumer_secret: ${{ secrets.TWITTER_CONSUMER_SECRET }}
-        access_token_key: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
-        access_token_secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
-        tweet_body: "New version of PgMetadata ${{ env.RELEASE_VERSION }} 🗂 for #QGIS and #PostgreSQL 🐘 https://github.com/3liz/qgis-pgmetadata-plugin/releases"
-
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v3
       with:
