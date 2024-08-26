@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Raise to QGIS 3.28 minimum version
+
 ## 1.3.1 - 2024-09-02
 
 * Fix Python error if no previous folder was found 
