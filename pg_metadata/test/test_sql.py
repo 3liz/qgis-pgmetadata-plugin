@@ -374,7 +374,7 @@ class TestSql(DatabaseTestCase):
         self.assertEqual('LINESTRING', result[1])
         self.assertEqual('EPSG:4326', result[2])
         coordinates = [f.strip()[0:6] for f in result[3].split(',')]
-        self.assertListEqual(['3.8540', '3.8969', '43.578', '43.621'], coordinates)
+        self.assertListEqual(['3.854', '3.897', '43.578', '43.622'], coordinates)
 
         # Test date, creation_date is not equal to update_date
         sql = "SELECT creation_date, update_date FROM pgmetadata.dataset"

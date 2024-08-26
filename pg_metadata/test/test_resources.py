@@ -21,13 +21,18 @@ class TestResources(unittest.TestCase):
         # Test the QGIS project
         qgis_project = resources_path('projects', 'pg_metadata_administration.qgs')
         with open(qgis_project, encoding='utf8') as f:
-            f.readline()
             first_line = f.readline()
             self.assertTrue(
-                'version="{}'.format(expected_qgis_version) in first_line, 'The QGIS project is wrong.')
+                f'version="{expected_qgis_version}' in first_line,
+                f'The QGIS project is wrong, {expected_qgis_version} not found in {first_line}.'
+            )
 
         # Test the minimum version to match the project
         config = configparser.ConfigParser()
         config.read(plugin_path('metadata.txt'))
         self.assertEqual(
-            config["general"]["qgisMinimumVersion"], expected_qgis_version, 'The metadata.txt is wrong')
+            expected_qgis_version,
+            config["general"]["qgisMinimumVersion"],
+            f'The metadata.txt is wrong, {expected_qgis_version} not found in '
+            f'{config["general"]["qgisMinimumVersion"]}'
+        )
