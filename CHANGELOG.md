@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* Raise to QGIS 3.22 minimum version
+* Raise to QGIS 3.28 minimum version
 * Upgrade to PostgreSQL 13 for testing and SQL files
 
 ## 1.3.0 - 2024-02-05
