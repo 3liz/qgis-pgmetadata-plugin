@@ -2,8 +2,7 @@ __copyright__ = "Copyright 2021, 3Liz"
 __license__ = "GPL version 3"
 __email__ = "info@3liz.org"
 
-
-from qgis.core import QgsApplication
+from qgis.core import Qgis, QgsApplication, QgsMessageLog
 from qgis.PyQt.QtCore import QCoreApplication, Qt, QTranslator, QUrl
 from qgis.PyQt.QtGui import QDesktopServices, QIcon
 from qgis.PyQt.QtWidgets import QAction, QMessageBox
@@ -33,7 +32,8 @@ class PgMetadata:
         self.dock_action = None
         self.help_action = None
 
-        setup_logger('pg_metadata')
+        self.plugin_name = "pg_metadata"
+        setup_logger(self.plugin_name)
 
         locale, file_path = setup_translation(
             folder=plugin_path("i18n"), file_pattern="pgmetadata_{}.qm")
@@ -55,7 +55,20 @@ class PgMetadata:
         """ Build the plugin GUI. """
         self.initProcessing()
 
-        self.check_invalid_connection_names()
+        valid = self.check_invalid_connection_names()
+        if valid <= 1:
+            from pg_metadata.plausible import Plausible
+
+            # noinspection PyBroadException
+            try:
+                plausible = Plausible()
+                plausible.request_stat_event()
+            except Exception as e:
+                QgsMessageLog.logMessage(
+                    f"Error while calling the stats API : \"{e}\"",
+                    self.plugin_name,
+                    Qgis.Warning,
+                )
 
         icon = QIcon(resources_path('icons', 'icon.png'))
 
@@ -78,13 +91,13 @@ class PgMetadata:
             iface.registerLocatorFilter(self.locator_filter)
 
     @staticmethod
-    def check_invalid_connection_names():
+    def check_invalid_connection_names() -> int:
         """ Check for invalid connection names in the QgsSettings. """
         valid, invalid = validate_connections_names()
         n_invalid = len(invalid)
 
         if n_invalid == 0:
-            return
+            return len(valid)
 
         invalid_text = ', '.join(invalid)
         msg = QMessageBox()
@@ -104,6 +117,8 @@ class PgMetadata:
             store_connections(valid)
         if clicked == QMessageBox.No:
             iface.messageBar().pushInfo('PgMetadata', tr(f'Keeping {n_invalid} invalid connections.'))
+
+        return len(valid)
 
     @staticmethod
     def open_help():
