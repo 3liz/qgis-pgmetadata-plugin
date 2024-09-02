@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 1.3.1 - 2024-09-02
+
+* Fix Python error if no previous folder was found 
 * Raise to QGIS 3.22 minimum version
 * Upgrade to PostgreSQL 13 for testing and SQL files
 
