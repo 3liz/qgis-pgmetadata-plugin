@@ -12,6 +12,7 @@ tracker=https://github.com/3liz/qgis-pgmetadata-plugin/issues
 repository=https://github.com/3liz/qgis-pgmetadata-plugin
 homepage=https://docs.3liz.org/qgis-pgmetadata-plugin/
 hasProcessingProvider=yes
+supportsQt6=true
 tags=metadata,postgresql,qgis,metadonnees,dcat,xml,csv
 category=Analysis
 icon=resources/icons/icon.png

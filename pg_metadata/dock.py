@@ -93,7 +93,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         # Settings menu
         self.config.setAutoRaise(True)
         self.config.setToolTip(tr("Settings"))
-        self.config.setPopupMode(QToolButton.InstantPopup)
+        self.config.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.config.setIcon(QgsApplication.getThemeIcon("/mActionOptions.svg"))
 
         self.auto_open_dock_action = QAction(
@@ -111,7 +111,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
         # Setting PDF/HTML menu
         self.save_button.setAutoRaise(True)
         self.save_button.setToolTip(tr("Save metadata"))
-        self.save_button.setPopupMode(QToolButton.InstantPopup)
+        self.save_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.save_button.setIcon(QIcon(QgsApplication.iconPath('mActionFileSave.svg')))
 
         self.save_as_pdf = QAction(
@@ -174,8 +174,8 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
 
         if output_format == OutputFormats.PDF:
             printer = QPrinter()
-            printer.setOutputFormat(QPrinter.PdfFormat)
-            printer.setPageMargins(20, 20, 20, 20, QPrinter.Millimeter)
+            printer.setOutputFormat(QPrinter.OutputFormat.PdfFormat)
+            printer.setPageMargins(20, 20, 20, 20, QPrinter.Unit.Millimeter)
             printer.setOutputFileName(output_file_path)
             self.viewer.print(printer)
             iface.messageBar().pushSuccess(
@@ -334,7 +334,7 @@ class PgMetadataDock(QDockWidget, DOCK_CLASS):
             dialog.setComboBoxItems(connections)
             dialog.setWindowTitle(tr("Database"))
             dialog.setLabelText(tr("Choose the database to add the catalog"))
-            if not dialog.exec_():
+            if not dialog.exec():
                 return
             connection_name = dialog.textValue()
         else:

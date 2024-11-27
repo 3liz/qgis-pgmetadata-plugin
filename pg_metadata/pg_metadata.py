@@ -101,7 +101,7 @@ class PgMetadata:
 
         invalid_text = ', '.join(invalid)
         msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
+        msg.setIcon(QMessageBox.Icon.Warning)
         msg.setWindowTitle(tr('PgMetadata: Database connection(s) not available'))
         msg.setText(tr(
             f'{n_invalid} connection(s) listed in PgMetadata’s settings are invalid or '
@@ -109,13 +109,13 @@ class PgMetadata:
         msg.setInformativeText(tr(
             'Do you want to remove these connection(s) from the PgMetadata settings? '
             '(You can also do this later with the “Set Connections” tool.)'))
-        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         clicked = msg.exec()
 
-        if clicked == QMessageBox.Yes:
+        if clicked == QMessageBox.StandardButton.Yes:
             iface.messageBar().pushSuccess('PgMetadata', tr(f'{n_invalid} invalid connection(s) removed.'))
             store_connections(valid)
-        if clicked == QMessageBox.No:
+        if clicked == QMessageBox.StandardButton.No:
             iface.messageBar().pushInfo('PgMetadata', tr(f'Keeping {n_invalid} invalid connections.'))
 
         return len(valid)
