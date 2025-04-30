@@ -160,7 +160,7 @@ def connections_list() -> Tuple[Tuple, str]:
             # Todo, we must log something
             # TODO suggestion:
             mess = f'QgsProviderConnectionException when looking for connection {name}.'
-            iface.messageBar().pushMessage(mess, level=Qgis.Critical)
+            iface.messageBar().pushMessage(mess, level=Qgis.MessageLevel.Critical)
             # FIXME: show message bar here or just return message to higher level?
             messages.append(mess)
         else:
@@ -168,7 +168,7 @@ def connections_list() -> Tuple[Tuple, str]:
                 connections.append(name)
             else:
                 mess = f'Unknown database connection {name} in PgMetadata settings.'
-                iface.messageBar().pushMessage(mess, level=Qgis.Warning)
+                iface.messageBar().pushMessage(mess, level=Qgis.MessageLevel.Warning)
                 # FIXME: show message bar here or just return message to higher level?
                 messages.append(mess)
     if messages:

@@ -55,12 +55,15 @@ class LocatorFilter(QgsLocatorFilter):
 
         connections, message = connections_list()
         if message or not connections:  # FIXME: log if there are messages or only when no connections?
-            self.logMessage(message, Qgis.Critical)
+            self.logMessage(message, Qgis.MessageLevel.Critical)
 
         for connection in connections:
 
             if not check_pgmetadata_is_installed(connection):
-                self.logMessage(tr('PgMetadata is not installed on {}').format(connection), Qgis.Critical)
+                self.logMessage(
+                    tr('PgMetadata is not installed on {}').format(connection),
+                    Qgis.MessageLevel.Critical
+                )
                 continue
 
             self.fetch_result_single_database(search, connection)
@@ -71,7 +74,7 @@ class LocatorFilter(QgsLocatorFilter):
         if not connection:
             self.logMessage(
                 tr("The global variable {}_connection_name is not correct.").format(SCHEMA),
-                Qgis.Critical
+                Qgis.MessageLevel.Critical
             )
 
         # Search items from pgmetadata.dataset
@@ -89,7 +92,7 @@ class LocatorFilter(QgsLocatorFilter):
         try:
             data = connection.executeSql(sql)
         except QgsProviderConnectionException as e:
-            self.logMessage(str(e), Qgis.Critical)
+            self.logMessage(str(e), Qgis.MessageLevel.Critical)
             return
 
         if not data:

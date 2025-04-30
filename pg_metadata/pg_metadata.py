@@ -67,7 +67,7 @@ class PgMetadata:
                 QgsMessageLog.logMessage(
                     f"Error while calling the stats API : \"{e}\"",
                     self.plugin_name,
-                    Qgis.Warning,
+                    Qgis.MessageLevel.Warning,
                 )
 
         icon = QIcon(resources_path('icons', 'icon.png'))
@@ -79,7 +79,7 @@ class PgMetadata:
 
         if not self.dock:
             self.dock = PgMetadataDock()
-            iface.addDockWidget(Qt.RightDockWidgetArea, self.dock)
+            iface.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.dock)
 
             # Open/close the dock from plugin menu
             self.dock_action = QAction(icon, 'PgMetadata', iface.mainWindow())
