@@ -29,16 +29,25 @@ mkdir -p "$OUTDIR"
 
 # STRUCTURE
 # Dump database structure
-pg_dump service=$SERVICE --schema-only -n $SCHEMA --no-acl --no-owner -Fc -f "$OUTDIR/dump"
+pg_dump service=$SERVICE --schema-only -n $SCHEMA --no-acl --no-owner --no-comment -Fc -f "$OUTDIR/dump-no-comment"
+pg_dump service=$SERVICE --schema-only -n $SCHEMA --no-acl --no-owner -Fc -f "$OUTDIR/dump-with-comment"
 
 # Loop through DB object types and extract SQL
 I=10
 for ITEM in FUNCTION "TABLE|SEQUENCE|DEFAULT" VIEW INDEX TRIGGER CONSTRAINT COMMENT; do
     echo $ITEM
-    # Extract list of objects for current item
-    pg_restore --no-acl --no-owner -l $OUTDIR/dump | grep -E "$ITEM" > "$OUTDIR/$ITEM";
-    # Extract SQL for these objects
-    pg_restore -f "$OUTDIR"/"$I"_"$ITEM".sql --no-acl --no-owner -L "$OUTDIR/$ITEM" "$OUTDIR/dump";
+    if [ $ITEM = 'COMMENT' ]
+    then
+        # Extract list of objects for current item
+        pg_restore --no-acl --no-owner -l $OUTDIR/dump-with-comment | grep -E "$ITEM" > "$OUTDIR/$ITEM";
+        # Extract SQL for these objects
+        pg_restore -f "$OUTDIR"/"$I"_"$ITEM".sql --no-acl --no-owner -L "$OUTDIR/$ITEM" "$OUTDIR/dump-with-comment";
+    else
+        # Extract list of objects for current item
+        pg_restore --no-acl --no-owner -l $OUTDIR/dump-no-comment | grep -E "$ITEM" > "$OUTDIR/$ITEM";
+        # Extract SQL for these objects
+        pg_restore -f "$OUTDIR"/"$I"_"$ITEM".sql --no-acl --no-owner -L "$OUTDIR/$ITEM" "$OUTDIR/dump-no-comment";
+    fi
     # Remove file containing list of objects
     rm "$OUTDIR/$ITEM";
     # Simplify comments inside SQL files
@@ -68,7 +77,8 @@ for ITEM in FUNCTION "TABLE|SEQUENCE|DEFAULT" VIEW INDEX TRIGGER CONSTRAINT COMM
 done
 
 # Remove dump
-rm "$OUTDIR/dump"
+rm "$OUTDIR/dump-no-comment"
+rm "$OUTDIR/dump-with-comment"
 
 # NOMENCLATURE
 echo "GLOSSARY"
